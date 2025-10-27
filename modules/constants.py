@@ -39,3 +39,11 @@ START_YEAR = 2000  # change if you want earlier data
 END_YEAR = datetime.now().year   # change if you want later data
 
 CACHE_DIR = "cache"
+
+# Rate limiting and jail policy
+# Max requests per minute for strict domains (FBref/Stathead/Sports-Reference family)
+RATE_LIMIT_STRICT = 10
+# Max requests per minute for other domains
+RATE_LIMIT_OTHER = 20
+# Default jail duration in seconds when a session/domain is put in jail for violations
+JAIL_DURATION_SECONDS = 24 * 60 * 60  # 24 hours
