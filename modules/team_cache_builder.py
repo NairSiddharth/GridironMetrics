@@ -9,13 +9,14 @@ from pathlib import Path
 import nflreadpy as nfl
 from constants import START_YEAR, END_YEAR, CACHE_DIR
 import polars as pl
-import logging
+from logger import get_logger
+
+logger = get_logger(__name__)
 
 CACHE_DIR = Path(CACHE_DIR) / "team_stats"
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 def build_team_cache_for_year(year: int):
-    logger = logging.getLogger(__name__)
     logger.info(f"Fetching weekly team stats for {year}...")
     try:
         df = nfl.load_team_stats(seasons=year, summary_level="week")
@@ -69,7 +70,6 @@ def build_team_cache_for_year(year: int):
 
 
 def build_full_cache(start_year=START_YEAR, end_year=END_YEAR):
-    logger = logging.getLogger(__name__)
     for year in range(start_year, end_year + 1):
         build_team_cache_for_year(year)
     logger.info("All team stats caches built successfully.")
@@ -97,7 +97,6 @@ def cache_is_up_to_date(start_year=START_YEAR, end_year=END_YEAR):
 
 
 def ensure_cache_up_to_date(start_year=START_YEAR, end_year=END_YEAR):
-    logger = logging.getLogger(__name__)
     logger.info(f"Checking team stats cache consistency for years {start_year}-{end_year}...")
     missing = cache_is_up_to_date(start_year, end_year)
     

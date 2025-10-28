@@ -9,6 +9,9 @@ from pathlib import Path
 import nflreadpy as nfl
 from constants import START_YEAR, END_YEAR, CACHE_DIR
 import polars as pl
+from logger import get_logger
+
+logger = get_logger(__name__)
 import logging
 from logger import LOG_DIR  # This ensures logger is configured
 
