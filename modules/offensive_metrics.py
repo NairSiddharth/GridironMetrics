@@ -124,9 +124,9 @@ class OffensiveMetricsCalculator:
         
         if score_differential is not None:
             adjustments.append(
-                pl.when(pl.abs(score_differential) <= 7)
+                pl.when(score_differential.abs() <= 7)
                 .then(1.3)  # Close game bonus
-                .when(pl.abs(score_differential) <= 14)
+                .when(score_differential.abs() <= 14)
                 .then(1.1)  # Moderately close game bonus
                 .otherwise(1.0)
                 .alias("game_state_multiplier")
@@ -134,7 +134,7 @@ class OffensiveMetricsCalculator:
         
         if quarter is not None and score_differential is not None:
             adjustments.append(
-                pl.when((quarter.is_in([4, 5])) & (pl.abs(score_differential) <= 8))
+                pl.when((quarter.is_in([4, 5])) & (score_differential.abs() <= 8))
                 .then(1.4)  # Crunch time bonus
                 .otherwise(1.0)
                 .alias("time_multiplier")

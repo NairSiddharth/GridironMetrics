@@ -1,0 +1,77 @@
+# QB Rankings - 2018
+
+| Rank | QB               | Team | Games | Raw Score | Normalized (0-100) |
+| :----| :----------------| :----| :-----| :---------| :------------------|
+| 1    | P.Mahomes        | KC   | 16    | 9358      | 100.0              |
+| 2    | B.Roethlisberger | PIT  | 16    | 8682      | 92.8               |
+| 3    | M.Ryan           | ATL  | 16    | 8476      | 90.6               |
+| 4    | A.Luck           | IND  | 16    | 8232      | 88.0               |
+| 5    | J.Goff           | LA   | 16    | 7777      | 83.1               |
+| 6    | D.Watson         | HOU  | 16    | 7596      | 81.2               |
+| 7    | K.Cousins        | MIN  | 16    | 7515      | 80.3               |
+| 8    | A.Rodgers        | GB   | 16    | 7378      | 78.9               |
+| 9    | T.Brady          | NE   | 16    | 7252      | 77.5               |
+| 10   | D.Brees          | NO   | 15    | 7149      | 76.4               |
+| 11   | P.Rivers         | LAC  | 16    | 7143      | 76.4               |
+| 12   | D.Prescott       | DAL  | 16    | 6905      | 73.8               |
+| 13   | E.Manning        | NYG  | 16    | 6747      | 72.1               |
+| 14   | R.Wilson         | SEA  | 16    | 6622      | 70.8               |
+| 15   | C.Newton         | CAR  | 14    | 6510      | 69.6               |
+| 16   | D.Carr           | LV   | 16    | 6457      | 69.0               |
+| 17   | B.Mayfield       | CLE  | 14    | 6296      | 67.3               |
+| 18   | C.Keenum         | DEN  | 16    | 6241      | 66.7               |
+| 19   | M.Stafford       | DET  | 16    | 6192      | 66.2               |
+| 20   | M.Trubisky       | CHI  | 14    | 6089      | 65.1               |
+| 21   | C.Wentz          | PHI  | 11    | 5230      | 55.9               |
+| 22   | J.Winston        | TB   | 11    | 5171      | 55.3               |
+| 23   | S.Darnold        | NYJ  | 13    | 4708      | 50.3               |
+| 24   | B.Bortles        | JAX  | 13    | 4668      | 49.9               |
+| 25   | A.Dalton         | CIN  | 11    | 4500      | 48.1               |
+| 26   | M.Mariota        | TEN  | 14    | 4415      | 47.2               |
+| 27   | J.Allen          | BUF  | 12    | 4222      | 45.2               |
+| 28   | R.Fitzpatrick    | TB   | 8     | 4072      | 43.6               |
+| 29   | J.Flacco         | BAL  | 9     | 3900      | 41.7               |
+| 30   | J.Rosen          | ARI  | 14    | 3686      | 39.4               |
+| 31   | A.Smith          | WAS  | 10    | 3629      | 38.8               |
+| 32   | R.Tannehill      | MIA  | 11    | 3609      | 38.6               |
+| 33   | N.Mullens        | SF   | 8     | 3514      | 37.6               |
+| 34   | L.Jackson        | BAL  | 16    | 2910      | 31.1               |
+| 35   | N.Foles          | PHI  | 5     | 2293      | 24.6               |
+| 36   | C.Beathard       | SF   | 5     | 2126      | 22.8               |
+| 37   | B.Osweiler       | MIA  | 7     | 1959      | 21.0               |
+| 38   | J.Driskel        | CIN  | 8     | 1908      | 20.5               |
+| 39   | C.Kessler        | JAX  | 5     | 1251      | 13.4               |
+| 40   | J.Garoppolo      | SF   | 3     | 1184      | 12.7               |
+| 41   | J.Johnson        | WAS  | 4     | 1103      | 11.9               |
+| 42   | B.Gabbert        | TEN  | 8     | 1030      | 11.1               |
+| 43   | T.Taylor         | CLE  | 4     | 898       | 9.7                |
+| 44   | C.Daniel         | CHI  | 4     | 858       | 9.2                |
+| 45   | J.McCown         | NYJ  | 4     | 817       | 8.8                |
+| 46   | C.McCoy          | WAS  | 3     | 714       | 7.7                |
+| 47   | S.Bradford       | ARI  | 3     | 678       | 7.3                |
+| 48   | D.Anderson       | BUF  | 2     | 604       | 6.5                |
+| 49   | N.Peterman       | BUF  | 4     | 595       | 6.4                |
+| 50   | T.Heinicke       | CAR  | 5     | 525       | 5.7                |
+| 51   | K.Allen          | CAR  | 2     | 508       | 5.5                |
+| 52   | M.Barkley        | BUF  | 1     | 380       | 4.1                |
+| 53   | D.Kizer          | GB   | 3     | 292       | 3.2                |
+| 54   | M.Glennon        | ARI  | 2     | 278       | 3.0                |
+| 55   | T.Bridgewater    | NO   | 4     | 221       | 2.4                |
+| 56   | M.Sanchez        | WAS  | 2     | 208       | 2.3                |
+| 57   | M.Cassel         | DET  | 2     | 93        | 1.1                |
+| 58   | J.Dobbs          | PIT  | 5     | 74        | 0.9                |
+| 59   | N.Sudfeld        | PHI  | 2     | 73        | 0.9                |
+| 60   | G.Gilbert        | CAR  | 1     | 47        | 0.6                |
+| 61   | C.Henne          | KC   | 1     | 40        | 0.5                |
+| 62   | M.Schaub         | ATL  | 2     | 38        | 0.5                |
+| 63   | R.Griffin III    | BAL  | 2     | 25        | 0.3                |
+| 64   | S.Mannion        | LA   | 3     | 19        | 0.3                |
+| 65   | G.Smith          | LAC  | 4     | 11        | 0.2                |
+| 66   | A.McCarron       | LV   | 2     | 8         | 0.2                |
+| 67   | B.Hoyer          | NE   | 5     | 0         | 0.1                |
+| 68   | J.Webb           | HOU  | 4     | 0         | 0.1                |
+| 69   | J.Brissett       | IND  | 4     | -0        | 0.1                |
+| 70   | C.Kelly          | DEN  | 1     | -1        | 0.1                |
+| 71   | B.Weeden         | HOU  | 1     | -1        | 0.1                |
+| 72   | K.Lauletta       | NYG  | 1     | -7        | 0.0                |
+

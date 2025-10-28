@@ -1,0 +1,87 @@
+# QB Rankings - 2005
+
+| Rank | QB               | Team | Games | Raw Score | Normalized (0-100) |
+| :----| :----------------| :----| :-----| :---------| :------------------|
+| 1    | C.Palmer         | CIN  | 16    | 6755      | 100.0              |
+| 2    | T.Brady          | NE   | 16    | 6707      | 99.3               |
+| 3    | P.Manning        | IND  | 16    | 6273      | 92.9               |
+| 4    | B.Favre          | GB   | 16    | 6223      | 92.1               |
+| 5    | T.Green          | KC   | 16    | 6040      | 89.4               |
+| 6    | E.Manning        | NYG  | 16    | 6020      | 89.1               |
+| 7    | D.Brees          | LAC  | 16    | 6000      | 88.8               |
+| 8    | D.Bledsoe        | DAL  | 16    | 5950      | 88.1               |
+| 9    | M.Hasselbeck     | SEA  | 16    | 5874      | 87.0               |
+| 10   | K.Collins        | LV   | 15    | 5799      | 85.9               |
+| 11   | J.Delhomme       | CAR  | 16    | 5583      | 82.7               |
+| 12   | J.Plummer        | DEN  | 16    | 5482      | 81.2               |
+| 13   | M.Brunell        | WAS  | 16    | 5189      | 76.8               |
+| 14   | S.McNair         | TEN  | 14    | 5162      | 76.4               |
+| 15   | M.Vick           | ATL  | 15    | 4877      | 72.2               |
+| 16   | G.Frerotte       | MIA  | 16    | 4760      | 70.5               |
+| 17   | A.Brooks         | NO   | 13    | 4738      | 70.2               |
+| 18   | D.Carr           | HOU  | 16    | 4465      | 66.1               |
+| 19   | K.Warner         | ARI  | 10    | 4132      | 61.2               |
+| 20   | D.McNabb         | PHI  | 9     | 4121      | 61.0               |
+| 21   | B.Roethlisberger | PIT  | 12    | 4040      | 59.8               |
+| 22   | M.Bulger         | LA   | 8     | 3705      | 54.9               |
+| 23   | B.Leftwich       | JAX  | 11    | 3626      | 53.7               |
+| 24   | T.Dilfer         | CLE  | 11    | 3588      | 53.1               |
+| 25   | J.Harrington     | DET  | 12    | 3331      | 49.3               |
+| 26   | C.Simms          | TB   | 11    | 3214      | 47.6               |
+| 27   | B.Johnson        | MIN  | 11    | 3171      | 47.0               |
+| 28   | K.Boller         | BAL  | 9     | 3040      | 45.0               |
+| 29   | J.McCown         | ARI  | 9     | 2994      | 44.4               |
+| 30   | K.Holcomb        | BUF  | 10    | 2617      | 38.8               |
+| 31   | D.Culpepper      | MIN  | 7     | 2562      | 38.0               |
+| 32   | B.Bollinger      | NYJ  | 11    | 2558      | 37.9               |
+| 33   | A.Wright         | BAL  | 8     | 2518      | 37.3               |
+| 34   | J.Losman         | BUF  | 9     | 2263      | 33.5               |
+| 35   | D.Garrard        | JAX  | 7     | 2011      | 29.8               |
+| 36   | J.Martin         | LA   | 8     | 1977      | 29.3               |
+| 37   | M.McMahon        | PHI  | 9     | 1971      | 29.2               |
+| 38   | K.Orton          | CHI  | 8     | 1947      | 28.9               |
+| 39   | B.Griese         | TB   | 6     | 1886      | 28.0               |
+| 40   | C.Frye           | CLE  | 7     | 1641      | 24.3               |
+| 41   | J.Garcia         | DET  | 6     | 1535      | 22.8               |
+| 42   | R.Fitzpatrick    | LA   | 4     | 1399      | 20.8               |
+| 43   | A.Smith          | SF   | 9     | 1304      | 19.3               |
+| 44   | V.Testaverde     | NYJ  | 6     | 1126      | 16.7               |
+| 45   | T.Rattay         | SF   | 4     | 1122      | 16.6               |
+| 46   | T.Bouman         | NO   | 5     | 1058      | 15.7               |
+| 47   | K. Orton         | CHI  | 7     | 1006      | 14.9               |
+| 48   | M.Schaub         | ATL  | 7     | 887       | 13.2               |
+| 49   | B.Volek          | TEN  | 5     | 840       | 12.5               |
+| 50   | C.Pennington     | NYJ  | 3     | 824       | 12.3               |
+| 51   | S.Rosenfels      | MIA  | 4     | 789       | 11.7               |
+| 52   | J.Sorgi          | IND  | 5     | 748       | 11.1               |
+| 53   | K.Dorsey         | SF   | 3     | 744       | 11.1               |
+| 54   | T.Maddox         | PIT  | 3     | 636       | 9.5                |
+| 55   | C.Batch          | PIT  | 3     | 461       | 6.9                |
+| 56   | P.Ramsey         | WAS  | 4     | 383       | 5.7                |
+| 57   | R.Grossman       | CHI  | 2     | 370       | 5.5                |
+| 58   | K.Detmer         | PHI  | 6     | 343       | 5.1                |
+| 59   | M.Cassel         | NE   | 2     | 340       | 5.1                |
+| 60   | J.Navarre        | ARI  | 1     | 270       | 4.0                |
+| 61   | T.Banks          | HOU  | 1     | 266       | 4.0                |
+| 62   | S.Wallace        | SEA  | 5     | 257       | 3.9                |
+| 63   | M.Tuiasosopo     | LV   | 1     | 241       | 3.6                |
+| 64   | M.Mauck          | TEN  | 2     | 231       | 3.5                |
+| 65   | Q.Gray           | JAX  | 1     | 227       | 3.4                |
+| 66   | C.Pickett        | SF   | 3     | 225       | 3.4                |
+| 67   | J.Fiedler        | NYJ  | 2     | 184       | 2.8                |
+| 68   | J.Kitna          | CIN  | 3     | 172       | 2.6                |
+| 69   | P.Rivers         | LAC  | 2     | 152       | 2.3                |
+| 70   | J.Blake          | CHI  | 2     | 135       | 2.0                |
+| 71   | C.Weinke         | CAR  | 3     | 130       | 2.0                |
+| 72   | B.Van Pelt       | DEN  | 2     | 117       | 1.8                |
+| 73   | A.Rodgers        | GB   | 3     | 102       | 1.6                |
+| 74   | D.Orlovsky       | DET  | 2     | 81        | 1.3                |
+| 75   | D.Flutie         | NE   | 5     | 43        | 0.7                |
+| 76   | K.Stewart        | BAL  | 1     | 36        | 0.6                |
+| 77   | K.Kingsbury      | NYJ  | 1     | 20        | 0.3                |
+| 78   | M.Randall        | TEN  | 2     | 0         | 0.1                |
+| 79   | T.Collins        | KC   | 1     | -2        | 0.0                |
+| 80   | S.Hill           | MIN  | 1     | -2        | 0.0                |
+| 81   | T.Romo           | DAL  | 1     | -2        | 0.0                |
+| 82   | T.Hasselbeck     | NYG  | 1     | -4        | 0.0                |
+
