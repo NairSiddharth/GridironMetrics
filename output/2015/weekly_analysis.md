@@ -4,6 +4,6 @@
 | :------------| :--------| :-------------| :------------------|
 | A.Ellington  | RB       | 57.5          | 57.5               |
 | C.Johnson    | WR       | 30.8          | 30.8               |
-| L.Fitzgerald | WR       | 0.0           | 0.0                |
+| J.Nelson     | WR       | 0.0           | 0.0                |
 | D.Johnson    | WR       | 0.0           | 0.0                |
-| J.Gresham    | TE       | 0.0           | 0.0                |
+| L.Fitzgerald | WR       | 0.0           | 0.0                |

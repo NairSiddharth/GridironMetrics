@@ -82,7 +82,7 @@
 | ATL  | W.Dunn       | RB       | 21.9             |
 | BAL  | W.McGahee    | RB       | 46.7             |
 | BUF  | M.Lynch      | RB       | 53.8             |
-| CAR  | D.Foster     | RB       | 18.8             |
+| CAR  | D.Williams   | WR       | 18.8             |
 | CHI  | C.Benson     | RB       | 31.8             |
 | CIN  | K.Watson     | RB       | 30.0             |
 | CLE  | J.Lewis      | RB       | 36.7             |
@@ -105,7 +105,7 @@
 | NYJ  | L.Washington | RB       | 10.4             |
 | PHI  | B.Westbrook  | RB       | 33.3             |
 | PIT  | N.Davenport  | RB       | 26.7             |
-| SEA  | S.Alexander  | RB       | 23.1             |
+| SEA  | M.Morris     | RB       | 23.1             |
 | SF   | F.Gore       | RB       | 16.7             |
 | TB   | E.Graham     | RB       | 47.8             |
 | TEN  | C.Brown      | RB       | 33.3             |
@@ -189,38 +189,38 @@
 |               Targets Share Leaders               |
 | Team | Player       | Position | Season Share (%) |
 | :----| :------------| :--------| :----------------|
-| ARI  | S.Morey      | WR       | 0.0              |
+| ARI  | Bry.Johnson  | WR       | 0.0              |
 | ATL  | A.Crumpler   | TE       | 7.7              |
-| BAL  | C.Ross       | RB       | 0.0              |
+| BAL  | Y.Figurs     | WR       | 0.0              |
 | BUF  | L.Evans      | WR       | 12.5             |
 | CAR  | J.King       | TE       | 6.2              |
-| CHI  | J.Gilmore    | TE       | 0.0              |
-| CIN  | S.Green      | WR       | 0.0              |
+| CHI  | M.Bradley    | WR       | 0.0              |
+| CIN  | R.Johnson    | RB       | 0.0              |
 | CLE  | J.Wright     | RB       | 6.2              |
-| DAL  | S.Hurd       | WR       | 0.0              |
-| DEN  | P.Smith      | RB       | 0.0              |
-| DET  | T.Bell       | RB       | 0.0              |
+| DAL  | M.Barber     | RB       | 0.0              |
+| DEN  | D.Hixon      | WR       | 0.0              |
+| DET  | M.Furrey     | WR       | 0.0              |
 | GB   | D.Driver     | WR       | 6.7              |
 | HOU  | D.Anderson   | WR       | 20.0             |
-| IND  | A.Gonzalez   | WR       | 0.0              |
-| JAX  | M.Jones      | WR       | 0.0              |
-| KC   | J.Battle     | RB       | 0.0              |
-| LA   | D.Looker     | WR       | 0.0              |
-| LAC  | M.Turner     | RB       | 0.0              |
-| LV   | Z.Miller     | TE       | 0.0              |
-| MIA  | P.Cobbs      | RB       | 0.0              |
-| MIN  | J.Dugan      | TE       | 0.0              |
-| NE   | D.Stallworth | WR       | 0.0              |
+| IND  | C.Thorpe     | WR       | 0.0              |
+| JAX  | R.Angulo     | TE       | 0.0              |
+| KC   | T.Gonzalez   | TE       | 0.0              |
+| LA   | A.Pittman    | RB       | 0.0              |
+| LAC  | A.Gates      | TE       | 0.0              |
+| LV   | T.Stewart    | TE       | 0.0              |
+| MIA  | R.Williams   | WR       | 0.0              |
+| MIN  | A.Allison    | WR       | 0.0              |
+| NE   | K.Washington | WR       | 0.0              |
 | NO   | T.Copper     | WR       | 7.7              |
-| NYG  | A.Toomer     | WR       | 0.0              |
-| NYJ  | J.McCareins  | WR       | 0.0              |
+| NYG  | P.Pass       | RB       | 0.0              |
+| NYJ  | C.Baker      | TE       | 0.0              |
 | PHI  | M.Schobel    | TE       | 8.3              |
-| PIT  | N.Washington | WR       | 0.0              |
+| PIT  | C.Wilson     | WR       | 0.0              |
 | SEA  | W.Heller     | TE       | 11.1             |
 | SF   | D.Jackson    | WR       | 6.7              |
 | TB   | A.Smith      | TE       | 7.7              |
-| TEN  | E.Moulds     | WR       | 0.0              |
-| WAS  | L.Betts      | RB       | 0.0              |
+| TEN  | R.Williams   | WR       | 0.0              |
+| WAS  | J.Thrash     | WR       | 0.0              |
 
 | :----- :------------ :--------- :----------------|
 |              Rush Att Share Leaders              |

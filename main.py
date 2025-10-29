@@ -611,21 +611,37 @@ def generate_qb_rankings(year: int) -> str:
     if not qb_contributions:
         return "No QB contributions calculated."
     
-    # Create DataFrame and normalize to 0-100
+    # Create DataFrame and apply z-score normalization
     qb_df = pl.DataFrame(qb_contributions)
-    max_contribution = qb_df['contribution'].max()
-    min_contribution = qb_df['contribution'].min()
+    
+    # Calculate mean and standard deviation
+    mean_contribution = qb_df['contribution'].mean()
+    std_contribution = qb_df['contribution'].std()
+    
+    # Calculate max games for hybrid scoring
+    max_games = qb_df['games'].max()
+    
+    # Z-score normalization: normalized = 50 + (z_score * 10)
+    # Hybrid scoring: adjusted_score * (games_played / max_games)^0.4
+    qb_df = qb_df.with_columns([
+        (50 + ((pl.col('contribution') - mean_contribution) / std_contribution) * 10).alias('normalized_score'),
+        (pl.col('contribution') * (pl.col('games') / max_games).pow(0.4)).alias('hybrid_score')
+    ])
+    
+    # Calculate z-score for hybrid scores to normalize those too
+    mean_hybrid = qb_df['hybrid_score'].mean()
+    std_hybrid = qb_df['hybrid_score'].std()
     
     qb_df = qb_df.with_columns([
-        ((pl.col('contribution') - min_contribution) / (max_contribution - min_contribution) * 100).alias('normalized_score')
-    ]).sort('normalized_score', descending=True)
+        (50 + ((pl.col('hybrid_score') - mean_hybrid) / std_hybrid) * 10).alias('normalized_hybrid')
+    ]).sort('normalized_hybrid', descending=True)
     
     # Create table
     markdown = f"# QB Rankings - {year}\n\n"
     table = PrettyTable()
-    table.field_names = ["Rank", "QB", "Team", "Games", "Raw Score", "Normalized (0-100)"]
+    table.field_names = ["Rank", "QB", "Team", "Games", "Avg/Game", "Normalized"]
     table.align = "l"
-    table.float_format = '.1'
+    table.float_format = '.2'
     table.set_style(TableStyle.MARKDOWN)
     
     for rank, row in enumerate(qb_df.iter_rows(named=True), 1):
@@ -634,8 +650,8 @@ def generate_qb_rankings(year: int) -> str:
             row['player_name'],
             row['team'],
             row['games'],
-            f"{row['contribution']:.0f}",
-            f"{row['normalized_score']:.1f}"
+            f"{row['avg_per_game']:.2f}",
+            f"{row['normalized_hybrid']:.2f}"
         ])
     
     markdown += table.get_string() + "\n\n"
@@ -705,9 +721,9 @@ def generate_top_contributors(year: int) -> str:
     # Create PrettyTable for top contributors
     table = PrettyTable()
     table.field_names = ["Rank", "Player", "Team", "Position (Pos. Rank)", "Raw Score", "Adjusted Score", 
-                        "Peak Performance", "Trend", "Notable Games"]
+                        "Games", "Avg/Game", "Peak Performance", "Trend", "Notable Games"]
     table.align = "l"  # Left align text
-    table.float_format = '.1'  # One decimal place for floats
+    table.float_format = '.2'  # Two decimal places for floats
     table.set_style(TableStyle.MARKDOWN)
     
     # Get top 10 by adjusted contribution
@@ -752,9 +768,9 @@ def generate_top_contributors(year: int) -> str:
     
     table = PrettyTable()
     table.field_names = ["Rank", "Player", "Team", "Position (Pos. Rank)", "Raw Score", "Adjusted Score", 
-                        "Peak Performance", "Trend", "Notable Games"]
+                        "Games", "Avg/Game", "Peak Performance", "Trend", "Notable Games"]
     table.align = "l"  # Left align text
-    table.float_format = '.1'  # One decimal place for floats
+    table.float_format = '.2'  # Two decimal places for floats
     
     for rank, row in enumerate(top_contributors.iter_rows(named=True), 1):
         player_name = row['player_name']
@@ -764,7 +780,9 @@ def generate_top_contributors(year: int) -> str:
         position_display = f"{position} (#{pos_rank})"
         raw_score = row['raw_score']
         adj_score = row['adjusted_score']
-        peak = f"Peak: {row['peak_score']:.1f}"
+        games_played = row['games_played']
+        avg_per_game = adj_score / games_played if games_played > 0 else 0
+        peak = f"Peak: {row['peak_score']:.2f}"
         
         # Calculate trend (simple: compare first half to second half of season)
         player_games = contributions.filter(pl.col('player_name') == player_name).sort('week')
@@ -783,9 +801,72 @@ def generate_top_contributors(year: int) -> str:
         
         games = notable_games.get(player_name, "")
         
-        table.add_row([rank, player_name, team, position_display, f"{raw_score:.1f}", f"{adj_score:.1f}", peak, trend, games])
+        table.add_row([rank, player_name, team, position_display, f"{raw_score:.2f}", f"{adj_score:.2f}", 
+                      games_played, f"{avg_per_game:.2f}", peak, trend, games])
     
     markdown += table.get_string() + "\n\n"
+    
+    # Add positional rankings for RB, WR, TE
+    for pos in ['RB', 'WR', 'TE']:
+        markdown += f"## {pos} Rankings\n\n"
+        
+        # Get top 10 players at this position
+        pos_contributors = (
+            contributions.filter(pl.col('position') == pos)
+            .group_by(['player_name', 'team'])
+            .agg([
+                pl.col('player_overall_contribution').mean().alias('adjusted_score'),
+                pl.col('player_overall_contribution').max().alias('peak_score'),
+                pl.col('week').count().alias('games_played')
+            ])
+            .sort('adjusted_score', descending=True)
+            .head(10)
+        )
+        
+        # Add raw scores
+        pos_contributors = pos_contributors.join(raw_scores, on=['player_name', 'team'], how='left')
+        
+        # Create table for this position
+        pos_table = PrettyTable()
+        pos_table.field_names = ["Rank", "Player", "Team", "Raw Score", "Adjusted Score", 
+                                "Games", "Avg/Game", "Peak Performance", "Trend", "Notable Games"]
+        pos_table.align = "l"
+        pos_table.float_format = '.2'
+        pos_table.set_style(TableStyle.MARKDOWN)
+        
+        for rank, row in enumerate(pos_contributors.iter_rows(named=True), 1):
+            player_name = row['player_name']
+            team = row['team']
+            raw_score = row['raw_score']
+            adj_score = row['adjusted_score']
+            games_played = row['games_played']
+            avg_per_game = adj_score / games_played if games_played > 0 else 0
+            peak = f"Peak: {row['peak_score']:.2f}"
+            
+            # Calculate trend
+            player_games = contributions.filter(
+                (pl.col('player_name') == player_name) & (pl.col('position') == pos)
+            ).sort('week')
+            if len(player_games) >= 4:
+                mid_point = len(player_games) // 2
+                first_half_avg = player_games.head(mid_point)['player_overall_contribution'].mean()
+                second_half_avg = player_games.tail(len(player_games) - mid_point)['player_overall_contribution'].mean()
+                if second_half_avg > first_half_avg * 1.1:
+                    trend = "Increasing"
+                elif second_half_avg < first_half_avg * 0.9:
+                    trend = "Decreasing"
+                else:
+                    trend = "Stable"
+            else:
+                trend = "Stable"
+            
+            games = notable_games.get(player_name, "")
+            
+            pos_table.add_row([rank, player_name, team, f"{raw_score:.2f}", f"{adj_score:.2f}", 
+                              games_played, f"{avg_per_game:.2f}", peak, trend, games])
+        
+        markdown += pos_table.get_string() + "\n\n"
+    
     return markdown
 
 def process_year(year: int) -> tuple[bool, str, str, str, str]:

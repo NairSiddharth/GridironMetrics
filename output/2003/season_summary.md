@@ -189,38 +189,38 @@
 |               Targets Share Leaders               |
 | Team | Player       | Position | Season Share (%) |
 | :----| :------------| :--------| :----------------|
-| ARI  | M.Shipp      | RB       | 0.0              |
-| ATL  | Q.McCord     | WR       | 0.0              |
-| BAL  | J.Lewis      | WR       | 0.0              |
-| BUF  | E. Moulds    | WR       | 0.0              |
+| ARI  | M.Banks      | TE       | 0.0              |
+| ATL  | W.Dantzler   | RB       | 0.0              |
+| BAL  | M.Smith      | RB       | 0.0              |
+| BUF  | S. Morris    | RB       | 0.0              |
 | CAR  | K.Dyson      | WR       | 0.0              |
-| CHI  | R. Abdullah  | RB       | 0.0              |
-| CIN  | M.Schobel    | TE       | 0.0              |
-| CLE  | Q. Morgan    | WR       | 0.0              |
-| DAL  | A.Bryant     | WR       | 0.0              |
-| DEN  | S. Sharpe    | TE       | 0.0              |
-| DET  | S. Bryson    | RB       | 0.0              |
-| GB   | B.Franks     | TE       | 0.0              |
-| HOU  | C.Bradford   | WR       | 0.0              |
+| CHI  | D.Lyman      | TE       | 0.0              |
+| CIN  | C.Johnson    | WR       | 0.0              |
+| CLE  | J.White      | RB       | 0.0              |
+| DAL  | T.Hambrick   | RB       | 0.0              |
+| DEN  | R. Droughns  | RB       | 0.0              |
+| DET  | S.Bryson     | RB       | 0.0              |
+| GB   | W.Walls      | TE       | 0.0              |
+| HOU  | J.Moses      | WR       | 0.0              |
 | IND  | A.Moorehead  | WR       | 0.0              |
 | JAX  | J.Smith      | WR       | 4.2              |
-| KC   | B. Baber     | TE       | 0.0              |
-| LA   | A.Harris     | RB       | 0.0              |
-| LAC  | S. Alexander | TE       | 0.0              |
-| LV   | J.Rice       | WR       | 0.0              |
+| KC   | D. Blaylock  | RB       | 0.0              |
+| LA   | D.Looker     | WR       | 0.0              |
+| LAC  | J. Peelle    | TE       | 0.0              |
+| LV   | C. Garner    | RB       | 0.0              |
 | MIA  | C.Chambers   | WR       | 6.2              |
-| MIN  | S. Berton    | TE       | 0.0              |
-| NE   | K.Faulk      | RB       | 0.0              |
-| NO   | L.Smith      | RB       | 0.0              |
-| NYG  | V.Shiancoe   | TE       | 0.0              |
+| MIN  | K. Howry     | WR       | 0.0              |
+| NE   | J.Stokes     | WR       | 0.0              |
+| NO   | D.Stallworth | WR       | 0.0              |
+| NYG  | A.Toomer     | WR       | 0.0              |
 | NYJ  | L.Jordan     | RB       | 0.0              |
-| PHI  | G.Lewis      | WR       | 0.0              |
-| PIT  | J. Bettis    | RB       | 0.0              |
-| SEA  | K.Carter     | RB       | 0.0              |
-| SF   | J.Jordan     | WR       | 0.0              |
-| TB   | K.McCardell  | WR       | 0.0              |
-| TEN  | D.Hill       | WR       | 0.0              |
-| WAS  | K.Ware       | TE       | 0.0              |
+| PHI  | S.Morey      | WR       | 0.0              |
+| PIT  | J. Riemersma | TE       | 0.0              |
+| SEA  | D.Jackson    | WR       | 0.0              |
+| SF   | C.Wilson     | WR       | 0.0              |
+| TB   | R.Dudley     | TE       | 0.0              |
+| TEN  | E.Berlin     | WR       | 0.0              |
+| WAS  | L.Coles      | WR       | 0.0              |
 
 | :----- :------------- :--------- :----------------|
 |               Rush Att Share Leaders              |

@@ -189,38 +189,38 @@
 |              Targets Share Leaders               |
 | Team | Player      | Position | Season Share (%) |
 | :----| :-----------| :--------| :----------------|
-| ARI  | L.Diamond   | TE       | 0.0              |
-| ATL  | J.Farris    | WR       | 0.0              |
-| BAL  | D.Wilcox    | TE       | 0.0              |
-| BUF  | J.Reed      | WR       | 0.0              |
-| CAR  | J.Harris    | RB       | 0.0              |
-| CHI  | J.McKie     | RB       | 0.0              |
-| CIN  | R.Kelly     | TE       | 0.0              |
-| CLE  | S.Heiden    | TE       | 0.0              |
-| DAL  | K.Johnson   | WR       | 0.0              |
-| DEN  | C.Sapp      | RB       | 0.0              |
+| ARI  | R.Newhouse  | WR       | 0.0              |
+| ATL  | T.Duckett   | RB       | 0.0              |
+| BAL  | D.Darling   | WR       | 0.0              |
+| BUF  | J.Burns     | RB       | 0.0              |
+| CAR  | R.Proehl    | WR       | 0.0              |
+| CHI  | J.Gilmore   | TE       | 0.0              |
+| CIN  | C.Perry     | RB       | 0.0              |
+| CLE  | K.Heinrich  | TE       | 0.0              |
+| DAL  | D.Campbell  | TE       | 0.0              |
+| DEN  | R.Droughns  | RB       | 0.0              |
 | DET  | A.Hakim     | WR       | 0.0              |
-| GB   | J.Jackson   | RB       | 0.0              |
-| HOU  | J.Wells     | RB       | 0.0              |
-| IND  | M.Harrison  | WR       | 0.0              |
-| JAX  | T.Edwards   | WR       | 0.0              |
+| GB   | R.Ferguson  | WR       | 0.0              |
+| HOU  | J.Baxter    | RB       | 0.0              |
+| IND  | D.Clark     | TE       | 0.0              |
+| JAX  | G.Wrighster | TE       | 0.0              |
 | KC   | L.Johnson   | RB       | 12.5             |
-| LA   | S.Jackson   | RB       | 0.0              |
-| LAC  | B.Shaw      | WR       | 0.0              |
+| LA   | C.Cleeland  | TE       | 0.0              |
+| LAC  | K.McCardell | WR       | 0.0              |
 | LV   | A.Zereoue   | RB       | 6.7              |
 | MIA  | C.Chambers  | WR       | 6.7              |
-| MIN  | O.Smith     | RB       | 0.0              |
+| MIN  | L.Ned       | RB       | 0.0              |
 | NE   | D.Graham    | TE       | 7.7              |
-| NO   | F.McAfee    | RB       | 0.0              |
+| NO   | T.Gardner   | WR       | 0.0              |
 | NYG  | W.Ponder    | WR       | 0.0              |
-| NYJ  | S.Moss      | WR       | 0.0              |
-| PHI  | B.Westbrook | RB       | 0.0              |
-| PIT  | J.Tuman     | TE       | 0.0              |
-| SEA  | R.Hannam    | TE       | 0.0              |
-| SF   | S.Bush      | RB       | 0.0              |
-| TB   | C.Garner    | RB       | 0.0              |
+| NYJ  | L.Jordan    | RB       | 0.0              |
+| PHI  | F.Mitchell  | WR       | 0.0              |
+| PIT  | D.Staley    | RB       | 0.0              |
+| SEA  | A.Bannister | WR       | 0.0              |
+| SF   | J.Isom      | RB       | 0.0              |
+| TB   | N.Lawrie    | TE       | 0.0              |
 | TEN  | E. Kinney   | TE       | 11.1             |
-| WAS  | R.Gardner   | WR       | 0.0              |
+| WAS  | T.Jacobs    | WR       | 0.0              |
 
 | :----- :------------- :--------- :----------------|
 |               Rush Att Share Leaders              |

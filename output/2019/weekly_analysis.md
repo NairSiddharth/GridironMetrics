@@ -5,5 +5,5 @@
 | D.Johnson    | WR       | 73.2          | 73.2               |
 | C.Kirk       | WR       | 10.7          | 10.7               |
 | C.Edmonds    | RB       | 4.5           | 4.5                |
+| C.Clay       | TE       | 0.0           | 0.0                |
 | L.Fitzgerald | WR       | 0.0           | 0.0                |
-| A.Isabella   | WR       | 0.0           | 0.0                |

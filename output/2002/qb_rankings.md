@@ -1,90 +1,90 @@
 # QB Rankings - 2002
 
-| Rank | QB                 | Team | Games | Raw Score | Normalized (0-100) |
-| :----| :------------------| :----| :-----| :---------| :------------------|
-| 1    | P.Manning          | IND  | 16    | 7197      | 100.0              |
-| 2    | D.Culpepper        | MIN  | 16    | 7100      | 98.7               |
-| 3    | T.Brady            | NE   | 16    | 6610      | 91.9               |
-| 4    | T. Green           | KC   | 16    | 6275      | 87.2               |
-| 5    | B.Favre            | GB   | 16    | 6250      | 86.9               |
-| 6    | A.Brooks           | NO   | 16    | 6213      | 86.4               |
-| 7    | S.McNair           | TEN  | 16    | 6178      | 85.9               |
-| 8    | K.Collins          | NYG  | 16    | 6149      | 85.5               |
-| 9    | J.Garcia           | SF   | 16    | 6080      | 84.5               |
-| 10   | M.Vick             | ATL  | 15    | 5802      | 80.7               |
-| 11   | C.Pennington       | NYJ  | 15    | 5355      | 74.5               |
-| 12   | D.Bledsoe          | BUF  | 12    | 5277      | 73.4               |
-| 13   | J.Kitna            | CIN  | 13    | 5243      | 72.9               |
-| 14   | B.Johnson          | TB   | 13    | 5139      | 71.5               |
-| 15   | M.Hasselbeck       | SEA  | 13    | 5033      | 70.0               |
-| 16   | T.Couch            | CLE  | 14    | 4756      | 66.2               |
-| 17   | D.McNabb           | PHI  | 10    | 4685      | 65.2               |
-| 18   | T.Maddox           | PIT  | 12    | 4681      | 65.1               |
-| 19   | D.Brees            | SD   | 14    | 4382      | 61.0               |
-| 20   | R. Gannon          | OAK  | 10    | 4296      | 59.8               |
-| 21   | M. Brunell         | JAC  | 14    | 4271      | 59.4               |
-| 22   | D.Carr             | HOU  | 16    | 4251      | 59.2               |
-| 23   | R.Peete            | CAR  | 14    | 4131      | 57.5               |
-| 24   | J.Plummer          | ARI  | 11    | 3693      | 51.4               |
-| 25   | J.Harrington       | DET  | 14    | 3545      | 49.4               |
-| 26   | R.Gannon           | OAK  | 6     | 3502      | 48.8               |
-| 27   | J.Blake            | BAL  | 10    | 3441      | 47.9               |
-| 28   | J.Miller           | CHI  | 10    | 3193      | 44.5               |
-| 29   | M. Bulger          | STL  | 7     | 3036      | 42.3               |
-| 30   | B.Griese           | DEN  | 7     | 2684      | 37.4               |
-| 31   | B. Griese          | DEN  | 6     | 2478      | 34.6               |
-| 32   | J. Fiedler         | MIA  | 8     | 2454      | 34.2               |
-| 33   | P.Ramsey           | WAS  | 9     | 2396      | 33.4               |
-| 34   | C.Hutchinson       | DAL  | 9     | 2379      | 33.2               |
-| 35   | Q.Carter           | DAL  | 7     | 2328      | 32.5               |
-| 36   | S.Matthews         | WAS  | 7     | 2221      | 31.0               |
-| 37   | K.Stewart          | PIT  | 7     | 2163      | 30.2               |
-| 38   | K. Warner          | STL  | 7     | 2121      | 29.6               |
-| 39   | J. Martin          | STL  | 5     | 1998      | 27.9               |
-| 40   | R. Lucas           | MIA  | 6     | 1799      | 25.1               |
-| 41   | D. Bledsoe         | BUF  | 4     | 1727      | 24.1               |
-| 42   | T.Dilfer           | SEA  | 6     | 1716      | 24.0               |
-| 43   | C.Redman           | BAL  | 6     | 1697      | 23.7               |
-| 44   | M.McMahon          | DET  | 8     | 1652      | 23.1               |
-| 45   | C.Chandler         | CHI  | 9     | 1615      | 22.6               |
-| 46   | A.Feeley           | PHI  | 6     | 1594      | 22.3               |
-| 47   | J. Plummer         | ARI  | 5     | 1509      | 21.1               |
-| 48   | K.Holcomb          | CLE  | 4     | 1415      | 19.8               |
-| 49   | D.Wuerffel         | WAS  | 7     | 1158      | 16.3               |
-| 50   | J.Fiedler          | MIA  | 3     | 1142      | 16.0               |
-| 51   | D. Brees           | SD   | 2     | 1032      | 14.5               |
-| 52   | R.Johnson          | TB   | 6     | 871       | 12.3               |
-| 53   | V.Testaverde       | NYJ  | 5     | 864       | 12.2               |
-| 54   | S. Beuerlein       | DEN  | 3     | 818       | 11.5               |
-| 55   | D.Johnson          | ATL  | 6     | 745       | 10.5               |
-| 56   | S.Beuerlein        | DEN  | 2     | 691       | 9.8                |
-| 57   | G.Frerotte         | CIN  | 3     | 648       | 9.2                |
-| 58   | D. Garrard         | NYJ  | 4     | 617       | 8.7                |
-| 59   | H.Burris           | CHI  | 6     | 521       | 7.4                |
-| 60   | K.Detmer           | PHI  | 2     | 446       | 6.4                |
-| 61   | M.Brunell          | IND  | 1     | 426       | 6.1                |
-| 62   | T.Rattay           | SF   | 4     | 419       | 6.0                |
-| 63   | R.Fasani           | CAR  | 3     | 259       | 3.8                |
-| 64   | D.Pederson         | GB   | 4     | 250       | 3.7                |
-| 65   | C.Weinke           | CAR  | 6     | 238       | 3.5                |
-| 66   | T. Collins         | KC   | 2     | 150       | 2.3                |
-| 67   | A.Smith            | CIN  | 1     | 150       | 2.3                |
-| 68   | J.Delhomme         | NO   | 3     | 141       | 2.1                |
-| 69   | S.King             | TB   | 3     | 133       | 2.0                |
-| 70   | J. McCown          | ARI  | 2     | 107       | 1.7                |
-| 71   | T.Bouman           | MIN  | 1     | 105       | 1.6                |
-| 72   | C.Sauter           | CHI  | 1     | 90        | 1.4                |
-| 73   | D.Flutie           | SD   | 1     | 75        | 1.2                |
-| 74   | R.Fasani (3rd QB)  | CAR  | 1     | 57        | 1.0                |
-| 75   | J.Palmer           | NYG  | 1     | 37        | 0.7                |
-| 76   | N.O'Donnell        | TEN  | 2     | 30        | 0.6                |
-| 77   | A. Van Pelt        | BUF  | 1     | 13        | 0.4                |
-| 78   | S. Covington       | STL  | 1     | 12        | 0.4                |
-| 79   | D.Huard            | NE   | 1     | 5         | 0.3                |
-| 80   | R.Davey            | NE   | 2     | 1         | 0.2                |
-| 81   | T.Woodbury         | NYJ  | 1     | 0         | 0.2                |
-| 82   | J. Quinn  (3rd QB) | KC   | 1     | -1        | 0.2                |
-| 83   | R.Lucas            | MIA  | 1     | -2        | 0.2                |
-| 84   | M.Tuiasosopo       | OAK  | 1     | -4        | 0.1                |
-| 85   | S. Rosenfels       | MIA  | 2     | -14       | 0.0                |
+| Rank | QB                 | Team | Games | Avg/Game | Normalized |
+| :----| :------------------| :----| :-----| :--------| :----------|
+| 1    | P.Manning          | IND  | 16    | 449.79   | 73.64      |
+| 2    | D.Culpepper        | MIN  | 16    | 443.74   | 73.20      |
+| 3    | T.Brady            | NE   | 16    | 413.12   | 70.97      |
+| 4    | T. Green           | KC   | 16    | 392.19   | 69.45      |
+| 5    | B.Favre            | GB   | 16    | 390.60   | 69.33      |
+| 6    | A.Brooks           | NO   | 16    | 388.29   | 69.16      |
+| 7    | S.McNair           | TEN  | 16    | 386.12   | 69.00      |
+| 8    | K.Collins          | NYG  | 16    | 384.34   | 68.87      |
+| 9    | J.Garcia           | SF   | 16    | 379.98   | 68.56      |
+| 10   | M.Vick             | ATL  | 15    | 386.83   | 66.62      |
+| 11   | C.Pennington       | NYJ  | 15    | 356.99   | 64.64      |
+| 12   | J.Kitna            | CIN  | 13    | 403.34   | 62.85      |
+| 13   | B.Johnson          | TB   | 13    | 395.31   | 62.41      |
+| 14   | D.Bledsoe          | BUF  | 12    | 439.78   | 62.29      |
+| 15   | M.Hasselbeck       | SEA  | 13    | 387.18   | 61.97      |
+| 16   | T.Couch            | CLE  | 14    | 339.74   | 61.41      |
+| 17   | D.Carr             | HOU  | 16    | 265.71   | 60.23      |
+| 18   | T.Maddox           | PIT  | 12    | 390.05   | 59.87      |
+| 19   | D.Brees            | SD   | 14    | 312.97   | 59.79      |
+| 20   | M. Brunell         | JAC  | 14    | 305.04   | 59.31      |
+| 21   | R.Peete            | CAR  | 14    | 295.06   | 58.71      |
+| 22   | D.McNabb           | PHI  | 10    | 468.50   | 58.55      |
+| 23   | R. Gannon          | OAK  | 10    | 429.58   | 57.08      |
+| 24   | J.Harrington       | DET  | 14    | 253.20   | 56.18      |
+| 25   | J.Plummer          | ARI  | 11    | 335.69   | 55.35      |
+| 26   | J.Blake            | BAL  | 10    | 344.12   | 53.86      |
+| 27   | J.Miller           | CHI  | 10    | 319.32   | 52.92      |
+| 28   | R.Gannon           | OAK  | 6     | 583.73   | 51.65      |
+| 29   | M. Bulger          | STL  | 7     | 433.77   | 50.81      |
+| 30   | B.Griese           | DEN  | 7     | 383.40   | 49.65      |
+| 31   | P.Ramsey           | WAS  | 9     | 266.20   | 49.54      |
+| 32   | C.Hutchinson       | DAL  | 9     | 264.31   | 49.48      |
+| 33   | J. Fiedler         | MIA  | 8     | 306.75   | 49.34      |
+| 34   | B. Griese          | DEN  | 6     | 412.93   | 48.50      |
+| 35   | Q.Carter           | DAL  | 7     | 332.60   | 48.49      |
+| 36   | S.Matthews         | WAS  | 7     | 317.31   | 48.14      |
+| 37   | K.Stewart          | PIT  | 7     | 309.03   | 47.95      |
+| 38   | K. Warner          | STL  | 7     | 302.94   | 47.81      |
+| 39   | C.Chandler         | CHI  | 9     | 179.49   | 46.72      |
+| 40   | J. Martin          | STL  | 5     | 399.64   | 46.59      |
+| 41   | M.McMahon          | DET  | 8     | 206.53   | 46.58      |
+| 42   | R. Lucas           | MIA  | 6     | 299.77   | 46.41      |
+| 43   | T.Dilfer           | SEA  | 6     | 286.07   | 46.15      |
+| 44   | C.Redman           | BAL  | 6     | 282.77   | 46.09      |
+| 45   | A.Feeley           | PHI  | 6     | 265.70   | 45.78      |
+| 46   | D. Bledsoe         | BUF  | 4     | 431.75   | 45.39      |
+| 47   | J. Plummer         | ARI  | 5     | 301.80   | 45.19      |
+| 48   | D.Wuerffel         | WAS  | 7     | 165.46   | 44.66      |
+| 49   | K.Holcomb          | CLE  | 4     | 353.70   | 44.58      |
+| 50   | R.Johnson          | TB   | 6     | 145.10   | 43.55      |
+| 51   | J.Fiedler          | MIA  | 3     | 380.60   | 43.54      |
+| 52   | V.Testaverde       | NYJ  | 5     | 172.72   | 43.35      |
+| 53   | D.Johnson          | ATL  | 6     | 124.20   | 43.17      |
+| 54   | D. Brees           | SD   | 2     | 516.20   | 42.92      |
+| 55   | S. Beuerlein       | DEN  | 3     | 272.67   | 42.78      |
+| 56   | D. Garrard         | NYJ  | 4     | 154.20   | 42.49      |
+| 57   | H.Burris           | CHI  | 6     | 86.80    | 42.48      |
+| 58   | G.Frerotte         | CIN  | 3     | 216.13   | 42.39      |
+| 59   | S.Beuerlein        | DEN  | 2     | 345.40   | 42.24      |
+| 60   | T.Rattay           | SF   | 4     | 104.75   | 41.97      |
+| 61   | K.Detmer           | PHI  | 2     | 222.90   | 41.76      |
+| 62   | C.Weinke           | CAR  | 6     | 39.63    | 41.61      |
+| 63   | D.Pederson         | GB   | 4     | 62.45    | 41.53      |
+| 64   | M.Brunell          | IND  | 1     | 425.80   | 41.52      |
+| 65   | R.Fasani           | CAR  | 3     | 86.27    | 41.48      |
+| 66   | J.Delhomme         | NO   | 3     | 46.87    | 41.20      |
+| 67   | S.King             | TB   | 3     | 44.33    | 41.19      |
+| 68   | T. Collins         | KC   | 2     | 75.20    | 41.17      |
+| 69   | A.Smith            | CIN  | 1     | 150.00   | 41.10      |
+| 70   | J. McCown          | ARI  | 2     | 53.50    | 41.09      |
+| 71   | T.Bouman           | MIN  | 1     | 104.80   | 41.03      |
+| 72   | C.Sauter           | CHI  | 1     | 89.60    | 41.01      |
+| 73   | D.Flutie           | SD   | 1     | 75.20    | 40.99      |
+| 74   | R.Fasani (3rd QB)  | CAR  | 1     | 57.20    | 40.96      |
+| 75   | N.O'Donnell        | TEN  | 2     | 15.20    | 40.94      |
+| 76   | J.Palmer           | NYG  | 1     | 37.40    | 40.93      |
+| 77   | A. Van Pelt        | BUF  | 1     | 13.00    | 40.90      |
+| 78   | S. Covington       | STL  | 1     | 12.00    | 40.89      |
+| 79   | D.Huard            | NE   | 1     | 4.80     | 40.88      |
+| 80   | R.Davey            | NE   | 2     | 0.60     | 40.88      |
+| 81   | T.Woodbury         | NYJ  | 1     | 0.00     | 40.88      |
+| 82   | J. Quinn  (3rd QB) | KC   | 1     | -1.20    | 40.87      |
+| 83   | R.Lucas            | MIA  | 1     | -2.40    | 40.87      |
+| 84   | M.Tuiasosopo       | OAK  | 1     | -3.60    | 40.87      |
+| 85   | S. Rosenfels       | MIA  | 2     | -6.90    | 40.85      |
 

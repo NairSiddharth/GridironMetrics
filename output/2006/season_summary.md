@@ -139,7 +139,7 @@
 | NE   | D.Gabriel        | WR       | 20.0             |
 | NO   | J.Branch         | RB       | 100.0            |
 | NYG  | P.Burress        | WR       | 47.8             |
-| NYJ  | J.Cotchery       | WR       | 28.1             |
+| NYJ  | L.Coles          | WR       | 28.1             |
 | PHI  | R.Brown          | WR       | 25.0             |
 | PIT  | H.Miller         | TE       | 16.9             |
 | SEA  | D.Jackson        | WR       | 36.4             |
@@ -185,42 +185,42 @@
 | TEN  | D.Bennett        | WR       | 22.9             |
 | WAS  | S.Moss           | WR       | 23.2             |
 
-| :----- :------------- :--------- :----------------|
-|               Targets Share Leaders               |
-| Team | Player       | Position | Season Share (%) |
-| :----| :------------| :--------| :----------------|
-| ARI  | J.Bronson    | TE       | 0.0              |
-| ATL  | M.Jenkins    | WR       | 0.0              |
-| BAL  | T.Heap       | TE       | 0.0              |
-| BUF  | K.Everett    | TE       | 0.0              |
-| CAR  | T.Biddle     | WR       | 0.0              |
-| CHI  | J.Gilmore    | TE       | 0.0              |
-| CIN  | T.Stewart    | TE       | 0.0              |
-| CLE  | J.Harrison   | RB       | 0.0              |
-| DAL  | J.Witten     | TE       | 0.0              |
-| DEN  | B.Clark      | WR       | 0.0              |
-| DET  | E.Drummond   | WR       | 0.0              |
-| GB   | T.Humphrey   | TE       | 0.0              |
-| HOU  | E.Moulds     | WR       | 0.0              |
-| IND  | B.Fletcher   | TE       | 0.0              |
-| JAX  | M.Jones-Drew | RB       | 0.0              |
-| KC   | D.Brown      | RB       | 0.0              |
-| LA   | D.Byrd       | TE       | 0.0              |
-| LAC  | K.McCardell  | WR       | 0.0              |
-| LV   | Z.Crockett   | RB       | 0.0              |
-| MIA  | C.Chambers   | WR       | 0.0              |
-| MIN  | Be.Johnson   | WR       | 0.0              |
-| NE   | R.Caldwell   | WR       | 0.0              |
-| NO   | T.Copper     | WR       | 0.0              |
-| NYG  | A.Toomer     | WR       | 3.6              |
-| NYJ  | B.Smith      | WR       | 0.0              |
-| PHI  | L.Smith      | TE       | 2.2              |
-| PIT  | W.Reid       | WR       | 0.0              |
-| SEA  | J.Scobey     | RB       | 0.0              |
-| SF   | B.Williams   | WR       | 0.0              |
-| TB   | M.Clayton    | WR       | 0.0              |
-| TEN  | B.Troupe     | TE       | 0.0              |
-| WAS  | D.Patten     | WR       | 0.0              |
+| :----- :----------------- :--------- :----------------|
+|                 Targets Share Leaders                 |
+| Team | Player           | Position | Season Share (%) |
+| :----| :----------------| :--------| :----------------|
+| ARI  | M.Spurlock       | WR       | 0.0              |
+| ATL  | M.Jackson        | RB       | 0.0              |
+| BAL  | D.Wilcox         | TE       | 0.0              |
+| BUF  | J.Reed           | WR       | 0.0              |
+| CAR  | K.Hankton        | WR       | 0.0              |
+| CHI  | G.Reid           | TE       | 0.0              |
+| CIN  | T.Houshmandzadeh | WR       | 0.0              |
+| CLE  | S.Heiden         | TE       | 0.0              |
+| DAL  | T.Owens          | WR       | 0.0              |
+| DEN  | T.Bell           | RB       | 0.0              |
+| DET  | D.Campbell       | TE       | 0.0              |
+| GB   | B.Miree          | RB       | 0.0              |
+| HOU  | A.Johnson        | WR       | 0.0              |
+| IND  | D.Clark          | TE       | 0.0              |
+| JAX  | R.Alexis         | RB       | 0.0              |
+| KC   | K.Wilson         | TE       | 0.0              |
+| LA   | S.McDonald       | WR       | 0.0              |
+| LAC  | M.Floyd          | WR       | 0.0              |
+| LV   | C.Anderson       | TE       | 0.0              |
+| MIA  | L.Suggs          | RB       | 0.0              |
+| MIN  | M.Mann           | WR       | 0.0              |
+| NE   | P.Pass           | RB       | 0.0              |
+| NO   | R.Bush           | RB       | 0.0              |
+| NYG  | A.Toomer         | WR       | 3.6              |
+| NYJ  | J.McCareins      | WR       | 0.0              |
+| PHI  | L.Smith          | TE       | 2.2              |
+| PIT  | J.Tuman          | TE       | 0.0              |
+| SEA  | W.Heller         | TE       | 0.0              |
+| SF   | T.Jacobs         | WR       | 0.0              |
+| TB   | J.Galloway       | WR       | 0.0              |
+| TEN  | L.White          | RB       | 0.0              |
+| WAS  | T.Duckett        | RB       | 0.0              |
 
 | :----- :------------ :--------- :----------------|
 |              Rush Att Share Leaders              |
