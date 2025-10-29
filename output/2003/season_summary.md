@@ -129,7 +129,7 @@
 | GB   | J.Walker    | WR       | 28.1             |
 | HOU  | C.Bradford  | WR       | 21.4             |
 | IND  | B.Stokley   | WR       | 28.0             |
-| JAX  | J.Smith     | WR       | 25.0             |
+| JAX  | M.Hatchette | WR       | 25.0             |
 | KC   | J. Dunn     | TE       | 35.7             |
 | LA   | T.Holt      | WR       | 44.8             |
 | LAC  | D.Boston    | WR       | 30.6             |
@@ -189,38 +189,38 @@
 |               Targets Share Leaders                |
 | Team | Player        | Position | Season Share (%) |
 | :----| :-------------| :--------| :----------------|
-| ARI  | S.Bush        | RB       | 0.0              |
-| ATL  | T.Jervey      | RB       | 0.0              |
-| BAL  | J.Jones       | TE       | 0.0              |
-| BUF  | J. Burns      | RB       | 0.0              |
-| CAR  | M.Seidman     | TE       | 0.0              |
-| CHI  | A. Thomas     | RB       | 0.0              |
-| CIN  | R.Kelly       | TE       | 0.0              |
-| CLE  | A. Davis      | WR       | 0.0              |
-| DAL  | E.Bickerstaff | RB       | 0.0              |
-| DEN  | J.Putzier     | TE       | 0.0              |
-| DET  | M. Ricks      | TE       | 0.0              |
-| GB   | W.Walls       | TE       | 0.0              |
-| HOU  | D.Davis       | RB       | 0.0              |
-| IND  | D.Smith       | RB       | 0.0              |
-| JAX  | T.Edwards     | WR       | 4.2              |
-| KC   | M. Boerigter  | WR       | 0.0              |
-| LA   | K.Curtis      | WR       | 0.0              |
-| LAC  | S. Alexander  | TE       | 0.0              |
-| LV   | T.Brown       | WR       | 0.0              |
+| ARI  | M.Shipp       | RB       | 0.0              |
+| ATL  | A.Crumpler    | TE       | 0.0              |
+| BAL  | R.Johnson     | WR       | 0.0              |
+| BUF  | S. Morris     | RB       | 0.0              |
+| CAR  | M.Muhammad    | WR       | 0.0              |
+| CHI  | D. Terrell    | WR       | 0.0              |
+| CIN  | K.Watson      | RB       | 0.0              |
+| CLE  | F.Jackson     | WR       | 0.0              |
+| DAL  | A.Cason       | RB       | 0.0              |
+| DEN  | C.Sapp        | RB       | 0.0              |
+| DET  | C.Fitzsimmons | TE       | 0.0              |
+| GB   | A.Chatman     | WR       | 0.0              |
+| HOU  | J.Moses       | WR       | 0.0              |
+| IND  | R.Williams    | RB       | 0.0              |
+| JAX  | J.Smith       | WR       | 4.2              |
+| KC   | O. Easy       | RB       | 0.0              |
+| LA   | T.Holt        | WR       | 0.0              |
+| LAC  | E. Parker     | WR       | 0.0              |
+| LV   | J.Porter      | WR       | 0.0              |
 | MIA  | C.Chambers    | WR       | 6.2              |
-| MIN  | D. Bates      | WR       | 0.0              |
-| NE   | T.Brown       | WR       | 0.0              |
-| NO   | L.Smith       | RB       | 0.0              |
-| NYG  | B.Mitchell    | RB       | 0.0              |
-| NYJ  | K.Lockett     | WR       | 0.0              |
-| PHI  | D.Staley      | RB       | 0.0              |
-| PIT  | J.Riemersma   | TE       | 0.0              |
-| SEA  | M.Morris      | RB       | 0.0              |
-| SF   | A.Battle      | WR       | 0.0              |
-| TB   | J.Jurevicius  | WR       | 0.0              |
-| TEN  | C.Brown       | RB       | 0.0              |
-| WAS  | Z.Flemister   | TE       | 0.0              |
+| MIN  | N. Burleson   | WR       | 0.0              |
+| NE   | D.Patten      | WR       | 0.0              |
+| NO   | D.Stallworth  | WR       | 0.0              |
+| NYG  | D.Levens      | RB       | 0.0              |
+| NYJ  | S.Moss        | WR       | 0.0              |
+| PHI  | F.Mitchell    | WR       | 0.0              |
+| PIT  | J.Bettis      | RB       | 0.0              |
+| SEA  | S.Alexander   | RB       | 0.0              |
+| SF   | J.Weaver      | TE       | 0.0              |
+| TB   | K.McCardell   | WR       | 0.0              |
+| TEN  | J.Schifino    | WR       | 0.0              |
+| WAS  | B.Chamberlain | TE       | 0.0              |
 
 | :----- :------------- :--------- :----------------|
 |               Rush Att Share Leaders              |

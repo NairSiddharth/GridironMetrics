@@ -104,56 +104,6 @@ class OffensiveMetricsCalculator:
             logger.error(f"Error calculating defensive rankings for {year}: {str(e)}")
             return {}
     
-    def adjust_for_situation(self, 
-                           df: pl.DataFrame,
-                           field_position: Optional[pl.Series] = None,
-                           score_differential: Optional[pl.Series] = None,
-                           quarter: Optional[pl.Series] = None,
-                           down: Optional[pl.Series] = None) -> pl.DataFrame:
-        """Apply situational adjustments if the required data is available."""
-        adjustments = []
-        
-        # Only apply adjustments for available data
-        if field_position is not None:
-            adjustments.append(
-                pl.when(field_position <= 20)
-                .then(1.5)  # Red zone bonus
-                .otherwise(1.0)
-                .alias("redzone_multiplier")
-            )
-        
-        if score_differential is not None:
-            adjustments.append(
-                pl.when(score_differential.abs() <= 7)
-                .then(1.3)  # Close game bonus
-                .when(score_differential.abs() <= 14)
-                .then(1.1)  # Moderately close game bonus
-                .otherwise(1.0)
-                .alias("game_state_multiplier")
-            )
-        
-        if quarter is not None and score_differential is not None:
-            adjustments.append(
-                pl.when((quarter.is_in([4, 5])) & (score_differential.abs() <= 8))
-                .then(1.4)  # Crunch time bonus
-                .otherwise(1.0)
-                .alias("time_multiplier")
-            )
-        
-        if down is not None:
-            adjustments.append(
-                pl.when(down == 3)
-                .then(1.25)  # Third down bonus
-                .when(down == 4)
-                .then(1.5)   # Fourth down bonus
-                .otherwise(1.0)
-                .alias("down_multiplier")
-            )
-        
-        if adjustments:
-            return df.with_columns(adjustments)
-        return df
-    
     def adjust_for_opponent_strength(self, value: float, opponent: str, metric: str, year: int) -> float:
         """
         Adjust a statistical value based on opponent defensive strength.

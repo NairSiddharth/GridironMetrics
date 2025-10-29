@@ -66,8 +66,8 @@
 | 62   | B.Hundley        | ARI  | 3     | 37.40    | 40.67      |
 | 63   | M.Glennon        | LV   | 2     | 63.00    | 40.66      |
 | 64   | J.McCown         | PHI  | 2     | 15.80    | 40.52      |
-| 65   | T.Boyle          | GB   | 3     | 5.87     | 40.51      |
-| 66   | J.Stidham        | NE   | 3     | 5.87     | 40.51      |
+| 65   | J.Stidham        | NE   | 3     | 5.87     | 40.51      |
+| 66   | T.Boyle          | GB   | 3     | 5.87     | 40.51      |
 | 67   | T.Siemian        | NYJ  | 1     | 12.00    | 40.49      |
 | 68   | A.Tanney         | NYG  | 1     | 5.00     | 40.48      |
 | 69   | T.McSorley       | BAL  | 1     | 1.20     | 40.48      |

@@ -185,42 +185,42 @@
 | TEN  | R.Williams       | WR       | 20.2             |
 | WAS  | S.Moss           | WR       | 23.6             |
 
-| :----- :----------- :--------- :----------------|
-|              Targets Share Leaders              |
-| Team | Player     | Position | Season Share (%) |
-| :----| :----------| :--------| :----------------|
-| ARI  | E.James    | RB       | 0.0              |
-| ATL  | A.Crumpler | TE       | 7.7              |
-| BAL  | D.Darling  | WR       | 0.0              |
-| BUF  | L.Evans    | WR       | 12.5             |
-| CAR  | J.King     | TE       | 6.2              |
-| CHI  | J.McKie    | RB       | 0.0              |
-| CIN  | A.Chatman  | WR       | 0.0              |
-| CLE  | J.Wright   | RB       | 6.2              |
-| DAL  | T.Curtis   | TE       | 0.0              |
-| DEN  | S.Young    | RB       | 0.0              |
-| DET  | D.Campbell | TE       | 0.0              |
-| GB   | D.Driver   | WR       | 6.7              |
-| HOU  | D.Anderson | WR       | 20.0             |
-| IND  | K.Keith    | RB       | 0.0              |
-| JAX  | F.Taylor   | RB       | 0.0              |
-| KC   | K.Smith    | RB       | 0.0              |
-| LA   | R.Owens    | TE       | 0.0              |
-| LAC  | M.Floyd    | WR       | 0.0              |
-| LV   | D.Rhodes   | RB       | 0.0              |
-| MIA  | R.Brown    | WR       | 0.0              |
-| MIN  | A.Allison  | WR       | 0.0              |
-| NE   | W.Welker   | WR       | 0.0              |
-| NO   | T.Copper   | WR       | 7.7              |
-| NYG  | D.Tyree    | WR       | 0.0              |
-| NYJ  | S.Tutt     | RB       | 0.0              |
-| PHI  | M.Schobel  | TE       | 8.3              |
-| PIT  | W.Reid     | WR       | 0.0              |
-| SEA  | W.Heller   | TE       | 11.1             |
-| SF   | D.Jackson  | WR       | 6.7              |
-| TB   | A.Smith    | TE       | 7.7              |
-| TEN  | C.Cramer   | RB       | 0.0              |
-| WAS  | L.Betts    | RB       | 0.0              |
+| :----- :------------ :--------- :----------------|
+|              Targets Share Leaders               |
+| Team | Player      | Position | Season Share (%) |
+| :----| :-----------| :--------| :----------------|
+| ARI  | S.Morey     | WR       | 0.0              |
+| ATL  | A.Crumpler  | TE       | 7.7              |
+| BAL  | T.Heap      | TE       | 0.0              |
+| BUF  | L.Evans     | WR       | 12.5             |
+| CAR  | J.King      | TE       | 6.2              |
+| CHI  | J.Gilmore   | TE       | 0.0              |
+| CIN  | N.Lawrie    | TE       | 0.0              |
+| CLE  | J.Wright    | RB       | 6.2              |
+| DAL  | P.Crayton   | WR       | 0.0              |
+| DEN  | T.Scheffler | TE       | 0.0              |
+| DET  | B.Middleton | WR       | 0.0              |
+| GB   | D.Driver    | WR       | 6.7              |
+| HOU  | D.Anderson  | WR       | 20.0             |
+| IND  | M.Harrison  | WR       | 0.0              |
+| JAX  | C.Owens     | WR       | 0.0              |
+| KC   | B.Sippio    | WR       | 0.0              |
+| LA   | D.Looker    | WR       | 0.0              |
+| LAC  | A.Pinnock   | RB       | 0.0              |
+| LV   | J.Fargas    | RB       | 0.0              |
+| MIA  | J.Peelle    | TE       | 0.0              |
+| MIN  | A.Allison   | WR       | 0.0              |
+| NE   | B.Watson    | TE       | 0.0              |
+| NO   | T.Copper    | WR       | 7.7              |
+| NYG  | A.Mix       | WR       | 0.0              |
+| NYJ  | S.Ryan      | TE       | 0.0              |
+| PHI  | M.Schobel   | TE       | 8.3              |
+| PIT  | H.Ward      | WR       | 0.0              |
+| SEA  | W.Heller    | TE       | 11.1             |
+| SF   | D.Jackson   | WR       | 6.7              |
+| TB   | A.Smith     | TE       | 7.7              |
+| TEN  | J.Gage      | WR       | 0.0              |
+| WAS  | L.Betts     | RB       | 0.0              |
 
 | :----- :------------ :--------- :----------------|
 |              Rush Att Share Leaders              |

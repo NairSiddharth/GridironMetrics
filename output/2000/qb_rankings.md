@@ -80,8 +80,8 @@
 | 76   | Tr.Brown     | SEA  | 1     | -1.00    | 41.39      |
 | 77   | T.Rattay     | SF   | 1     | -1.20    | 41.39      |
 | 78   | J.Quinn      | JAX  | 1     | -2.40    | 41.38      |
-| 79   | J.Hamilton   | TB   | 1     | -2.40    | 41.38      |
-| 80   | D.Wuerffel   | GB   | 1     | -2.40    | 41.38      |
+| 79   | D.Wuerffel   | GB   | 1     | -2.40    | 41.38      |
+| 80   | J.Hamilton   | TB   | 1     | -2.40    | 41.38      |
 | 81   | J.Jackson    | DEN  | 2     | -1.10    | 41.38      |
 | 82   | B.Hoying     | OAK  | 1     | -5.60    | 41.38      |
 | 83   | J.Garrett    | NYG  | 2     | -2.40    | 41.38      |

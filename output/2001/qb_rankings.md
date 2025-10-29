@@ -74,8 +74,8 @@
 | 70   | J.Martin      | STL  | 3     | 7.73     | 41.33      |
 | 71   | T.Rattay      | SF   | 2     | 12.70    | 41.33      |
 | 72   | T.Martin      | PIT  | 1     | 9.60     | 41.30      |
-| 73   | T.Woodbury    | NYJ  | 6     | 0.00     | 41.29      |
-| 74   | D. Wuerffel   | CHI  | 1     | 0.00     | 41.29      |
+| 73   | D. Wuerffel   | CHI  | 1     | 0.00     | 41.29      |
+| 74   | T.Woodbury    | NYJ  | 6     | 0.00     | 41.29      |
 | 75   | D.Pederson    | GB   | 1     | -1.20    | 41.29      |
 | 76   | J.Blake       | NO   | 1     | -2.20    | 41.29      |
 | 77   | B.Volek       | TEN  | 1     | -3.00    | 41.28      |

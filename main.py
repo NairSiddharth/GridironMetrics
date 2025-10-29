@@ -12,6 +12,7 @@ from modules.logger import get_logger
 from modules.constants import START_YEAR, END_YEAR, CACHE_DIR
 from modules.offensive_metrics import OffensiveMetricsCalculator
 from modules.play_by_play import PlayByPlayProcessor
+from modules.context_adjustments import ContextAdjustments
 import concurrent.futures
 import argparse
 
@@ -20,6 +21,7 @@ logger = get_logger(__name__)
 # Initialize our processors
 metrics_calculator = OffensiveMetricsCalculator()
 pbp_processor = PlayByPlayProcessor()
+context_adj = ContextAdjustments()
 
 # Offensive metrics we want to track for skill positions (RB/WR/TE)
 SKILL_POSITION_METRICS = {
@@ -659,6 +661,185 @@ def generate_qb_rankings(year: int) -> str:
 
                
         
+
+def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataFrame:
+    """
+    Apply Phase 4 player-level adjustments (catch rate and blocking quality).
+    
+    These adjustments are calculated once per player after season aggregation.
+    Unlike Phase 1-3 multipliers (applied per-play in cache), these require
+    full season context to calculate properly.
+    
+    Args:
+        contributions: DataFrame with player weekly contributions
+        year: Season year to load PBP data from
+        
+    Returns:
+        DataFrame with Phase 4 adjustments applied to player_overall_contribution
+    """
+    logger.info(f"Applying Phase 4 adjustments (catch rate + blocking quality) for {year}")
+    
+    # Load full season PBP data for catch rate and blocking quality calculations
+    try:
+        pbp_data = pbp_processor.load_pbp_data(year)
+        if pbp_data is None or pbp_data.height == 0:
+            logger.warning(f"No PBP data available for {year}, skipping Phase 4 adjustments")
+            return contributions
+    except Exception as e:
+        logger.error(f"Error loading PBP data for Phase 4 adjustments: {str(e)}")
+        return contributions
+    
+    # Calculate adjustments for each unique player
+    adjustments = []
+    unique_players = contributions.select(['player_id', 'player_name', 'team', 'position']).unique()
+    
+    for player_row in unique_players.iter_rows(named=True):
+        player_id = player_row['player_id']
+        player_name = player_row['player_name']
+        player_team = player_row['team']
+        position = player_row['position']
+        
+        catch_rate_mult = 1.0
+        blocking_mult = 1.0
+        
+        # Catch rate adjustment (WR/TE only)
+        if position in ['WR', 'TE']:
+            try:
+                catch_rate_mult = context_adj.calculate_catch_rate_adjustment(pbp_data, player_id)
+            except Exception as e:
+                logger.debug(f"Error calculating catch rate for {player_name}: {str(e)}")
+                catch_rate_mult = 1.0
+        
+        # Blocking quality proxy (RB only)
+        if position == 'RB':
+            try:
+                blocking_mult = context_adj.calculate_blocking_quality_proxy(pbp_data, player_id, player_team)
+            except Exception as e:
+                logger.debug(f"Error calculating blocking quality for {player_name}: {str(e)}")
+                blocking_mult = 1.0
+        
+        adjustments.append({
+            'player_id': player_id,
+            'player_name': player_name,
+            'team': player_team,
+            'catch_rate_adjustment': catch_rate_mult,
+            'blocking_adjustment': blocking_mult
+        })
+    
+    # Create DataFrame and join to contributions
+    adj_df = pl.DataFrame(adjustments)
+    contributions = contributions.join(adj_df, on=['player_id', 'player_name', 'team'], how='left')
+    
+    # Fill missing adjustments with 1.0 (neutral)
+    contributions = contributions.with_columns([
+        pl.col('catch_rate_adjustment').fill_null(1.0),
+        pl.col('blocking_adjustment').fill_null(1.0)
+    ])
+    
+    # Apply combined Phase 4 multiplier to player_overall_contribution
+    contributions = contributions.with_columns([
+        (pl.col('player_overall_contribution') * 
+         pl.col('catch_rate_adjustment') * 
+         pl.col('blocking_adjustment')).alias('player_overall_contribution')
+    ])
+    
+    logger.info(f"Phase 4 adjustments applied to {len(unique_players)} players")
+    
+    return contributions
+
+
+def apply_phase5_adjustments(contributions: pl.DataFrame) -> pl.DataFrame:
+    """
+    Apply Phase 5 adjustments (talent context + sample size dampening).
+    
+    Two-pass system:
+    1. Use baseline scores from contributions to calculate teammate quality
+    2. Apply talent adjustment multiplier
+    3. Apply sample size dampening based on games played
+    
+    Args:
+        contributions: DataFrame with player weekly contributions including baseline scores
+        
+    Returns:
+        DataFrame with Phase 5 adjustments applied
+    """
+    logger.info("Applying Phase 5 adjustments (talent context + sample size dampening)")
+    
+    # Aggregate to player level with baseline scores and games played
+    player_aggregates = contributions.group_by(['player_id', 'player_name', 'team', 'position']).agg([
+        pl.col('player_overall_contribution').mean().alias('baseline_score'),
+        pl.col('week').count().alias('games_played')
+    ])
+    
+    # Calculate talent adjustments for each player
+    talent_adjustments = []
+    for player_row in player_aggregates.iter_rows(named=True):
+        player_id = player_row['player_id']
+        player_name = player_row['player_name']
+        player_team = player_row['team']
+        position = player_row['position']
+        
+        try:
+            talent_mult = context_adj.calculate_teammate_quality_index(
+                player_id, player_name, player_team, position, player_aggregates
+            )
+        except Exception as e:
+            logger.debug(f"Error calculating talent adjustment for {player_name}: {str(e)}")
+            talent_mult = 1.0
+        
+        talent_adjustments.append({
+            'player_id': player_id,
+            'player_name': player_name,
+            'team': player_team,
+            'talent_adjustment': talent_mult
+        })
+    
+    # Join talent adjustments
+    talent_df = pl.DataFrame(talent_adjustments)
+    contributions = contributions.join(talent_df, on=['player_id', 'player_name', 'team'], how='left')
+    contributions = contributions.with_columns(pl.col('talent_adjustment').fill_null(1.0))
+    
+    # Apply talent adjustment
+    contributions = contributions.with_columns([
+        (pl.col('player_overall_contribution') * pl.col('talent_adjustment')).alias('player_overall_contribution')
+    ])
+    
+    # Apply sample size dampening at player level
+    # Group again to get updated scores after talent adjustment
+    player_final = contributions.group_by(['player_id', 'player_name', 'team']).agg([
+        pl.col('player_overall_contribution').mean().alias('score_before_dampening'),
+        pl.col('week').count().alias('games_played')
+    ])
+    
+    # Calculate dampened scores
+    dampened_scores = []
+    for row in player_final.iter_rows(named=True):
+        score = row['score_before_dampening']
+        games = row['games_played']
+        
+        dampened = context_adj.apply_sample_size_dampening(score, games, full_season_games=17)
+        
+        dampened_scores.append({
+            'player_id': row['player_id'],
+            'player_name': row['player_name'],
+            'team': row['team'],
+            'dampened_score': dampened
+        })
+    
+    # Join dampened scores back
+    dampened_df = pl.DataFrame(dampened_scores)
+    contributions = contributions.join(dampened_df, on=['player_id', 'player_name', 'team'], how='left')
+    
+    # Replace player_overall_contribution with dampened score
+    contributions = contributions.with_columns([
+        pl.col('dampened_score').alias('player_overall_contribution')
+    ])
+    
+    logger.info(f"Phase 5 adjustments applied")
+    
+    return contributions
+
+
 def generate_top_contributors(year: int) -> str:
     """Generate a table of the top 10 offensive contributors for the season."""
     logger.info(f"Generating top contributors table for {year}")
@@ -714,28 +895,105 @@ def generate_top_contributors(year: int) -> str:
     # Add position to contributions for later use
     contributions = contributions.join(player_positions, on=['player_id', 'player_name'], how='left')
     
+    # Apply Phase 4 adjustments (catch rate + blocking quality)
+    # These are player-level adjustments calculated once per player after aggregation
+    contributions = apply_phase4_adjustments(contributions, year)
+    
+    # Save per-game contributions before Phase 5 aggregation for peak/notable game tracking and consistency metrics
+    # Clone the ENTIRE dataframe first, then select columns to ensure we have a deep copy
+    per_game_contributions = contributions.clone().select([
+        'player_id', 'player_name', 'team', 'position', 'week', 'player_overall_contribution'
+    ])
+    
+    peak_games = (
+        per_game_contributions.group_by(['player_id', 'player_name', 'team'])
+        .agg([
+            pl.col('player_overall_contribution').max().alias('peak_game_score')
+        ])
+    )
+    
+    # Apply Phase 5 adjustments (talent context + sample size dampening)
+    # Two-pass system: use baseline scores to calculate teammate quality, then dampen by games played
+    contributions = apply_phase5_adjustments(contributions)
+    
+    # Join peak game scores back
+    contributions = contributions.join(peak_games, on=['player_id', 'player_name', 'team'], how='left')
+    
     markdown = f"# Top Contributors - {year}\n\n"
     markdown += "## Overall Rankings\n\n"
     
     # Create PrettyTable for top contributors
     table = PrettyTable()
     table.field_names = ["Rank", "Player", "Team", "Position (Pos. Rank)", "Raw Score", "Adjusted Score", 
-                        "Games", "Avg/Game", "Peak Performance", "Trend", "Notable Games"]
+                        "Games", "Avg/Game", "Typical", "Std Dev", "Floor", "Ceiling", "Peak", "Trend", "Notable Games"]
     table.align = "l"  # Left align text
     table.float_format = '.2'  # Two decimal places for floats
     table.set_style(TableStyle.MARKDOWN)
     
-    # Get top 10 by adjusted contribution
+    # Get top 10 by adjusted contribution with consistency metrics
     top_contributors = (
         contributions.group_by(['player_id', 'player_name', 'team'])
         .agg([
             pl.col('player_overall_contribution').mean().alias('adjusted_score'),
-            pl.col('player_overall_contribution').max().alias('peak_score'),
+            pl.col('peak_game_score').max().alias('peak_score'),
             pl.col('week').count().alias('games_played')
         ])
         .sort('adjusted_score', descending=True)
         .head(10)
     )
+    
+    # Calculate consistency metrics from per_game_contributions
+    # Need to apply the same Phase 5 scaling (talent + dampening) to make metrics comparable to Avg/Game
+    # Strategy: Calculate the scaling factor for each player (Phase 5 adjusted / Phase 4 mean) and apply to all metrics
+    
+    # Get pre-Phase 5 means for each player
+    pre_phase5_means = (
+        per_game_contributions.group_by(['player_id', 'player_name', 'team'])
+        .agg([
+            pl.col('player_overall_contribution').mean().alias('pre_phase5_mean')
+        ])
+    )
+    
+    # Get post-Phase 5 values (dampened) for each player
+    post_phase5_values = (
+        contributions.group_by(['player_id', 'player_name', 'team'])
+        .agg([
+            pl.col('player_overall_contribution').mean().alias('post_phase5_value')  # All weeks have same value after Phase 5
+        ])
+    )
+    
+    # Calculate scaling factor
+    scaling_factors = pre_phase5_means.join(post_phase5_values, on=['player_id', 'player_name', 'team'])
+    scaling_factors = scaling_factors.with_columns([
+        (pl.col('post_phase5_value') / pl.col('pre_phase5_mean')).alias('phase5_scaling_factor')
+    ])
+    
+    # Calculate consistency metrics from per_game_contributions
+    consistency_metrics = (
+        per_game_contributions.group_by(['player_id', 'player_name', 'team'])
+        .agg([
+            pl.col('player_overall_contribution').median().alias('typical_game_raw'),
+            pl.col('player_overall_contribution').std().alias('std_dev_raw'),
+            pl.col('player_overall_contribution').quantile(0.25).alias('floor_raw'),
+            pl.col('player_overall_contribution').quantile(0.75).alias('ceiling_raw')
+        ])
+    )
+    
+    # Join scaling factors and apply to all consistency metrics
+    consistency_metrics = consistency_metrics.join(scaling_factors, on=['player_id', 'player_name', 'team'], how='left')
+    consistency_metrics = consistency_metrics.with_columns([
+        (pl.col('typical_game_raw') * pl.col('phase5_scaling_factor')).alias('typical_game'),
+        (pl.col('std_dev_raw') * pl.col('phase5_scaling_factor')).alias('std_dev'),
+        (pl.col('floor_raw') * pl.col('phase5_scaling_factor')).alias('floor'),
+        (pl.col('ceiling_raw') * pl.col('phase5_scaling_factor')).alias('ceiling')
+    ])
+    
+    # Select only the scaled metrics for joining
+    consistency_metrics = consistency_metrics.select([
+        'player_id', 'player_name', 'team', 'typical_game', 'std_dev', 'floor', 'ceiling'
+    ])
+    
+    top_contributors = top_contributors.join(consistency_metrics, on=['player_id', 'player_name', 'team'], how='left')
     
     # Add raw scores from raw_contributions
     raw_scores = (
@@ -753,15 +1011,15 @@ def generate_top_contributors(year: int) -> str:
         player_id = row['player_id']
         player_name = row['player_name']
         team_name = row['team']
-        avg_score = row['adjusted_score']
+        typical_game = row['typical_game']  # Use median for notable games threshold
         
         # Get player weeks with opponent information from player_stats
         player_weeks = player_stats.filter(
             (pl.col('player_id') == player_id) & (pl.col('player_name') == player_name) & (pl.col('team') == team_name)
         ).select(['week', 'opponent_team']).unique()
         
-        # Get contribution scores from contributions
-        player_contrib = contributions.filter(
+        # Get per-game contribution scores (before Phase 5 aggregation)
+        player_contrib = per_game_contributions.filter(
             (pl.col('player_id') == player_id) & (pl.col('player_name') == player_name) & (pl.col('team') == team_name)
         ).select(['week', 'player_overall_contribution'])
         
@@ -769,7 +1027,7 @@ def generate_top_contributors(year: int) -> str:
         player_full = player_contrib.join(player_weeks, on='week', how='left')
         
         high_games = player_full.filter(
-            pl.col('player_overall_contribution') > avg_score * 1.5
+            pl.col('player_overall_contribution') > typical_game * 1.5
         ).sort('player_overall_contribution', descending=True).head(3)
         
         if len(high_games) > 0:
@@ -785,7 +1043,7 @@ def generate_top_contributors(year: int) -> str:
     
     table = PrettyTable()
     table.field_names = ["Rank", "Player", "Team", "Position (Pos. Rank)", "Raw Score", "Adjusted Score", 
-                        "Games", "Avg/Game", "Peak Performance", "Trend", "Notable Games (>150% Avg)"]
+                        "Games", "Avg/Game", "Typical", "Std Dev", "Floor", "Ceiling", "Peak", "Trend", "Notable Games"]
     table.align = "l"  # Left align text
     table.float_format = '.2'  # Two decimal places for floats
     
@@ -797,20 +1055,24 @@ def generate_top_contributors(year: int) -> str:
         pos_rank = position_rankings[position].get((player_id, player_name, team), "N/A")
         position_display = f"{position} (#{pos_rank})"
         raw_score = row['raw_score']
-        adj_score = row['adjusted_score']
+        adj_score_per_game = row['adjusted_score']  # Phase 5 returns per-game dampened score
         games_played = row['games_played']
-        avg_per_game = adj_score / games_played if games_played > 0 else 0
+        adj_score_total = adj_score_per_game * games_played  # Calculate season total for display
+        avg_per_game = adj_score_per_game  # Already per-game from Phase 5
         peak = f"Peak: {row['peak_score']:.2f}"
         
-        # Calculate trend (simple: compare first half to second half of season)
-        player_games = contributions.filter((pl.col('player_id') == player_id) & (pl.col('player_name') == player_name)).sort('week')
+        # Calculate trend (compare first half to second half median - more robust to outliers)
+        # Use per_game_contributions (before Phase 5) to get actual weekly performance
+        player_games = per_game_contributions.filter(
+            (pl.col('player_id') == player_id) & (pl.col('player_name') == player_name)
+        ).sort('week')
         if len(player_games) >= 4:
             mid_point = len(player_games) // 2
-            first_half_avg = player_games.head(mid_point)['player_overall_contribution'].mean()
-            second_half_avg = player_games.tail(len(player_games) - mid_point)['player_overall_contribution'].mean()
-            if second_half_avg > first_half_avg * 1.1:
+            first_half_median = player_games.head(mid_point)['player_overall_contribution'].median()
+            second_half_median = player_games.tail(len(player_games) - mid_point)['player_overall_contribution'].median()
+            if second_half_median > first_half_median * 1.15:  # Stricter threshold for median
                 trend = "Increasing"
-            elif second_half_avg < first_half_avg * 0.9:
+            elif second_half_median < first_half_median * 0.85:  # Stricter threshold for median
                 trend = "Decreasing"
             else:
                 trend = "Stable"
@@ -819,8 +1081,15 @@ def generate_top_contributors(year: int) -> str:
         
         games = notable_games.get(player_name, "")
         
-        table.add_row([rank, player_name, team, position_display, f"{raw_score:.2f}", f"{adj_score:.2f}", 
-                      games_played, f"{avg_per_game:.2f}", peak, trend, games])
+        # Get consistency metrics
+        typical = row.get('typical_game', avg_per_game)
+        std_dev = row.get('std_dev', 0)
+        floor = row.get('floor', 0)
+        ceiling = row.get('ceiling', 0)
+        
+        table.add_row([rank, player_name, team, position_display, f"{raw_score:.2f}", f"{adj_score_total:.2f}", 
+                      games_played, f"{avg_per_game:.2f}", f"{typical:.2f}", f"±{std_dev:.1f}", 
+                      f"{floor:.1f}", f"{ceiling:.1f}", peak, trend, games])
     
     markdown += table.get_string() + "\n\n"
     
@@ -834,12 +1103,52 @@ def generate_top_contributors(year: int) -> str:
             .group_by(['player_id', 'player_name', 'team'])
             .agg([
                 pl.col('player_overall_contribution').mean().alias('adjusted_score'),
-                pl.col('player_overall_contribution').max().alias('peak_score'),
+                pl.col('peak_game_score').max().alias('peak_score'),
                 pl.col('week').count().alias('games_played')
             ])
             .sort('adjusted_score', descending=True)
             .head(10)
         )
+        
+        # Add consistency metrics for this position
+        # Apply Phase 5 scaling to make metrics comparable to Avg/Game
+        pos_per_game = per_game_contributions.filter(pl.col('position') == pos)
+        
+        # Get pre-Phase 5 means for this position
+        pos_pre_phase5_means = (
+            pos_per_game.group_by(['player_id', 'player_name', 'team'])
+            .agg([
+                pl.col('player_overall_contribution').mean().alias('pre_phase5_mean')
+            ])
+        )
+        
+        # Get post-Phase 5 values (already calculated in scaling_factors from above)
+        # Join with the overall scaling_factors we calculated earlier
+        pos_consistency = (
+            pos_per_game.group_by(['player_id', 'player_name', 'team'])
+            .agg([
+                pl.col('player_overall_contribution').median().alias('typical_game_raw'),
+                pl.col('player_overall_contribution').std().alias('std_dev_raw'),
+                pl.col('player_overall_contribution').quantile(0.25).alias('floor_raw'),
+                pl.col('player_overall_contribution').quantile(0.75).alias('ceiling_raw')
+            ])
+        )
+        
+        # Join scaling factors and apply
+        pos_consistency = pos_consistency.join(scaling_factors.select(['player_id', 'player_name', 'team', 'phase5_scaling_factor']), 
+                                               on=['player_id', 'player_name', 'team'], how='left')
+        pos_consistency = pos_consistency.with_columns([
+            (pl.col('typical_game_raw') * pl.col('phase5_scaling_factor')).alias('typical_game'),
+            (pl.col('std_dev_raw') * pl.col('phase5_scaling_factor')).alias('std_dev'),
+            (pl.col('floor_raw') * pl.col('phase5_scaling_factor')).alias('floor'),
+            (pl.col('ceiling_raw') * pl.col('phase5_scaling_factor')).alias('ceiling')
+        ])
+        
+        pos_consistency = pos_consistency.select([
+            'player_id', 'player_name', 'team', 'typical_game', 'std_dev', 'floor', 'ceiling'
+        ])
+        
+        pos_contributors = pos_contributors.join(pos_consistency, on=['player_id', 'player_name', 'team'], how='left')
         
         # Add raw scores
         pos_contributors = pos_contributors.join(raw_scores, on=['player_id', 'player_name', 'team'], how='left')
@@ -847,7 +1156,7 @@ def generate_top_contributors(year: int) -> str:
         # Create table for this position
         pos_table = PrettyTable()
         pos_table.field_names = ["Rank", "Player", "Team", "Raw Score", "Adjusted Score", 
-                                "Games", "Avg/Game", "Peak Performance", "Trend", "Notable Games (>150% Avg)"]
+                                "Games", "Avg/Game", "Typical", "Std Dev", "Floor", "Ceiling", "Peak", "Trend", "Notable Games (>150% Typical)"]
         pos_table.align = "l"
         pos_table.float_format = '.2'
         pos_table.set_style(TableStyle.MARKDOWN)
@@ -857,22 +1166,23 @@ def generate_top_contributors(year: int) -> str:
             player_name = row['player_name']
             team = row['team']
             raw_score = row['raw_score']
-            adj_score = row['adjusted_score']
+            adj_score_per_game = row['adjusted_score']  # Phase 5 returns per-game dampened score
             games_played = row['games_played']
-            avg_per_game = adj_score / games_played if games_played > 0 else 0
+            adj_score_total = adj_score_per_game * games_played  # Calculate season total for display
+            avg_per_game = adj_score_per_game  # Already per-game from Phase 5
             peak = f"Peak: {row['peak_score']:.2f}"
             
-            # Calculate trend
-            player_games = contributions.filter(
-                (pl.col('player_id') == player_id) & (pl.col('player_name') == player_name) & (pl.col('position') == pos) & (pl.col('team') == team)
+            # Calculate trend using median (more robust to outliers)
+            player_games = per_game_contributions.filter(
+                (pl.col('player_id') == player_id) & (pl.col('player_name') == player_name) & (pl.col('team') == team)
             ).sort('week')
             if len(player_games) >= 4:
                 mid_point = len(player_games) // 2
-                first_half_avg = player_games.head(mid_point)['player_overall_contribution'].mean()
-                second_half_avg = player_games.tail(len(player_games) - mid_point)['player_overall_contribution'].mean()
-                if second_half_avg > first_half_avg * 1.1:
+                first_half_median = player_games.head(mid_point)['player_overall_contribution'].median()
+                second_half_median = player_games.tail(len(player_games) - mid_point)['player_overall_contribution'].median()
+                if second_half_median > first_half_median * 1.15:
                     trend = "Increasing"
-                elif second_half_avg < first_half_avg * 0.9:
+                elif second_half_median < first_half_median * 0.85:
                     trend = "Decreasing"
                 else:
                     trend = "Stable"
@@ -883,8 +1193,15 @@ def generate_top_contributors(year: int) -> str:
             # Use (player_id, player_name) key since that's unique
             games = notable_games.get(player_name, "")
             
-            pos_table.add_row([rank, player_name, team, f"{raw_score:.2f}", f"{adj_score:.2f}", 
-                              games_played, f"{avg_per_game:.2f}", peak, trend, games])
+            # Get consistency metrics
+            typical = row.get('typical_game', avg_per_game)
+            std_dev = row.get('std_dev', 0)
+            floor = row.get('floor', 0)
+            ceiling = row.get('ceiling', 0)
+            
+            pos_table.add_row([rank, player_name, team, f"{raw_score:.2f}", f"{adj_score_total:.2f}", 
+                              games_played, f"{avg_per_game:.2f}", f"{typical:.2f}", f"±{std_dev:.1f}",
+                              f"{floor:.1f}", f"{ceiling:.1f}", peak, trend, games])
         
         markdown += pos_table.get_string() + "\n\n"
     

@@ -17,8 +17,10 @@ import nflreadpy as nfl
 import argparse
 from .logger import get_logger
 from .constants import CACHE_DIR, START_YEAR, END_YEAR
+from .personnel_inference import PersonnelInference
 
 logger = get_logger(__name__)
+personnel_inferencer = PersonnelInference()
 
 
 def get_cache_path(year: int, cache_root: Path = None) -> Path:
@@ -27,6 +29,82 @@ def get_cache_path(year: int, cache_root: Path = None) -> Path:
         cache_root = Path(CACHE_DIR) / "pbp"
     cache_root.mkdir(parents=True, exist_ok=True)
     return cache_root / f"pbp_{year}.parquet"
+
+
+def _add_personnel_inference(pbp_data: pl.DataFrame) -> pl.DataFrame:
+    """
+    Add personnel grouping inference columns to PBP data.
+    Uses the PersonnelInference class to predict formation for each play.
+    
+    Args:
+        pbp_data: Raw play-by-play dataframe
+        
+    Returns:
+        DataFrame with personnel_group and personnel_confidence columns added
+    """
+    def infer_play_personnel(
+        pass_attempt, rush_attempt, down, ydstogo, yardline_100,
+        score_differential, game_seconds_remaining, air_yards
+    ):
+        """Vectorized personnel inference for a single play."""
+        # Determine play type
+        if pass_attempt == 1:
+            play_type = 'pass'
+        elif rush_attempt == 1:
+            play_type = 'run'
+        else:
+            play_type = 'other'
+        
+        # Infer personnel
+        personnel, confidence = personnel_inferencer.infer_personnel(
+            play_type=play_type,
+            down=int(down) if down else 1,
+            ydstogo=int(ydstogo) if ydstogo else 10,
+            yardline_100=int(yardline_100) if yardline_100 else 50,
+            score_differential=int(score_differential) if score_differential else 0,
+            game_seconds_remaining=int(game_seconds_remaining) if game_seconds_remaining else 3600,
+            receiver_position=None,  # Simplified - would need position lookup
+            air_yards=float(air_yards) if air_yards and air_yards != 0 else None
+        )
+        
+        return personnel, confidence
+    
+    # Apply inference to each row (note: this is slow but necessary for complex logic)
+    # We'll use struct to return both values
+    pbp_data = pbp_data.with_columns([
+        pl.struct([
+            pl.col("pass_attempt").fill_null(0),
+            pl.col("rush_attempt").fill_null(0),
+            pl.col("down").fill_null(1),
+            pl.col("ydstogo").fill_null(10),
+            pl.col("yardline_100").fill_null(50),
+            pl.col("score_differential").fill_null(0),
+            pl.col("game_seconds_remaining").fill_null(3600),
+            pl.col("air_yards").fill_null(0)
+        ]).map_elements(
+            lambda row: {
+                "personnel": infer_play_personnel(
+                    row["pass_attempt"], row["rush_attempt"], row["down"], 
+                    row["ydstogo"], row["yardline_100"], row["score_differential"],
+                    row["game_seconds_remaining"], row["air_yards"]
+                )[0],
+                "confidence": infer_play_personnel(
+                    row["pass_attempt"], row["rush_attempt"], row["down"], 
+                    row["ydstogo"], row["yardline_100"], row["score_differential"],
+                    row["game_seconds_remaining"], row["air_yards"]
+                )[1]
+            },
+            return_dtype=pl.Struct([
+                pl.Field("personnel", pl.Utf8),
+                pl.Field("confidence", pl.Float64)
+            ])
+        ).alias("personnel_inference")
+    ]).with_columns([
+        pl.col("personnel_inference").struct.field("personnel").alias("personnel_group"),
+        pl.col("personnel_inference").struct.field("confidence").alias("personnel_confidence")
+    ]).drop("personnel_inference")
+    
+    return pbp_data
 
 
 def load_and_process_pbp(year: int) -> Optional[pl.DataFrame]:
@@ -51,6 +129,10 @@ def load_and_process_pbp(year: int) -> Optional[pl.DataFrame]:
             return None
             
         logger.info(f"Loaded {len(pbp_data)} plays for {year}")
+        
+        # Infer personnel groupings (Phase 3)
+        logger.info(f"Inferring personnel groupings for {year}...")
+        pbp_data = _add_personnel_inference(pbp_data)
         
         # Calculate all situational multipliers once
         logger.info(f"Calculating situational multipliers for {year}...")
@@ -83,19 +165,69 @@ def load_and_process_pbp(year: int) -> Optional[pl.DataFrame]:
             .otherwise(1.0)
             .alias("time_multiplier"),
             
-            # Down multipliers
+            # Down multipliers (basic)
             pl.when(pl.col("down") == 4)
             .then(1.5)  # 4th down
             .when(pl.col("down") == 3)
             .then(1.25)  # 3rd down
             .otherwise(1.0)
-            .alias("down_multiplier")
+            .alias("down_multiplier"),
+            
+            # Third down DISTANCE multiplier (new - Phase 1)
+            # More valuable to convert 3rd & 10 than 3rd & 1
+            pl.when(pl.col("down") != 3)
+            .then(1.0)  # Not third down
+            .when(pl.col("ydstogo") == 1)
+            .then(1.05)  # 3rd & 1
+            .when(pl.col("ydstogo") <= 3)
+            .then(1.15)  # 3rd & 2-3
+            .when(pl.col("ydstogo") <= 6)
+            .then(1.30)  # 3rd & 4-6
+            .when(pl.col("ydstogo") <= 9)
+            .then(1.45)  # 3rd & 7-9
+            .when(pl.col("ydstogo") <= 14)
+            .then(1.55)  # 3rd & 10-14
+            .otherwise(1.60)  # 3rd & 15+
+            .alias("third_down_distance_multiplier"),
+            
+            # Garbage time multiplier (Phase 2)
+            # Penalizes stats when losing team is down big with little time left
+            pl.when(
+                (pl.col("score_differential").abs() > 17) &  # 3-score game
+                (pl.col("game_seconds_remaining") <= 480) &  # 8 minutes or less
+                (pl.col("score_differential") < 0)  # Losing team only
+            )
+            .then(
+                0.6 + (0.3 * pl.max_horizontal(pl.lit(0.0), pl.col("game_seconds_remaining") / 480.0))
+            )
+            .otherwise(1.0)
+            .alias("garbage_time_multiplier"),
+            
+            # YAC multiplier for receiving plays (Phase 2)
+            # Rewards receivers who create yards after catch
+            pl.when(pl.col("yards_after_catch").is_null() | (pl.col("yards_gained") <= 0))
+            .then(1.0)  # Not a receiving play or invalid data
+            .when((pl.col("yards_after_catch") / pl.col("yards_gained")) > 0.7)
+            .then(1.15)  # Elite YAC (70%+)
+            .when((pl.col("yards_after_catch") / pl.col("yards_gained")) > 0.5)
+            .then(1.10)  # Good YAC (50-70%)
+            .when((pl.col("yards_after_catch") / pl.col("yards_gained")) > 0.3)
+            .then(1.05)  # Solid YAC (30-50%)
+            .when((pl.col("yards_after_catch") / pl.col("yards_gained")) >= 0.1)
+            .then(1.0)   # Average YAC (10-30%)
+            .otherwise(0.95)  # Low YAC (<10%)
+            .alias("yac_multiplier")
         ]).with_columns([
             # Combined situational multiplier
+            # Note: personnel_group and personnel_confidence are stored but not applied here
+            # They will be applied during aggregation when we know player positions
             (pl.col("field_position_multiplier") * 
              pl.col("score_multiplier") * 
              pl.col("time_multiplier") * 
-             pl.col("down_multiplier")).alias("situational_multiplier")
+             pl.col("down_multiplier") * 
+             pl.col("third_down_distance_multiplier") * 
+             pl.col("garbage_time_multiplier") * 
+             pl.col("yac_multiplier")).alias("situational_multiplier")
         ])
         
         logger.info(f"Calculated multipliers for {len(pbp_data)} plays")

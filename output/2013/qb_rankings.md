@@ -64,8 +64,8 @@
 | 60   | Dom.Davis        | ATL  | 1     | 52.00    | 39.86      |
 | 61   | J.Johnson        | CIN  | 2     | 12.00    | 39.84      |
 | 62   | C.McCoy          | SF   | 3     | 3.27     | 39.82      |
-| 63   | D.Anderson       | CAR  | 3     | 0.00     | 39.80      |
-| 64   | Jo.Webb          | MIN  | 8     | 0.00     | 39.80      |
+| 63   | Jo.Webb          | MIN  | 8     | 0.00     | 39.80      |
+| 64   | D.Anderson       | CAR  | 3     | 0.00     | 39.80      |
 | 65   | S.Hill           | DET  | 1     | -2.40    | 39.80      |
 | 66   | C.Whitehurst     | LAC  | 2     | -3.00    | 39.79      |
 | 67   | L.McCown         | NO   | 3     | -1.93    | 39.79      |

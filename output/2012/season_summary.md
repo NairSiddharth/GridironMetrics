@@ -122,7 +122,7 @@
 | CAR  | B.LaFell     | WR       | 26.9             |
 | CHI  | B.Marshall   | WR       | 43.8             |
 | CIN  | A.Green      | WR       | 40.6             |
-| CLE  | J.Gordon     | WR       | 18.8             |
+| CLE  | G.Little     | WR       | 18.8             |
 | DAL  | D.Bryant     | WR       | 36.5             |
 | DEN  | E.Decker     | WR       | 31.2             |
 | DET  | N.Burleson   | WR       | 22.2             |

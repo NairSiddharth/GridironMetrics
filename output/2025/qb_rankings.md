@@ -63,8 +63,8 @@
 | 59   | J.Milroe      | SEA  | 3     | 1.60     | 39.95      |
 | 60   | B.Rypien      | CIN  | 1     | 0.00     | 39.93      |
 | 61   | R.Leonard     | IND  | 1     | -0.80    | 39.92      |
-| 62   | T.Bridgewater | TB   | 1     | -1.20    | 39.92      |
-| 63   | J.Stidham     | DEN  | 1     | -1.20    | 39.92      |
+| 62   | J.Stidham     | DEN  | 1     | -1.20    | 39.92      |
+| 63   | T.Bridgewater | TB   | 1     | -1.20    | 39.92      |
 | 64   | K.Allen       | DET  | 1     | -2.40    | 39.92      |
 | 65   | T.McKee       | PHI  | 1     | -2.40    | 39.92      |
 | 66   | J.Garoppolo   | LA   | 1     | -3.60    | 39.92      |
