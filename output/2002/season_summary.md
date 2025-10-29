@@ -92,7 +92,7 @@
 | GB   | A.Green      | RB       | 35.7             |
 | HOU  | S. Mack      | RB       | 50.0             |
 | IND  | F.Taylor     | RB       | 100.0            |
-| JAC  | F. Taylor    | RB       | 37.5             |
+| JAC  | S. Mack      | RB       | 37.5             |
 | KC   | P. Holmes    | RB       | 75.6             |
 | MIA  | R. Williams  | RB       | 47.4             |
 | MIN  | M.Williams   | RB       | 39.6             |
@@ -139,7 +139,7 @@
 | NYJ  | W.Chrebet    | WR       | 25.6             |
 | OAK  | J.Porter     | WR       | 31.9             |
 | PHI  | K. Brady     | TE       | 33.3             |
-| PIT  | K. Brady     | TE       | 50.0             |
+| PIT  | J. Smith     | WR       | 50.0             |
 | SD   | F. McCrary   | RB       | 41.7             |
 | SEA  | R.Hannam     | TE       | 16.7             |
 | SF   | T.Owens      | WR       | 51.2             |

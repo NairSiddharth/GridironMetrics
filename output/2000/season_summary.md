@@ -6,7 +6,7 @@
 | :----| :-------------| :--------| :----------------|
 | ARI  | M.Pittman     | RB       | 52.6             |
 | ATL  | J.Anderson    | RB       | 84.9             |
-| BAL  | J.Lewis       | WR       | 64.3             |
+| BAL  | J.Lewis       | WR       | 33.2             |
 | BUF  | S.Bryson      | RB       | 33.3             |
 | CAR  | T.Biakabutuka | RB       | 55.3             |
 | CHI  | J.Allen       | RB       | 66.5             |
@@ -78,7 +78,7 @@
 | :----| :-------------| :--------| :----------------|
 | ARI  | M.Pittman     | RB       | 25.0             |
 | ATL  | J.Anderson    | RB       | 37.5             |
-| BAL  | J.Lewis       | WR       | 26.0             |
+| BAL  | J.Lewis       | WR       | 13.4             |
 | BUF  | S.Morris      | WR       | 36.4             |
 | CAR  | T.Biakabutuka | RB       | 12.5             |
 | CHI  | J.Allen       | RB       | 12.5             |
@@ -94,7 +94,7 @@
 | MIA  | L.Smith       | RB       | 67.9             |
 | MIN  | R.Smith       | WR       | 37.5             |
 | NE   | K.Faulk       | RB       | 21.9             |
-| NO   | R.Williams    | RB       | 50.0             |
+| NO   | T.Allen       | RB       | 50.0             |
 | NYG  | J.Montgomery  | RB       | 50.0             |
 | NYJ  | C.Martin      | RB       | 43.8             |
 | OAK  | T.Wheatley    | RB       | 31.4             |
@@ -222,7 +222,7 @@
 | :----| :-------------| :--------| :----------------|
 | ARI  | M.Pittman     | RB       | 55.0             |
 | ATL  | J.Anderson    | RB       | 81.4             |
-| BAL  | J.Lewis       | WR       | 61.0             |
+| BAL  | J.Lewis       | WR       | 31.5             |
 | BUF  | S.Bryson      | RB       | 35.7             |
 | CAR  | T.Biakabutuka | RB       | 65.3             |
 | CHI  | J.Allen       | RB       | 69.0             |

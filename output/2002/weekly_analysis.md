@@ -5,5 +5,5 @@
 | T.Jones    | RB       | 77.1          | 77.1               |
 | F.Sanders  | WR       | 7.1           | 7.1                |
 | D.McKinley | RB       | 0.0           | 0.0                |
-| D.Boston   | WR       | 0.0           | 0.0                |
+| M.Jenkins  | WR       | 0.0           | 0.0                |
 | M.Shipp    | RB       | 0.0           | 0.0                |

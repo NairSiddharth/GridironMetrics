@@ -185,42 +185,42 @@
 | TEN  | D.Bennett    | WR       | 19.9             |
 | WAS  | S.Moss       | WR       | 30.6             |
 
-| :----- :------------- :--------- :----------------|
-|               Targets Share Leaders               |
-| Team | Player       | Position | Season Share (%) |
-| :----| :------------| :--------| :----------------|
-| ARI  | J.Moses      | WR       | 0.0              |
-| ATL  | J.Pathon     | WR       | 0.0              |
-| BAL  | D.Dinkins    | TE       | 0.0              |
-| BUF  | J.Reed       | WR       | 0.0              |
-| CAR  | M.Seidman    | TE       | 0.0              |
-| CHI  | M.Muhammad   | WR       | 0.0              |
-| CIN  | C.Henry      | WR       | 0.0              |
-| CLE  | J.Cribbs     | WR       | 0.0              |
-| DAL  | T.Copper     | WR       | 0.0              |
-| DEN  | S.Alexander  | RB       | 0.0              |
-| DET  | M.Pollard    | TE       | 0.0              |
-| GB   | A.Thurman    | WR       | 0.0              |
-| HOU  | M.Rivers     | TE       | 0.0              |
-| IND  | E.James      | RB       | 0.0              |
-| JAX  | C.Hankton    | WR       | 0.0              |
-| KC   | S.Parker     | WR       | 0.0              |
-| LA   | I.Bruce      | WR       | 0.0              |
-| LAC  | A.Pinnock    | RB       | 0.0              |
-| LV   | J.Morant     | WR       | 0.0              |
-| MIA  | W.Welker     | WR       | 0.0              |
-| MIN  | T.Williamson | WR       | 0.0              |
-| NE   | K.Faulk      | RB       | 0.0              |
-| NO   | D.Henderson  | WR       | 0.0              |
-| NYG  | A.Toomer     | WR       | 0.0              |
-| NYJ  | C.Baker      | TE       | 0.0              |
-| PHI  | L.Gordon     | RB       | 0.0              |
-| PIT  | H.Ward       | WR       | 0.0              |
-| SEA  | J.Stevens    | TE       | 0.0              |
-| SF   | T.Jackson    | RB       | 0.0              |
-| TB   | D.Moore      | TE       | 0.0              |
-| TEN  | T.Fleming    | RB       | 0.0              |
-| WAS  | S.Moss       | WR       | 0.0              |
+| :----- :-------------- :--------- :----------------|
+|               Targets Share Leaders                |
+| Team | Player        | Position | Season Share (%) |
+| :----| :-------------| :--------| :----------------|
+| ARI  | J.Bronson     | TE       | 0.0              |
+| ATL  | F.McCrary     | RB       | 0.0              |
+| BAL  | D.Wilcox      | TE       | 0.0              |
+| BUF  | M.Campbell    | TE       | 0.0              |
+| CAR  | D.Foster      | RB       | 0.0              |
+| CHI  | J.McKie       | RB       | 0.0              |
+| CIN  | C.Perry       | RB       | 0.0              |
+| CLE  | B.Edwards     | WR       | 0.0              |
+| DAL  | B.Pierce      | TE       | 0.0              |
+| DEN  | T.Bell        | RB       | 0.0              |
+| DET  | C.Fitzsimmons | TE       | 0.0              |
+| GB   | R.Ferguson    | WR       | 0.0              |
+| HOU  | D.Armstrong   | WR       | 0.0              |
+| IND  | E.James       | RB       | 0.0              |
+| JAX  | C.Hankton     | WR       | 0.0              |
+| KC   | K.Wilson      | TE       | 0.0              |
+| LA   | B.Manumaleuna | TE       | 0.0              |
+| LAC  | A.Gates       | TE       | 0.0              |
+| LV   | R.Williams    | WR       | 0.0              |
+| MIA  | R.Williams    | WR       | 0.0              |
+| MIN  | K.Robinson    | WR       | 0.0              |
+| NE   | K.Faulk       | RB       | 0.0              |
+| NO   | A.Thomas      | RB       | 0.0              |
+| NYG  | D.Ward        | RB       | 0.0              |
+| NYJ  | L.Coles       | WR       | 0.0              |
+| PHI  | L.Smith       | TE       | 0.0              |
+| PIT  | C.Wilson      | WR       | 0.0              |
+| SEA  | P.Warrick     | WR       | 0.0              |
+| SF   | M.Hicks       | RB       | 0.0              |
+| TB   | N.Lawrie      | TE       | 0.0              |
+| TEN  | D.Bennett     | WR       | 0.0              |
+| WAS  | M.Sellers     | TE       | 0.0              |
 
 | :----- :------------- :--------- :----------------|
 |               Rush Att Share Leaders              |

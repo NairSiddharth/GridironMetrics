@@ -391,7 +391,7 @@ def calculate_offensive_shares(team_stats: pl.DataFrame, player_stats: pl.DataFr
     ])
     
     # Group by player, team, and week to get player totals
-    player_totals = player_stats.group_by(['player_name', 'team', 'week']).agg([
+    player_totals = player_stats.group_by(['player_id', 'player_name', 'team', 'week']).agg([
         pl.col(metric).sum().alias(f'player_{metric}')
     ])
     
@@ -689,16 +689,16 @@ def generate_top_contributors(year: int) -> str:
     
     # Add position column back by joining with player_stats
     # Ensure player_positions is truly unique per player
-    player_positions = player_stats.select(['player_name', 'position']).unique(subset=['player_name'])
+    player_positions = player_stats.select(['player_id', 'player_name', 'position']).unique(subset=['player_id', 'player_name'])
     
     # Calculate season aggregates for positional rankings (use RAW scores for fair comparison)
-    raw_season_contributions = raw_contributions.group_by(['player_name', 'team']).agg([
+    raw_season_contributions = raw_contributions.group_by(['player_id', 'player_name', 'team']).agg([
         pl.col('player_overall_contribution').mean().alias('raw_score')
     ])
-    raw_season_contributions = raw_season_contributions.join(player_positions, on='player_name', how='left')
+    raw_season_contributions = raw_season_contributions.join(player_positions, on=['player_id', 'player_name'], how='left')
     
     # First, calculate positional rankings (use raw scores for ranking)
-    # Rank by (player_name, team) to handle players with same name on different teams
+    # Rank by (player_id, player_name, team) to handle players with same name on different teams
     position_rankings = {}
     for pos in SKILL_POSITIONS:
         pos_stats = raw_season_contributions.filter(
@@ -706,14 +706,13 @@ def generate_top_contributors(year: int) -> str:
         ).sort('raw_score', descending=True)
         
         position_rankings[pos] = {
-            (row['player_name'], row['team']): rank + 1 
+            (row['player_id'], row['player_name'], row['team']): rank + 1 
             for rank, row in enumerate(pos_stats.iter_rows(named=True))
         }
     
     
-    
     # Add position to contributions for later use
-    contributions = contributions.join(player_positions, on='player_name', how='left')
+    contributions = contributions.join(player_positions, on=['player_id', 'player_name'], how='left')
     
     markdown = f"# Top Contributors - {year}\n\n"
     markdown += "## Overall Rankings\n\n"
@@ -728,7 +727,7 @@ def generate_top_contributors(year: int) -> str:
     
     # Get top 10 by adjusted contribution
     top_contributors = (
-        contributions.group_by(['player_name', 'team'])
+        contributions.group_by(['player_id', 'player_name', 'team'])
         .agg([
             pl.col('player_overall_contribution').mean().alias('adjusted_score'),
             pl.col('player_overall_contribution').max().alias('peak_score'),
@@ -740,43 +739,62 @@ def generate_top_contributors(year: int) -> str:
     
     # Add raw scores from raw_contributions
     raw_scores = (
-        raw_contributions.group_by(['player_name', 'team'])
+        raw_contributions.group_by(['player_id', 'player_name', 'team'])
         .agg([
             pl.col('player_overall_contribution').mean().alias('raw_score')
         ])
     )
-    top_contributors = top_contributors.join(raw_scores, on=['player_name', 'team'], how='left')
+    top_contributors = top_contributors.join(raw_scores, on=['player_id', 'player_name', 'team'], how='left')
     
     # Get notable games (weeks where player had >150% of their average contribution)
+    # Need to get opponent info from player_stats since it's not in contributions
     notable_games = {}
     for row in top_contributors.iter_rows(named=True):
+        player_id = row['player_id']
         player_name = row['player_name']
+        team_name = row['team']
         avg_score = row['adjusted_score']
-        player_weeks = contributions.filter(
-            pl.col('player_name') == player_name
+        
+        # Get player weeks with opponent information from player_stats
+        player_weeks = player_stats.filter(
+            (pl.col('player_id') == player_id) & (pl.col('player_name') == player_name) & (pl.col('team') == team_name)
+        ).select(['week', 'opponent_team']).unique()
+        
+        # Get contribution scores from contributions
+        player_contrib = contributions.filter(
+            (pl.col('player_id') == player_id) & (pl.col('player_name') == player_name) & (pl.col('team') == team_name)
         ).select(['week', 'player_overall_contribution'])
         
-        high_games = player_weeks.filter(
+        # Join to get both opponent and contribution
+        player_full = player_contrib.join(player_weeks, on='week', how='left')
+        
+        high_games = player_full.filter(
             pl.col('player_overall_contribution') > avg_score * 1.5
         ).sort('player_overall_contribution', descending=True).head(3)
         
         if len(high_games) > 0:
-            weeks = high_games['week'].to_list()
-            notable_games[player_name] = f"Wk {', '.join(map(str, weeks))}"
+            # Format as "Wk # (vs OPP)"
+            game_strings = []
+            for game_row in high_games.iter_rows(named=True):
+                week_num = game_row['week']
+                opponent = game_row.get('opponent_team', '?')
+                game_strings.append(f"Wk {week_num} (vs {opponent})")
+            notable_games[player_name] = ", ".join(game_strings)
         else:
             notable_games[player_name] = ""
     
     table = PrettyTable()
     table.field_names = ["Rank", "Player", "Team", "Position (Pos. Rank)", "Raw Score", "Adjusted Score", 
-                        "Games", "Avg/Game", "Peak Performance", "Trend", "Notable Games"]
+                        "Games", "Avg/Game", "Peak Performance", "Trend", "Notable Games (>150% Avg)"]
     table.align = "l"  # Left align text
     table.float_format = '.2'  # Two decimal places for floats
     
     for rank, row in enumerate(top_contributors.iter_rows(named=True), 1):
+        player_id = row['player_id']
         player_name = row['player_name']
         team = row['team']
-        position = player_stats.filter(pl.col('player_name') == player_name)['position'].head(1)[0]
-        pos_rank = position_rankings[position].get((player_name, team), "N/A")
+        position = player_stats.filter((pl.col('player_id') == player_id) & (pl.col('player_name') == player_name))['position'].head(1)[0]
+        pos_rank = position_rankings[position].get((player_id, player_name, team), "N/A")
         position_display = f"{position} (#{pos_rank})"
         raw_score = row['raw_score']
         adj_score = row['adjusted_score']
@@ -785,7 +803,7 @@ def generate_top_contributors(year: int) -> str:
         peak = f"Peak: {row['peak_score']:.2f}"
         
         # Calculate trend (simple: compare first half to second half of season)
-        player_games = contributions.filter(pl.col('player_name') == player_name).sort('week')
+        player_games = contributions.filter((pl.col('player_id') == player_id) & (pl.col('player_name') == player_name)).sort('week')
         if len(player_games) >= 4:
             mid_point = len(player_games) // 2
             first_half_avg = player_games.head(mid_point)['player_overall_contribution'].mean()
@@ -813,7 +831,7 @@ def generate_top_contributors(year: int) -> str:
         # Get top 10 players at this position
         pos_contributors = (
             contributions.filter(pl.col('position') == pos)
-            .group_by(['player_name', 'team'])
+            .group_by(['player_id', 'player_name', 'team'])
             .agg([
                 pl.col('player_overall_contribution').mean().alias('adjusted_score'),
                 pl.col('player_overall_contribution').max().alias('peak_score'),
@@ -824,17 +842,18 @@ def generate_top_contributors(year: int) -> str:
         )
         
         # Add raw scores
-        pos_contributors = pos_contributors.join(raw_scores, on=['player_name', 'team'], how='left')
+        pos_contributors = pos_contributors.join(raw_scores, on=['player_id', 'player_name', 'team'], how='left')
         
         # Create table for this position
         pos_table = PrettyTable()
         pos_table.field_names = ["Rank", "Player", "Team", "Raw Score", "Adjusted Score", 
-                                "Games", "Avg/Game", "Peak Performance", "Trend", "Notable Games"]
+                                "Games", "Avg/Game", "Peak Performance", "Trend", "Notable Games (>150% Avg)"]
         pos_table.align = "l"
         pos_table.float_format = '.2'
         pos_table.set_style(TableStyle.MARKDOWN)
         
         for rank, row in enumerate(pos_contributors.iter_rows(named=True), 1):
+            player_id = row['player_id']
             player_name = row['player_name']
             team = row['team']
             raw_score = row['raw_score']
@@ -845,7 +864,7 @@ def generate_top_contributors(year: int) -> str:
             
             # Calculate trend
             player_games = contributions.filter(
-                (pl.col('player_name') == player_name) & (pl.col('position') == pos)
+                (pl.col('player_id') == player_id) & (pl.col('player_name') == player_name) & (pl.col('position') == pos) & (pl.col('team') == team)
             ).sort('week')
             if len(player_games) >= 4:
                 mid_point = len(player_games) // 2
@@ -860,6 +879,8 @@ def generate_top_contributors(year: int) -> str:
             else:
                 trend = "Stable"
             
+            # Get notable games for this player (reuse from notable_games dict or recalculate)
+            # Use (player_id, player_name) key since that's unique
             games = notable_games.get(player_name, "")
             
             pos_table.add_row([rank, player_name, team, f"{raw_score:.2f}", f"{adj_score:.2f}", 

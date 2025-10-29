@@ -185,42 +185,42 @@
 | TEN  | D.Mason     | WR       | 27.6             |
 | WAS  | L.Coles     | WR       | 32.6             |
 
-| :----- :------------ :--------- :----------------|
-|              Targets Share Leaders               |
-| Team | Player      | Position | Season Share (%) |
-| :----| :-----------| :--------| :----------------|
-| ARI  | R.Newhouse  | WR       | 0.0              |
-| ATL  | T.Duckett   | RB       | 0.0              |
-| BAL  | D.Darling   | WR       | 0.0              |
-| BUF  | J.Burns     | RB       | 0.0              |
-| CAR  | R.Proehl    | WR       | 0.0              |
-| CHI  | J.Gilmore   | TE       | 0.0              |
-| CIN  | C.Perry     | RB       | 0.0              |
-| CLE  | K.Heinrich  | TE       | 0.0              |
-| DAL  | D.Campbell  | TE       | 0.0              |
-| DEN  | R.Droughns  | RB       | 0.0              |
-| DET  | A.Hakim     | WR       | 0.0              |
-| GB   | R.Ferguson  | WR       | 0.0              |
-| HOU  | J.Baxter    | RB       | 0.0              |
-| IND  | D.Clark     | TE       | 0.0              |
-| JAX  | G.Wrighster | TE       | 0.0              |
-| KC   | L.Johnson   | RB       | 12.5             |
-| LA   | C.Cleeland  | TE       | 0.0              |
-| LAC  | K.McCardell | WR       | 0.0              |
-| LV   | A.Zereoue   | RB       | 6.7              |
-| MIA  | C.Chambers  | WR       | 6.7              |
-| MIN  | L.Ned       | RB       | 0.0              |
-| NE   | D.Graham    | TE       | 7.7              |
-| NO   | T.Gardner   | WR       | 0.0              |
-| NYG  | W.Ponder    | WR       | 0.0              |
-| NYJ  | L.Jordan    | RB       | 0.0              |
-| PHI  | F.Mitchell  | WR       | 0.0              |
-| PIT  | D.Staley    | RB       | 0.0              |
-| SEA  | A.Bannister | WR       | 0.0              |
-| SF   | J.Isom      | RB       | 0.0              |
-| TB   | N.Lawrie    | TE       | 0.0              |
-| TEN  | E. Kinney   | TE       | 11.1             |
-| WAS  | T.Jacobs    | WR       | 0.0              |
+| :----- :------------- :--------- :----------------|
+|               Targets Share Leaders               |
+| Team | Player       | Position | Season Share (%) |
+| :----| :------------| :--------| :----------------|
+| ARI  | J.Scobey     | RB       | 0.0              |
+| ATL  | J.Griffith   | RB       | 0.0              |
+| BAL  | B.Sams       | RB       | 0.0              |
+| BUF  | R.Trafford   | TE       | 0.0              |
+| CAR  | R.Smart      | RB       | 0.0              |
+| CHI  | J.Gilmore    | TE       | 0.0              |
+| CIN  | C.Perry      | RB       | 0.0              |
+| CLE  | J.Jackson    | RB       | 0.0              |
+| DAL  | D.Ward       | WR       | 0.0              |
+| DEN  | P.Hape       | TE       | 0.0              |
+| DET  | A.Pinner     | RB       | 0.0              |
+| GB   | T.Fisher     | RB       | 0.0              |
+| HOU  | C.Bradford   | WR       | 0.0              |
+| IND  | M.Pollard    | TE       | 0.0              |
+| JAX  | F.Taylor     | RB       | 0.0              |
+| KC   | L.Johnson    | RB       | 12.5             |
+| LA   | I.Bruce      | WR       | 0.0              |
+| LAC  | B.Shaw       | WR       | 0.0              |
+| LV   | A.Zereoue    | RB       | 6.7              |
+| MIA  | C.Chambers   | WR       | 6.7              |
+| MIN  | M.Bennett    | RB       | 0.0              |
+| NE   | D.Graham     | TE       | 7.7              |
+| NO   | D.McAllister | RB       | 0.0              |
+| NYG  | M.Jones      | WR       | 0.0              |
+| NYJ  | J.Dearth     | TE       | 0.0              |
+| PHI  | D.Levens     | RB       | 0.0              |
+| PIT  | M.Cushing    | TE       | 0.0              |
+| SEA  | I.Mili       | TE       | 0.0              |
+| SF   | M.Stanley    | RB       | 0.0              |
+| TB   | N.Lawrie     | TE       | 0.0              |
+| TEN  | E. Kinney    | TE       | 11.1             |
+| WAS  | R.Cartwright | RB       | 0.0              |
 
 | :----- :------------- :--------- :----------------|
 |               Rush Att Share Leaders              |

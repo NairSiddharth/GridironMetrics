@@ -111,42 +111,42 @@
 | TEN  | D.Henry      | RB       | 51.6             |
 | WAS  | A.Gibson     | RB       | 51.2             |
 
-| :----- :--------------- :--------- :----------------|
-|                 Rec TD Share Leaders                |
-| Team | Player         | Position | Season Share (%) |
-| :----| :--------------| :--------| :----------------|
-| ARI  | D.Hopkins      | WR       | 25.0             |
-| ATL  | C.Ridley       | WR       | 27.2             |
-| BAL  | M.Brown        | WR       | 29.2             |
-| BUF  | J.Kumerow      | WR       | 50.0             |
-| CAR  | R.Bonnafon     | RB       | 25.0             |
-| CHI  | J.Graham       | TE       | 22.9             |
-| CIN  | T.Higgins      | WR       | 25.6             |
-| CLE  | O.Beckham      | WR       | 19.4             |
-| DAL  | A.Cooper       | WR       | 20.3             |
-| DEN  | T.Patrick      | WR       | 21.7             |
-| DET  | T.Hockenson    | TE       | 30.2             |
-| GB   | D.Adams        | WR       | 38.1             |
-| HOU  | W.Fuller       | WR       | 28.0             |
-| IND  | Z.Pascal       | WR       | 20.8             |
-| JAX  | L.Shenault Jr. | WR       | 22.7             |
-| KC   | T.Hill         | WR       | 38.8             |
-| LA   | R.Woods        | WR       | 20.8             |
-| LAC  | K.Allen        | WR       | 31.5             |
-| LV   | N.Agholor      | WR       | 29.2             |
-| MIA  | M.Gesicki      | TE       | 23.3             |
-| MIN  | A.Thielen      | WR       | 43.3             |
-| NE   | J.Johnson      | RB       | 25.0             |
-| NO   | J.Cook         | TE       | 28.9             |
-| NYG  | D.Pettis       | WR       | 25.0             |
-| NYJ  | J.Crowder      | WR       | 30.6             |
-| PHI  | J.Croom        | TE       | 50.0             |
-| PIT  | Di.Johnson     | WR       | 33.3             |
-| SEA  | T.Lockett      | WR       | 20.6             |
-| SF   | J.Wilson       | RB       | 21.2             |
-| TB   | M.Evans        | WR       | 35.6             |
-| TEN  | A.Brown        | WR       | 40.5             |
-| WAS  | L.Thomas       | TE       | 28.1             |
+| :----- :------------ :--------- :----------------|
+|               Rec TD Share Leaders               |
+| Team | Player      | Position | Season Share (%) |
+| :----| :-----------| :--------| :----------------|
+| ARI  | D.Hopkins   | WR       | 25.0             |
+| ATL  | C.Ridley    | WR       | 27.2             |
+| BAL  | M.Brown     | WR       | 29.2             |
+| BUF  | J.Kumerow   | WR       | 50.0             |
+| CAR  | C.Thompson  | RB       | 25.0             |
+| CHI  | J.Graham    | TE       | 22.9             |
+| CIN  | T.Higgins   | WR       | 25.6             |
+| CLE  | O.Beckham   | WR       | 19.4             |
+| DAL  | A.Cooper    | WR       | 20.3             |
+| DEN  | T.Patrick   | WR       | 21.7             |
+| DET  | T.Hockenson | TE       | 30.2             |
+| GB   | D.Adams     | WR       | 38.1             |
+| HOU  | W.Fuller    | WR       | 28.0             |
+| IND  | Z.Pascal    | WR       | 20.8             |
+| JAX  | D.Chark Jr. | WR       | 22.7             |
+| KC   | T.Hill      | WR       | 38.8             |
+| LA   | R.Woods     | WR       | 20.8             |
+| LAC  | K.Allen     | WR       | 31.5             |
+| LV   | N.Agholor   | WR       | 29.2             |
+| MIA  | M.Gesicki   | TE       | 23.3             |
+| MIN  | A.Thielen   | WR       | 43.3             |
+| NE   | J.Johnson   | RB       | 25.0             |
+| NO   | J.Cook      | TE       | 28.9             |
+| NYG  | D.Pettis    | WR       | 25.0             |
+| NYJ  | J.Crowder   | WR       | 30.6             |
+| PHI  | J.Croom     | TE       | 50.0             |
+| PIT  | Di.Johnson  | WR       | 33.3             |
+| SEA  | T.Lockett   | WR       | 20.6             |
+| SF   | J.Wilson    | RB       | 21.2             |
+| TB   | M.Evans     | WR       | 35.6             |
+| TEN  | A.Brown     | WR       | 40.5             |
+| WAS  | L.Thomas    | TE       | 28.1             |
 
 | :----- :------------ :--------- :----------------|
 |             Receptions Share Leaders             |

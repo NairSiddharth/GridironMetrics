@@ -89,7 +89,7 @@
 | DAL  | M.Barber     | RB       | 34.4             |
 | DEN  | R.Torain     | RB       | 50.0             |
 | DET  | Kevin Smith  | RB       | 50.0             |
-| GB   | R.Grant      | RB       | 25.0             |
+| GB   | D.Wynn       | RB       | 25.0             |
 | HOU  | S.Slaton     | RB       | 33.3             |
 | IND  | J.Addai      | RB       | 33.3             |
 | JAX  | M.Jones-Drew | RB       | 50.0             |
@@ -190,34 +190,34 @@
 | Team | Player       | Position | Season Share (%) |
 | :----| :------------| :--------| :----------------|
 | ARI  | J.Tuman      | TE       | 100.0            |
-| ATL  | H.Douglas    | WR       | 0.0              |
+| ATL  | J.Norwood    | RB       | 0.0              |
 | BAL  | T.Heap       | TE       | 6.2              |
-| BUF  | F.Jackson    | RB       | 0.0              |
+| BUF  | D.Schouman   | TE       | 0.0              |
 | CAR  | D.Jarrett    | WR       | 14.3             |
 | CHI  | D.Clark      | TE       | 6.2              |
-| CIN  | C.Benson     | RB       | 0.0              |
+| CIN  | J.Simpson    | WR       | 0.0              |
 | CLE  | B.Edwards    | WR       | 6.2              |
-| DAL  | S.Hurd       | WR       | 0.0              |
-| DEN  | T.Bell       | RB       | 0.0              |
-| DET  | D.Campbell   | TE       | 0.0              |
-| GB   | D.Driver     | WR       | 0.0              |
-| HOU  | R.Moats      | RB       | 0.0              |
-| IND  | D.Rhodes     | RB       | 0.0              |
-| JAX  | G.Wrighster  | TE       | 0.0              |
-| KC   | K.Robinson   | WR       | 0.0              |
+| DAL  | I.Stanback   | WR       | 0.0              |
+| DEN  | G.Martinez   | WR       | 0.0              |
+| DET  | Kevin Smith  | RB       | 0.0              |
+| GB   | J.Finley     | TE       | 0.0              |
+| HOU  | D.Anderson   | WR       | 0.0              |
+| IND  | R.Wayne      | WR       | 0.0              |
+| JAX  | M.Owens      | RB       | 0.0              |
+| KC   | B.Cottam     | TE       | 0.0              |
 | LA   | S.Jackson    | RB       | 8.3              |
-| LAC  | M.Floyd      | WR       | 0.0              |
-| LV   | D.McFadden   | RB       | 0.0              |
-| MIA  | D.Hagan      | WR       | 0.0              |
+| LAC  | V.Jackson    | WR       | 0.0              |
+| LV   | C.Schilens   | WR       | 0.0              |
+| MIA  | B.London     | WR       | 0.0              |
 | MIN  | C.Taylor     | WR       | 6.2              |
-| NE   | W.Welker     | WR       | 6.2              |
-| NO   | B.Miller     | TE       | 0.0              |
-| NYG  | S.Smith      | WR       | 0.0              |
+| NE   | R.Moss       | WR       | 6.2              |
+| NO   | O.Sobomehin  | RB       | 0.0              |
+| NYG  | M.Matthews   | TE       | 0.0              |
 | NYJ  | D.Keller     | TE       | 6.2              |
 | PHI  | C.Buckhalter | RB       | 7.1              |
-| PIT  | H.Miller     | TE       | 0.0              |
-| SEA  | B.Engram     | WR       | 0.0              |
-| SF   | J.Morgan     | WR       | 0.0              |
+| PIT  | N.Washington | WR       | 0.0              |
+| SEA  | J.Jones      | WR       | 0.0              |
+| SF   | J.Hill       | WR       | 0.0              |
 | TB   | J.Stevens    | TE       | 9.1              |
 | TEN  | J.McCareins  | WR       | 8.3              |
 | WAS  | M.Sellers    | TE       | 7.1              |

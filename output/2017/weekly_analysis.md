@@ -5,5 +5,5 @@
 | Da.Johnson   | RB       | 51.1          | 51.1               |
 | K.Williams   | WR       | 22.2          | 22.2               |
 | J.Brown      | WR       | 22.2          | 22.2               |
-| A.Ellington  | RB       | 0.0           | 0.0                |
 | L.Fitzgerald | WR       | 0.0           | 0.0                |
+| T.Niklas     | TE       | 0.0           | 0.0                |
