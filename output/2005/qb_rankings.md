@@ -80,8 +80,8 @@
 | 76   | K.Stewart        | BAL  | 1     | 36.00    | 40.97      |
 | 77   | K.Kingsbury      | NYJ  | 1     | 20.00    | 40.94      |
 | 78   | M.Randall        | TEN  | 2     | 0.00     | 40.91      |
-| 79   | T.Collins        | KC   | 1     | -2.40    | 40.91      |
-| 80   | S.Hill           | MIN  | 1     | -2.40    | 40.91      |
+| 79   | S.Hill           | MIN  | 1     | -2.40    | 40.91      |
+| 80   | T.Collins        | KC   | 1     | -2.40    | 40.91      |
 | 81   | T.Romo           | DAL  | 1     | -2.40    | 40.91      |
 | 82   | T.Hasselbeck     | NYG  | 1     | -3.60    | 40.91      |
 

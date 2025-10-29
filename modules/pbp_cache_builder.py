@@ -31,23 +31,150 @@ def get_cache_path(year: int, cache_root: Path = None) -> Path:
     return cache_root / f"pbp_{year}.parquet"
 
 
-def _add_personnel_inference(pbp_data: pl.DataFrame) -> pl.DataFrame:
+def get_participation_cache_path(year: int) -> Path:
+    """Get the participation cache file path for a given year."""
+    cache_root = Path(CACHE_DIR) / "participation"
+    cache_root.mkdir(parents=True, exist_ok=True)
+    return cache_root / f"participation_{year}.parquet"
+
+
+def _parse_personnel_string(personnel_str: str) -> Optional[str]:
     """
-    Add personnel grouping inference columns to PBP data.
-    Uses the PersonnelInference class to predict formation for each play.
+    Parse offense_personnel string to extract personnel grouping.
+    
+    Args:
+        personnel_str: String like "1 C, 1 QB, 1 RB, 4 T, 1 TE, 3 WR"
+        
+    Returns:
+        Personnel grouping like "11" (1 RB, 1 TE) or None if parsing fails
+    """
+    if not personnel_str or personnel_str == "":
+        return None
+    
+    import re
+    
+    # Extract RB and TE counts
+    rb_match = re.search(r'(\d+)\s+RB', personnel_str)
+    te_match = re.search(r'(\d+)\s+TE', personnel_str)
+    
+    if rb_match and te_match:
+        rb_count = rb_match.group(1)
+        te_count = te_match.group(1)
+        return f"{rb_count}{te_count}"
+    
+    return None
+
+
+def _load_participation_data(year: int) -> Optional[pl.DataFrame]:
+    """
+    Load participation data for a given year and parse personnel groupings.
+    Uses cache when available to avoid repeated downloads.
+    
+    Args:
+        year: Season year to load
+        
+    Returns:
+        DataFrame with game_id, play_id, personnel_actual columns or None if unavailable
+    """
+    cache_path = get_participation_cache_path(year)
+    
+    # Try to load from cache first
+    if cache_path.exists():
+        try:
+            logger.info(f"Loading participation data for {year} from cache...")
+            participation = pl.read_parquet(cache_path)
+            logger.info(f"Loaded {len(participation)} cached participation records for {year}")
+            return participation
+        except Exception as e:
+            logger.warning(f"Failed to load cached participation for {year}: {e}")
+            # Continue to download fresh data
+    
+    # Download and process fresh data
+    try:
+        logger.info(f"Downloading participation data for {year} from nflreadpy...")
+        participation = nfl.load_participation(seasons=year)
+        
+        if participation is None or participation.is_empty():
+            logger.warning(f"No participation data available for {year}")
+            return None
+        
+        # Filter to plays with offensive personnel data
+        participation = participation.filter(
+            pl.col("offense_personnel").is_not_null()
+        )
+        
+        if participation.is_empty():
+            logger.warning(f"No offensive participation data for {year}")
+            return None
+        
+        # Parse personnel strings to standard format
+        participation = participation.with_columns([
+            pl.col("offense_personnel")
+              .map_elements(lambda x: _parse_personnel_string(x), return_dtype=pl.Utf8)
+              .alias("personnel_actual")
+        ])
+        
+        # Select only needed columns and rename game_id for join
+        participation = participation.select([
+            pl.col("nflverse_game_id").alias("game_id"),
+            pl.col("play_id"),
+            pl.col("personnel_actual")
+        ]).filter(pl.col("personnel_actual").is_not_null())
+        
+        logger.info(f"Parsed {len(participation)} plays with personnel data for {year}")
+        
+        # Cache the processed data
+        try:
+            participation.write_parquet(cache_path)
+            logger.info(f"Cached participation data to {cache_path}")
+        except Exception as e:
+            logger.warning(f"Failed to cache participation data: {e}")
+        
+        return participation
+        
+    except Exception as e:
+        logger.warning(f"Could not load participation data for {year}: {e}")
+        return None
+
+
+def _add_personnel_inference(pbp_data: pl.DataFrame, year: int) -> pl.DataFrame:
+    """
+    Add personnel grouping columns to PBP data using hybrid approach:
+    1. Use actual participation data when available (confidence=1.0)
+    2. Fall back to PersonnelInference for missing data
     
     Args:
         pbp_data: Raw play-by-play dataframe
+        year: Season year (for loading participation data)
         
     Returns:
-        DataFrame with personnel_group and personnel_confidence columns added
+        DataFrame with personnel_group, personnel_confidence, and personnel_source columns
     """
+    # Try to load actual participation data
+    participation = _load_participation_data(year)
+    
+    if participation is not None:
+        # Join with participation data
+        logger.info(f"Joining PBP with participation data...")
+        pbp_data = pbp_data.join(
+            participation,
+            on=["game_id", "play_id"],
+            how="left"
+        )
+        actual_count = pbp_data.filter(pl.col("personnel_actual").is_not_null()).height
+        logger.info(f"Found actual personnel for {actual_count} plays ({actual_count/len(pbp_data)*100:.1f}%)")
+    else:
+        # No participation data - add null column
+        pbp_data = pbp_data.with_columns([
+            pl.lit(None, dtype=pl.Utf8).alias("personnel_actual")
+        ])
+    
+    # Infer personnel for plays without actual data
     def infer_play_personnel(
         pass_attempt, rush_attempt, down, ydstogo, yardline_100,
         score_differential, game_seconds_remaining, air_yards
     ):
-        """Vectorized personnel inference for a single play."""
-        # Determine play type
+        """Infer personnel grouping for a single play."""
         if pass_attempt == 1:
             play_type = 'pass'
         elif rush_attempt == 1:
@@ -55,7 +182,6 @@ def _add_personnel_inference(pbp_data: pl.DataFrame) -> pl.DataFrame:
         else:
             play_type = 'other'
         
-        # Infer personnel
         personnel, confidence = personnel_inferencer.infer_personnel(
             play_type=play_type,
             down=int(down) if down else 1,
@@ -63,14 +189,14 @@ def _add_personnel_inference(pbp_data: pl.DataFrame) -> pl.DataFrame:
             yardline_100=int(yardline_100) if yardline_100 else 50,
             score_differential=int(score_differential) if score_differential else 0,
             game_seconds_remaining=int(game_seconds_remaining) if game_seconds_remaining else 3600,
-            receiver_position=None,  # Simplified - would need position lookup
+            receiver_position=None,
             air_yards=float(air_yards) if air_yards and air_yards != 0 else None
         )
         
         return personnel, confidence
     
-    # Apply inference to each row (note: this is slow but necessary for complex logic)
-    # We'll use struct to return both values
+    # Apply inference
+    logger.info(f"Running personnel inference for plays without actual data...")
     pbp_data = pbp_data.with_columns([
         pl.struct([
             pl.col("pass_attempt").fill_null(0),
@@ -98,11 +224,32 @@ def _add_personnel_inference(pbp_data: pl.DataFrame) -> pl.DataFrame:
                 pl.Field("personnel", pl.Utf8),
                 pl.Field("confidence", pl.Float64)
             ])
-        ).alias("personnel_inference")
-    ]).with_columns([
-        pl.col("personnel_inference").struct.field("personnel").alias("personnel_group"),
-        pl.col("personnel_inference").struct.field("confidence").alias("personnel_confidence")
-    ]).drop("personnel_inference")
+        ).alias("personnel_inferred")
+    ])
+    
+    # Combine actual and inferred: use actual if available, else inferred
+    pbp_data = pbp_data.with_columns([
+        pl.when(pl.col("personnel_actual").is_not_null())
+          .then(pl.col("personnel_actual"))
+          .otherwise(pl.col("personnel_inferred").struct.field("personnel"))
+          .alias("personnel_group"),
+        
+        pl.when(pl.col("personnel_actual").is_not_null())
+          .then(1.0)
+          .otherwise(pl.col("personnel_inferred").struct.field("confidence"))
+          .alias("personnel_confidence"),
+        
+        pl.when(pl.col("personnel_actual").is_not_null())
+          .then(pl.lit("actual"))
+          .otherwise(pl.lit("inferred"))
+          .alias("personnel_source")
+    ]).drop(["personnel_actual", "personnel_inferred"])
+    
+    # Log summary
+    actual_count = pbp_data.filter(pl.col("personnel_source") == "actual").height
+    inferred_count = pbp_data.filter(pl.col("personnel_source") == "inferred").height
+    logger.info(f"Personnel sources: {actual_count} actual ({actual_count/len(pbp_data)*100:.1f}%), "
+                f"{inferred_count} inferred ({inferred_count/len(pbp_data)*100:.1f}%)")
     
     return pbp_data
 
@@ -130,9 +277,9 @@ def load_and_process_pbp(year: int) -> Optional[pl.DataFrame]:
             
         logger.info(f"Loaded {len(pbp_data)} plays for {year}")
         
-        # Infer personnel groupings (Phase 3)
-        logger.info(f"Inferring personnel groupings for {year}...")
-        pbp_data = _add_personnel_inference(pbp_data)
+        # Infer personnel groupings (Phase 3) with hybrid approach
+        logger.info(f"Adding personnel groupings for {year}...")
+        pbp_data = _add_personnel_inference(pbp_data, year)
         
         # Calculate all situational multipliers once
         logger.info(f"Calculating situational multipliers for {year}...")

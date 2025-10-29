@@ -6,4 +6,4 @@
 | C.Wells            | RB       | 32.6          | 32.6               |
 | R.Williams         | RB       | 20.9          | 20.9               |
 | L.Stephens-Howling | RB       | 9.3           | 9.3                |
-| R.Housler          | TE       | 0.0           | 0.0                |
+| J.King             | TE       | 0.0           | 0.0                |

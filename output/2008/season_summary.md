@@ -185,42 +185,42 @@
 | TEN  | B.Scaife         | TE       | 20.9             |
 | WAS  | S.Moss           | WR       | 26.7             |
 
-| :----- :------------- :--------- :----------------|
-|               Targets Share Leaders               |
-| Team | Player       | Position | Season Share (%) |
-| :----| :------------| :--------| :----------------|
-| ARI  | J.Tuman      | TE       | 100.0            |
-| ATL  | J.Rader      | TE       | 0.0              |
-| BAL  | T.Heap       | TE       | 6.2              |
-| BUF  | X.Omon       | RB       | 0.0              |
-| CAR  | D.Jarrett    | WR       | 14.3             |
-| CHI  | D.Clark      | TE       | 6.2              |
-| CIN  | K.Watson     | RB       | 0.0              |
-| CLE  | B.Edwards    | WR       | 6.2              |
-| DAL  | T.Owens      | WR       | 0.0              |
-| DEN  | D.Graham     | TE       | 0.0              |
-| DET  | A.Jennings   | WR       | 0.0              |
-| GB   | J.Nelson     | WR       | 0.0              |
-| HOU  | C.Taylor     | WR       | 0.0              |
-| IND  | D.Rhodes     | RB       | 0.0              |
-| JAX  | T.Williamson | WR       | 0.0              |
-| KC   | B.Cottam     | TE       | 0.0              |
-| LA   | S.Jackson    | RB       | 8.3              |
-| LAC  | A.Gates      | TE       | 0.0              |
-| LV   | J.Walker     | WR       | 0.0              |
-| MIA  | D.Martin     | TE       | 0.0              |
-| MIN  | C.Taylor     | WR       | 6.2              |
-| NE   | R.Moss       | WR       | 6.2              |
-| NO   | D.Henderson  | WR       | 0.0              |
-| NYG  | D.Johnson    | TE       | 0.0              |
-| NYJ  | L.Washington | RB       | 6.2              |
-| PHI  | C.Buckhalter | RB       | 7.1              |
-| PIT  | S.McHugh     | TE       | 0.0              |
-| SEA  | L.Payne      | WR       | 0.0              |
-| SF   | D.Zeigler    | WR       | 0.0              |
-| TB   | J.Stevens    | TE       | 9.1              |
-| TEN  | J.McCareins  | WR       | 8.3              |
-| WAS  | M.Sellers    | TE       | 7.1              |
+| :----- :----------------- :--------- :----------------|
+|                 Targets Share Leaders                 |
+| Team | Player           | Position | Season Share (%) |
+| :----| :----------------| :--------| :----------------|
+| ARI  | J.Tuman          | TE       | 100.0            |
+| ATL  | B.Hartsock       | TE       | 0.0              |
+| BAL  | T.Heap           | TE       | 6.2              |
+| BUF  | J.Jenkins        | WR       | 0.0              |
+| CAR  | D.Jarrett        | WR       | 14.3             |
+| CHI  | D.Clark          | TE       | 6.2              |
+| CIN  | T.Houshmandzadeh | WR       | 0.0              |
+| CLE  | B.Edwards        | WR       | 6.2              |
+| DAL  | T.Curtis         | TE       | 0.0              |
+| DEN  | C.Russell        | WR       | 0.0              |
+| DET  | J.Owens          | TE       | 0.0              |
+| GB   | J.Jones          | WR       | 0.0              |
+| HOU  | J.Jones          | WR       | 0.0              |
+| IND  | A.Gonzalez       | WR       | 0.0              |
+| JAX  | F.Taylor         | RB       | 0.0              |
+| KC   | J.Webb           | WR       | 0.0              |
+| LA   | S.Jackson        | RB       | 8.3              |
+| LAC  | C.Chambers       | WR       | 0.0              |
+| LV   | J.Fargas         | RB       | 0.0              |
+| MIA  | B.London         | WR       | 0.0              |
+| MIN  | C.Taylor         | WR       | 6.2              |
+| NE   | R.Moss           | WR       | 6.2              |
+| NO   | P.Thomas         | RB       | 0.0              |
+| NYG  | M.Manningham     | WR       | 0.0              |
+| NYJ  | D.Keller         | TE       | 6.2              |
+| PHI  | C.Buckhalter     | RB       | 7.1              |
+| PIT  | S.Holmes         | WR       | 0.0              |
+| SEA  | W.Heller         | TE       | 0.0              |
+| SF   | J.Hill           | WR       | 0.0              |
+| TB   | J.Stevens        | TE       | 9.1              |
+| TEN  | J.McCareins      | WR       | 8.3              |
+| WAS  | M.Sellers        | TE       | 7.1              |
 
 | :----- :------------- :--------- :----------------|
 |               Rush Att Share Leaders              |

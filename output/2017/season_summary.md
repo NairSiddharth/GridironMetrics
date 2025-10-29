@@ -118,7 +118,7 @@
 | ARI  | L.Fitzgerald     | WR       | 22.9             |
 | ATL  | J.Hardy          | WR       | 25.0             |
 | BAL  | M.Wallace        | WR       | 20.0             |
-| BUF  | L.Thomas         | TE       | 20.0             |
+| BUF  | A.Holmes         | WR       | 20.0             |
 | CAR  | D.Funchess       | WR       | 25.0             |
 | CHI  | A.Shaheen        | TE       | 42.9             |
 | CIN  | A.Green          | WR       | 25.5             |

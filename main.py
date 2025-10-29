@@ -878,15 +878,19 @@ def generate_top_contributors(year: int) -> str:
     ])
     raw_season_contributions = raw_season_contributions.join(player_positions, on=['player_id', 'player_name'], how='left')
     
+    # NOTE: Position rankings will be calculated AFTER Phase 5 adjustments
+    # to match the rankings shown in position-specific tables
+    # See line ~1015 where position_rankings is recalculated
+    
     # First, calculate positional rankings (use raw scores for ranking)
     # Rank by (player_id, player_name, team) to handle players with same name on different teams
-    position_rankings = {}
+    position_rankings_old = {}
     for pos in SKILL_POSITIONS:
         pos_stats = raw_season_contributions.filter(
             pl.col('position') == pos
         ).sort('raw_score', descending=True)
         
-        position_rankings[pos] = {
+        position_rankings_old[pos] = {
             (row['player_id'], row['player_name'], row['team']): rank + 1 
             for rank, row in enumerate(pos_stats.iter_rows(named=True))
         }
@@ -994,6 +998,24 @@ def generate_top_contributors(year: int) -> str:
     ])
     
     top_contributors = top_contributors.join(consistency_metrics, on=['player_id', 'player_name', 'team'], how='left')
+    
+    # Recalculate positional rankings based on ADJUSTED scores (after Phase 5)
+    # This ensures the position ranks in "Overall Rankings" match the position-specific tables
+    adjusted_season_contributions = contributions.group_by(['player_id', 'player_name', 'team']).agg([
+        pl.col('player_overall_contribution').mean().alias('adjusted_score'),
+        pl.col('position').first().alias('position')  # Carry position through
+    ])
+    
+    position_rankings = {}
+    for pos in SKILL_POSITIONS:
+        pos_stats = adjusted_season_contributions.filter(
+            pl.col('position') == pos
+        ).sort('adjusted_score', descending=True)
+        
+        position_rankings[pos] = {
+            (row['player_id'], row['player_name'], row['team']): rank + 1 
+            for rank, row in enumerate(pos_stats.iter_rows(named=True))
+        }
     
     # Add raw scores from raw_contributions
     raw_scores = (
@@ -1279,10 +1301,10 @@ def main(start_year: int = None, end_year: int = None, parallel: bool = True):
             summary_file = output_dir / "season_summary.md"
             top_contributors_file = output_dir / "top_contributors.md"
             qb_rankings_file = output_dir / "qb_rankings.md"
-            weekly_file.write_text(weekly)
-            summary_file.write_text(summary)
-            top_contributors_file.write_text(top_contributors)
-            qb_rankings_file.write_text(qb_rankings)
+            weekly_file.write_text(weekly, encoding='utf-8')
+            summary_file.write_text(summary, encoding='utf-8')
+            top_contributors_file.write_text(top_contributors, encoding='utf-8')
+            qb_rankings_file.write_text(qb_rankings, encoding='utf-8')
             logger.info(f"Saved analysis for {year}")
         else:
             failed_years.append(year)
@@ -1308,7 +1330,7 @@ def main(start_year: int = None, end_year: int = None, parallel: bool = True):
             index_markdown += f"- [{year}](/{year}/error.md)\n\n"
     
     index_file = output_base / "index.md"
-    index_file.write_text(index_markdown)
+    index_file.write_text(index_markdown, encoding='utf-8')
     logger.info(f"Saved multi-year index to {index_file}")
     
     if failed_years:

@@ -79,7 +79,7 @@
 | Team | Player       | Position | Season Share (%) |
 | :----| :------------| :--------| :----------------|
 | ARI  | J.Conner     | RB       | 34.6             |
-| ATL  | T.Allgeier   | RB       | 17.6             |
+| ATL  | B.Robinson   | RB       | 17.6             |
 | BAL  | G.Edwards    | RB       | 42.2             |
 | BUF  | L.Murray     | RB       | 12.2             |
 | CAR  | C.Hubbard    | RB       | 20.6             |

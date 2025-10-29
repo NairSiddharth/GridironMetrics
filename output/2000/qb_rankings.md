@@ -76,12 +76,12 @@
 | 72   | D.Craig      | CAR  | 4     | 1.20     | 41.40      |
 | 73   | T.Brady      | NE   | 1     | 8.00     | 41.40      |
 | 74   | T.Husak      | WAS  | 1     | 4.80     | 41.39      |
-| 75   | M.Hartsell   | CHI  | 1     | -1.00    | 41.39      |
-| 76   | Tr.Brown     | SEA  | 1     | -1.00    | 41.39      |
+| 75   | Tr.Brown     | SEA  | 1     | -1.00    | 41.39      |
+| 76   | M.Hartsell   | CHI  | 1     | -1.00    | 41.39      |
 | 77   | T.Rattay     | SF   | 1     | -1.20    | 41.39      |
-| 78   | J.Quinn      | JAX  | 1     | -2.40    | 41.38      |
-| 79   | D.Wuerffel   | GB   | 1     | -2.40    | 41.38      |
-| 80   | J.Hamilton   | TB   | 1     | -2.40    | 41.38      |
+| 78   | D.Wuerffel   | GB   | 1     | -2.40    | 41.38      |
+| 79   | J.Hamilton   | TB   | 1     | -2.40    | 41.38      |
+| 80   | J.Quinn      | JAX  | 1     | -2.40    | 41.38      |
 | 81   | J.Jackson    | DEN  | 2     | -1.10    | 41.38      |
 | 82   | B.Hoying     | OAK  | 1     | -5.60    | 41.38      |
 | 83   | J.Garrett    | NYG  | 2     | -2.40    | 41.38      |

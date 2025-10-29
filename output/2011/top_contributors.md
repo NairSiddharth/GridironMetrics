@@ -2,63 +2,63 @@
 
 ## Overall Rankings
 
-+------+--------------+------+----------------------+-----------+----------------+-------+----------+------------------+------------+------------------------------------------------+
-| Rank | Player       | Team | Position (Pos. Rank) | Raw Score | Adjusted Score | Games | Avg/Game | Peak Performance | Trend      | Notable Games (>150% Avg)                      |
-+------+--------------+------+----------------------+-----------+----------------+-------+----------+------------------+------------+------------------------------------------------+
-| 1    | R.Rice       | BAL  | RB (#2)              | 288.19    | 536.98         | 16    | 33.56    | Peak: 747.86     | Stable     | Wk 11 (vs CIN), Wk 13 (vs CLE), Wk 17 (vs CIN) |
-| 2    | A.Foster     | HOU  | RB (#1)              | 301.15    | 500.33         | 13    | 38.49    | Peak: 827.03     | Stable     | Wk 7 (vs TEN), Wk 13 (vs ATL), Wk 4 (vs PIT)   |
-| 3    | M.Jones-Drew | JAX  | RB (#5)              | 255.75    | 491.81         | 16    | 30.74    | Peak: 903.68     | Increasing | Wk 14 (vs TB), Wk 11 (vs CLE), Wk 10 (vs IND)  |
-| 4    | L.McCoy      | PHI  | RB (#3)              | 268.93    | 475.40         | 15    | 31.69    | Peak: 623.83     | Decreasing | Wk 2 (vs ATL), Wk 8 (vs DAL), Wk 3 (vs NYG)    |
-| 5    | M.Lynch      | SEA  | RB (#10)             | 217.67    | 417.48         | 15    | 27.83    | Peak: 713.85     | Increasing | Wk 10 (vs BAL), Wk 13 (vs PHI), Wk 16 (vs SF)  |
-| 6    | M.Forte      | CHI  | RB (#6)              | 245.00    | 411.04         | 12    | 34.25    | Peak: 833.44     | Decreasing | Wk 4 (vs CAR), Wk 7 (vs TB), Wk 9 (vs PHI)     |
-| 7    | R.Mathews    | LAC  | RB (#9)              | 220.64    | 407.05         | 14    | 29.08    | Peak: 694.50     | Decreasing | Wk 3 (vs KC), Wk 15 (vs BAL), Wk 2 (vs NE)     |
-| 8    | F.Jackson    | BUF  | RB (#4)              | 264.80    | 402.69         | 10    | 40.27    | Peak: 709.52     | Decreasing | Wk 5 (vs PHI), Wk 6 (vs NYG), Wk 2 (vs LV)     |
-| 9    | M.Turner     | ATL  | RB (#15)             | 198.44    | 388.91         | 16    | 24.31    | Peak: 745.31     | Decreasing | Wk 6 (vs CAR), Wk 2 (vs PHI), Wk 17 (vs TB)    |
-| 10   | W.Welker     | NE   | WR (#2)              | 222.25    | 379.70         | 16    | 23.73    | Peak: 934.49     | Decreasing | Wk 3 (vs BUF), Wk 1 (vs MIA), Wk 4 (vs LV)     |
-+------+--------------+------+----------------------+-----------+----------------+-------+----------+------------------+------------+------------------------------------------------+
++------+--------------+------+----------------------+-----------+----------------+-------+----------+---------+---------+-------+---------+--------------+------------+---------------------------------------------+
+| Rank | Player       | Team | Position (Pos. Rank) | Raw Score | Adjusted Score | Games | Avg/Game | Typical | Std Dev | Floor | Ceiling | Peak         | Trend      | Notable Games                               |
++------+--------------+------+----------------------+-----------+----------------+-------+----------+---------+---------+-------+---------+--------------+------------+---------------------------------------------+
+| 1    | R.Rice       | BAL  | RB (#1)              | 288.19    | 8591.64        | 16    | 536.98   | 503.16  | ±166.5  | 401.4 | 650.0   | Peak: 747.86 | Stable     |                                             |
+| 2    | A.Foster     | HOU  | RB (#2)              | 301.15    | 6504.24        | 13    | 500.33   | 524.02  | ±157.1  | 444.1 | 598.0   | Peak: 827.03 | Stable     | Wk 7 (vs TEN)                               |
+| 3    | M.Jones-Drew | JAX  | RB (#3)              | 255.75    | 7868.94        | 16    | 491.81   | 490.89  | ±173.8  | 396.0 | 595.1   | Peak: 903.68 | Increasing | Wk 14 (vs TB)                               |
+| 4    | L.McCoy      | PHI  | RB (#4)              | 268.93    | 7131.03        | 15    | 475.40   | 503.88  | ±122.5  | 435.1 | 561.0   | Peak: 623.83 | Decreasing |                                             |
+| 5    | M.Lynch      | SEA  | RB (#5)              | 217.67    | 6262.20        | 15    | 417.48   | 465.06  | ±177.2  | 299.5 | 533.7   | Peak: 713.85 | Increasing | Wk 10 (vs BAL)                              |
+| 6    | M.Forte      | CHI  | RB (#6)              | 245.00    | 4932.49        | 12    | 411.04   | 396.25  | ±179.6  | 335.7 | 490.1   | Peak: 833.44 | Decreasing | Wk 4 (vs CAR)                               |
+| 7    | R.Mathews    | LAC  | RB (#7)              | 220.64    | 5698.71        | 14    | 407.05   | 411.51  | ±141.8  | 307.2 | 518.1   | Peak: 694.50 | Stable     | Wk 3 (vs KC)                                |
+| 8    | F.Jackson    | BUF  | RB (#8)              | 264.80    | 4026.90        | 10    | 402.69   | 426.83  | ±143.4  | 283.6 | 510.5   | Peak: 709.52 | Decreasing | Wk 5 (vs PHI)                               |
+| 9    | M.Turner     | ATL  | RB (#9)              | 198.44    | 6222.54        | 16    | 388.91   | 343.78  | ±175.1  | 284.6 | 452.8   | Peak: 745.31 | Decreasing | Wk 6 (vs CAR), Wk 2 (vs PHI), Wk 17 (vs TB) |
+| 10   | W.Welker     | NE   | WR (#1)              | 222.25    | 6075.28        | 16    | 379.70   | 362.45  | ±208.1  | 219.1 | 456.3   | Peak: 934.49 | Decreasing | Wk 3 (vs BUF), Wk 1 (vs MIA), Wk 4 (vs LV)  |
++------+--------------+------+----------------------+-----------+----------------+-------+----------+---------+---------+-------+---------+--------------+------------+---------------------------------------------+
 
 ## RB Rankings
 
-| Rank | Player       | Team | Raw Score | Adjusted Score | Games | Avg/Game | Peak Performance | Trend      | Notable Games (>150% Avg)                      |
-| :----| :------------| :----| :---------| :--------------| :-----| :--------| :----------------| :----------| :----------------------------------------------|
-| 1    | R.Rice       | BAL  | 288.19    | 536.98         | 16    | 33.56    | Peak: 747.86     | Stable     | Wk 11 (vs CIN), Wk 13 (vs CLE), Wk 17 (vs CIN) |
-| 2    | A.Foster     | HOU  | 301.15    | 500.33         | 13    | 38.49    | Peak: 827.03     | Stable     | Wk 7 (vs TEN), Wk 13 (vs ATL), Wk 4 (vs PIT)   |
-| 3    | M.Jones-Drew | JAX  | 255.75    | 491.81         | 16    | 30.74    | Peak: 903.68     | Increasing | Wk 14 (vs TB), Wk 11 (vs CLE), Wk 10 (vs IND)  |
-| 4    | L.McCoy      | PHI  | 268.93    | 475.40         | 15    | 31.69    | Peak: 623.83     | Decreasing | Wk 2 (vs ATL), Wk 8 (vs DAL), Wk 3 (vs NYG)    |
-| 5    | M.Lynch      | SEA  | 217.67    | 417.48         | 15    | 27.83    | Peak: 713.85     | Increasing | Wk 10 (vs BAL), Wk 13 (vs PHI), Wk 16 (vs SF)  |
-| 6    | M.Forte      | CHI  | 245.00    | 411.04         | 12    | 34.25    | Peak: 833.44     | Decreasing | Wk 4 (vs CAR), Wk 7 (vs TB), Wk 9 (vs PHI)     |
-| 7    | R.Mathews    | LAC  | 220.64    | 407.05         | 14    | 29.08    | Peak: 694.50     | Decreasing | Wk 3 (vs KC), Wk 15 (vs BAL), Wk 2 (vs NE)     |
-| 8    | F.Jackson    | BUF  | 264.80    | 402.69         | 10    | 40.27    | Peak: 709.52     | Decreasing | Wk 5 (vs PHI), Wk 6 (vs NYG), Wk 2 (vs LV)     |
-| 9    | M.Turner     | ATL  | 198.44    | 388.91         | 16    | 24.31    | Peak: 745.31     | Decreasing | Wk 6 (vs CAR), Wk 2 (vs PHI), Wk 17 (vs TB)    |
-| 10   | R.Bush       | MIA  | 192.00    | 361.59         | 15    | 24.11    | Peak: 685.48     | Increasing |                                                |
+| Rank | Player       | Team | Raw Score | Adjusted Score | Games | Avg/Game | Typical | Std Dev | Floor | Ceiling | Peak         | Trend      | Notable Games (>150% Typical)               |
+| :----| :------------| :----| :---------| :--------------| :-----| :--------| :-------| :-------| :-----| :-------| :------------| :----------| :-------------------------------------------|
+| 1    | R.Rice       | BAL  | 288.19    | 8591.64        | 16    | 536.98   | 503.16  | ±166.5  | 401.4 | 650.0   | Peak: 747.86 | Stable     |                                             |
+| 2    | A.Foster     | HOU  | 301.15    | 6504.24        | 13    | 500.33   | 524.02  | ±157.1  | 444.1 | 598.0   | Peak: 827.03 | Stable     | Wk 7 (vs TEN)                               |
+| 3    | M.Jones-Drew | JAX  | 255.75    | 7868.94        | 16    | 491.81   | 490.89  | ±173.8  | 396.0 | 595.1   | Peak: 903.68 | Increasing | Wk 14 (vs TB)                               |
+| 4    | L.McCoy      | PHI  | 268.93    | 7131.03        | 15    | 475.40   | 503.88  | ±122.5  | 435.1 | 561.0   | Peak: 623.83 | Decreasing |                                             |
+| 5    | M.Lynch      | SEA  | 217.67    | 6262.20        | 15    | 417.48   | 465.06  | ±177.2  | 299.5 | 533.7   | Peak: 713.85 | Increasing | Wk 10 (vs BAL)                              |
+| 6    | M.Forte      | CHI  | 245.00    | 4932.49        | 12    | 411.04   | 396.25  | ±179.6  | 335.7 | 490.1   | Peak: 833.44 | Decreasing | Wk 4 (vs CAR)                               |
+| 7    | R.Mathews    | LAC  | 220.64    | 5698.71        | 14    | 407.05   | 411.51  | ±141.8  | 307.2 | 518.1   | Peak: 694.50 | Stable     | Wk 3 (vs KC)                                |
+| 8    | F.Jackson    | BUF  | 264.80    | 4026.90        | 10    | 402.69   | 426.83  | ±143.4  | 283.6 | 510.5   | Peak: 709.52 | Decreasing | Wk 5 (vs PHI)                               |
+| 9    | M.Turner     | ATL  | 198.44    | 6222.54        | 16    | 388.91   | 343.78  | ±175.1  | 284.6 | 452.8   | Peak: 745.31 | Decreasing | Wk 6 (vs CAR), Wk 2 (vs PHI), Wk 17 (vs TB) |
+| 10   | R.Bush       | MIA  | 192.00    | 5423.89        | 15    | 361.59   | 376.27  | ±163.3  | 249.5 | 430.3   | Peak: 685.48 | Increasing |                                             |
 
 ## WR Rankings
 
-| Rank | Player       | Team | Raw Score | Adjusted Score | Games | Avg/Game | Peak Performance | Trend      | Notable Games (>150% Avg)                  |
-| :----| :------------| :----| :---------| :--------------| :-----| :--------| :----------------| :----------| :------------------------------------------|
-| 1    | W.Welker     | NE   | 222.25    | 379.70         | 16    | 23.73    | Peak: 934.49     | Decreasing | Wk 3 (vs BUF), Wk 1 (vs MIA), Wk 4 (vs LV) |
-| 2    | C.Johnson    | DET  | 234.94    | 369.02         | 16    | 23.06    | Peak: 812.88     | Decreasing |                                            |
-| 3    | J.Nelson     | GB   | 177.81    | 343.25         | 16    | 21.45    | Peak: 870.51     | Increasing |                                            |
-| 4    | S.Smith      | CAR  | 177.31    | 339.12         | 16    | 21.19    | Peak: 698.39     | Decreasing |                                            |
-| 5    | V.Cruz       | NYG  | 190.06    | 333.48         | 16    | 20.84    | Peak: 589.43     | Increasing |                                            |
-| 6    | P.Harvin     | MIN  | 183.12    | 333.35         | 16    | 20.83    | Peak: 691.26     | Increasing |                                            |
-| 7    | R.White      | ATL  | 189.75    | 320.52         | 16    | 20.03    | Peak: 509.23     | Increasing |                                            |
-| 8    | L.Fitzgerald | ARI  | 182.06    | 309.04         | 16    | 19.32    | Peak: 588.92     | Increasing |                                            |
-| 9    | M.Colston    | NO   | 181.93    | 301.63         | 14    | 21.55    | Peak: 615.66     | Increasing |                                            |
-| 10   | G.Jennings   | GB   | 172.15    | 294.15         | 13    | 22.63    | Peak: 537.83     | Decreasing |                                            |
+| Rank | Player       | Team | Raw Score | Adjusted Score | Games | Avg/Game | Typical | Std Dev | Floor | Ceiling | Peak         | Trend      | Notable Games (>150% Typical)              |
+| :----| :------------| :----| :---------| :--------------| :-----| :--------| :-------| :-------| :-----| :-------| :------------| :----------| :------------------------------------------|
+| 1    | W.Welker     | NE   | 222.25    | 6075.28        | 16    | 379.70   | 362.45  | ±208.1  | 219.1 | 456.3   | Peak: 934.49 | Decreasing | Wk 3 (vs BUF), Wk 1 (vs MIA), Wk 4 (vs LV) |
+| 2    | C.Johnson    | DET  | 234.94    | 5904.32        | 16    | 369.02   | 350.38  | ±173.2  | 242.2 | 446.2   | Peak: 812.88 | Decreasing |                                            |
+| 3    | J.Nelson     | GB   | 177.81    | 5491.95        | 16    | 343.25   | 300.94  | ±206.2  | 194.2 | 401.4   | Peak: 870.51 | Stable     |                                            |
+| 4    | S.Smith      | CAR  | 177.31    | 5425.86        | 16    | 339.12   | 338.88  | ±184.6  | 233.8 | 471.8   | Peak: 698.39 | Decreasing |                                            |
+| 5    | V.Cruz       | NYG  | 190.06    | 5335.72        | 16    | 333.48   | 363.45  | ±175.3  | 281.5 | 448.8   | Peak: 589.43 | Increasing |                                            |
+| 6    | P.Harvin     | MIN  | 183.12    | 5333.63        | 16    | 333.35   | 351.80  | ±196.6  | 212.8 | 425.3   | Peak: 691.26 | Increasing |                                            |
+| 7    | R.White      | ATL  | 189.75    | 5128.39        | 16    | 320.52   | 322.25  | ±120.7  | 220.7 | 395.9   | Peak: 509.23 | Increasing |                                            |
+| 8    | L.Fitzgerald | ARI  | 182.06    | 4944.67        | 16    | 309.04   | 256.12  | ±140.3  | 196.9 | 371.3   | Peak: 588.92 | Stable     |                                            |
+| 9    | M.Colston    | NO   | 181.93    | 4222.85        | 14    | 301.63   | 279.18  | ±141.6  | 191.3 | 399.0   | Peak: 615.66 | Increasing |                                            |
+| 10   | G.Jennings   | GB   | 172.15    | 3824.01        | 13    | 294.15   | 320.28  | ±130.8  | 219.3 | 384.7   | Peak: 537.83 | Stable     |                                            |
 
 ## TE Rankings
 
-| Rank | Player       | Team | Raw Score | Adjusted Score | Games | Avg/Game | Peak Performance | Trend      | Notable Games (>150% Avg) |
-| :----| :------------| :----| :---------| :--------------| :-----| :--------| :----------------| :----------| :-------------------------|
-| 1    | R.Gronkowski | NE   | 207.75    | 368.94         | 16    | 23.06    | Peak: 666.22     | Increasing |                           |
-| 2    | J.Graham     | NO   | 193.69    | 288.84         | 16    | 18.05    | Peak: 508.63     | Stable     |                           |
-| 3    | A.Hernandez  | NE   | 163.64    | 266.68         | 14    | 19.05    | Peak: 525.67     | Stable     |                           |
-| 4    | T.Gonzalez   | ATL  | 138.31    | 254.02         | 16    | 15.88    | Peak: 516.37     | Stable     |                           |
-| 5    | A.Gates      | LAC  | 146.46    | 246.68         | 13    | 18.98    | Peak: 424.79     | Stable     |                           |
-| 6    | V.Davis      | SF   | 119.62    | 220.14         | 16    | 13.76    | Peak: 382.86     | Increasing |                           |
-| 7    | J.Witten     | DAL  | 135.94    | 212.10         | 16    | 13.26    | Peak: 384.52     | Decreasing |                           |
-| 8    | D.Keller     | NYJ  | 120.62    | 202.75         | 16    | 12.67    | Peak: 386.83     | Increasing |                           |
-| 9    | J.Finley     | GB   | 117.69    | 200.47         | 16    | 12.53    | Peak: 547.54     | Decreasing |                           |
-| 10   | F.Davis      | WAS  | 140.17    | 199.37         | 12    | 16.61    | Peak: 401.87     | Stable     |                           |
+| Rank | Player       | Team | Raw Score | Adjusted Score | Games | Avg/Game | Typical | Std Dev | Floor | Ceiling | Peak         | Trend      | Notable Games (>150% Typical) |
+| :----| :------------| :----| :---------| :--------------| :-----| :--------| :-------| :-------| :-----| :-------| :------------| :----------| :-----------------------------|
+| 1    | R.Gronkowski | NE   | 207.75    | 5902.97        | 16    | 368.94   | 395.14  | ±166.8  | 273.3 | 478.8   | Peak: 666.22 | Increasing |                               |
+| 2    | J.Graham     | NO   | 193.69    | 4621.39        | 16    | 288.84   | 285.65  | ±82.7   | 230.7 | 343.4   | Peak: 508.63 | Stable     |                               |
+| 3    | A.Hernandez  | NE   | 163.64    | 3733.53        | 14    | 266.68   | 221.10  | ±125.4  | 163.2 | 383.3   | Peak: 525.67 | Stable     |                               |
+| 4    | T.Gonzalez   | ATL  | 138.31    | 4064.36        | 16    | 254.02   | 249.81  | ±130.9  | 196.4 | 322.6   | Peak: 516.37 | Increasing |                               |
+| 5    | A.Gates      | LAC  | 146.46    | 3206.90        | 13    | 246.68   | 280.60  | ±122.4  | 195.4 | 310.3   | Peak: 424.79 | Stable     |                               |
+| 6    | V.Davis      | SF   | 119.62    | 3522.23        | 16    | 220.14   | 219.54  | ±111.6  | 150.1 | 258.2   | Peak: 382.86 | Stable     |                               |
+| 7    | J.Witten     | DAL  | 135.94    | 3393.64        | 16    | 212.10   | 206.34  | ±84.7   | 152.7 | 267.0   | Peak: 384.52 | Decreasing |                               |
+| 8    | D.Keller     | NYJ  | 120.62    | 3243.98        | 16    | 202.75   | 185.86  | ±110.4  | 124.8 | 298.2   | Peak: 386.83 | Stable     |                               |
+| 9    | J.Finley     | GB   | 117.69    | 3207.54        | 16    | 200.47   | 173.44  | ±133.9  | 121.0 | 231.4   | Peak: 547.54 | Stable     |                               |
+| 10   | F.Davis      | WAS  | 140.17    | 2392.43        | 12    | 199.37   | 215.65  | ±83.0   | 124.8 | 246.6   | Peak: 401.87 | Stable     |                               |
 

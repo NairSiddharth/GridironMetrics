@@ -146,7 +146,7 @@
 | SF   | D.Pettis     | WR       | 29.2             |
 | TB   | C.Brate      | TE       | 20.6             |
 | TEN  | L.Stocker    | TE       | 16.7             |
-| WAS  | J.Crowder    | WR       | 16.7             |
+| WAS  | T.Quinn      | WR       | 16.7             |
 
 | :----- :------------- :--------- :----------------|
 |              Receptions Share Leaders             |

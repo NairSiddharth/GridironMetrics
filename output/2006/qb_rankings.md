@@ -72,8 +72,8 @@
 | 68   | K.Clemens        | NYJ  | 2     | 5.50     | 40.41      |
 | 69   | B.Volek          | LAC  | 1     | 3.40     | 40.39      |
 | 70   | J.Lorenzen       | NYG  | 1     | 2.40     | 40.39      |
-| 71   | R.Fitzpatrick    | LA   | 1     | 0.00     | 40.39      |
-| 72   | J.McCown         | DET  | 1     | 0.00     | 40.39      |
+| 71   | J.McCown         | DET  | 1     | 0.00     | 40.39      |
+| 72   | R.Fitzpatrick    | LA   | 1     | 0.00     | 40.39      |
 | 73   | P.Ramsey         | NYJ  | 1     | -1.00    | 40.38      |
 | 74   | K.Dorsey         | CLE  | 1     | -1.00    | 40.38      |
 | 75   | I.Martin         | GB   | 1     | -6.00    | 40.38      |

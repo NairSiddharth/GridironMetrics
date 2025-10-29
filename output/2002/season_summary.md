@@ -92,7 +92,7 @@
 | GB   | A.Green      | RB       | 35.7             |
 | HOU  | S. Mack      | RB       | 50.0             |
 | IND  | F.Taylor     | RB       | 100.0            |
-| JAC  | F. Taylor    | RB       | 37.5             |
+| JAC  | S. Mack      | RB       | 37.5             |
 | KC   | P. Holmes    | RB       | 75.6             |
 | MIA  | R. Williams  | RB       | 47.4             |
 | MIN  | M.Williams   | RB       | 39.6             |
