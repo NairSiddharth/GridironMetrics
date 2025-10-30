@@ -4,18 +4,18 @@
 
 ## Overall Rankings
 
-| Rank | Player      | Team | Position (Pos. Rank) | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
-| :----| :-----------| :----| :--------------------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | T.Gurley    | LA   | RB (#1)              | 8590.10        | 1.049      | 15    | 572.67   | 533.35  | 7/2/6       | Stable     |
-| 2    | L.Bell      | PIT  | RB (#2)              | 8297.42        | 1.052      | 15    | 553.16   | 525.37  | 7/1/7       | Stable     |
-| 3    | K.Hunt      | KC   | RB (#3)              | 7148.54        | 1.057      | 16    | 446.78   | 415.14  | 8/2/6       | Decreasing |
-| 4    | M.Gordon    | LAC  | RB (#4)              | 7000.90        | 1.068      | 16    | 437.56   | 419.25  | 8/3/5       | Stable     |
-| 5    | E.Elliott   | DAL  | RB (#5)              | 4205.65        | 1.079      | 10    | 420.57   | 384.71  | 1/1/8       | Stable     |
-| 6    | A.Kamara    | NO   | RB (#6)              | 6647.01        | 1.049      | 16    | 415.44   | 444.78  | 8/0/8       | Increasing |
-| 7    | L.McCoy     | BUF  | RB (#7)              | 6608.09        | 1.081      | 16    | 413.01   | 405.13  | 8/2/6       | Stable     |
-| 8    | M.Ingram    | NO   | RB (#8)              | 6361.19        | 1.088      | 16    | 397.57   | 335.34  | 8/1/7       | Increasing |
-| 9    | A.Brown     | PIT  | WR (#1)              | 5538.89        | 1.000      | 14    | 395.63   | 439.14  | 6/1/7       | Decreasing |
-| 10   | L.Fournette | JAX  | RB (#9)              | 5025.03        | 1.098      | 13    | 386.54   | 381.02  | 5/2/6       | Decreasing |
+| Rank | Player      | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :-----------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | T.Gurley    | LA   | RB       | 8590.10        | 1.049      | 15    | 572.67   | 533.35  | 7/2/6       | Stable     |
+| 2    | L.Bell      | PIT  | RB       | 8297.42        | 1.052      | 15    | 553.16   | 525.37  | 7/1/7       | Stable     |
+| 3    | K.Hunt      | KC   | RB       | 7148.54        | 1.057      | 16    | 446.78   | 415.14  | 8/2/6       | Decreasing |
+| 4    | M.Gordon    | LAC  | RB       | 7000.90        | 1.068      | 16    | 437.56   | 419.25  | 8/3/5       | Stable     |
+| 5    | E.Elliott   | DAL  | RB       | 4205.65        | 1.079      | 10    | 420.57   | 384.71  | 1/1/8       | Stable     |
+| 6    | A.Kamara    | NO   | RB       | 6647.01        | 1.049      | 16    | 415.44   | 444.78  | 8/0/8       | Increasing |
+| 7    | L.McCoy     | BUF  | RB       | 6608.09        | 1.081      | 16    | 413.01   | 405.13  | 8/2/6       | Stable     |
+| 8    | M.Ingram    | NO   | RB       | 6361.19        | 1.088      | 16    | 397.57   | 335.34  | 8/1/7       | Increasing |
+| 9    | A.Brown     | PIT  | WR       | 5538.89        | 1.000      | 14    | 395.63   | 439.14  | 6/1/7       | Decreasing |
+| 10   | L.Fournette | JAX  | RB       | 5025.03        | 1.098      | 13    | 386.54   | 381.02  | 5/2/6       | Decreasing |
 
 ## RB Rankings
 
@@ -30,7 +30,7 @@
 | 7    | L.McCoy     | BUF  | 6608.09        | 1.081      | 16    | 413.01   | 405.13  | 8/2/6       | Stable     |
 | 8    | M.Ingram    | NO   | 6361.19        | 1.088      | 16    | 397.57   | 335.34  | 8/1/7       | Increasing |
 | 9    | L.Fournette | JAX  | 5025.03        | 1.098      | 13    | 386.54   | 381.02  | 5/2/6       | Decreasing |
-| 10   | C.Hyde      | SF   | 5886.50        | 1.083      | 16    | 367.91   | 374.51  | 8/2/6       | Stable     |
+| 10   | C.Hyde      | SF   | 5853.09        | 1.083      | 16    | 365.82   | 370.29  | 8/2/6       | Stable     |
 
 ## WR Rankings
 
@@ -44,7 +44,7 @@
 | 6    | M.Thomas     | NO   | 4769.36        | 1.000      | 16    | 298.08   | 300.83  | 7/3/6       | Increasing |
 | 7    | A.Thielen    | MIN  | 4557.25        | 1.000      | 16    | 284.83   | 235.52  | 7/1/8       | Stable     |
 | 8    | Ju.Jones     | ATL  | 4541.00        | 1.000      | 16    | 283.81   | 262.22  | 7/3/6       | Stable     |
-| 9    | L.Fitzgerald | ARI  | 4438.08        | 1.000      | 16    | 277.38   | 237.53  | 5/3/8       | Increasing |
+| 9    | L.Fitzgerald | ARI  | 4422.28        | 1.000      | 16    | 276.39   | 237.53  | 5/3/8       | Increasing |
 | 10   | D.Baldwin    | SEA  | 4307.55        | 1.000      | 16    | 269.22   | 258.49  | 8/2/6       | Stable     |
 
 ## TE Rankings
@@ -59,6 +59,6 @@
 | 6    | E.Engram     | NYG  | 2756.36        | 1.000      | 15    | 183.76   | 208.83  | 7/0/8       | Stable     |
 | 7    | H.Henry      | LAC  | 2151.62        | 1.000      | 12    | 179.30   | 197.71  | 5/1/6       | Decreasing |
 | 8    | J.Graham     | SEA  | 2829.17        | 1.000      | 16    | 176.82   | 187.92  | 7/1/8       | Decreasing |
-| 9    | B.Watson     | BAL  | 2764.27        | 1.000      | 16    | 172.77   | 178.01  | 8/2/6       | Increasing |
+| 9    | B.Watson     | BAL  | 2770.21        | 1.000      | 16    | 173.14   | 178.01  | 8/2/6       | Increasing |
 | 10   | J.Witten     | DAL  | 2755.14        | 1.000      | 16    | 172.20   | 168.21  | 8/1/7       | Stable     |
 

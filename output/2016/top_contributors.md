@@ -4,18 +4,18 @@
 
 ## Overall Rankings
 
-| Rank | Player    | Team | Position (Pos. Rank) | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
-| :----| :---------| :----| :--------------------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | D.Johnson | ARI  | RB (#1)              | 9327.38        | 1.060      | 16    | 582.96   | 576.18  | 8/1/7       | Increasing |
-| 2    | L.Bell    | PIT  | RB (#2)              | 6793.10        | 1.054      | 12    | 566.09   | 544.89  | 5/0/7       | Increasing |
-| 3    | E.Elliott | DAL  | RB (#3)              | 7739.57        | 1.069      | 15    | 515.97   | 499.38  | 6/3/6       | Stable     |
-| 4    | L.McCoy   | BUF  | RB (#4)              | 6568.87        | 1.061      | 15    | 437.92   | 457.71  | 7/2/6       | Stable     |
-| 5    | D.Murray  | TEN  | RB (#5)              | 6892.19        | 1.096      | 16    | 430.76   | 438.34  | 8/3/5       | Decreasing |
-| 6    | D.Freeman | ATL  | RB (#6)              | 6276.95        | 1.074      | 16    | 392.31   | 360.16  | 7/2/7       | Increasing |
-| 7    | M.Gordon  | LAC  | RB (#7)              | 5006.56        | 1.078      | 13    | 385.12   | 374.38  | 5/0/8       | Increasing |
-| 8    | A.Brown   | PIT  | WR (#1)              | 5666.47        | 1.000      | 15    | 377.76   | 367.76  | 6/1/8       | Stable     |
-| 9    | J.Howard  | CHI  | RB (#8)              | 5512.14        | 1.063      | 15    | 367.48   | 345.56  | 7/2/6       | Stable     |
-| 10   | J.Ajayi   | MIA  | RB (#9)              | 5456.40        | 1.055      | 15    | 363.76   | 280.28  | 7/2/6       | Stable     |
+| Rank | Player    | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :---------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | D.Johnson | ARI  | RB       | 9327.38        | 1.060      | 16    | 582.96   | 576.18  | 8/1/7       | Increasing |
+| 2    | L.Bell    | PIT  | RB       | 6793.10        | 1.054      | 12    | 566.09   | 544.89  | 5/0/7       | Increasing |
+| 3    | E.Elliott | DAL  | RB       | 7739.57        | 1.069      | 15    | 515.97   | 499.38  | 6/3/6       | Stable     |
+| 4    | L.McCoy   | BUF  | RB       | 6568.87        | 1.061      | 15    | 437.92   | 457.71  | 7/2/6       | Stable     |
+| 5    | D.Murray  | TEN  | RB       | 6892.19        | 1.096      | 16    | 430.76   | 438.34  | 8/3/5       | Decreasing |
+| 6    | D.Freeman | ATL  | RB       | 6276.95        | 1.074      | 16    | 392.31   | 360.16  | 7/2/7       | Increasing |
+| 7    | M.Gordon  | LAC  | RB       | 5006.56        | 1.078      | 13    | 385.12   | 374.38  | 5/0/8       | Increasing |
+| 8    | A.Brown   | PIT  | WR       | 5666.47        | 1.000      | 15    | 377.76   | 367.76  | 6/1/8       | Stable     |
+| 9    | J.Howard  | CHI  | RB       | 5512.14        | 1.063      | 15    | 367.48   | 345.56  | 7/2/6       | Stable     |
+| 10   | J.Ajayi   | MIA  | RB       | 5456.40        | 1.055      | 15    | 363.76   | 280.28  | 7/2/6       | Stable     |
 
 ## RB Rankings
 

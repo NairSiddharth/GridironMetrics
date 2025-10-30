@@ -4,18 +4,18 @@
 
 ## Overall Rankings
 
-| Rank | Player      | Team | Position (Pos. Rank) | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
-| :----| :-----------| :----| :--------------------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | C.McCaffrey | SF   | RB (#1)              | 8699.71        | 1.064      | 16    | 543.73   | 519.84  | 6/5/5       | Stable     |
-| 2    | C.Lamb      | DAL  | WR (#1)              | 7865.92        | 1.026      | 17    | 462.70   | 391.86  | 9/0/8       | Increasing |
-| 3    | T.Hill      | MIA  | WR (#2)              | 7209.34        | 1.024      | 16    | 450.58   | 471.36  | 6/2/8       | Stable     |
-| 4    | K.Williams  | LA   | RB (#2)              | 5020.09        | 1.059      | 12    | 418.34   | 447.72  | 3/2/7       | Increasing |
-| 5    | R.White     | TB   | RB (#3)              | 6999.97        | 1.030      | 17    | 411.76   | 391.82  | 9/2/6       | Increasing |
-| 6    | Bre.Hall    | NYJ  | RB (#4)              | 6628.34        | 1.044      | 17    | 389.90   | 329.22  | 9/0/8       | Stable     |
-| 7    | T.Etienne   | JAX  | RB (#5)              | 6619.32        | 1.034      | 17    | 389.37   | 398.87  | 10/2/5      | Decreasing |
-| 8    | B.Robinson  | ATL  | RB (#6)              | 6546.05        | 1.045      | 17    | 385.06   | 378.14  | 10/0/7      | Increasing |
-| 9    | J.Mixon     | CIN  | RB (#7)              | 6517.05        | 1.040      | 17    | 383.36   | 360.32  | 9/0/8       | Increasing |
-| 10   | A.St. Brown | DET  | WR (#3)              | 6062.10        | 1.015      | 16    | 378.88   | 364.76  | 7/2/7       | Increasing |
+| Rank | Player      | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :-----------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | C.McCaffrey | SF   | RB       | 8699.71        | 1.064      | 16    | 543.73   | 519.84  | 6/5/5       | Stable     |
+| 2    | C.Lamb      | DAL  | WR       | 7865.92        | 1.026      | 17    | 462.70   | 391.86  | 9/0/8       | Increasing |
+| 3    | T.Hill      | MIA  | WR       | 7209.34        | 1.024      | 16    | 450.58   | 471.36  | 6/2/8       | Stable     |
+| 4    | K.Williams  | LA   | RB       | 5020.09        | 1.059      | 12    | 418.34   | 447.72  | 3/2/7       | Increasing |
+| 5    | R.White     | TB   | RB       | 6999.97        | 1.030      | 17    | 411.76   | 391.82  | 9/2/6       | Increasing |
+| 6    | Bre.Hall    | NYJ  | RB       | 6628.34        | 1.044      | 17    | 389.90   | 329.22  | 9/0/8       | Stable     |
+| 7    | T.Etienne   | JAX  | RB       | 6619.32        | 1.034      | 17    | 389.37   | 398.87  | 10/2/5      | Decreasing |
+| 8    | B.Robinson  | ATL  | RB       | 6565.08        | 1.045      | 17    | 386.18   | 378.14  | 9/1/7       | Increasing |
+| 9    | J.Mixon     | CIN  | RB       | 6517.05        | 1.040      | 17    | 383.36   | 360.32  | 9/0/8       | Increasing |
+| 10   | A.St. Brown | DET  | WR       | 6062.10        | 1.015      | 16    | 378.88   | 364.76  | 7/2/7       | Increasing |
 
 ## RB Rankings
 
@@ -26,7 +26,7 @@
 | 3    | R.White     | TB   | 6999.97        | 1.030      | 17    | 411.76   | 391.82  | 9/2/6       | Increasing |
 | 4    | Bre.Hall    | NYJ  | 6628.34        | 1.044      | 17    | 389.90   | 329.22  | 9/0/8       | Stable     |
 | 5    | T.Etienne   | JAX  | 6619.32        | 1.034      | 17    | 389.37   | 398.87  | 10/2/5      | Decreasing |
-| 6    | B.Robinson  | ATL  | 6546.05        | 1.045      | 17    | 385.06   | 378.14  | 10/0/7      | Increasing |
+| 6    | B.Robinson  | ATL  | 6565.08        | 1.045      | 17    | 386.18   | 378.14  | 9/1/7       | Increasing |
 | 7    | J.Mixon     | CIN  | 6517.05        | 1.040      | 17    | 383.36   | 360.32  | 9/0/8       | Increasing |
 | 8    | S.Barkley   | NYG  | 5241.90        | 1.046      | 14    | 374.42   | 422.43  | 6/2/6       | Stable     |
 | 9    | A.Kamara    | NO   | 4707.66        | 1.040      | 13    | 362.13   | 356.95  | 5/2/6       | Decreasing |

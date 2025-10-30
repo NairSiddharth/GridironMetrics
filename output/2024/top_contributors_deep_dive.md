@@ -8,7 +8,7 @@
 | :----| :----------| :----| :--------------------| :---------| :--------------| :----------| :-----| :--------| :-------| :-----------| :-----| :-------| :-------| :----------| :---------------------------------------------|
 | 1    | S.Barkley  | PHI  | RB (#1)              | 278.81    | 9074.97        | 1.029      | 16    | 567.19   | 539.74  | 8/2/6       | 380.1 | 739.6   | 1033.55 | Stable     | Wk 12 (vs LA), Wk 11 (vs WAS)                 |
 | 2    | B.Robinson | ATL  | RB (#2)              | 250.18    | 8662.60        | 1.023      | 17    | 509.56   | 507.28  | 9/3/5       | 415.7 | 636.8   | 792.70  | Increasing | Wk 18 (vs CAR)                                |
-| 3    | D.Henry    | BAL  | RB (#3)              | 247.47    | 7734.43        | 1.036      | 17    | 454.97   | 416.42  | 9/0/8       | 362.7 | 559.3   | 593.47  | Stable     |                                               |
+| 3    | D.Henry    | BAL  | RB (#3)              | 247.47    | 7720.51        | 1.036      | 17    | 454.15   | 416.42  | 9/0/8       | 362.7 | 559.3   | 593.47  | Stable     |                                               |
 | 4    | J.Chase    | CIN  | WR (#1)              | 243.53    | 7712.99        | 1.028      | 17    | 453.71   | 379.76  | 7/3/7       | 314.8 | 510.3   | 1112.08 | Increasing | Wk 10 (vs BAL), Wk 14 (vs DAL), Wk 5 (vs BAL) |
 | 5    | J.Gibbs    | DET  | RB (#4)              | 252.00    | 7691.52        | 1.024      | 17    | 452.44   | 420.54  | 7/2/8       | 322.2 | 525.2   | 903.36  | Increasing | Wk 18 (vs MIN), Wk 17 (vs SF), Wk 7 (vs MIN)  |
 | 6    | K.Williams | LA   | RB (#5)              | 226.31    | 7213.92        | 1.026      | 16    | 450.87   | 451.40  | 8/3/5       | 373.3 | 510.0   | 661.55  | Stable     |                                               |
@@ -23,7 +23,7 @@
 | :----| :----------| :----| :---------| :--------------| :----------| :-----| :--------| :-------| :-----------| :-----| :-------| :-------| :----------| :---------------------------------------------|
 | 1    | S.Barkley  | PHI  | 278.81    | 9074.97        | 1.029      | 16    | 567.19   | 539.74  | 8/2/6       | 380.1 | 739.6   | 1033.55 | Stable     | Wk 12 (vs LA), Wk 11 (vs WAS)                 |
 | 2    | B.Robinson | ATL  | 250.18    | 8662.60        | 1.023      | 17    | 509.56   | 507.28  | 9/3/5       | 415.7 | 636.8   | 792.70  | Increasing | Wk 18 (vs CAR)                                |
-| 3    | D.Henry    | BAL  | 247.47    | 7734.43        | 1.036      | 17    | 454.97   | 416.42  | 9/0/8       | 362.7 | 559.3   | 593.47  | Stable     |                                               |
+| 3    | D.Henry    | BAL  | 247.47    | 7720.51        | 1.036      | 17    | 454.15   | 416.42  | 9/0/8       | 362.7 | 559.3   | 593.47  | Stable     |                                               |
 | 4    | J.Gibbs    | DET  | 252.00    | 7691.52        | 1.024      | 17    | 452.44   | 420.54  | 7/2/8       | 322.2 | 525.2   | 903.36  | Increasing | Wk 18 (vs MIN), Wk 17 (vs SF), Wk 7 (vs MIN)  |
 | 5    | K.Williams | LA   | 226.31    | 7213.92        | 1.026      | 16    | 450.87   | 451.40  | 8/3/5       | 373.3 | 510.0   | 661.55  | Stable     |                                               |
 | 6    | J.Taylor   | IND  | 236.64    | 6020.84        | 1.035      | 14    | 430.06   | 406.70  | 6/2/6       | 271.6 | 625.1   | 779.35  | Increasing | Wk 16 (vs TEN), Wk 18 (vs JAX), Wk 3 (vs CHI) |
@@ -52,10 +52,10 @@
 | Rank | Player       | Team | Raw Score | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Floor | Ceiling | Peak   | Trend      | Notable Games (>150% Typical) |
 | :----| :------------| :----| :---------| :--------------| :----------| :-----| :--------| :-------| :-----------| :-----| :-------| :------| :----------| :-----------------------------|
 | 1    | T.McBride    | ARI  | 164.38    | 4903.02        | 1.018      | 16    | 306.44   | 251.40  | 8/1/7       | 212.6 | 436.5   | 594.88 | Increasing |                               |
-| 2    | B.Bowers     | LV   | 166.29    | 5105.62        | 1.031      | 17    | 300.33   | 289.32  | 8/2/7       | 196.7 | 392.4   | 602.17 | Increasing |                               |
+| 2    | B.Bowers     | LV   | 166.29    | 5162.96        | 1.031      | 17    | 303.70   | 289.32  | 8/2/7       | 196.7 | 392.4   | 630.70 | Increasing |                               |
 | 3    | G.Kittle     | SF   | 160.80    | 4444.83        | 1.019      | 15    | 296.32   | 311.85  | 6/1/8       | 233.0 | 409.1   | 503.32 | Decreasing |                               |
 | 4    | J.Smith      | MIA  | 136.82    | 4591.21        | 1.012      | 17    | 270.07   | 261.93  | 10/1/6      | 156.5 | 392.8   | 561.34 | Increasing |                               |
-| 5    | M.Andrews    | BAL  | 111.00    | 3995.50        | 1.023      | 17    | 235.03   | 242.58  | 9/0/8       | 102.3 | 335.6   | 385.33 | Increasing |                               |
+| 5    | M.Andrews    | BAL  | 111.00    | 3987.68        | 1.023      | 17    | 234.57   | 242.58  | 9/0/8       | 102.3 | 335.6   | 385.33 | Increasing |                               |
 | 6    | T.Kelce      | KC   | 134.50    | 3707.96        | 1.015      | 16    | 231.75   | 211.51  | 8/0/8       | 126.0 | 290.5   | 495.46 | Stable     |                               |
 | 7    | P.Freiermuth | PIT  | 103.35    | 3728.50        | 1.027      | 17    | 219.32   | 220.49  | 10/2/5      | 159.0 | 262.9   | 450.03 | Increasing |                               |
 | 8    | T.Hill       | NO   | 144.88    | 1661.52        | 1.035      | 8     | 207.69   | 153.22  | 3/0/5       | 102.0 | 209.2   | 898.44 | Increasing |                               |
@@ -72,62 +72,144 @@
 
 | Player       | Avg Box | 8+ Box % | Avg Multiplier | Rush Att |
 | :------------| :-------| :--------| :--------------| :--------|
-| J.Gibbs      | 6.4     | 6.0%     | 1.024          | 250      |
-| D.Achane     | 6.6     | 5.9%     | 1.032          | 203      |
+| A.Kamara     | 6.7     | 15.8%    | 1.041          | 228      |
+| C.Brown      | 6.6     | 14.8%    | 1.040          | 230      |
 | A.Jones      | 6.6     | 10.2%    | 1.034          | 255      |
 | D.Montgomery | 6.4     | 6.5%     | 1.026          | 186      |
-| N.Harris     | 6.7     | 13.7%    | 1.043          | 263      |
-| R.White      | 6.5     | 7.6%     | 1.027          | 144      |
+| B.Irving     | 6.4     | 3.9%     | 1.021          | 207      |
+| R.Dowdle     | 6.3     | 6.8%     | 1.019          | 235      |
 | K.Hunt       | 6.5     | 11.5%    | 1.032          | 200      |
-| B.Robinson   | 6.0     | 3.2%     | 1.003          | 187      |
 | Z.Moss       | 6.8     | 16.2%    | 1.047          | 74       |
 | A.Ekeler     | 6.4     | 12.0%    | 1.026          | 77       |
-| J.Warren     | 6.6     | 10.8%    | 1.035          | 120      |
-| T.Bigsby     | 6.5     | 13.1%    | 1.035          | 168      |
-| A.Gibson     | 6.4     | 7.5%     | 1.024          | 120      |
-| R.Mostert    | 6.4     | 8.2%     | 1.026          | 85       |
-| Z.White      | 6.6     | 13.8%    | 1.039          | 65       |
+| T.Etienne    | 6.6     | 9.3%     | 1.036          | 150      |
+| J.Ford       | 6.3     | 4.1%     | 1.014          | 104      |
+| I.Pacheco    | 6.3     | 4.8%     | 1.018          | 83       |
+| T.Spears     | 6.2     | 4.8%     | 1.014          | 84       |
+| D.Singletary | 6.3     | 1.8%     | 1.016          | 113      |
+| C.Akers      | 6.6     | 9.7%     | 1.036          | 104      |
 
 ### WR - Coverage Context
 
 *Higher man coverage % = tougher matchups (2-Man, 1-Man, 0-Man, Cover-1)*
 
-| Player     | Man Cov % | Avg Multiplier | Targets |
-| :----------| :---------| :--------------| :-------|
-| N.Collins  | 43.9%     | 1.020          | 99      |
-| A.Brown    | 74.2%     | 1.041          | 97      |
-| L.McConkey | 46.4%     | 1.027          | 113     |
-| J.Addison  | 46.6%     | 1.024          | 100     |
-| R.Bateman  | 35.8%     | 1.015          | 72      |
-| R.Doubs    | 51.4%     | 1.027          | 73      |
-| C.Olave    | 32.6%     | 1.022          | 44      |
-| C.Tillman  | 46.8%     | 1.027          | 51      |
-| E.Moore    | 53.3%     | 1.031          | 102     |
-| J.Palmer   | 46.0%     | 1.014          | 67      |
-| T.Atwell   | 39.0%     | 1.015          | 62      |
-| D.Hopkins  | 50.0%     | 1.023          | 80      |
-| L.Humphrey | 45.2%     | 1.028          | 45      |
+| Player      | Man Cov % | Avg Multiplier | Targets |
+| :-----------| :---------| :--------------| :-------|
+| J.Chase     | 54.8%     | 1.028          | 175     |
+| A.St. Brown | 40.4%     | 1.021          | 141     |
+| A.Brown     | 74.2%     | 1.041          | 97      |
+| R.Rice      | 51.7%     | 1.034          | 29      |
+| G.Wilson    | 51.3%     | 1.035          | 154     |
+| D.Metcalf   | 49.5%     | 1.026          | 109     |
+| Z.Flowers   | 45.0%     | 1.021          | 117     |
+| C.Ridley    | 55.8%     | 1.035          | 120     |
+| R.Pearsall  | 48.6%     | 1.027          | 47      |
+| C.Watson    | 77.4%     | 1.046          | 54      |
+| T.Lockett   | 41.1%     | 1.018          | 74      |
+| S.Shepard   | 38.5%     | 1.018          | 52      |
+| T.Boyd      | 50.0%     | 1.032          | 58      |
 
 ### TE - Coverage Context
 
 *Higher man coverage % = tougher matchups (2-Man, 1-Man, 0-Man, Cover-1)*
 
-| Player      | Man Cov % | Avg Multiplier | Targets |
-| :-----------| :---------| :--------------| :-------|
-| T.McBride   | 38.1%     | 1.018          | 147     |
-| J.Smith     | 28.8%     | 1.012          | 111     |
-| T.Kelce     | 35.1%     | 1.015          | 134     |
-| M.Andrews   | 49.3%     | 1.023          | 69      |
-| C.Otton     | 39.1%     | 1.021          | 87      |
-| E.Engram    | 43.3%     | 1.025          | 67      |
-| H.Henry     | 64.2%     | 1.039          | 97      |
-| T.Hockenson | 43.6%     | 1.027          | 62      |
-| J.Ferguson  | 34.8%     | 1.015          | 86      |
-| J.Johnson   | 54.5%     | 1.031          | 68      |
-| A.Hooper    | 46.6%     | 1.025          | 59      |
-| J.Akins     | 53.6%     | 1.034          | 58      |
-| J.Sanders   | 28.6%     | 1.013          | 43      |
-| L.Krull     | 9.5%      | 1.000          | 23      |
+| Player        | Man Cov % | Avg Multiplier | Targets |
+| :-------------| :---------| :--------------| :-------|
+| G.Kittle      | 37.5%     | 1.019          | 94      |
+| S.LaPorta     | 36.1%     | 1.018          | 83      |
+| E.Engram      | 43.3%     | 1.025          | 67      |
+| Z.Ertz        | 43.0%     | 1.020          | 93      |
+| M.Gesicki     | 55.0%     | 1.033          | 83      |
+| J.Ferguson    | 34.8%     | 1.015          | 86      |
+| J.Johnson     | 54.5%     | 1.031          | 68      |
+| T.Conklin     | 32.9%     | 1.025          | 73      |
+| D.Schultz     | 44.7%     | 1.029          | 85      |
+| C.Okonkwo     | 26.8%     | 1.015          | 71      |
+| B.Strange     | 43.4%     | 1.025          | 53      |
+| A.Barner      | 18.4%     | 1.005          | 38      |
+| L.Schoonmaker | 36.7%     | 1.024          | 36      |
+| T.Hudson      | 38.9%     | 1.019          | 24      |
+| M.Mayer       | 20.0%     | 1.006          | 32      |
 
 *Note: Multipliers > 1.0 indicate tougher situations (bonus), < 1.0 indicate easier situations (penalty)*
+
+## FTN Context (2022+)
+
+*Human-charted play characteristics from Football Technology Network*
+
+### RB - Scheme Context
+
+*How often RBs face different rushing situations*
+
+- **RPO**: -12% adjustment (easier due to defensive confusion)
+- **8+ Defenders in Box**: +15% adjustment (harder)
+
+| Player       | RPO%  | Heavy Box% | Rush Att | Net Adjustment |
+| :------------| :-----| :----------| :--------| :--------------|
+| A.Kamara     | 2.2%  | 15.8%      | 228      | +2.1%          |
+| C.Brown      | 10.0% | 14.8%      | 230      | +1.0%          |
+| A.Jones      | 4.3%  | 10.2%      | 255      | +1.0%          |
+| D.Montgomery | 4.8%  | 6.5%       | 186      | +0.4%          |
+| B.Irving     | 4.8%  | 3.9%       | 207      | -0.0%          |
+| R.Dowdle     | 2.1%  | 6.8%       | 235      | +0.8%          |
+| K.Hunt       | 12.5% | 11.5%      | 200      | +0.2%          |
+| Z.Moss       | 20.3% | 16.2%      | 74       | 0.0%           |
+| A.Ekeler     | 14.3% | 11.7%      | 77       | +0.0%          |
+| T.Etienne    | 6.7%  | 9.3%       | 150      | +0.6%          |
+| J.Ford       | 17.3% | 3.8%       | 104      | -1.5%          |
+| I.Pacheco    | 15.7% | 4.8%       | 83       | -1.2%          |
+| T.Spears     | 6.0%  | 4.8%       | 84       | +0.0%          |
+| D.Singletary | 1.8%  | 1.8%       | 113      | +0.1%          |
+| C.Akers      | 5.8%  | 9.6%       | 104      | +0.8%          |
+
+### WR - Reception Context
+
+*How often receivers face difficult catch situations*
+
+- **Contested Catch**: +25% adjustment (harder)
+- **Drop**: -8 pts penalty
+- **Screen Pass**: -10% adjustment (easier)
+
+| Player      | Contested% | Drops | Screen% | Targets | Net Adjustment |
+| :-----------| :----------| :-----| :-------| :-------| :--------------|
+| J.Chase     | 10.3%      | 9     | 7.4%    | 175     | +1.1%          |
+| A.St. Brown | 12.8%      | 2     | 7.1%    | 141     | +2.3%          |
+| A.Brown     | 21.6%      | 2     | 1.0%    | 97      | +5.1%          |
+| R.Rice      | 6.9%       | 1     | 27.6%   | 29      | -1.1%          |
+| G.Wilson    | 22.1%      | 4     | 11.7%   | 154     | +4.0%          |
+| D.Metcalf   | 23.9%      | 3     | 4.6%    | 109     | +5.3%          |
+| Z.Flowers   | 13.7%      | 3     | 16.2%   | 117     | +1.6%          |
+| C.Ridley    | 18.3%      | 3     | 5.8%    | 120     | +3.8%          |
+| R.Pearsall  | 17.0%      | 1     | 4.3%    | 47      | +3.7%          |
+| C.Watson    | 25.9%      | 2     | 0.0%    | 54      | +6.3%          |
+| T.Lockett   | 18.9%      | 1     | 8.1%    | 74      | +3.8%          |
+| S.Shepard   | 21.2%      | 2     | 13.5%   | 52      | +3.8%          |
+| T.Boyd      | 20.7%      | 1     | 15.5%   | 58      | +3.5%          |
+
+### TE - Reception Context
+
+*How often receivers face difficult catch situations*
+
+- **Contested Catch**: +25% adjustment (harder)
+- **Drop**: -8 pts penalty
+- **Screen Pass**: -10% adjustment (easier)
+
+| Player        | Contested% | Drops | Screen% | Targets | Net Adjustment |
+| :-------------| :----------| :-----| :-------| :-------| :--------------|
+| G.Kittle      | 18.1%      | 2     | 8.5%    | 94      | +3.5%          |
+| S.LaPorta     | 14.5%      | 1     | 7.2%    | 83      | +2.8%          |
+| E.Engram      | 13.4%      | 1     | 11.9%   | 67      | +2.1%          |
+| Z.Ertz        | 9.7%       | 3     | 2.2%    | 93      | +2.0%          |
+| M.Gesicki     | 13.3%      | 5     | 0.0%    | 83      | +2.9%          |
+| J.Ferguson    | 12.8%      | 3     | 7.0%    | 86      | +2.3%          |
+| J.Johnson     | 10.3%      | 0     | 5.9%    | 68      | +2.0%          |
+| T.Conklin     | 11.0%      | 1     | 2.7%    | 73      | +2.4%          |
+| D.Schultz     | 15.3%      | 5     | 0.0%    | 85      | +3.4%          |
+| C.Okonkwo     | 15.5%      | 2     | 7.0%    | 71      | +3.0%          |
+| B.Strange     | 11.3%      | 1     | 3.8%    | 53      | +2.4%          |
+| A.Barner      | 5.3%       | 3     | 5.3%    | 38      | +0.5%          |
+| L.Schoonmaker | 8.3%       | 0     | 0.0%    | 36      | +2.1%          |
+| T.Hudson      | 4.2%       | 2     | 0.0%    | 24      | +0.9%          |
+| M.Mayer       | 12.5%      | 1     | 0.0%    | 32      | +3.0%          |
+
+*Note: Net Adjustment shows cumulative impact of FTN flags on player scores. Positive = harder situations faced, Negative = easier situations faced.*
 

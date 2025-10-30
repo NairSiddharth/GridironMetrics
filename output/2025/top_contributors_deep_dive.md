@@ -89,3 +89,75 @@
 
 *Note: Multipliers > 1.0 indicate tougher situations (bonus), < 1.0 indicate easier situations (penalty)*
 
+## FTN Context (2022+)
+
+*Human-charted play characteristics from Football Technology Network*
+
+### RB - Scheme Context
+
+*How often RBs face different rushing situations*
+
+- **RPO**: -12% adjustment (easier due to defensive confusion)
+- **8+ Defenders in Box**: +15% adjustment (harder)
+
+| Player            | RPO%  | Heavy Box% | Rush Att | Net Adjustment |
+| :-----------------| :-----| :----------| :--------| :--------------|
+| C.McCaffrey       | 0.7%  | 1.4%       | 140      | +0.1%          |
+| J.Jacobs          | 19.4% | 5.6%       | 124      | -1.5%          |
+| J.Gibbs           | 9.6%  | 2.9%       | 104      | -0.7%          |
+| C.Skattebo        | 37.3% | 5.9%       | 102      | -3.6%          |
+| Q.Judkins         | 4.2%  | 12.7%      | 118      | +1.4%          |
+| D.Henry           | 4.6%  | 20.2%      | 109      | +2.5%          |
+| C.Brown           | 19.6% | 5.2%       | 97       | -1.6%          |
+| T.Pollard         | 22.9% | 6.4%       | 109      | -1.8%          |
+| R.Stevenson       | 4.8%  | 27.4%      | 84       | +3.5%          |
+| J.Croskey-Merritt | 12.2% | 8.5%       | 82       | -0.2%          |
+| N.Chubb           | 7.5%  | 3.8%       | 80       | -0.3%          |
+
+### WR - Reception Context
+
+*How often receivers face difficult catch situations*
+
+- **Contested Catch**: +25% adjustment (harder)
+- **Drop**: -8 pts penalty
+- **Screen Pass**: -10% adjustment (easier)
+
+| Player       | Contested% | Drops | Screen% | Targets | Net Adjustment |
+| :------------| :----------| :-----| :-------| :-------| :--------------|
+| A.St. Brown  | 18.0%      | 1     | 9.8%    | 61      | +3.4%          |
+| C.Lamb       | 14.3%      | 5     | 7.1%    | 42      | +2.5%          |
+| M.Nabers     | 14.3%      | 1     | 0.0%    | 35      | +3.5%          |
+| L.McConkey   | 8.8%       | 2     | 4.4%    | 68      | +1.6%          |
+| K.Shakir     | 9.8%       | 1     | 22.0%   | 41      | +0.2%          |
+| M.Evans      | 28.1%      | 2     | 0.0%    | 32      | +6.9%          |
+| C.Ridley     | 17.1%      | 4     | 5.7%    | 35      | +3.4%          |
+| J.Jeudy      | 18.5%      | 6     | 3.7%    | 54      | +3.8%          |
+| P.Washington | 22.2%      | 3     | 5.6%    | 36      | +4.8%          |
+| M.Washington | 10.5%      | 0     | 23.7%   | 38      | +0.3%          |
+| J.Noel       | 10.0%      | 1     | 20.0%   | 20      | +0.4%          |
+
+### TE - Reception Context
+
+*How often receivers face difficult catch situations*
+
+- **Contested Catch**: +25% adjustment (harder)
+- **Drop**: -8 pts penalty
+- **Screen Pass**: -10% adjustment (easier)
+
+| Player      | Contested% | Drops | Screen% | Targets | Net Adjustment |
+| :-----------| :----------| :-----| :-------| :-------| :--------------|
+| T.McBride   | 27.3%      | 1     | 15.2%   | 66      | +5.2%          |
+| T.Kraft     | 4.9%       | 4     | 12.2%   | 41      | -0.3%          |
+| H.Fannin    | 17.3%      | 3     | 7.7%    | 52      | +3.3%          |
+| J.Tonges    | 14.3%      | 1     | 17.1%   | 35      | +1.8%          |
+| H.Henry     | 0.0%       | 1     | 0.0%    | 37      | -0.1%          |
+| T.Johnson   | 10.8%      | 5     | 13.5%   | 37      | +1.0%          |
+| M.Andrews   | 20.0%      | 2     | 3.3%    | 30      | +4.5%          |
+| T.Hockenson | 8.3%       | 3     | 11.1%   | 36      | +0.7%          |
+| E.Engram    | 10.5%      | 3     | 10.5%   | 38      | +1.3%          |
+| M.Taylor    | 20.9%      | 5     | 2.3%    | 43      | +4.6%          |
+| C.Okonkwo   | 8.1%       | 2     | 16.2%   | 37      | +0.2%          |
+| T.Tremble   | 9.1%       | 0     | 4.5%    | 22      | +1.8%          |
+
+*Note: Net Adjustment shows cumulative impact of FTN flags on player scores. Positive = harder situations faced, Negative = easier situations faced.*
+

@@ -702,6 +702,10 @@ def calculate_qb_contribution_from_pbp(year: int, qb_name: str) -> float:
     if year >= FTN_START_YEAR:
         ftn_data = load_ftn_cache(year)
         if ftn_data is not None:
+            # Cast play_id to Int32 to match FTN data type before joining
+            pbp_data = pbp_data.with_columns([
+                pl.col('play_id').cast(pl.Int32)
+            ])
             # Join FTN data with PBP
             pbp_data = pbp_data.join(
                 ftn_data,
@@ -1193,6 +1197,10 @@ def generate_rb_rankings(year: int) -> str:
         ftn_data = load_ftn_cache(year)
         
         if pbp_data is not None and ftn_data is not None:
+            # Cast play_id to Int32 to match FTN data type before joining
+            pbp_data = pbp_data.with_columns([
+                pl.col('play_id').cast(pl.Int32)
+            ])
             # Join FTN data
             pbp_data = pbp_data.join(
                 ftn_data,
@@ -1400,6 +1408,10 @@ def generate_wr_rankings(year: int) -> str:
         ftn_data = load_ftn_cache(year)
         
         if pbp_data is not None and ftn_data is not None:
+            # Cast play_id to Int32 to match FTN data type before joining
+            pbp_data = pbp_data.with_columns([
+                pl.col('play_id').cast(pl.Int32)
+            ])
             # Join FTN data
             pbp_data = pbp_data.join(
                 ftn_data,
@@ -1616,6 +1628,10 @@ def generate_te_rankings(year: int) -> str:
         ftn_data = load_ftn_cache(year)
         
         if pbp_data is not None and ftn_data is not None:
+            # Cast play_id to Int32 to match FTN data type before joining
+            pbp_data = pbp_data.with_columns([
+                pl.col('play_id').cast(pl.Int32)
+            ])
             # Join FTN data
             pbp_data = pbp_data.join(
                 ftn_data,
@@ -1781,13 +1797,93 @@ def generate_te_rankings(year: int) -> str:
     return markdown
 
 
+def calculate_separation_adjustment(nextgen_data: pl.DataFrame, player_name: str, position: str) -> float:
+    """
+    Calculate separation/cushion adjustment multiplier from NextGen Stats.
+    
+    Philosophy:
+    - High separation relative to cushion = elite route running → bonus
+    - Low separation despite soft cushion = struggles creating space → penalty
+    - Separation is more valuable than cushion (cushion is defensive alignment, separation is player skill)
+    
+    Multiplier ranges:
+    - Elite separation (3.5+ yards): 1.08x
+    - Good separation (3.0-3.5 yards): 1.04x
+    - Average separation (2.5-3.0 yards): 1.00x (neutral)
+    - Below average (<2.5 yards): 0.96x
+    
+    Additional context from cushion:
+    - Tight coverage (<5 yd cushion) with good separation: extra +0.02x bonus
+    - Soft coverage (>7 yd cushion) with poor separation: extra -0.02x penalty
+    
+    Args:
+        nextgen_data: NextGen Stats DataFrame for the season
+        player_name: Player display name
+        position: Player position (WR/TE/RB)
+        
+    Returns:
+        Adjustment multiplier (0.94 - 1.10)
+    """
+    # Filter to this player's season aggregate
+    player_nextgen = nextgen_data.filter(
+        pl.col('player_display_name') == player_name
+    )
+    
+    if len(player_nextgen) == 0:
+        return 1.0  # No data, neutral
+    
+    # Aggregate across all weeks (weighted by targets)
+    total_targets = player_nextgen['targets'].sum()
+    if total_targets < 20:  # Minimum threshold for meaningful data
+        return 1.0
+    
+    # Calculate weighted averages
+    avg_separation = (player_nextgen['avg_separation'] * player_nextgen['targets']).sum() / total_targets
+    avg_cushion = (player_nextgen['avg_cushion'] * player_nextgen['targets']).sum() / total_targets
+    
+    # Handle nulls
+    if avg_separation is None or avg_cushion is None:
+        return 1.0
+    
+    # Base multiplier from separation
+    if avg_separation >= 3.5:
+        base_mult = 1.08  # Elite
+    elif avg_separation >= 3.0:
+        base_mult = 1.04  # Good
+    elif avg_separation >= 2.5:
+        base_mult = 1.00  # Average
+    else:
+        base_mult = 0.96  # Below average
+    
+    # Context adjustment from cushion
+    cushion_bonus = 0.0
+    
+    # Tight coverage with good separation = elite vs press
+    if avg_cushion < 5.0 and avg_separation >= 3.0:
+        cushion_bonus = 0.02
+    
+    # Soft coverage with poor separation = can't create space even with help
+    elif avg_cushion > 7.0 and avg_separation < 2.5:
+        cushion_bonus = -0.02
+    
+    final_mult = base_mult + cushion_bonus
+    
+    # Clamp to reasonable range
+    return max(0.94, min(1.10, final_mult))
+
+
 def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataFrame:
     """
-    Apply Phase 4 player-level adjustments (catch rate and blocking quality).
+    Apply Phase 4 player-level adjustments (catch rate, blocking quality, separation metrics).
     
     These adjustments are calculated once per player after season aggregation.
     Unlike Phase 1-3 multipliers (applied per-play in cache), these require
     full season context to calculate properly.
+    
+    Adjustments:
+    - Catch rate over expected (WR/TE)
+    - Blocking quality proxy (RB)
+    - Separation/cushion metrics (WR/TE/RB receiving, 2016+)
     
     Args:
         contributions: DataFrame with player weekly contributions
@@ -1808,6 +1904,14 @@ def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataF
         logger.error(f"Error loading PBP data for Phase 4 adjustments: {str(e)}")
         return contributions
     
+    # Load NextGen Stats for separation/cushion (2016+)
+    from modules.nextgen_cache_builder import load_nextgen_cache, NEXTGEN_START_YEAR
+    nextgen_data = None
+    if year >= NEXTGEN_START_YEAR:
+        nextgen_data = load_nextgen_cache(year)
+        if nextgen_data is not None:
+            logger.info(f"NextGen Stats loaded for {year} ({len(nextgen_data)} records)")
+    
     # Calculate adjustments for each unique player
     adjustments = []
     unique_players = contributions.select(['player_id', 'player_name', 'team', 'position']).unique()
@@ -1820,6 +1924,7 @@ def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataF
         
         catch_rate_mult = 1.0
         blocking_mult = 1.0
+        separation_mult = 1.0
         
         # Catch rate adjustment (WR/TE only)
         if position in ['WR', 'TE']:
@@ -1837,12 +1942,21 @@ def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataF
                 logger.debug(f"Error calculating blocking quality for {player_name}: {str(e)}")
                 blocking_mult = 1.0
         
+        # Separation/cushion adjustment (WR/TE/RB receiving work, 2016+)
+        if position in ['WR', 'TE', 'RB'] and nextgen_data is not None:
+            try:
+                separation_mult = calculate_separation_adjustment(nextgen_data, player_name, position)
+            except Exception as e:
+                logger.debug(f"Error calculating separation for {player_name}: {str(e)}")
+                separation_mult = 1.0
+        
         adjustments.append({
             'player_id': player_id,
             'player_name': player_name,
             'team': player_team,
             'catch_rate_adjustment': catch_rate_mult,
-            'blocking_adjustment': blocking_mult
+            'blocking_adjustment': blocking_mult,
+            'separation_adjustment': separation_mult
         })
     
     # Create DataFrame and join to contributions
@@ -1852,14 +1966,16 @@ def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataF
     # Fill missing adjustments with 1.0 (neutral)
     contributions = contributions.with_columns([
         pl.col('catch_rate_adjustment').fill_null(1.0),
-        pl.col('blocking_adjustment').fill_null(1.0)
+        pl.col('blocking_adjustment').fill_null(1.0),
+        pl.col('separation_adjustment').fill_null(1.0)
     ])
     
     # Apply combined Phase 4 multiplier to player_overall_contribution
     contributions = contributions.with_columns([
         (pl.col('player_overall_contribution') * 
          pl.col('catch_rate_adjustment') * 
-         pl.col('blocking_adjustment')).alias('player_overall_contribution')
+         pl.col('blocking_adjustment') *
+         pl.col('separation_adjustment')).alias('player_overall_contribution')
     ])
     
     logger.info(f"Phase 4 adjustments applied to {len(unique_players)} players")
@@ -2164,12 +2280,29 @@ def generate_ftn_context(year: int, player_stats: pl.DataFrame, season_contribut
         logger.error(f"Error loading PBP cache for {year}: {e}")
         return ""
     
-    # Join FTN with PBP
-    pbp_with_ftn = pbp_data.join(
-        ftn_data,
-        on=['nflverse_game_id', 'nflverse_play_id'],
-        how='left'
-    )
+    # Join FTN with PBP - handle column name variations and type casting
+    # PBP cache may have 'game_id'/'play_id' or 'nflverse_game_id'/'nflverse_play_id'
+    # Ensure types match for join
+    try:
+        # Rename PBP columns if needed to match FTN
+        if 'game_id' in pbp_data.columns and 'nflverse_game_id' not in pbp_data.columns:
+            pbp_data = pbp_data.rename({'game_id': 'nflverse_game_id'})
+        if 'play_id' in pbp_data.columns and 'nflverse_play_id' not in pbp_data.columns:
+            pbp_data = pbp_data.rename({'play_id': 'nflverse_play_id'})
+        
+        # Cast play_id to Int32 to match FTN data type
+        pbp_data = pbp_data.with_columns([
+            pl.col('nflverse_play_id').cast(pl.Int32)
+        ])
+        
+        pbp_with_ftn = pbp_data.join(
+            ftn_data,
+            on=['nflverse_game_id', 'nflverse_play_id'],
+            how='left'
+        )
+    except Exception as e:
+        logger.error(f"Error joining FTN with PBP for {year}: {e}")
+        return ""
     
     md = "## FTN Context (2022+)\n\n"
     md += "*Human-charted play characteristics from Football Technology Network*\n\n"
@@ -2480,7 +2613,7 @@ def generate_top_contributors(year: int) -> tuple[str, str]:
     
     # Create PrettyTable for overview (simplified columns)
     overview_table = PrettyTable()
-    overview_table.field_names = ["Rank", "Player", "Team", "Position (Pos. Rank)", "Adjusted Score", 
+    overview_table.field_names = ["Rank", "Player", "Team", "Position", "Adjusted Score", 
                                     "Difficulty", "Games", "Avg/Game", "Typical", "Consistency", "Trend"]
     overview_table.align = "l"
     overview_table.float_format = '.2'
@@ -2667,6 +2800,7 @@ def generate_top_contributors(year: int) -> tuple[str, str]:
         position = player_stats.filter((pl.col('player_id') == player_id) & (pl.col('player_name') == player_name))['position'].head(1)[0]
         pos_rank = position_rankings[position].get((player_id, player_name, team), "N/A")
         position_display = f"{position} (#{pos_rank})"
+        position_only = position
         raw_score = row['raw_score']
         adj_score_per_game = row['adjusted_score']  # Phase 5 returns per-game dampened score
         games_played = row['games_played']
@@ -2708,7 +2842,7 @@ def generate_top_contributors(year: int) -> tuple[str, str]:
         difficulty_str = f"{difficulty_mult:.3f}" if difficulty_mult else "1.000"
         
         # Add to overview table (simplified)
-        overview_table.add_row([rank, player_name, team, position_display, f"{adj_score_total:.2f}", 
+        overview_table.add_row([rank, player_name, team, position_only, f"{adj_score_total:.2f}", 
                                 difficulty_str, games_played, f"{avg_per_game:.2f}", f"{typical:.2f}", 
                                 consistency, trend])
         

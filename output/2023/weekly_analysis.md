@@ -1,9 +1,9 @@
-| :--------- :--------- :-------------- :------------------|
-|                     Rush Yards Share                     |
-| Player   | Position | Raw Share (%) | Adjusted Share (%) |
-| :--------| :--------| :-------------| :------------------|
-| J.Conner | RB       | 64.6          | 64.6               |
-| M.Brown  | WR       | 30.2          | 30.2               |
-| R.Moore  | WR       | 12.5          | 12.5               |
-| G.Dortch | WR       | 0.0           | 0.0                |
-| Z.Ertz   | TE       | 0.0           | 0.0                |
+| :---------- :--------- :-------------- :------------------|
+|                      Rush Yards Share                     |
+| Player    | Position | Raw Share (%) | Adjusted Share (%) |
+| :---------| :--------| :-------------| :------------------|
+| J.Conner  | RB       | 64.6          | 64.6               |
+| M.Brown   | WR       | 30.2          | 30.2               |
+| R.Moore   | WR       | 12.5          | 12.5               |
+| Z.Ertz    | TE       | 0.0           | 0.0                |
+| T.McBride | TE       | 0.0           | 0.0                |

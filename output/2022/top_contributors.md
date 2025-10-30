@@ -4,18 +4,18 @@
 
 ## Overall Rankings
 
-| Rank | Player      | Team | Position (Pos. Rank) | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
-| :----| :-----------| :----| :--------------------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | A.Ekeler    | LAC  | RB (#1)              | 9007.79        | 1.045      | 17    | 529.87   | 587.58  | 10/4/3      | Decreasing |
-| 2    | J.Jacobs    | LV   | RB (#2)              | 8312.90        | 1.052      | 17    | 488.99   | 497.99  | 10/2/5      | Increasing |
-| 3    | D.Henry     | TEN  | RB (#3)              | 7627.28        | 1.080      | 16    | 476.70   | 510.89  | 8/4/4       | Stable     |
-| 4    | J.Jefferson | MIN  | WR (#1)              | 8058.99        | 1.004      | 17    | 474.06   | 548.02  | 9/2/6       | Stable     |
-| 5    | N.Chubb     | CLE  | RB (#4)              | 7349.02        | 1.071      | 17    | 432.30   | 453.89  | 9/4/4       | Decreasing |
-| 6    | S.Barkley   | NYG  | RB (#5)              | 6887.00        | 1.050      | 16    | 430.44   | 459.38  | 9/1/6       | Stable     |
-| 7    | T.Hill      | MIA  | WR (#2)              | 7260.07        | 0.997      | 17    | 427.06   | 368.82  | 9/1/7       | Decreasing |
-| 8    | S.Diggs     | BUF  | WR (#3)              | 6626.05        | 1.007      | 16    | 414.13   | 419.64  | 8/2/6       | Stable     |
-| 9    | C.McCaffrey | SF   | RB (#6)              | 4518.75        | 1.076      | 11    | 410.80   | 381.79  | 4/1/6       | Stable     |
-| 10   | D.Cook      | MIN  | RB (#7)              | 6391.50        | 1.049      | 17    | 375.97   | 387.80  | 10/3/4      | Decreasing |
+| Rank | Player      | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :-----------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | A.Ekeler    | LAC  | RB       | 9007.79        | 1.045      | 17    | 529.87   | 587.58  | 10/4/3      | Decreasing |
+| 2    | J.Jacobs    | LV   | RB       | 8312.90        | 1.052      | 17    | 488.99   | 497.99  | 10/2/5      | Increasing |
+| 3    | D.Henry     | TEN  | RB       | 7627.28        | 1.080      | 16    | 476.70   | 510.89  | 8/4/4       | Stable     |
+| 4    | J.Jefferson | MIN  | WR       | 8058.99        | 1.004      | 17    | 474.06   | 548.02  | 9/2/6       | Stable     |
+| 5    | N.Chubb     | CLE  | RB       | 7349.02        | 1.071      | 17    | 432.30   | 453.89  | 9/4/4       | Decreasing |
+| 6    | S.Barkley   | NYG  | RB       | 6887.00        | 1.050      | 16    | 430.44   | 459.38  | 9/1/6       | Stable     |
+| 7    | T.Hill      | MIA  | WR       | 7260.07        | 0.997      | 17    | 427.06   | 368.82  | 9/1/7       | Decreasing |
+| 8    | S.Diggs     | BUF  | WR       | 6626.05        | 1.007      | 16    | 414.13   | 419.64  | 8/2/6       | Stable     |
+| 9    | C.McCaffrey | SF   | RB       | 4518.75        | 1.076      | 11    | 410.80   | 381.79  | 4/1/6       | Stable     |
+| 10   | D.Cook      | MIN  | RB       | 6391.50        | 1.049      | 17    | 375.97   | 387.80  | 10/3/4      | Decreasing |
 
 ## RB Rankings
 

@@ -4,18 +4,18 @@
 
 ## Overall Rankings
 
-| Rank | Player         | Team | Position (Pos. Rank) | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
-| :----| :--------------| :----| :--------------------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | J.Taylor       | IND  | RB (#1)              | 3628.13        | 1.000      | 8     | 453.52   | 487.76  | 2/0/6       | Increasing |
-| 2    | C.McCaffrey    | SF   | RB (#2)              | 3596.41        | 1.000      | 8     | 449.55   | 466.45  | 1/1/6       | Stable     |
-| 3    | B.Robinson     | ATL  | RB (#3)              | 2673.62        | 1.000      | 7     | 381.95   | 418.76  | 2/0/5       | Stable     |
-| 4    | P.Nacua        | LA   | WR (#1)              | 2144.72        | 1.000      | 6     | 357.45   | 376.63  | 1/0/5       | Stable     |
-| 5    | D.Achane       | MIA  | RB (#4)              | 2773.81        | 1.000      | 8     | 346.73   | 343.16  | 2/0/6       | Stable     |
-| 6    | J.Smith-Njigba | SEA  | WR (#2)              | 2426.98        | 1.000      | 7     | 346.71   | 384.58  | 2/1/4       | Increasing |
-| 7    | J.Cook         | BUF  | RB (#5)              | 2315.98        | 1.000      | 7     | 330.85   | 366.75  | 2/0/5       | Decreasing |
-| 8    | J.Chase        | CIN  | WR (#3)              | 2536.39        | 1.000      | 8     | 317.05   | 330.95  | 3/0/5       | Increasing |
-| 9    | J.Gibbs        | DET  | RB (#6)              | 2209.02        | 1.000      | 7     | 315.57   | 274.74  | 1/0/6       | Stable     |
-| 10   | J.Jacobs       | GB   | RB (#7)              | 2134.47        | 1.000      | 7     | 304.92   | 243.51  | 0/0/7       | Increasing |
+| Rank | Player         | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :--------------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | J.Taylor       | IND  | RB       | 3628.13        | 1.000      | 8     | 453.52   | 487.76  | 2/0/6       | Increasing |
+| 2    | C.McCaffrey    | SF   | RB       | 3596.41        | 1.000      | 8     | 449.55   | 466.45  | 1/1/6       | Stable     |
+| 3    | B.Robinson     | ATL  | RB       | 2673.62        | 1.000      | 7     | 381.95   | 418.76  | 2/0/5       | Stable     |
+| 4    | P.Nacua        | LA   | WR       | 2144.72        | 1.000      | 6     | 357.45   | 376.63  | 1/0/5       | Stable     |
+| 5    | D.Achane       | MIA  | RB       | 2773.81        | 1.000      | 8     | 346.73   | 343.16  | 2/0/6       | Stable     |
+| 6    | J.Smith-Njigba | SEA  | WR       | 2426.98        | 1.000      | 7     | 346.71   | 384.58  | 2/1/4       | Increasing |
+| 7    | J.Cook         | BUF  | RB       | 2315.98        | 1.000      | 7     | 330.85   | 366.75  | 2/0/5       | Decreasing |
+| 8    | J.Chase        | CIN  | WR       | 2536.39        | 1.000      | 8     | 317.05   | 330.95  | 3/0/5       | Increasing |
+| 9    | J.Gibbs        | DET  | RB       | 2209.02        | 1.000      | 7     | 315.57   | 274.74  | 1/0/6       | Stable     |
+| 10   | J.Jacobs       | GB   | RB       | 2134.47        | 1.000      | 7     | 304.92   | 243.51  | 0/0/7       | Increasing |
 
 ## RB Rankings
 

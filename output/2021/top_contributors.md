@@ -4,18 +4,18 @@
 
 ## Overall Rankings
 
-| Rank | Player      | Team | Position (Pos. Rank) | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
-| :----| :-----------| :----| :--------------------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | J.Taylor    | IND  | RB (#1)              | 8976.30        | 1.057      | 17    | 528.02   | 533.43  | 9/3/5       | Stable     |
-| 2    | C.Kupp      | LA   | WR (#1)              | 8792.96        | 0.995      | 17    | 517.23   | 497.57  | 9/2/6       | Stable     |
-| 3    | A.Ekeler    | LAC  | RB (#2)              | 7766.80        | 1.058      | 16    | 485.42   | 459.21  | 8/2/6       | Stable     |
-| 4    | N.Harris    | PIT  | RB (#3)              | 7441.38        | 1.037      | 17    | 437.73   | 444.80  | 10/0/7      | Decreasing |
-| 5    | D.Adams     | GB   | WR (#2)              | 6782.63        | 1.001      | 16    | 423.91   | 369.95  | 8/2/6       | Increasing |
-| 6    | J.Mixon     | CIN  | RB (#4)              | 6661.50        | 1.049      | 16    | 416.34   | 371.07  | 8/1/7       | Increasing |
-| 7    | A.Kamara    | NO   | RB (#5)              | 5372.19        | 1.069      | 13    | 413.25   | 424.75  | 5/2/6       | Stable     |
-| 8    | J.Jefferson | MIN  | WR (#3)              | 6991.79        | 1.009      | 17    | 411.28   | 391.93  | 10/3/4      | Stable     |
-| 9    | D.Cook      | MIN  | RB (#6)              | 5222.28        | 1.066      | 13    | 401.71   | 425.78  | 5/2/6       | Stable     |
-| 10   | D.Henry     | TEN  | RB (#7)              | 3191.86        | 1.079      | 8     | 398.98   | 401.87  | 3/0/5       | Decreasing |
+| Rank | Player      | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :-----------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | J.Taylor    | IND  | RB       | 8976.30        | 1.057      | 17    | 528.02   | 533.43  | 9/3/5       | Stable     |
+| 2    | C.Kupp      | LA   | WR       | 8792.96        | 0.995      | 17    | 517.23   | 497.57  | 9/2/6       | Stable     |
+| 3    | A.Ekeler    | LAC  | RB       | 7766.80        | 1.058      | 16    | 485.42   | 459.21  | 8/2/6       | Stable     |
+| 4    | N.Harris    | PIT  | RB       | 7441.38        | 1.037      | 17    | 437.73   | 444.80  | 10/0/7      | Decreasing |
+| 5    | D.Adams     | GB   | WR       | 6782.63        | 1.001      | 16    | 423.91   | 369.95  | 8/2/6       | Increasing |
+| 6    | J.Mixon     | CIN  | RB       | 6661.50        | 1.049      | 16    | 416.34   | 371.07  | 8/1/7       | Increasing |
+| 7    | A.Kamara    | NO   | RB       | 5372.19        | 1.069      | 13    | 413.25   | 424.75  | 5/2/6       | Stable     |
+| 8    | J.Jefferson | MIN  | WR       | 6991.79        | 1.009      | 17    | 411.28   | 391.93  | 10/3/4      | Stable     |
+| 9    | D.Cook      | MIN  | RB       | 5222.28        | 1.066      | 13    | 401.71   | 425.78  | 5/2/6       | Stable     |
+| 10   | D.Henry     | TEN  | RB       | 3191.86        | 1.079      | 8     | 398.98   | 401.87  | 3/0/5       | Decreasing |
 
 ## RB Rankings
 
@@ -28,7 +28,7 @@
 | 5    | A.Kamara | NO   | 5372.19        | 1.069      | 13    | 413.25   | 424.75  | 5/2/6       | Stable     |
 | 6    | D.Cook   | MIN  | 5222.28        | 1.066      | 13    | 401.71   | 425.78  | 5/2/6       | Stable     |
 | 7    | D.Henry  | TEN  | 3191.86        | 1.079      | 8     | 398.98   | 401.87  | 3/0/5       | Decreasing |
-| 8    | N.Chubb  | CLE  | 5248.78        | 1.065      | 14    | 374.91   | 364.65  | 6/2/6       | Decreasing |
+| 8    | N.Chubb  | CLE  | 5240.45        | 1.065      | 14    | 374.32   | 364.65  | 6/2/6       | Decreasing |
 | 9    | A.Jones  | GB   | 5475.95        | 1.044      | 15    | 365.06   | 363.20  | 7/2/6       | Stable     |
 | 10   | J.Jacobs | LV   | 5450.30        | 1.046      | 15    | 363.35   | 352.24  | 7/2/6       | Increasing |
 

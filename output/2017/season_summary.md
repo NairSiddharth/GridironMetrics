@@ -133,7 +133,7 @@
 | KC   | T.Kelce          | TE       | 35.6             |
 | LA   | C.Kupp           | WR       | 21.7             |
 | LAC  | A.Gates          | TE       | 18.8             |
-| LV   | A.Cooper         | WR       | 33.3             |
+| LV   | M.Crabtree       | WR       | 33.3             |
 | MIA  | J.Landry         | WR       | 29.7             |
 | MIN  | S.Diggs          | WR       | 29.2             |
 | NE   | R.Gronkowski     | TE       | 27.2             |

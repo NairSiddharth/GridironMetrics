@@ -4,18 +4,18 @@
 
 ## Overall Rankings
 
-| Rank | Player      | Team | Position (Pos. Rank) | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
-| :----| :-----------| :----| :--------------------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | C.McCaffrey | CAR  | RB (#1)              | 9738.56        | 1.056      | 16    | 608.66   | 612.33  | 8/2/6       | Decreasing |
-| 2    | M.Thomas    | NO   | WR (#1)              | 7826.81        | 1.012      | 16    | 489.18   | 497.12  | 8/2/6       | Increasing |
-| 3    | D.Cook      | MIN  | RB (#2)              | 6713.15        | 1.065      | 14    | 479.51   | 459.34  | 6/2/6       | Decreasing |
-| 4    | D.Henry     | TEN  | RB (#3)              | 6761.45        | 1.077      | 15    | 450.76   | 418.61  | 7/2/6       | Increasing |
-| 5    | A.Jones     | GB   | RB (#4)              | 7169.14        | 1.058      | 16    | 448.07   | 409.96  | 8/1/7       | Stable     |
-| 6    | E.Elliott   | DAL  | RB (#5)              | 7033.98        | 1.048      | 16    | 439.62   | 450.54  | 8/3/5       | Stable     |
-| 7    | N.Chubb     | CLE  | RB (#6)              | 6663.47        | 1.038      | 16    | 416.47   | 380.57  | 8/1/7       | Stable     |
-| 8    | A.Ekeler    | LAC  | RB (#7)              | 6605.84        | 1.028      | 16    | 412.87   | 384.86  | 8/1/7       | Decreasing |
-| 9    | L.Fournette | JAX  | RB (#8)              | 6105.57        | 1.073      | 15    | 407.04   | 349.05  | 7/2/6       | Decreasing |
-| 10   | A.Kamara    | NO   | RB (#9)              | 5574.60        | 1.048      | 14    | 398.19   | 348.08  | 6/2/6       | Stable     |
+| Rank | Player      | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :-----------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | C.McCaffrey | CAR  | RB       | 9738.56        | 1.056      | 16    | 608.66   | 612.33  | 8/2/6       | Decreasing |
+| 2    | M.Thomas    | NO   | WR       | 7826.81        | 1.012      | 16    | 489.18   | 497.12  | 8/2/6       | Increasing |
+| 3    | D.Cook      | MIN  | RB       | 6713.15        | 1.065      | 14    | 479.51   | 459.34  | 6/2/6       | Decreasing |
+| 4    | D.Henry     | TEN  | RB       | 6761.45        | 1.077      | 15    | 450.76   | 418.61  | 7/2/6       | Increasing |
+| 5    | A.Jones     | GB   | RB       | 7169.14        | 1.058      | 16    | 448.07   | 409.96  | 8/1/7       | Stable     |
+| 6    | E.Elliott   | DAL  | RB       | 7033.98        | 1.048      | 16    | 439.62   | 450.54  | 8/3/5       | Stable     |
+| 7    | N.Chubb     | CLE  | RB       | 6663.47        | 1.038      | 16    | 416.47   | 380.57  | 8/1/7       | Stable     |
+| 8    | A.Ekeler    | LAC  | RB       | 6605.84        | 1.028      | 16    | 412.87   | 384.86  | 8/1/7       | Decreasing |
+| 9    | L.Fournette | JAX  | RB       | 6105.57        | 1.073      | 15    | 407.04   | 349.05  | 7/2/6       | Decreasing |
+| 10   | A.Kamara    | NO   | RB       | 5574.60        | 1.048      | 14    | 398.19   | 348.08  | 6/2/6       | Stable     |
 
 ## RB Rankings
 

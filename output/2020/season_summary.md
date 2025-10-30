@@ -119,7 +119,7 @@
 | ATL  | C.Ridley       | WR       | 27.2             |
 | BAL  | M.Brown        | WR       | 29.2             |
 | BUF  | J.Kumerow      | WR       | 50.0             |
-| CAR  | C.Thompson     | RB       | 25.0             |
+| CAR  | R.Bonnafon     | RB       | 25.0             |
 | CHI  | J.Graham       | TE       | 22.9             |
 | CIN  | T.Higgins      | WR       | 25.6             |
 | CLE  | O.Beckham      | WR       | 19.4             |

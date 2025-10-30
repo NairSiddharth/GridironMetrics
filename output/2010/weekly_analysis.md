@@ -4,6 +4,6 @@
 | :------------------| :--------| :-------------| :------------------|
 | T.Hightower        | RB       | 48.2          | 48.2               |
 | L.Stephens-Howling | RB       | 43.8          | 43.8               |
-| E.Doucet           | WR       | 0.0           | 0.0                |
+| S.Williams         | WR       | 0.0           | 0.0                |
+| L.Fitzgerald       | WR       | 0.0           | 0.0                |
 | S.Breaston         | WR       | 0.0           | 0.0                |
-| M.Komar            | WR       | 0.0           | 0.0                |

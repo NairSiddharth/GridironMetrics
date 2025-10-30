@@ -4,18 +4,18 @@
 
 ## Overall Rankings
 
-| Rank | Player      | Team | Position (Pos. Rank) | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
-| :----| :-----------| :----| :--------------------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | S.Barkley   | NYG  | RB (#1)              | 9134.50        | 1.060      | 16    | 570.91   | 533.39  | 8/2/6       | Stable     |
-| 2    | E.Elliott   | DAL  | RB (#2)              | 8115.02        | 1.059      | 15    | 541.00   | 434.12  | 6/3/6       | Increasing |
-| 3    | C.McCaffrey | CAR  | RB (#3)              | 8435.28        | 1.053      | 16    | 527.20   | 533.36  | 8/2/6       | Increasing |
-| 4    | T.Gurley    | LA   | RB (#4)              | 6946.64        | 1.031      | 14    | 496.19   | 496.70  | 3/0/11      | Stable     |
-| 5    | A.Kamara    | NO   | RB (#5)              | 7277.18        | 1.060      | 15    | 485.15   | 461.64  | 7/1/7       | Decreasing |
-| 6    | J.Conner    | PIT  | RB (#6)              | 6047.89        | 1.066      | 13    | 465.22   | 332.25  | 4/3/6       | Decreasing |
-| 7    | M.Gordon    | LAC  | RB (#7)              | 5068.49        | 1.060      | 12    | 422.37   | 443.00  | 4/2/6       | Decreasing |
-| 8    | M.Thomas    | NO   | WR (#1)              | 6634.83        | 1.012      | 16    | 414.68   | 380.10  | 8/0/8       | Decreasing |
-| 9    | J.Jones     | ATL  | WR (#2)              | 6438.54        | 1.009      | 16    | 402.41   | 433.23  | 7/3/6       | Stable     |
-| 10   | D.Hopkins   | HOU  | WR (#3)              | 6431.26        | 1.008      | 16    | 401.95   | 360.95  | 8/0/8       | Stable     |
+| Rank | Player      | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :-----------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | S.Barkley   | NYG  | RB       | 9134.50        | 1.060      | 16    | 570.91   | 533.39  | 8/2/6       | Stable     |
+| 2    | E.Elliott   | DAL  | RB       | 8115.02        | 1.059      | 15    | 541.00   | 434.12  | 6/3/6       | Increasing |
+| 3    | C.McCaffrey | CAR  | RB       | 8435.28        | 1.053      | 16    | 527.20   | 533.36  | 8/2/6       | Increasing |
+| 4    | T.Gurley    | LA   | RB       | 6946.64        | 1.031      | 14    | 496.19   | 496.70  | 3/0/11      | Stable     |
+| 5    | A.Kamara    | NO   | RB       | 7277.18        | 1.060      | 15    | 485.15   | 461.64  | 7/1/7       | Decreasing |
+| 6    | J.Conner    | PIT  | RB       | 6047.89        | 1.066      | 13    | 465.22   | 332.25  | 4/3/6       | Decreasing |
+| 7    | M.Gordon    | LAC  | RB       | 5068.49        | 1.060      | 12    | 422.37   | 443.00  | 4/2/6       | Decreasing |
+| 8    | M.Thomas    | NO   | WR       | 6634.83        | 1.012      | 16    | 414.68   | 380.10  | 8/0/8       | Decreasing |
+| 9    | J.Jones     | ATL  | WR       | 6438.54        | 1.009      | 16    | 402.41   | 433.23  | 7/3/6       | Stable     |
+| 10   | D.Hopkins   | HOU  | WR       | 6431.26        | 1.008      | 16    | 401.95   | 360.95  | 8/0/8       | Stable     |
 
 ## RB Rankings
 
@@ -53,7 +53,7 @@
 | :----| :------------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
 | 1    | Z.Ertz       | PHI  | 5714.21        | 1.003      | 16    | 357.14   | 322.50  | 8/0/8       | Decreasing |
 | 2    | T.Kelce      | KC   | 5638.52        | 1.005      | 16    | 352.41   | 311.49  | 8/1/7       | Increasing |
-| 3    | G.Kittle     | SF   | 4381.18        | 1.010      | 16    | 273.82   | 254.72  | 8/1/7       | Increasing |
+| 3    | G.Kittle     | SF   | 4390.80        | 1.010      | 16    | 274.42   | 254.72  | 8/1/7       | Increasing |
 | 4    | E.Ebron      | IND  | 3816.81        | 1.010      | 16    | 238.55   | 255.36  | 7/4/5       | Increasing |
 | 5    | J.Cook       | LV   | 3572.41        | 1.007      | 16    | 223.28   | 178.79  | 8/1/7       | Stable     |
 | 6    | R.Gronkowski | NE   | 2529.94        | 1.009      | 13    | 194.61   | 157.52  | 6/1/6       | Decreasing |

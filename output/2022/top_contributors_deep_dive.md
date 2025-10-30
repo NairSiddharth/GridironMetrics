@@ -73,59 +73,140 @@
 | Player            | Avg Box | 8+ Box % | Avg Multiplier | Rush Att |
 | :-----------------| :-------| :--------| :--------------| :--------|
 | A.Ekeler          | 6.7     | 17.2%    | 1.045          | 204      |
-| J.Conner          | 6.5     | 14.8%    | 1.034          | 183      |
-| A.Kamara          | 6.9     | 22.4%    | 1.058          | 223      |
-| T.Pollard         | 6.9     | 22.3%    | 1.056          | 193      |
-| E.Elliott         | 7.0     | 21.2%    | 1.058          | 231      |
-| L.Murray          | 6.8     | 21.5%    | 1.051          | 172      |
-| D.Swift           | 6.5     | 6.0%     | 1.030          | 100      |
-| D.Montgomery      | 6.9     | 23.9%    | 1.057          | 201      |
-| A.Gibson          | 6.7     | 20.1%    | 1.047          | 149      |
-| R.Mostert         | 6.7     | 12.2%    | 1.041          | 181      |
+| S.Barkley         | 6.8     | 19.0%    | 1.050          | 295      |
+| J.Taylor          | 6.6     | 14.1%    | 1.035          | 192      |
+| D.Cook            | 6.8     | 18.9%    | 1.049          | 264      |
+| A.Jones           | 6.6     | 10.8%    | 1.035          | 213      |
+| L.Fournette       | 6.8     | 22.2%    | 1.053          | 189      |
+| K.Walker          | 6.8     | 21.5%    | 1.053          | 228      |
+| Ja.Williams       | 7.1     | 30.4%    | 1.074          | 263      |
 | T.Allgeier        | 7.3     | 40.3%    | 1.085          | 211      |
+| M.Gordon          | 6.8     | 15.6%    | 1.046          | 90       |
 | C.Edwards-Helaire | 6.6     | 11.3%    | 1.038          | 71       |
 | G.Edwards         | 7.3     | 35.6%    | 1.082          | 87       |
+| Z.Moss            | 6.5     | 14.0%    | 1.034          | 93       |
 
 ### WR - Coverage Context
 
 *Higher man coverage % = tougher matchups (2-Man, 1-Man, 0-Man, Cover-1)*
 
-| Player           | Man Cov % | Avg Multiplier | Targets |
-| :----------------| :---------| :--------------| :-------|
-| C.Lamb           | 30.3%     | 1.003          | 156     |
-| D.Hopkins        | 19.8%     | 0.997          | 98      |
-| M.Thomas         | 22.7%     | 1.000          | 22      |
-| M.Pittman        | 43.3%     | 1.014          | 142     |
-| J.Smith-Schuster | 30.7%     | 1.006          | 102     |
-| A.Lazard         | 41.0%     | 1.014          | 101     |
-| J.Dotson         | 27.9%     | 0.996          | 63      |
-| T.Boyd           | 34.1%     | 1.009          | 85      |
-| H.Renfrow        | 24.0%     | 1.003          | 51      |
-| M.Jones          | 25.9%     | 1.002          | 81      |
-| G.Dortch         | 20.3%     | 0.998          | 64      |
-| K.Raymond        | 25.0%     | 1.002          | 64      |
-| R.Cobb           | 26.5%     | 1.005          | 50      |
-| T.Sherfield      | 7.8%      | 0.987          | 51      |
+| Player             | Man Cov % | Avg Multiplier | Targets |
+| :------------------| :---------| :--------------| :-------|
+| T.McLaurin         | 29.4%     | 1.007          | 120     |
+| M.Williams         | 32.3%     | 1.007          | 93      |
+| B.Aiyuk            | 29.8%     | 1.010          | 114     |
+| C.Watson           | 37.9%     | 1.005          | 66      |
+| C.Sutton           | 27.5%     | 1.000          | 109     |
+| N.Collins          | 28.8%     | 1.010          | 66      |
+| K.Osborn           | 33.3%     | 1.011          | 90      |
+| D.Chark            | 32.7%     | 1.007          | 52      |
+| I.Hodgins          | 29.2%     | 1.006          | 49      |
+| R.James            | 25.7%     | 1.007          | 70      |
+| V.Jefferson        | 27.3%     | 1.006          | 44      |
+| M.Valdes-Scantling | 33.3%     | 1.004          | 81      |
+| K.Bourne           | 29.2%     | 1.005          | 48      |
+| T.Smith            | 33.3%     | 1.015          | 27      |
+| Q.Watkins          | 19.6%     | 1.003          | 51      |
 
 ### TE - Coverage Context
 
 *Higher man coverage % = tougher matchups (2-Man, 1-Man, 0-Man, Cover-1)*
 
-| Player       | Man Cov % | Avg Multiplier | Targets |
-| :------------| :---------| :--------------| :-------|
-| G.Kittle     | 18.6%     | 1.000          | 86      |
-| D.Goedert    | 21.7%     | 1.007          | 69      |
-| D.Waller     | 27.9%     | 1.003          | 44      |
-| E.Engram     | 21.4%     | 0.998          | 101     |
-| P.Freiermuth | 19.4%     | 1.000          | 98      |
-| G.Everett    | 26.7%     | 1.002          | 88      |
-| G.Dulcich    | 21.8%     | 1.005          | 55      |
-| C.Kmet       | 24.6%     | 1.005          | 70      |
-| H.Hurst      | 16.2%     | 0.993          | 68      |
-| J.Akins      | 41.5%     | 1.014          | 56      |
-| I.Likely     | 26.7%     | 1.002          | 60      |
-| D.Bellinger  | 20.0%     | 1.000          | 36      |
-| F.Moreau     | 27.8%     | 1.005          | 54      |
+| Player      | Man Cov % | Avg Multiplier | Targets |
+| :-----------| :---------| :--------------| :-------|
+| M.Andrews   | 33.9%     | 1.008          | 114     |
+| E.Engram    | 21.4%     | 0.998          | 101     |
+| G.Everett   | 26.7%     | 1.002          | 88      |
+| C.Kmet      | 24.6%     | 1.005          | 70      |
+| H.Hurst     | 16.2%     | 0.993          | 68      |
+| J.Johnson   | 26.2%     | 0.998          | 65      |
+| T.Conklin   | 28.7%     | 1.005          | 87      |
+| I.Smith     | 25.0%     | 1.014          | 36      |
+| R.Tonyan    | 20.9%     | 0.997          | 67      |
+| D.Bellinger | 20.0%     | 1.000          | 36      |
+| L.Cager     | 21.1%     | 1.000          | 20      |
+| C.Okonkwo   | 15.2%     | 0.994          | 47      |
+| A.Hooper    | 26.7%     | 1.002          | 60      |
+| H.Bryant    | 21.4%     | 1.000          | 43      |
 
 *Note: Multipliers > 1.0 indicate tougher situations (bonus), < 1.0 indicate easier situations (penalty)*
+
+## FTN Context (2022+)
+
+*Human-charted play characteristics from Football Technology Network*
+
+### RB - Scheme Context
+
+*How often RBs face different rushing situations*
+
+- **RPO**: -12% adjustment (easier due to defensive confusion)
+- **8+ Defenders in Box**: +15% adjustment (harder)
+
+| Player            | RPO%  | Heavy Box% | Rush Att | Net Adjustment |
+| :-----------------| :-----| :----------| :--------| :--------------|
+| A.Ekeler          | 11.3% | 11.3%      | 204      | +0.3%          |
+| S.Barkley         | 6.1%  | 7.5%       | 295      | +0.4%          |
+| J.Taylor          | 11.5% | 9.4%       | 192      | +0.0%          |
+| D.Cook            | 5.3%  | 10.6%      | 264      | +1.0%          |
+| A.Jones           | 8.0%  | 8.9%       | 213      | +0.4%          |
+| L.Fournette       | 1.6%  | 17.5%      | 189      | +2.4%          |
+| K.Walker          | 9.6%  | 21.9%      | 228      | +2.1%          |
+| Ja.Williams       | 1.5%  | 28.5%      | 263      | +4.1%          |
+| T.Allgeier        | 4.3%  | 26.7%      | 210      | +3.5%          |
+| M.Gordon          | 8.9%  | 15.6%      | 90       | +1.3%          |
+| C.Edwards-Helaire | 16.9% | 11.3%      | 71       | -0.3%          |
+| G.Edwards         | 3.4%  | 20.7%      | 87       | +2.7%          |
+| Z.Moss            | 3.2%  | 3.2%       | 93       | +0.1%          |
+
+### WR - Reception Context
+
+*How often receivers face difficult catch situations*
+
+- **Contested Catch**: +25% adjustment (harder)
+- **Drop**: -8 pts penalty
+- **Screen Pass**: -10% adjustment (easier)
+
+| Player             | Contested% | Drops | Screen% | Targets | Net Adjustment |
+| :------------------| :----------| :-----| :-------| :-------| :--------------|
+| T.McLaurin         | 14.2%      | 3     | 9.2%    | 120     | +2.4%          |
+| M.Williams         | 29.0%      | 0     | 5.4%    | 93      | +6.7%          |
+| B.Aiyuk            | 20.2%      | 4     | 5.3%    | 114     | +4.2%          |
+| C.Watson           | 24.2%      | 3     | 9.1%    | 66      | +4.9%          |
+| C.Sutton           | 12.8%      | 3     | 0.9%    | 109     | +2.9%          |
+| N.Collins          | 15.2%      | 1     | 4.5%    | 66      | +3.3%          |
+| K.Osborn           | 16.7%      | 5     | 12.2%   | 90      | +2.5%          |
+| D.Chark            | 38.5%      | 1     | 5.8%    | 52      | +9.0%          |
+| I.Hodgins          | 16.7%      | 0     | 4.2%    | 48      | +3.7%          |
+| R.James            | 4.3%       | 2     | 5.7%    | 70      | +0.3%          |
+| V.Jefferson        | 13.6%      | 1     | 0.0%    | 44      | +3.3%          |
+| M.Valdes-Scantling | 18.5%      | 5     | 1.2%    | 81      | +4.1%          |
+| K.Bourne           | 14.6%      | 4     | 22.9%   | 48      | +1.0%          |
+| T.Smith            | 14.8%      | 2     | 3.7%    | 27      | +3.2%          |
+| Q.Watkins          | 15.7%      | 0     | 19.6%   | 51      | +2.0%          |
+
+### TE - Reception Context
+
+*How often receivers face difficult catch situations*
+
+- **Contested Catch**: +25% adjustment (harder)
+- **Drop**: -8 pts penalty
+- **Screen Pass**: -10% adjustment (easier)
+
+| Player      | Contested% | Drops | Screen% | Targets | Net Adjustment |
+| :-----------| :----------| :-----| :-------| :-------| :--------------|
+| M.Andrews   | 10.6%      | 3     | 2.7%    | 113     | +2.1%          |
+| E.Engram    | 5.1%       | 3     | 11.2%   | 98      | -0.1%          |
+| G.Everett   | 24.1%      | 7     | 11.5%   | 87      | +4.3%          |
+| C.Kmet      | 4.3%       | 2     | 13.0%   | 69      | -0.4%          |
+| H.Hurst     | 10.3%      | 1     | 2.9%    | 68      | +2.2%          |
+| J.Johnson   | 10.8%      | 1     | 0.0%    | 65      | +2.6%          |
+| T.Conklin   | 11.5%      | 5     | 1.1%    | 87      | +2.4%          |
+| I.Smith     | 19.4%      | 1     | 8.3%    | 36      | +3.9%          |
+| R.Tonyan    | 11.9%      | 1     | 3.0%    | 67      | +2.6%          |
+| D.Bellinger | 11.4%      | 0     | 5.7%    | 35      | +2.3%          |
+| C.Okonkwo   | 12.8%      | 5     | 14.9%   | 47      | +1.3%          |
+| A.Hooper    | 18.3%      | 1     | 0.0%    | 60      | +4.5%          |
+| H.Bryant    | 2.4%       | 1     | 4.8%    | 42      | +0.0%          |
+
+*Note: Net Adjustment shows cumulative impact of FTN flags on player scores. Positive = harder situations faced, Negative = easier situations faced.*
 
