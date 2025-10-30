@@ -1,4 +1,5 @@
 from datetime import datetime
+from pathlib import Path
 
 TEAM_CODES = {
     "crd": "Arizona Cardinals",
@@ -38,7 +39,8 @@ TEAM_CODES = {
 START_YEAR = 2000  # change if you want earlier data
 END_YEAR = datetime.now().year   # change if you want later data
 
-CACHE_DIR = "cache"
+# Use absolute path for cache directory (resolves relative to project root)
+CACHE_DIR = str((Path(__file__).parent.parent / "cache").resolve())
 
 # Games per season by year (for normalization)
 GAMES_PER_SEASON = {

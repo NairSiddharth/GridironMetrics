@@ -673,6 +673,13 @@ def calculate_qb_contribution_from_pbp(year: int, qb_name: str) -> float:
     Positive contributions:
     - Passing yards, TDs, completions, rushing yards/TDs (base weights)
     - Bonus for completions under pressure (1.4x completion, 1.2x yards) when data available
+    - Bonus for out of pocket completions (+3 points) when FTN data available (2022+)
+    
+    Contextual adjustments (FTN data, 2022+):
+    - Play action: -10% (easier reads)
+    - Out of pocket: +3 pts per completion (improvisation value)
+    - Blitz: -2 pts per completion (defense took risk)
+    - Screen pass: -15% (high completion rate, low value)
     
     Negative penalties (with situation modifiers):
     - Interceptions: -35 base
@@ -689,8 +696,25 @@ def calculate_qb_contribution_from_pbp(year: int, qb_name: str) -> float:
     if pbp_data is None:
         return 0.0
     
+    # Load FTN charting data if available (2022+)
+    from modules.ftn_cache_builder import load_ftn_cache, FTN_START_YEAR
+    ftn_data = None
+    if year >= FTN_START_YEAR:
+        ftn_data = load_ftn_cache(year)
+        if ftn_data is not None:
+            # Join FTN data with PBP
+            pbp_data = pbp_data.join(
+                ftn_data,
+                left_on=['game_id', 'play_id'],
+                right_on=['nflverse_game_id', 'nflverse_play_id'],
+                how='left'
+            )
+            # Log only once per year (not per QB)
+            # logger.info(f"FTN data joined for {year} QB analysis ({len(ftn_data)} charted plays)")
+    
     # Check if pressure data is available (2024 and earlier have ~96% coverage)
     has_pressure_data = pbp_data['was_pressure'].null_count() < len(pbp_data) * 0.5
+    has_ftn_data = ftn_data is not None
     
     weights = COMBINED_METRICS['qb_contribution']['weights']
     contribution = 0.0
@@ -703,15 +727,39 @@ def calculate_qb_contribution_from_pbp(year: int, qb_name: str) -> float:
     
     # === POSITIVE CONTRIBUTIONS ===
     
-    # Passing yards - with pressure bonus if available
-    if has_pressure_data:
-        # Clean pocket yards
+    # Passing yards - with pressure bonus and FTN contextual adjustments
+    if has_pressure_data and has_ftn_data:
+        # Process each pass play with full context
+        pass_plays = qb_plays.filter(pl.col('passing_yards').is_not_null())
+        
+        for play in pass_plays.iter_rows(named=True):
+            yards = play.get('passing_yards', 0)
+            base_value = yards * weights['passing_yards']
+            
+            # Pressure bonus (1.2x)
+            if play.get('was_pressure') == 1:
+                base_value *= 1.2
+            
+            # FTN contextual adjustments
+            ftn_modifier = 1.0
+            
+            # Play action: -10%
+            if play.get('is_play_action') == True:
+                ftn_modifier *= 0.9
+            
+            # Screen pass: -15%
+            if play.get('is_screen_pass') == True:
+                ftn_modifier *= 0.85
+            
+            contribution += base_value * ftn_modifier
+    
+    elif has_pressure_data:
+        # Pressure bonus only (no FTN data)
         clean_yards = qb_plays.filter(
             (pl.col('passing_yards').is_not_null()) & 
             ((pl.col('was_pressure') == 0) | (pl.col('was_pressure').is_null()))
         )['passing_yards'].sum()
         
-        # Pressured yards (1.2x bonus)
         pressure_yards = qb_plays.filter(
             (pl.col('passing_yards').is_not_null()) & 
             (pl.col('was_pressure') == 1)
@@ -719,8 +767,27 @@ def calculate_qb_contribution_from_pbp(year: int, qb_name: str) -> float:
         
         contribution += (clean_yards or 0) * weights['passing_yards']
         contribution += (pressure_yards or 0) * weights['passing_yards'] * 1.2
+    
+    elif has_ftn_data:
+        # FTN adjustments only (no pressure data)
+        pass_plays = qb_plays.filter(pl.col('passing_yards').is_not_null())
+        
+        for play in pass_plays.iter_rows(named=True):
+            yards = play.get('passing_yards', 0)
+            base_value = yards * weights['passing_yards']
+            
+            ftn_modifier = 1.0
+            
+            if play.get('is_play_action') == True:
+                ftn_modifier *= 0.9
+            
+            if play.get('is_screen_pass') == True:
+                ftn_modifier *= 0.85
+            
+            contribution += base_value * ftn_modifier
+    
     else:
-        # No pressure data - use standard calculation
+        # No pressure or FTN data - standard calculation
         total_yards = qb_plays.filter(pl.col('passing_yards').is_not_null())['passing_yards'].sum()
         contribution += (total_yards or 0) * weights['passing_yards']
     
@@ -728,15 +795,48 @@ def calculate_qb_contribution_from_pbp(year: int, qb_name: str) -> float:
     passing_tds = qb_plays.filter(pl.col('pass_touchdown') == 1).height
     contribution += passing_tds * weights['passing_tds']
     
-    # Completions - with pressure bonus if available
-    if has_pressure_data:
-        # Clean completions
+    # Completions - with pressure bonus and FTN contextual adjustments
+    if has_pressure_data and has_ftn_data:
+        # Process each completion with full context
+        completions = qb_plays.filter(pl.col('complete_pass') == 1)
+        
+        for comp in completions.iter_rows(named=True):
+            base_value = weights['completions']
+            
+            # Pressure bonus (1.4x)
+            if comp.get('was_pressure') == 1:
+                base_value *= 1.4
+            
+            # FTN contextual adjustments
+            ftn_modifier = 1.0
+            ftn_bonus = 0
+            
+            # Play action: -10% (easier reads)
+            if comp.get('is_play_action') == True:
+                ftn_modifier *= 0.9
+            
+            # Screen pass: -15% (high completion rate, low difficulty)
+            if comp.get('is_screen_pass') == True:
+                ftn_modifier *= 0.85
+            
+            # Out of pocket: +3 points (improvisation bonus)
+            if comp.get('is_qb_out_of_pocket') == True:
+                ftn_bonus += 3.0
+            
+            # Blitz: -2 points (defense took risk, easier read)
+            n_blitzers = comp.get('n_blitzers')
+            if n_blitzers is not None and n_blitzers >= 5:
+                ftn_bonus -= 2.0
+            
+            contribution += (base_value * ftn_modifier) + ftn_bonus
+    
+    elif has_pressure_data:
+        # Pressure bonus only (no FTN data)
         clean_completions = qb_plays.filter(
             (pl.col('complete_pass') == 1) & 
             ((pl.col('was_pressure') == 0) | (pl.col('was_pressure').is_null()))
         ).height
         
-        # Pressured completions (1.4x bonus)
         pressure_completions = qb_plays.filter(
             (pl.col('complete_pass') == 1) & 
             (pl.col('was_pressure') == 1)
@@ -744,8 +844,34 @@ def calculate_qb_contribution_from_pbp(year: int, qb_name: str) -> float:
         
         contribution += clean_completions * weights['completions']
         contribution += pressure_completions * weights['completions'] * 1.4
+    
+    elif has_ftn_data:
+        # FTN adjustments only (no pressure data)
+        completions = qb_plays.filter(pl.col('complete_pass') == 1)
+        
+        for comp in completions.iter_rows(named=True):
+            base_value = weights['completions']
+            
+            ftn_modifier = 1.0
+            ftn_bonus = 0
+            
+            if comp.get('is_play_action') == True:
+                ftn_modifier *= 0.9
+            
+            if comp.get('is_screen_pass') == True:
+                ftn_modifier *= 0.85
+            
+            if comp.get('is_qb_out_of_pocket') == True:
+                ftn_bonus += 3.0
+            
+            n_blitzers = comp.get('n_blitzers')
+            if n_blitzers is not None and n_blitzers >= 5:
+                ftn_bonus -= 2.0
+            
+            contribution += (base_value * ftn_modifier) + ftn_bonus
+    
     else:
-        # No pressure data - use standard calculation
+        # No pressure or FTN data - standard calculation
         completions = qb_plays.filter(pl.col('complete_pass') == 1).height
         contribution += completions * weights['completions']
     
@@ -933,7 +1059,14 @@ def generate_qb_rankings(year: int) -> str:
     # Calculate QB contribution scores using play-by-play data with contextual penalties/rewards
     qb_contributions = []
     
-    logger.info(f"Calculating QB contributions from play-by-play data with contextual penalties and pressure bonuses...")
+    # Check if FTN data is available for this year
+    from modules.ftn_cache_builder import FTN_START_YEAR
+    has_ftn = year >= FTN_START_YEAR
+    
+    if has_ftn:
+        logger.info(f"Calculating QB contributions with FTN contextual adjustments (PA, OOP, blitz, screen)...")
+    else:
+        logger.info(f"Calculating QB contributions from play-by-play data with contextual penalties and pressure bonuses...")
     
     for qb_name in qb_stats['player_name'].unique().to_list():
         qb_data = qb_stats.filter(pl.col('player_name') == qb_name)
@@ -1028,7 +1161,7 @@ def generate_rb_rankings(year: int) -> str:
     player_stats = pl.concat(list(position_stats.values())) if position_stats else None
     avg_difficulty = calculate_average_difficulty(year, player_stats) if player_stats is not None else None
     
-    # Apply minimum activity threshold: 8 carries per game
+    # Apply minimum activity threshold: 7 carries per game
     rb_games = rb_stats.group_by(['player_id', 'player_name']).agg([
         pl.col('week').count().alias('games'),
         pl.col('carries').sum().alias('total_carries')
@@ -1038,8 +1171,8 @@ def generate_rb_rankings(year: int) -> str:
         (pl.col('total_carries') / pl.col('games')).alias('carries_per_game')
     ])
     
-    # Filter to qualified RBs (8+ carries per game)
-    qualified_rbs = rb_games.filter(pl.col('carries_per_game') >= 8.0)
+    # Filter to qualified RBs (7+ carries per game)
+    qualified_rbs = rb_games.filter(pl.col('carries_per_game') >= 7.0)
     rb_stats = rb_stats.join(
         qualified_rbs.select(['player_id', 'player_name']), 
         on=['player_id', 'player_name'], 
@@ -1047,9 +1180,55 @@ def generate_rb_rankings(year: int) -> str:
     )
     
     if len(rb_stats) == 0:
-        return "No qualified RBs (8+ carries/game) for this season."
+        return "No qualified RBs (7+ carries/game) for this season."
     
-    logger.info(f"Filtered to {len(qualified_rbs)} qualified RBs (8+ carries/game)")
+    logger.info(f"Filtered to {len(qualified_rbs)} qualified RBs (7+ carries/game)")
+    
+    # Load PBP and FTN data for contextual adjustments
+    from modules.ftn_cache_builder import load_ftn_cache, FTN_START_YEAR
+    ftn_adjustments = {}
+    
+    if year >= FTN_START_YEAR:
+        pbp_data = pbp_processor.load_pbp_data(year)
+        ftn_data = load_ftn_cache(year)
+        
+        if pbp_data is not None and ftn_data is not None:
+            # Join FTN data
+            pbp_data = pbp_data.join(
+                ftn_data,
+                left_on=['game_id', 'play_id'],
+                right_on=['nflverse_game_id', 'nflverse_play_id'],
+                how='left'
+            )
+            
+            logger.info(f"Calculating FTN adjustments for RBs (RPO, heavy box)...")
+            
+            # Calculate FTN adjustments for each RB
+            for player_id in rb_stats['player_id'].unique().to_list():
+                # Get all rushes for this RB
+                rb_rushes = pbp_data.filter(pl.col('rusher_player_id') == player_id)
+                
+                if len(rb_rushes) == 0:
+                    continue
+                
+                adjustment = 0.0
+                
+                # RPO adjustment: -12% on yards (easier runs with numbers advantage)
+                rpo_runs = rb_rushes.filter(pl.col('is_rpo') == True)
+                rpo_yards = rpo_runs['yards_gained'].sum() or 0
+                rpo_adjustment = rpo_yards * -0.12
+                
+                # Heavy box bonus: +15% for 8+ defenders (stacked box)
+                heavy_box_runs = rb_rushes.filter(pl.col('n_defense_box') >= 8)
+                heavy_box_yards = heavy_box_runs['yards_gained'].sum() or 0
+                heavy_box_bonus = heavy_box_yards * 0.15
+                
+                adjustment = rpo_adjustment + heavy_box_bonus
+                
+                if adjustment != 0:
+                    ftn_adjustments[player_id] = adjustment
+            
+            logger.info(f"Applied FTN adjustments to {len(ftn_adjustments)} RBs")
     
     # Calculate RB contribution scores
     rb_contributions = []
@@ -1065,6 +1244,10 @@ def generate_rb_rankings(year: int) -> str:
         for metric, weight in weights.items():
             if metric in rb_data.columns:
                 contribution += rb_data[metric].sum() * weight
+        
+        # Add FTN contextual adjustments if available
+        if player_id in ftn_adjustments:
+            contribution += ftn_adjustments[player_id]
         
         games_played = rb_data.height
         if games_played > 0:
@@ -1208,6 +1391,61 @@ def generate_wr_rankings(year: int) -> str:
     
     logger.info(f"Filtered to {len(qualified_wrs)} qualified WRs (3+ targets/game)")
     
+    # Load PBP and FTN data for contextual adjustments
+    from modules.ftn_cache_builder import load_ftn_cache, FTN_START_YEAR
+    ftn_adjustments = {}
+    
+    if year >= FTN_START_YEAR:
+        pbp_data = pbp_processor.load_pbp_data(year)
+        ftn_data = load_ftn_cache(year)
+        
+        if pbp_data is not None and ftn_data is not None:
+            # Join FTN data
+            pbp_data = pbp_data.join(
+                ftn_data,
+                left_on=['game_id', 'play_id'],
+                right_on=['nflverse_game_id', 'nflverse_play_id'],
+                how='left'
+            )
+            
+            logger.info(f"Calculating FTN adjustments for WRs (contested catches, drops, screens)...")
+            
+            # Calculate FTN adjustments for each WR
+            for player_id in wr_stats['player_id'].unique().to_list():
+                # Get all targets for this WR
+                wr_targets = pbp_data.filter(pl.col('receiver_player_id') == player_id)
+                
+                if len(wr_targets) == 0:
+                    continue
+                
+                adjustment = 0.0
+                
+                # Contested catch bonus: 1.25x multiplier = 0.25 bonus per catch
+                contested_catches = wr_targets.filter(
+                    (pl.col('complete_pass') == 1) & 
+                    (pl.col('is_contested_ball') == True)
+                ).height
+                contested_bonus = contested_catches * 5.0 * 0.25  # 25% bonus on 5pt base value
+                
+                # Drop penalty: -8 points per drop
+                drops = wr_targets.filter(pl.col('is_drop') == True).height
+                drop_penalty = drops * -8.0
+                
+                # Screen pass adjustment: -10% on yards
+                screen_catches = wr_targets.filter(
+                    (pl.col('complete_pass') == 1) &
+                    (pl.col('is_screen_pass') == True)
+                )
+                screen_yards = screen_catches['yards_gained'].sum() or 0
+                screen_adjustment = screen_yards * -0.10
+                
+                adjustment = contested_bonus + drop_penalty + screen_adjustment
+                
+                if adjustment != 0:
+                    ftn_adjustments[player_id] = adjustment
+            
+            logger.info(f"Applied FTN adjustments to {len(ftn_adjustments)} WRs")
+    
     # Calculate WR contribution scores
     wr_contributions = []
     
@@ -1222,6 +1460,10 @@ def generate_wr_rankings(year: int) -> str:
         for metric, weight in weights.items():
             if metric in wr_data.columns:
                 contribution += wr_data[metric].sum() * weight
+        
+        # Add FTN contextual adjustments if available
+        if player_id in ftn_adjustments:
+            contribution += ftn_adjustments[player_id]
         
         games_played = wr_data.height
         if games_played > 0:
@@ -1365,6 +1607,61 @@ def generate_te_rankings(year: int) -> str:
     
     logger.info(f"Filtered to {len(qualified_tes)} qualified TEs (2+ targets/game)")
     
+    # Load PBP and FTN data for contextual adjustments
+    from modules.ftn_cache_builder import load_ftn_cache, FTN_START_YEAR
+    ftn_adjustments = {}
+    
+    if year >= FTN_START_YEAR:
+        pbp_data = pbp_processor.load_pbp_data(year)
+        ftn_data = load_ftn_cache(year)
+        
+        if pbp_data is not None and ftn_data is not None:
+            # Join FTN data
+            pbp_data = pbp_data.join(
+                ftn_data,
+                left_on=['game_id', 'play_id'],
+                right_on=['nflverse_game_id', 'nflverse_play_id'],
+                how='left'
+            )
+            
+            logger.info(f"Calculating FTN adjustments for TEs (contested catches, drops, screens)...")
+            
+            # Calculate FTN adjustments for each TE
+            for player_id in te_stats['player_id'].unique().to_list():
+                # Get all targets for this TE
+                te_targets = pbp_data.filter(pl.col('receiver_player_id') == player_id)
+                
+                if len(te_targets) == 0:
+                    continue
+                
+                adjustment = 0.0
+                
+                # Contested catch bonus: 1.25x multiplier = 0.25 bonus per catch
+                contested_catches = te_targets.filter(
+                    (pl.col('complete_pass') == 1) & 
+                    (pl.col('is_contested_ball') == True)
+                ).height
+                contested_bonus = contested_catches * 5.0 * 0.25  # 25% bonus on 5pt base value
+                
+                # Drop penalty: -8 points per drop
+                drops = te_targets.filter(pl.col('is_drop') == True).height
+                drop_penalty = drops * -8.0
+                
+                # Screen pass adjustment: -10% on yards
+                screen_catches = te_targets.filter(
+                    (pl.col('complete_pass') == 1) &
+                    (pl.col('is_screen_pass') == True)
+                )
+                screen_yards = screen_catches['yards_gained'].sum() or 0
+                screen_adjustment = screen_yards * -0.10
+                
+                adjustment = contested_bonus + drop_penalty + screen_adjustment
+                
+                if adjustment != 0:
+                    ftn_adjustments[player_id] = adjustment
+            
+            logger.info(f"Applied FTN adjustments to {len(ftn_adjustments)} TEs")
+    
     # Calculate TE contribution scores
     te_contributions = []
     
@@ -1379,6 +1676,10 @@ def generate_te_rankings(year: int) -> str:
         for metric, weight in weights.items():
             if metric in te_data.columns:
                 contribution += te_data[metric].sum() * weight
+        
+        # Add FTN contextual adjustments if available
+        if player_id in ftn_adjustments:
+            contribution += ftn_adjustments[player_id]
         
         games_played = te_data.height
         if games_played > 0:
@@ -1819,6 +2120,234 @@ def calculate_difficulty_context(year: int, player_stats: pl.DataFrame) -> pl.Da
     
     logger.info(f"Calculated difficulty context for {len(difficulty_df)} players")
     return difficulty_df
+
+
+def generate_ftn_context(year: int, player_stats: pl.DataFrame, season_contributions: pl.DataFrame) -> str:
+    """Generate FTN charting context tables for QB/RB/WR/TE.
+    
+    Only generates content for years 2022+ (when FTN data is available).
+    
+    Args:
+        year: Season year
+        player_stats: Weekly player stats with FTN flags
+        season_contributions: Season-level contribution scores
+        
+    Returns:
+        Markdown string with FTN context tables
+    """
+    from modules.ftn_cache_builder import FTN_START_YEAR
+    
+    if year < FTN_START_YEAR:
+        return ""
+    
+    # Load FTN cache
+    ftn_path = Path("cache/ftn") / f"ftn_{year}.parquet"
+    if not ftn_path.exists():
+        logger.warning(f"FTN cache not found for {year}, skipping FTN context")
+        return ""
+    
+    try:
+        ftn_data = pl.read_parquet(ftn_path)
+    except Exception as e:
+        logger.error(f"Error loading FTN cache for {year}: {e}")
+        return ""
+    
+    # Load PBP data to join FTN with player stats
+    pbp_path = Path("cache/pbp") / f"pbp_{year}.parquet"
+    if not pbp_path.exists():
+        logger.warning(f"PBP cache not found for {year}, cannot generate FTN context")
+        return ""
+    
+    try:
+        pbp_data = pl.read_parquet(pbp_path)
+    except Exception as e:
+        logger.error(f"Error loading PBP cache for {year}: {e}")
+        return ""
+    
+    # Join FTN with PBP
+    pbp_with_ftn = pbp_data.join(
+        ftn_data,
+        on=['nflverse_game_id', 'nflverse_play_id'],
+        how='left'
+    )
+    
+    md = "## FTN Context (2022+)\n\n"
+    md += "*Human-charted play characteristics from Football Technology Network*\n\n"
+    
+    # QB Play Style Context
+    qb_players = player_stats.filter(pl.col('position') == 'QB').select(['player_id', 'player_name', 'position']).unique()
+    if len(qb_players) > 0:
+        qb_pbp = pbp_with_ftn.filter(
+            (pl.col('passer_player_id').is_in(qb_players['player_id'].to_list())) &
+            (pl.col('play_type') == 'pass') &
+            (pl.col('is_play_action').is_not_null())  # Ensure FTN data exists
+        )
+        
+        if len(qb_pbp) > 0:
+            qb_ftn = qb_pbp.group_by('passer_player_id').agg([
+                pl.len().alias('pass_attempts'),
+                pl.col('is_play_action').mean().alias('pa_rate'),
+                pl.col('is_qb_out_of_pocket').mean().alias('oop_rate'),
+                pl.col('is_screen_pass').mean().alias('screen_rate'),
+                (pl.col('n_blitzers') >= 5).mean().alias('blitz_rate')
+            ]).rename({'passer_player_id': 'player_id'})
+            
+            # Join with player names and season scores
+            qb_ftn = qb_ftn.join(qb_players, on='player_id', how='left')
+            qb_season = season_contributions.filter(pl.col('position') == 'QB').head(15)
+            qb_with_ftn = qb_season.join(qb_ftn, on=['player_id', 'player_name'], how='left')
+            
+            # Filter to QBs with at least 100 pass attempts
+            qb_with_ftn = qb_with_ftn.filter(pl.col('pass_attempts') >= 100)
+            
+            if len(qb_with_ftn) > 0:
+                md += "### QB - Play Style Context\n\n"
+                md += "*How often QBs face different play types*\n\n"
+                md += "- **Play Action**: -10% adjustment (easier)\n"
+                md += "- **Out of Pocket**: +3 pts/completion (harder)\n"
+                md += "- **5+ Blitzers**: -2 pts/completion (harder)\n"
+                md += "- **Screen Pass**: -15% adjustment (easier)\n\n"
+                
+                qb_table = PrettyTable()
+                qb_table.field_names = ["Player", "PA%", "OOP%", "Screen%", "Blitz%", "Pass Att", "Net Adjustment"]
+                qb_table.align = "l"
+                qb_table.float_format = '.1'
+                qb_table.set_style(TableStyle.MARKDOWN)
+                
+                for row in qb_with_ftn.sort('raw_score', descending=True).iter_rows(named=True):
+                    player_name = row['player_name']
+                    pa_pct = row['pa_rate'] * 100 if row['pa_rate'] is not None else 0
+                    oop_pct = row['oop_rate'] * 100 if row['oop_rate'] is not None else 0
+                    screen_pct = row['screen_rate'] * 100 if row['screen_rate'] is not None else 0
+                    blitz_pct = row['blitz_rate'] * 100 if row['blitz_rate'] is not None else 0
+                    pass_att = int(row['pass_attempts']) if row['pass_attempts'] is not None else 0
+                    
+                    # Calculate net adjustment impact (simplified)
+                    # Positive = harder, Negative = easier
+                    net_adj = (oop_pct * 0.03) + (blitz_pct * -0.02) + (pa_pct * -0.10) + (screen_pct * -0.15)
+                    adj_display = f"+{net_adj:.1f}%" if net_adj > 0 else f"{net_adj:.1f}%"
+                    
+                    qb_table.add_row([player_name, f"{pa_pct:.1f}%", f"{oop_pct:.1f}%", 
+                                     f"{screen_pct:.1f}%", f"{blitz_pct:.1f}%", pass_att, adj_display])
+                
+                md += qb_table.get_string() + "\n\n"
+    
+    # RB Scheme Context
+    rb_players = player_stats.filter(pl.col('position') == 'RB').select(['player_id', 'player_name', 'position']).unique()
+    if len(rb_players) > 0:
+        rb_pbp = pbp_with_ftn.filter(
+            (pl.col('rusher_player_id').is_in(rb_players['player_id'].to_list())) &
+            (pl.col('play_type') == 'run') &
+            (pl.col('is_rpo').is_not_null())  # Ensure FTN data exists
+        )
+        
+        if len(rb_pbp) > 0:
+            rb_ftn = rb_pbp.group_by('rusher_player_id').agg([
+                pl.len().alias('rush_attempts'),
+                pl.col('is_rpo').mean().alias('rpo_rate'),
+                (pl.col('n_defense_box') >= 8).mean().alias('heavy_box_rate')
+            ]).rename({'rusher_player_id': 'player_id'})
+            
+            # Join with player names and season scores
+            rb_ftn = rb_ftn.join(rb_players, on='player_id', how='left')
+            rb_season = season_contributions.filter(pl.col('position') == 'RB').head(15)
+            rb_with_ftn = rb_season.join(rb_ftn, on=['player_id', 'player_name'], how='left')
+            
+            # Filter to RBs with at least 50 rush attempts
+            rb_with_ftn = rb_with_ftn.filter(pl.col('rush_attempts') >= 50)
+            
+            if len(rb_with_ftn) > 0:
+                md += "### RB - Scheme Context\n\n"
+                md += "*How often RBs face different rushing situations*\n\n"
+                md += "- **RPO**: -12% adjustment (easier due to defensive confusion)\n"
+                md += "- **8+ Defenders in Box**: +15% adjustment (harder)\n\n"
+                
+                rb_table = PrettyTable()
+                rb_table.field_names = ["Player", "RPO%", "Heavy Box%", "Rush Att", "Net Adjustment"]
+                rb_table.align = "l"
+                rb_table.float_format = '.1'
+                rb_table.set_style(TableStyle.MARKDOWN)
+                
+                for row in rb_with_ftn.sort('raw_score', descending=True).iter_rows(named=True):
+                    player_name = row['player_name']
+                    rpo_pct = row['rpo_rate'] * 100 if row['rpo_rate'] is not None else 0
+                    heavy_box_pct = row['heavy_box_rate'] * 100 if row['heavy_box_rate'] is not None else 0
+                    rush_att = int(row['rush_attempts']) if row['rush_attempts'] is not None else 0
+                    
+                    # Calculate net adjustment impact
+                    # Positive = harder, Negative = easier
+                    net_adj = (rpo_pct * -0.12) + (heavy_box_pct * 0.15)
+                    adj_display = f"+{net_adj:.1f}%" if net_adj > 0 else f"{net_adj:.1f}%"
+                    
+                    rb_table.add_row([player_name, f"{rpo_pct:.1f}%", f"{heavy_box_pct:.1f}%", 
+                                     rush_att, adj_display])
+                
+                md += rb_table.get_string() + "\n\n"
+    
+    # WR/TE Reception Context
+    wr_te_players = player_stats.filter(
+        pl.col('position').is_in(['WR', 'TE'])
+    ).select(['player_id', 'player_name', 'position']).unique()
+    
+    if len(wr_te_players) > 0:
+        wr_te_pbp = pbp_with_ftn.filter(
+            (pl.col('receiver_player_id').is_in(wr_te_players['player_id'].to_list())) &
+            (pl.col('play_type') == 'pass') &
+            (pl.col('is_contested_ball').is_not_null())  # Ensure FTN data exists
+        )
+        
+        if len(wr_te_pbp) > 0:
+            wr_te_ftn = wr_te_pbp.group_by('receiver_player_id').agg([
+                pl.len().alias('targets'),
+                pl.col('is_contested_ball').mean().alias('contested_rate'),
+                pl.col('is_drop').sum().alias('drops'),
+                pl.col('is_screen_pass').mean().alias('screen_rate')
+            ]).rename({'receiver_player_id': 'player_id'})
+            
+            # Join with player names and season scores
+            wr_te_ftn = wr_te_ftn.join(wr_te_players, on='player_id', how='left')
+            
+            for pos in ['WR', 'TE']:
+                pos_season = season_contributions.filter(pl.col('position') == pos).head(15)
+                pos_with_ftn = pos_season.join(wr_te_ftn, on=['player_id', 'player_name'], how='left')
+                
+                # Filter to players with at least 20 targets
+                pos_with_ftn = pos_with_ftn.filter(pl.col('targets') >= 20)
+                
+                if len(pos_with_ftn) > 0:
+                    md += f"### {pos} - Reception Context\n\n"
+                    md += "*How often receivers face difficult catch situations*\n\n"
+                    md += "- **Contested Catch**: +25% adjustment (harder)\n"
+                    md += "- **Drop**: -8 pts penalty\n"
+                    md += "- **Screen Pass**: -10% adjustment (easier)\n\n"
+                    
+                    pos_table = PrettyTable()
+                    pos_table.field_names = ["Player", "Contested%", "Drops", "Screen%", "Targets", "Net Adjustment"]
+                    pos_table.align = "l"
+                    pos_table.float_format = '.1'
+                    pos_table.set_style(TableStyle.MARKDOWN)
+                    
+                    for row in pos_with_ftn.sort('raw_score', descending=True).iter_rows(named=True):
+                        player_name = row['player_name']
+                        contested_pct = row['contested_rate'] * 100 if row['contested_rate'] is not None else 0
+                        drops = int(row['drops']) if row['drops'] is not None else 0
+                        screen_pct = row['screen_rate'] * 100 if row['screen_rate'] is not None else 0
+                        targets = int(row['targets']) if row['targets'] is not None else 0
+                        
+                        # Calculate net adjustment impact
+                        # Positive = harder, Negative = easier
+                        net_adj = (contested_pct * 0.25) + (screen_pct * -0.10) + (drops * -0.08)
+                        adj_display = f"+{net_adj:.1f}%" if net_adj > 0 else f"{net_adj:.1f}%"
+                        
+                        pos_table.add_row([player_name, f"{contested_pct:.1f}%", drops, 
+                                          f"{screen_pct:.1f}%", targets, adj_display])
+                    
+                    md += pos_table.get_string() + "\n\n"
+    
+    md += "*Note: Net Adjustment shows cumulative impact of FTN flags on player scores. Positive = harder situations faced, Negative = easier situations faced.*\n\n"
+    
+    logger.info(f"Generated FTN context tables for {year}")
+    return md
 
 
 def generate_top_contributors(year: int) -> tuple[str, str]:
@@ -2433,6 +2962,13 @@ def generate_top_contributors(year: int) -> tuple[str, str]:
         
         deep_dive_md += "*Note: Multipliers > 1.0 indicate tougher situations (bonus), < 1.0 indicate easier situations (penalty)*\n\n"
     
+    # Add FTN context section (only for years 2022+)
+    from modules.ftn_cache_builder import FTN_START_YEAR
+    if year >= FTN_START_YEAR:
+        ftn_context = generate_ftn_context(year, player_stats, raw_season_contributions)
+        if ftn_context:
+            deep_dive_md += ftn_context
+    
     return overview_md, deep_dive_md
 
 def process_year(year: int) -> tuple[bool, str, str, str, str, str, str, str, str]:
@@ -2462,7 +2998,7 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
     """Check all years for missing caches and rebuild all cache types as needed.
     
     This runs before main processing to ensure all caches exist and have required data.
-    Rebuilds PBP, positional player stats, and team stats caches.
+    Rebuilds PBP, positional player stats, team stats, and FTN caches.
     
     Args:
         years: List of years to check
@@ -2470,6 +3006,7 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
     """
     from modules.positional_cache_builder import build_positional_cache_for_year
     from modules.team_cache_builder import build_team_cache_for_year
+    from modules.ftn_cache_builder import build_ftn_cache_for_year, FTN_START_YEAR
     
     logger.info("Checking cache completeness for all years...")
     
@@ -2478,6 +3015,7 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
     
     years_needing_pbp_rebuild = []
     years_needing_positional_rebuild = []
+    years_needing_ftn_rebuild = []
     years_needing_team_rebuild = []
     
     # Check each year's caches
@@ -2530,8 +3068,15 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
             if not has_team_data:
                 logger.info(f"Team stats cache missing for {year}, will rebuild")
                 years_needing_team_rebuild.append(year)
+        
+        # Check FTN cache (only for 2022+)
+        if year >= FTN_START_YEAR:
+            ftn_path = Path("cache/ftn") / f"ftn_{year}.parquet"
+            if not ftn_path.exists():
+                logger.info(f"FTN cache missing for {year}, will rebuild")
+                years_needing_ftn_rebuild.append(year)
     
-    total_rebuilds = len(set(years_needing_pbp_rebuild + years_needing_positional_rebuild + years_needing_team_rebuild))
+    total_rebuilds = len(set(years_needing_pbp_rebuild + years_needing_positional_rebuild + years_needing_team_rebuild + years_needing_ftn_rebuild))
     
     if total_rebuilds == 0:
         logger.info("All caches up to date!")
@@ -2544,9 +3089,11 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
         logger.info(f"  Positional: {years_needing_positional_rebuild}")
     if years_needing_team_rebuild:
         logger.info(f"  Team: {years_needing_team_rebuild}")
+    if years_needing_ftn_rebuild:
+        logger.info(f"  FTN: {years_needing_ftn_rebuild}")
     
     # Rebuild all cache types
-    years_to_rebuild = sorted(set(years_needing_pbp_rebuild + years_needing_positional_rebuild + years_needing_team_rebuild))
+    years_to_rebuild = sorted(set(years_needing_pbp_rebuild + years_needing_positional_rebuild + years_needing_team_rebuild + years_needing_ftn_rebuild))
     
     if parallel and len(years_to_rebuild) > 1:
         from concurrent.futures import ThreadPoolExecutor
@@ -2560,6 +3107,8 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
                     futures[executor.submit(build_positional_cache_for_year, year)] = (year, "Positional")
                 if year in years_needing_team_rebuild:
                     futures[executor.submit(build_team_cache_for_year, year)] = (year, "Team")
+                if year in years_needing_ftn_rebuild:
+                    futures[executor.submit(build_ftn_cache_for_year, year)] = (year, "FTN")
             
             for future in concurrent.futures.as_completed(futures):
                 year, cache_type = futures[future]
@@ -2567,7 +3116,7 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
                     result = future.result()
                     if cache_type == "PBP" and result:
                         logger.info(f"{cache_type} cache rebuilt for {year}")
-                    elif cache_type in ["Positional", "Team"]:
+                    elif cache_type in ["Positional", "Team", "FTN"]:
                         logger.info(f"{cache_type} cache rebuilt for {year}")
                     else:
                         logger.warning(f"{cache_type} cache rebuild failed for {year}")
@@ -2602,6 +3151,14 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
                     logger.info(f"Team cache rebuilt for {year}")
                 except Exception as e:
                     logger.error(f"Team cache rebuild error for {year}: {e}")
+            
+            if year in years_needing_ftn_rebuild:
+                try:
+                    logger.info(f"Rebuilding FTN cache for {year}...")
+                    build_ftn_cache_for_year(year)
+                    logger.info(f"FTN cache rebuilt for {year}")
+                except Exception as e:
+                    logger.error(f"FTN cache rebuild error for {year}: {e}")
     
     logger.info("Cache rebuild complete!")
 

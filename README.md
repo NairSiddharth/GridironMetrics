@@ -33,6 +33,10 @@ By weighting each play based on 10+ contextual factors—including field positio
 - **YAC Efficiency**: Rewards explosive plays after initial contact
 - **Catch Rate**: Adjusts receiving performance vs expected completion percentage
 
+**FTN Adjustments (2022+):**
+- **RPO Reduction (-12%)**: RPO runs have numbers advantage (QB reads to favorable side)
+- **Heavy Box Bonus (+15%)**: Running against 8+ defenders is significantly harder (verified count)
+
 **Output Includes:**
 - Average defenders in box faced
 - Percentage of rushes vs 8+ defenders
@@ -60,6 +64,11 @@ By weighting each play based on 10+ contextual factors—including field positio
 - **YAC Efficiency**: Rewards explosive gains after the catch
 - **Separation**: Implicitly measured through coverage type and catch difficulty
 
+**FTN Adjustments (2022+):**
+- **Contested Catch Bonus (+25%)**: Catching with defender in position requires elite ball skills
+- **Drop Penalty (-8 pts per drop)**: Drops represent unreliability and missed opportunities
+- **Screen Pass Reduction (-10%)**: Screen catches are easier (less traffic, designed space)
+
 **Output Includes:**
 - Percentage of targets vs man coverage
 - Average coverage difficulty multiplier (1.015-1.040 typical range)
@@ -86,6 +95,11 @@ By weighting each play based on 10+ contextual factors—including field positio
   - Run-blocking efficiency
 - **Catch Rate**: Adjusts for contested catches and traffic receptions
 - **YAC Efficiency**: Middle-of-field yards after catch
+
+**FTN Adjustments (2022+):**
+- **Contested Catch Bonus (+25%)**: Catching with defender in position requires elite ball skills
+- **Drop Penalty (-8 pts per drop)**: Drops represent unreliability and missed opportunities
+- **Screen Pass Reduction (-10%)**: Screen catches are easier (less traffic, designed space)
 
 **Output Includes:**
 - Coverage type distribution
@@ -120,6 +134,22 @@ By weighting each play based on 10+ contextual factors—including field positio
 - **Pass Protection**: Implicitly measured through sack avoidance
 - **Garbage Time**: Prevents stat-padding (0.5x multiplier when game decided)
 
+**Advanced Adjustments (2024+):**
+- **Pressure Bonuses**: Completions under pressure (NextGen Stats GPS tracking)
+  - Completion under pressure: +40% points
+  - Yards under pressure: +20% value
+- **Contextual Penalties**: Turnovers/sacks weighted by game situation
+  - Field position multiplier: 1.5x in own territory
+  - Score differential: 1.2x in close games
+  - Time remaining: 1.3x in final 2 minutes
+  - Down/distance: 0.7x on 3rd/4th down (calculated risk)
+
+**FTN Adjustments (2022+):**
+- **Play Action Reduction (-10%)**: Play action passes are easier (defense fooled, simplified reads)
+- **Out of Pocket Bonus (+3 pts per completion)**: Completing while scrambling shows improvisation
+- **Blitz Adjustment (-2 pts per completion)**: Blitz creates easier throwing windows (less coverage)
+- **Screen Pass Reduction (-15%)**: Screens are high-percentage, low-difficulty throws
+
 **Minimum Activity Threshold:** 14 pass attempts per game
 
 **Output Includes:**
@@ -153,7 +183,7 @@ These adjustments apply to **all positions**:
 
 ### Minimum Activity Thresholds
 Filters out noise from limited participation:
-- **RB**: 6.25 carries per game
+- **RB**: 7 carries per game
 - **WR**: 1.875 receptions per game
 - **TE**: 1.875 receptions per game
 - **QB**: 14 pass attempts per game
@@ -178,7 +208,36 @@ Filters out noise from limited participation:
 
 ## Technical Foundation
 
-**Data Source:** nflreadpy (nflfastR play-by-play data)  
+### Data Sources
+
+**Primary Data (nflverse/nflreadpy):**
+- Play-by-play data (2000-present)
+- Player statistics (2000-present)
+- Team statistics (2000-present)
+- Participation data (2016-present)
+- NextGen Stats pressure data (2016-present)
+
+**Enhanced Data (FTN Charting - 2022-present):**
+
+FTN (Football Technology Network) provides human-charted flags for specific play characteristics that enable more sophisticated contextual adjustments:
+
+**QB Context Flags:**
+- **Play action** vs standard dropback (defense fooled by fake)
+- **In pocket** vs **out of pocket** (scrambling/improvisation)
+- **Number of blitzers** (pressure from extra rushers)
+- **Screen passes** (designed high-percentage throws)
+
+**WR/TE Context Flags:**
+- **Contested catches** (defender within 1 yard at catch point)
+- **True drops** (catchable ball that hit hands but not caught)
+- **Screen passes** (catches in designed space)
+
+**RB Context Flags:**
+- **RPO plays** (Run-Pass Option with numbers advantage)
+- **Defenders in box** (verified count, more accurate than inferred)
+- **Screen passes** (designed space/easier yards)
+
+These objective flags allow us to separate player skill from scheme/situation without subjective grading.
+
 **Language:** Python with Polars for data processing  
-**Participation Data:** Actual NFL participation records (2016-2024), inferred for other years  
 **Cache System:** Pre-processed play-by-play data with all multipliers calculated

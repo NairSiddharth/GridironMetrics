@@ -52,9 +52,9 @@
 | Rank | Player       | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :------------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
 | 1    | T.Kelce      | KC   | 6362.25        | 1.005      | 17    | 374.25   | 345.25  | 9/1/7       | Decreasing |
-| 2    | M.Andrews    | BAL  | 3390.09        | 1.008      | 15    | 226.01   | 165.63  | 7/1/7       | Decreasing |
-| 3    | G.Kittle     | SF   | 3248.25        | 1.000      | 15    | 216.55   | 215.98  | 7/0/8       | Increasing |
-| 4    | D.Goedert    | PHI  | 2596.53        | 1.007      | 12    | 216.38   | 195.47  | 2/3/7       | Stable     |
+| 2    | G.Kittle     | SF   | 3248.25        | 1.000      | 15    | 216.55   | 215.98  | 7/0/8       | Increasing |
+| 3    | D.Goedert    | PHI  | 2596.53        | 1.007      | 12    | 216.38   | 195.47  | 2/3/7       | Stable     |
+| 4    | M.Andrews    | BAL  | 3240.17        | 1.008      | 15    | 216.01   | 165.63  | 7/1/7       | Decreasing |
 | 5    | E.Engram     | JAX  | 3535.66        | 0.998      | 17    | 207.98   | 196.63  | 9/2/6       | Decreasing |
 | 6    | T.Hockenson  | MIN  | 2022.65        | 1.003      | 10    | 202.27   | 190.70  | 4/0/6       | Stable     |
 | 7    | D.Njoku      | CLE  | 2789.19        | 1.001      | 14    | 199.23   | 199.77  | 7/0/7       | Decreasing |

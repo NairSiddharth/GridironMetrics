@@ -72,40 +72,41 @@
 
 | Player       | Avg Box | 8+ Box % | Avg Multiplier | Rush Att |
 | :------------| :-------| :--------| :--------------| :--------|
-| J.Taylor     | 6.6     | 10.2%    | 1.035          | 305      |
-| J.Mixon      | 6.8     | 13.4%    | 1.046          | 247      |
+| J.Gibbs      | 6.4     | 6.0%     | 1.024          | 250      |
 | D.Achane     | 6.6     | 5.9%     | 1.032          | 203      |
-| J.Cook       | 6.5     | 9.7%     | 1.027          | 207      |
+| A.Jones      | 6.6     | 10.2%    | 1.034          | 255      |
 | D.Montgomery | 6.4     | 6.5%     | 1.026          | 186      |
-| B.Irving     | 6.4     | 3.9%     | 1.021          | 207      |
-| R.Stevenson  | 6.6     | 13.5%    | 1.038          | 207      |
-| J.Mason      | 6.5     | 10.5%    | 1.029          | 153      |
-| A.Mattison   | 6.3     | 6.8%     | 1.017          | 134      |
-| T.Etienne    | 6.6     | 9.3%     | 1.036          | 150      |
+| N.Harris     | 6.7     | 13.7%    | 1.043          | 263      |
+| R.White      | 6.5     | 7.6%     | 1.027          | 144      |
+| K.Hunt       | 6.5     | 11.5%    | 1.032          | 200      |
+| B.Robinson   | 6.0     | 3.2%     | 1.003          | 187      |
+| Z.Moss       | 6.8     | 16.2%    | 1.047          | 74       |
+| A.Ekeler     | 6.4     | 12.0%    | 1.026          | 77       |
 | J.Warren     | 6.6     | 10.8%    | 1.035          | 120      |
-| G.Edwards    | 6.6     | 13.4%    | 1.033          | 102      |
+| T.Bigsby     | 6.5     | 13.1%    | 1.035          | 168      |
+| A.Gibson     | 6.4     | 7.5%     | 1.024          | 120      |
+| R.Mostert    | 6.4     | 8.2%     | 1.026          | 85       |
+| Z.White      | 6.6     | 13.8%    | 1.039          | 65       |
 
 ### WR - Coverage Context
 
 *Higher man coverage % = tougher matchups (2-Man, 1-Man, 0-Man, Cover-1)*
 
-| Player       | Man Cov % | Avg Multiplier | Targets |
-| :------------| :---------| :--------------| :-------|
-| T.Higgins    | 52.9%     | 1.031          | 110     |
-| D.Adams      | 48.6%     | 1.034          | 142     |
-| S.Diggs      | 38.1%     | 1.025          | 64      |
-| J.Addison    | 46.6%     | 1.024          | 100     |
-| T.Hill       | 44.6%     | 1.027          | 123     |
-| G.Pickens    | 57.3%     | 1.033          | 103     |
-| J.Reed       | 39.5%     | 1.022          | 76      |
-| A.Lazard     | 45.0%     | 1.037          | 61      |
-| D.Douglas    | 57.5%     | 1.035          | 87      |
-| R.Odunze     | 42.9%     | 1.016          | 101     |
-| R.McCloud    | 39.1%     | 1.024          | 87      |
-| C.Austin     | 59.6%     | 1.033          | 58      |
-| P.Washington | 42.3%     | 1.019          | 53      |
-| C.Samuel     | 53.8%     | 1.027          | 46      |
-| D.Brown      | 60.5%     | 1.029          | 40      |
+| Player     | Man Cov % | Avg Multiplier | Targets |
+| :----------| :---------| :--------------| :-------|
+| N.Collins  | 43.9%     | 1.020          | 99      |
+| A.Brown    | 74.2%     | 1.041          | 97      |
+| L.McConkey | 46.4%     | 1.027          | 113     |
+| J.Addison  | 46.6%     | 1.024          | 100     |
+| R.Bateman  | 35.8%     | 1.015          | 72      |
+| R.Doubs    | 51.4%     | 1.027          | 73      |
+| C.Olave    | 32.6%     | 1.022          | 44      |
+| C.Tillman  | 46.8%     | 1.027          | 51      |
+| E.Moore    | 53.3%     | 1.031          | 102     |
+| J.Palmer   | 46.0%     | 1.014          | 67      |
+| T.Atwell   | 39.0%     | 1.015          | 62      |
+| D.Hopkins  | 50.0%     | 1.023          | 80      |
+| L.Humphrey | 45.2%     | 1.028          | 45      |
 
 ### TE - Coverage Context
 
@@ -113,20 +114,20 @@
 
 | Player      | Man Cov % | Avg Multiplier | Targets |
 | :-----------| :---------| :--------------| :-------|
+| T.McBride   | 38.1%     | 1.018          | 147     |
 | J.Smith     | 28.8%     | 1.012          | 111     |
-| S.LaPorta   | 36.1%     | 1.018          | 83      |
-| Z.Ertz      | 43.0%     | 1.020          | 93      |
+| T.Kelce     | 35.1%     | 1.015          | 134     |
+| M.Andrews   | 49.3%     | 1.023          | 69      |
+| C.Otton     | 39.1%     | 1.021          | 87      |
+| E.Engram    | 43.3%     | 1.025          | 67      |
 | H.Henry     | 64.2%     | 1.039          | 97      |
-| T.Kraft     | 45.1%     | 1.020          | 71      |
 | T.Hockenson | 43.6%     | 1.027          | 62      |
 | J.Ferguson  | 34.8%     | 1.015          | 86      |
-| D.Kincaid   | 49.3%     | 1.019          | 75      |
-| I.Likely    | 36.8%     | 1.016          | 58      |
-| D.Schultz   | 44.7%     | 1.029          | 85      |
-| C.Okonkwo   | 26.8%     | 1.015          | 71      |
-| F.Moreau    | 42.9%     | 1.021          | 43      |
-| T.Tremble   | 46.9%     | 1.019          | 32      |
-| T.Hudson    | 38.9%     | 1.019          | 24      |
+| J.Johnson   | 54.5%     | 1.031          | 68      |
+| A.Hooper    | 46.6%     | 1.025          | 59      |
+| J.Akins     | 53.6%     | 1.034          | 58      |
+| J.Sanders   | 28.6%     | 1.013          | 43      |
+| L.Krull     | 9.5%      | 1.000          | 23      |
 
 *Note: Multipliers > 1.0 indicate tougher situations (bonus), < 1.0 indicate easier situations (penalty)*
 
