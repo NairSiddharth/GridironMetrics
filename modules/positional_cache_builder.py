@@ -15,7 +15,8 @@ logger = get_logger(__name__)
 import logging
 from modules.logger import LOG_DIR  # This ensures logger is configured
 
-CACHE_DIR = (Path(CACHE_DIR) / "positional_player_stats").mkdir(parents=True, exist_ok=True)
+CACHE_DIR = Path(CACHE_DIR) / "positional_player_stats"
+CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 def build_positional_cache_for_year(year: int):
     logger = logging.getLogger(__name__)

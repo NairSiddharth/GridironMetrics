@@ -30,7 +30,7 @@
 | 7    | L.McCoy     | BUF  | 6608.09        | 1.081      | 16    | 413.01   | 405.13  | 8/2/6       | Stable     |
 | 8    | M.Ingram    | NO   | 6361.19        | 1.088      | 16    | 397.57   | 335.34  | 8/1/7       | Increasing |
 | 9    | L.Fournette | JAX  | 5025.03        | 1.098      | 13    | 386.54   | 381.02  | 5/2/6       | Decreasing |
-| 10   | C.Hyde      | SF   | 5853.09        | 1.083      | 16    | 365.82   | 370.29  | 8/2/6       | Stable     |
+| 10   | C.Hyde      | SF   | 5886.50        | 1.083      | 16    | 367.91   | 374.51  | 8/2/6       | Stable     |
 
 ## WR Rankings
 
@@ -52,13 +52,13 @@
 | Rank | Player       | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :------------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
 | 1    | T.Kelce      | KC   | 4252.05        | 1.000      | 15    | 283.47   | 275.06  | 7/1/7       | Increasing |
-| 2    | R.Gronkowski | NE   | 3661.73        | 1.000      | 13    | 281.67   | 317.88  | 5/1/7       | Increasing |
+| 2    | R.Gronkowski | NE   | 3632.83        | 1.000      | 13    | 279.45   | 288.98  | 5/0/8       | Stable     |
 | 3    | Z.Ertz       | PHI  | 3536.49        | 1.000      | 14    | 252.61   | 284.80  | 6/2/6       | Decreasing |
 | 4    | J.Doyle      | IND  | 3385.92        | 1.000      | 15    | 225.73   | 202.96  | 7/1/7       | Increasing |
 | 5    | D.Walker     | TEN  | 3360.43        | 1.000      | 16    | 210.03   | 238.18  | 8/3/5       | Increasing |
 | 6    | E.Engram     | NYG  | 2756.36        | 1.000      | 15    | 183.76   | 208.83  | 7/0/8       | Stable     |
 | 7    | H.Henry      | LAC  | 2151.62        | 1.000      | 12    | 179.30   | 197.71  | 5/1/6       | Decreasing |
 | 8    | J.Graham     | SEA  | 2829.17        | 1.000      | 16    | 176.82   | 187.92  | 7/1/8       | Decreasing |
-| 9    | B.Watson     | BAL  | 2770.21        | 1.000      | 16    | 173.14   | 178.01  | 8/2/6       | Increasing |
+| 9    | B.Watson     | BAL  | 2764.27        | 1.000      | 16    | 172.77   | 178.01  | 8/2/6       | Increasing |
 | 10   | J.Witten     | DAL  | 2755.14        | 1.000      | 16    | 172.20   | 168.21  | 8/1/7       | Stable     |
 

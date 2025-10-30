@@ -118,7 +118,7 @@
 | ARI  | L.Fitzgerald     | WR       | 22.9             |
 | ATL  | J.Hardy          | WR       | 25.0             |
 | BAL  | M.Wallace        | WR       | 20.0             |
-| BUF  | A.Holmes         | WR       | 20.0             |
+| BUF  | L.Thomas         | TE       | 20.0             |
 | CAR  | D.Funchess       | WR       | 25.0             |
 | CHI  | A.Shaheen        | TE       | 42.9             |
 | CIN  | A.Green          | WR       | 25.5             |
@@ -133,7 +133,7 @@
 | KC   | T.Kelce          | TE       | 35.6             |
 | LA   | C.Kupp           | WR       | 21.7             |
 | LAC  | A.Gates          | TE       | 18.8             |
-| LV   | M.Crabtree       | WR       | 33.3             |
+| LV   | A.Cooper         | WR       | 33.3             |
 | MIA  | J.Landry         | WR       | 29.7             |
 | MIN  | S.Diggs          | WR       | 29.2             |
 | NE   | R.Gronkowski     | TE       | 27.2             |

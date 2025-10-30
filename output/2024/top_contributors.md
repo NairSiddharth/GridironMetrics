@@ -52,7 +52,7 @@
 | Rank | Player       | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :------------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
 | 1    | T.McBride    | ARI  | 4903.02        | 1.018      | 16    | 306.44   | 251.40  | 8/1/7       | Increasing |
-| 2    | B.Bowers     | LV   | 5162.96        | 1.031      | 17    | 303.70   | 289.32  | 8/2/7       | Increasing |
+| 2    | B.Bowers     | LV   | 5105.62        | 1.031      | 17    | 300.33   | 289.32  | 8/2/7       | Increasing |
 | 3    | G.Kittle     | SF   | 4444.83        | 1.019      | 15    | 296.32   | 311.85  | 6/1/8       | Decreasing |
 | 4    | J.Smith      | MIA  | 4591.21        | 1.012      | 17    | 270.07   | 261.93  | 10/1/6      | Increasing |
 | 5    | M.Andrews    | BAL  | 3995.50        | 1.023      | 17    | 235.03   | 242.58  | 9/0/8       | Increasing |

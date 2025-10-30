@@ -146,7 +146,7 @@
 | SF   | M.Crabtree   | WR       | 30.2             |
 | TB   | M.Williams   | WR       | 40.0             |
 | TEN  | K.Britt      | WR       | 45.5             |
-| WAS  | S.Moss       | WR       | 25.0             |
+| WAS  | L.Paulsen    | TE       | 25.0             |
 
 | :----- :------------- :--------- :----------------|
 |              Receptions Share Leaders             |

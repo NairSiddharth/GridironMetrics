@@ -28,7 +28,7 @@
 | 5    | A.Kamara | NO   | 237.23    | 5372.19        | 1.069      | 13    | 413.25   | 424.75  | 5/2/6       | 345.7 | 484.5   | 766.12  | Stable     | Wk 7 (vs SEA)                                 |
 | 6    | D.Cook   | MIN  | 219.15    | 5222.28        | 1.066      | 13    | 401.71   | 425.78  | 5/2/6       | 263.0 | 507.6   | 680.77  | Stable     | Wk 14 (vs PIT)                                |
 | 7    | D.Henry  | TEN  | 306.50    | 3191.86        | 1.079      | 8     | 398.98   | 401.87  | 3/0/5       | 230.3 | 500.8   | 1028.08 | Decreasing | Wk 2 (vs SEA), Wk 6 (vs BUF), Wk 4 (vs NYJ)   |
-| 8    | N.Chubb  | CLE  | 200.14    | 5240.45        | 1.065      | 14    | 374.32   | 364.65  | 6/2/6       | 237.7 | 522.8   | 608.26  | Decreasing |                                               |
+| 8    | N.Chubb  | CLE  | 200.14    | 5248.78        | 1.065      | 14    | 374.91   | 364.65  | 6/2/6       | 237.7 | 522.8   | 608.26  | Decreasing |                                               |
 | 9    | A.Jones  | GB   | 187.60    | 5475.95        | 1.044      | 15    | 365.06   | 363.20  | 7/2/6       | 310.5 | 456.9   | 798.68  | Stable     |                                               |
 | 10   | J.Jacobs | LV   | 196.33    | 5450.30        | 1.046      | 15    | 363.35   | 352.24  | 7/2/6       | 296.5 | 454.8   | 568.54  | Increasing |                                               |
 
@@ -70,23 +70,21 @@
 
 *Higher box counts = tougher runs (8+ defenders = stacked box)*
 
-| Player      | Avg Box | 8+ Box % | Avg Multiplier | Rush Att |
-| :-----------| :-------| :--------| :--------------| :--------|
-| J.Taylor    | 6.9     | 26.8%    | 1.057          | 332      |
-| A.Jones     | 6.7     | 14.0%    | 1.044          | 171      |
-| M.Gordon    | 7.0     | 31.0%    | 1.066          | 203      |
-| C.Carson    | 6.6     | 16.7%    | 1.039          | 54       |
-| S.Barkley   | 6.8     | 21.6%    | 1.052          | 162      |
-| D.Johnson   | 6.7     | 15.5%    | 1.043          | 71       |
-| Da.Williams | 6.5     | 13.2%    | 1.030          | 144      |
-| D.Hilliard  | 7.0     | 28.6%    | 1.066          | 56       |
-| D.Freeman   | 6.9     | 28.6%    | 1.059          | 133      |
-| B.Scott     | 7.0     | 32.2%    | 1.066          | 87       |
-| C.Reynolds  | 7.3     | 43.6%    | 1.093          | 55       |
-| M.Ingram    | 7.2     | 38.8%    | 1.081          | 160      |
-| J.Wilson    | 7.1     | 32.9%    | 1.075          | 79       |
-| K.Herbert   | 6.7     | 20.4%    | 1.045          | 103      |
-| P.Lindsay   | 7.0     | 29.5%    | 1.063          | 88       |
+| Player            | Avg Box | 8+ Box % | Avg Multiplier | Rush Att |
+| :-----------------| :-------| :--------| :--------------| :--------|
+| A.Kamara          | 7.0     | 31.5%    | 1.069          | 241      |
+| L.Fournette       | 6.6     | 13.3%    | 1.038          | 180      |
+| D.Cook            | 7.0     | 27.1%    | 1.066          | 251      |
+| J.Conner          | 6.5     | 16.8%    | 1.032          | 202      |
+| N.Chubb           | 7.0     | 26.3%    | 1.065          | 228      |
+| C.Edwards-Helaire | 6.3     | 8.4%     | 1.019          | 119      |
+| D.Singletary      | 6.6     | 13.8%    | 1.037          | 188      |
+| A.Dillon          | 6.8     | 21.4%    | 1.053          | 187      |
+| J.Williams        | 7.0     | 21.6%    | 1.060          | 153      |
+| B.Scott           | 7.0     | 32.2%    | 1.066          | 87       |
+| Z.Moss            | 6.8     | 20.8%    | 1.052          | 96       |
+| J.Wilson          | 7.1     | 32.9%    | 1.075          | 79       |
+| D.Gore            | 6.5     | 13.7%    | 1.032          | 51       |
 
 ### WR - Coverage Context
 
@@ -94,41 +92,42 @@
 
 | Player      | Man Cov % | Avg Multiplier | Targets |
 | :-----------| :---------| :--------------| :-------|
-| D.Adams     | 25.4%     | 1.001          | 169     |
+| J.Jefferson | 30.5%     | 1.009          | 170     |
 | M.Evans     | 43.9%     | 1.017          | 114     |
-| T.Higgins   | 30.9%     | 1.003          | 111     |
-| M.Williams  | 28.7%     | 1.003          | 130     |
 | R.Woods     | 24.6%     | 1.004          | 70      |
-| A.St. Brown | 25.2%     | 1.001          | 121     |
-| C.Claypool  | 31.4%     | 1.010          | 105     |
+| C.Lamb      | 23.3%     | 1.000          | 121     |
+| M.Brown     | 11.0%     | 0.990          | 147     |
+| D.Hopkins   | 21.9%     | 1.000          | 64      |
+| B.Aiyuk     | 25.3%     | 1.002          | 86      |
+| V.Jefferson | 22.5%     | 0.999          | 89      |
+| J.Crowder   | 28.2%     | 1.005          | 73      |
 | J.Reynolds  | 20.4%     | 0.996          | 49      |
-| A.Wesley    | 25.0%     | 1.000          | 32      |
-| K.Cole      | 35.3%     | 1.006          | 52      |
-| A.Wilson    | 38.5%     | 1.013          | 39      |
-| J.Reynolds  | 20.4%     | 0.996          | 49      |
+| K.Raymond   | 23.9%     | 1.005          | 71      |
+| D.Amendola  | 28.9%     | 1.001          | 39      |
+| J.Proche    | 25.0%     | 1.000          | 20      |
 | T.Johnson   | 25.5%     | 0.998          | 56      |
-| M.Sanu      | 20.8%     | 0.992          | 24      |
+| C.Rogers    | 30.2%     | 1.006          | 43      |
 
 ### TE - Coverage Context
 
 *Higher man coverage % = tougher matchups (2-Man, 1-Man, 0-Man, Cover-1)*
 
-| Player          | Man Cov % | Avg Multiplier | Targets |
-| :---------------| :---------| :--------------| :-------|
-| M.Andrews       | 20.3%     | 0.996          | 158     |
-| T.Kelce         | 32.8%     | 1.003          | 134     |
-| D.Schultz       | 19.2%     | 0.997          | 106     |
-| D.Goedert       | 25.0%     | 1.005          | 77      |
-| L.Thomas        | 8.0%      | 1.002          | 25      |
-| T.Higbee        | 21.2%     | 0.999          | 85      |
-| Z.Ertz          | 24.3%     | 0.999          | 113     |
-| D.Arnold        | 25.0%     | 1.002          | 53      |
-| J.O'Shaughnessy | 8.8%      | 1.000          | 35      |
-| D.Njoku         | 18.9%     | 0.999          | 53      |
-| A.Trautman      | 16.3%     | 0.995          | 44      |
-| A.Firkser       | 14.0%     | 0.998          | 43      |
-| R.Griffin       | 23.8%     | 1.005          | 42      |
-| J.Akins         | 33.3%     | 1.009          | 33      |
+| Player        | Man Cov % | Avg Multiplier | Targets |
+| :-------------| :---------| :--------------| :-------|
+| M.Andrews     | 20.3%     | 0.996          | 158     |
+| T.Kelce       | 32.8%     | 1.003          | 134     |
+| D.Goedert     | 25.0%     | 1.005          | 77      |
+| L.Thomas      | 8.0%      | 1.002          | 25      |
+| D.Knox        | 36.6%     | 1.006          | 71      |
+| T.Higbee      | 21.2%     | 0.999          | 85      |
+| J.Cook        | 29.3%     | 1.006          | 85      |
+| D.Arnold      | 25.0%     | 1.002          | 53      |
+| C.Uzomah      | 17.5%     | 0.994          | 63      |
+| E.Engram      | 27.4%     | 1.006          | 73      |
+| R.Seals-Jones | 24.5%     | 1.007          | 51      |
+| J.Doyle       | 23.3%     | 0.998          | 45      |
+| A.Firkser     | 14.0%     | 0.998          | 43      |
+| J.Akins       | 33.3%     | 1.009          | 33      |
 
 *Note: Multipliers > 1.0 indicate tougher situations (bonus), < 1.0 indicate easier situations (penalty)*
 

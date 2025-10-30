@@ -6,7 +6,7 @@
 
 | Rank | Player      | Team | Position (Pos. Rank) | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :-----------| :----| :--------------------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | C.McCaffrey | SF   | RB (#1)              | 8674.64        | 1.064      | 16    | 542.17   | 517.88  | 7/4/5       | Stable     |
+| 1    | C.McCaffrey | SF   | RB (#1)              | 8699.71        | 1.064      | 16    | 543.73   | 519.84  | 6/5/5       | Stable     |
 | 2    | C.Lamb      | DAL  | WR (#1)              | 7865.92        | 1.026      | 17    | 462.70   | 391.86  | 9/0/8       | Increasing |
 | 3    | T.Hill      | MIA  | WR (#2)              | 7209.34        | 1.024      | 16    | 450.58   | 471.36  | 6/2/8       | Stable     |
 | 4    | K.Williams  | LA   | RB (#2)              | 5020.09        | 1.059      | 12    | 418.34   | 447.72  | 3/2/7       | Increasing |
@@ -21,7 +21,7 @@
 
 | Rank | Player      | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :-----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | C.McCaffrey | SF   | 8674.64        | 1.064      | 16    | 542.17   | 517.88  | 7/4/5       | Stable     |
+| 1    | C.McCaffrey | SF   | 8699.71        | 1.064      | 16    | 543.73   | 519.84  | 6/5/5       | Stable     |
 | 2    | K.Williams  | LA   | 5020.09        | 1.059      | 12    | 418.34   | 447.72  | 3/2/7       | Increasing |
 | 3    | R.White     | TB   | 6999.97        | 1.030      | 17    | 411.76   | 391.82  | 9/2/6       | Increasing |
 | 4    | Bre.Hall    | NYJ  | 6628.34        | 1.044      | 17    | 389.90   | 329.22  | 9/0/8       | Stable     |
@@ -58,7 +58,7 @@
 | 5    | C.Kmet      | CHI  | 3668.14        | 1.009      | 16    | 229.26   | 245.14  | 8/2/6       | Increasing |
 | 6    | T.McBride   | ARI  | 3854.20        | 1.009      | 17    | 226.72   | 203.70  | 9/1/7       | Increasing |
 | 7    | D.Njoku     | CLE  | 3532.75        | 1.009      | 16    | 220.80   | 212.39  | 7/2/7       | Increasing |
-| 8    | G.Kittle    | SF   | 3432.75        | 1.021      | 16    | 214.55   | 215.43  | 7/1/8       | Increasing |
+| 8    | G.Kittle    | SF   | 3455.93        | 1.021      | 16    | 216.00   | 227.02  | 8/0/8       | Increasing |
 | 9    | D.Kincaid   | BUF  | 3280.68        | 1.015      | 16    | 205.04   | 201.34  | 8/2/6       | Stable     |
 | 10   | J.Ferguson  | DAL  | 3305.01        | 1.029      | 17    | 194.41   | 188.06  | 8/3/6       | Stable     |
 

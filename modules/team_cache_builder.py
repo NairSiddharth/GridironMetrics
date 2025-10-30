@@ -7,9 +7,9 @@ from nflreadpy. Data is split by position, year, and saved as CSVs in the 'cache
 
 from pathlib import Path
 import nflreadpy as nfl
-from constants import START_YEAR, END_YEAR, CACHE_DIR
+from modules.constants import START_YEAR, END_YEAR, CACHE_DIR
 import polars as pl
-from logger import get_logger
+from modules.logger import get_logger
 
 logger = get_logger(__name__)
 

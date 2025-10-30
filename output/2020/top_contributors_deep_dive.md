@@ -70,64 +70,64 @@
 
 *Higher box counts = tougher runs (8+ defenders = stacked box)*
 
-| Player     | Avg Box | 8+ Box % | Avg Multiplier | Rush Att |
-| :----------| :-------| :--------| :--------------| :--------|
-| D.Henry    | 7.1     | 28.2%    | 1.072          | 380      |
-| M.Gaskin   | 6.7     | 23.2%    | 1.049          | 142      |
-| A.Ekeler   | 6.5     | 9.5%     | 1.030          | 116      |
-| K.Hunt     | 7.1     | 31.3%    | 1.074          | 198      |
-| J.Conner   | 6.7     | 19.5%    | 1.048          | 169      |
-| Da.Johnson | 6.7     | 15.0%    | 1.043          | 147      |
-| S.Ahmed    | 6.7     | 16.0%    | 1.039          | 75       |
-| W.Gallman  | 7.3     | 40.1%    | 1.087          | 147      |
-| J.Williams | 6.7     | 19.0%    | 1.047          | 121      |
-| M.Brown    | 6.7     | 17.8%    | 1.046          | 101      |
-| A.Mattison | 7.0     | 31.2%    | 1.064          | 96       |
-| L.Perine   | 6.6     | 7.8%     | 1.032          | 64       |
-| J.Wilkins  | 6.8     | 22.1%    | 1.052          | 86       |
-| P.Barber   | 7.5     | 42.1%    | 1.096          | 95       |
+| Player       | Avg Box | 8+ Box % | Avg Multiplier | Rush Att |
+| :------------| :-------| :--------| :--------------| :--------|
+| J.Mixon      | 6.6     | 8.4%     | 1.035          | 119      |
+| J.Jacobs     | 7.0     | 25.6%    | 1.063          | 273      |
+| A.Gibson     | 6.6     | 10.0%    | 1.035          | 170      |
+| K.Drake      | 6.5     | 15.1%    | 1.035          | 239      |
+| K.Hunt       | 7.1     | 31.3%    | 1.074          | 198      |
+| R.Mostert    | 6.8     | 18.3%    | 1.051          | 104      |
+| Da.Johnson   | 6.7     | 15.0%    | 1.043          | 147      |
+| T.Gurley     | 6.9     | 21.5%    | 1.058          | 195      |
+| K.Ballage    | 6.7     | 19.8%    | 1.042          | 91       |
+| D.Singletary | 6.4     | 4.5%     | 1.020          | 156      |
+| W.Gallman    | 7.3     | 40.1%    | 1.087          | 147      |
+| J.Kelley     | 6.7     | 20.7%    | 1.046          | 111      |
+| M.Ingram     | 7.0     | 18.1%    | 1.060          | 72       |
 
 ### WR - Coverage Context
 
 *Higher man coverage % = tougher matchups (2-Man, 1-Man, 0-Man, Cover-1)*
 
-| Player         | Man Cov % | Avg Multiplier | Targets |
-| :--------------| :---------| :--------------| :-------|
-| A.Brown        | 49.1%     | 1.018          | 106     |
-| J.Jefferson    | 32.0%     | 1.009          | 128     |
-| A.Robinson     | 36.4%     | 1.014          | 151     |
-| O.Beckham      | 18.6%     | 0.992          | 43      |
-| C.Lamb         | 23.4%     | 1.001          | 111     |
-| L.Shenault Jr. | 39.2%     | 1.014          | 79      |
-| T.Hilton       | 38.7%     | 1.011          | 94      |
-| T.Patrick      | 39.2%     | 1.019          | 80      |
-| C.Hansen       | 29.2%     | 0.996          | 25      |
-| H.Renfrow      | 35.1%     | 1.009          | 77      |
-| D.Moore        | 32.6%     | 1.007          | 47      |
-| H.Ruggs        | 27.9%     | 1.010          | 43      |
-| C.Sims         | 35.4%     | 1.019          | 48      |
-| J.Washington   | 45.5%     | 1.013          | 56      |
-| M.Sanu         | 25.0%     | 0.996          | 25      |
+| Player     | Man Cov % | Avg Multiplier | Targets |
+| :----------| :---------| :--------------| :-------|
+| J.Jones    | 32.4%     | 1.008          | 68      |
+| R.Woods    | 22.5%     | 1.004          | 129     |
+| C.Godwin   | 32.1%     | 1.012          | 84      |
+| C.Davis    | 44.6%     | 1.017          | 92      |
+| M.Thomas   | 47.3%     | 1.016          | 55      |
+| J.Landry   | 28.7%     | 1.007          | 101     |
+| E.Sanders  | 30.5%     | 1.009          | 82      |
+| R.Gage     | 35.8%     | 1.020          | 109     |
+| D.Mooney   | 26.5%     | 1.002          | 99      |
+| K.Cole Sr. | 29.5%     | 1.003          | 89      |
+| Ty.Johnson | 15.4%     | 0.990          | 26      |
+| J.Reagor   | 22.6%     | 1.005          | 55      |
+| D.Robinson | 23.7%     | 0.996          | 59      |
+| R.James    | 20.0%     | 0.991          | 35      |
+| M.Sanu     | 25.0%     | 0.996          | 25      |
 
 ### TE - Coverage Context
 
 *Higher man coverage % = tougher matchups (2-Man, 1-Man, 0-Man, Cover-1)*
 
-| Player    | Man Cov % | Avg Multiplier | Targets |
-| :---------| :---------| :--------------| :-------|
-| T.Kelce   | 31.0%     | 1.006          | 146     |
-| D.Waller  | 35.2%     | 1.009          | 146     |
-| G.Kittle  | 24.2%     | 1.007          | 64      |
-| L.Thomas  | 23.6%     | 1.005          | 111     |
-| R.Tonyan  | 33.9%     | 1.011          | 59      |
-| J.Smith   | 27.7%     | 1.006          | 66      |
-| H.Hurst   | 17.0%     | 1.001          | 89      |
-| A.Hooper  | 20.0%     | 1.002          | 70      |
-| J.Cook    | 28.3%     | 1.009          | 60      |
-| T.Higbee  | 30.0%     | 1.007          | 61      |
-| D.Arnold  | 15.6%     | 0.997          | 45      |
-| K.Rudolph | 21.6%     | 1.003          | 38      |
-| D.Smythe  | 21.4%     | 1.000          | 29      |
+| Player     | Man Cov % | Avg Multiplier | Targets |
+| :----------| :---------| :--------------| :-------|
+| L.Thomas   | 23.6%     | 1.005          | 111     |
+| N.Fant     | 25.8%     | 1.010          | 94      |
+| H.Henry    | 44.1%     | 1.019          | 93      |
+| H.Hurst    | 17.0%     | 1.001          | 89      |
+| A.Hooper   | 20.0%     | 1.002          | 70      |
+| J.Cook     | 28.3%     | 1.009          | 60      |
+| T.Higbee   | 30.0%     | 1.007          | 61      |
+| I.Smith    | 25.6%     | 1.010          | 44      |
+| T.Burton   | 42.6%     | 1.013          | 47      |
+| D.Knox     | 34.1%     | 1.009          | 44      |
+| C.Herndon  | 22.2%     | 0.998          | 46      |
+| M.Alie-Cox | 23.1%     | 1.003          | 39      |
+| K.Rudolph  | 21.6%     | 1.003          | 38      |
+| G.Olsen    | 29.7%     | 0.999          | 37      |
 
 *Note: Multipliers > 1.0 indicate tougher situations (bonus), < 1.0 indicate easier situations (penalty)*
 

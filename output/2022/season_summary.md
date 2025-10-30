@@ -80,7 +80,7 @@
 | :----| :------------| :--------| :----------------|
 | ARI  | J.Conner     | RB       | 46.2             |
 | ATL  | C.Patterson  | RB       | 34.6             |
-| BAL  | J.Dobbins    | RB       | 25.0             |
+| BAL  | K.Drake      | RB       | 25.0             |
 | BUF  | D.Singletary | RB       | 20.8             |
 | CAR  | C.McCaffrey  | RB       | 25.0             |
 | CHI  | D.Montgomery | RB       | 21.9             |

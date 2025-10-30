@@ -970,8 +970,6 @@ def generate_qb_rankings(year: int) -> str:
     # Join team max games back to qb_df
     qb_df = qb_df.join(team_games, on='team', how='left')
     
-    logger.info(f"Team games played: {team_games}")
-    
     # Z-score normalization: normalized = 50 + (z_score * 17.5)
     # Hybrid scoring: contribution * (qb_games / team_games)^0.4
     # This penalizes QBs who missed games their team played, but not for bye weeks
@@ -1020,6 +1018,16 @@ def generate_rb_rankings(year: int) -> str:
     if rb_stats is None:
         return "No RB data available."
     
+    # Load all player stats to calculate difficulty multipliers
+    position_stats = {}
+    for pos in SKILL_POSITIONS:
+        df = load_position_weekly_stats(year, pos)
+        if df is not None:
+            position_stats[pos] = df
+    
+    player_stats = pl.concat(list(position_stats.values())) if position_stats else None
+    avg_difficulty = calculate_average_difficulty(year, player_stats) if player_stats is not None else None
+    
     # Apply minimum activity threshold: 8 carries per game
     rb_games = rb_stats.group_by(['player_id', 'player_name']).agg([
         pl.col('week').count().alias('games'),
@@ -1060,13 +1068,15 @@ def generate_rb_rankings(year: int) -> str:
         
         games_played = rb_data.height
         if games_played > 0:
-            # Calculate difficulty multiplier if available
-            difficulty = None
-            if 'defenders_in_box_multiplier' in rb_data.columns:
-                difficulty = rb_data['defenders_in_box_multiplier'].mean()
+            # Get difficulty multiplier from avg_difficulty dataframe if available
+            difficulty = 1.0
+            if avg_difficulty is not None:
+                difficulty_row = avg_difficulty.filter(pl.col('player_id') == player_id)
+                if len(difficulty_row) > 0:
+                    difficulty = difficulty_row['avg_difficulty_multiplier'][0]
             
             # Calculate adjusted score
-            adjusted_contribution = contribution * difficulty if difficulty else contribution
+            adjusted_contribution = contribution * difficulty
             
             # Calculate typical game (25th/75th percentile average)
             game_contributions = []
@@ -1116,7 +1126,7 @@ def generate_rb_rankings(year: int) -> str:
                 'games': games_played,
                 'raw_score': contribution,
                 'adjusted_score': adjusted_contribution,
-                'difficulty': difficulty if difficulty else 1.0,
+                'difficulty': difficulty,
                 'avg_per_game': contribution / games_played,
                 'typical': typical,
                 'consistency': consistency,
@@ -1165,6 +1175,16 @@ def generate_wr_rankings(year: int) -> str:
     if wr_stats is None:
         return "No WR data available."
     
+    # Load all player stats to calculate difficulty multipliers
+    position_stats = {}
+    for pos in SKILL_POSITIONS:
+        df = load_position_weekly_stats(year, pos)
+        if df is not None:
+            position_stats[pos] = df
+    
+    player_stats = pl.concat(list(position_stats.values())) if position_stats else None
+    avg_difficulty = calculate_average_difficulty(year, player_stats) if player_stats is not None else None
+    
     # Apply minimum activity threshold: 3 targets per game
     wr_games = wr_stats.group_by(['player_id', 'player_name']).agg([
         pl.col('week').count().alias('games'),
@@ -1205,13 +1225,15 @@ def generate_wr_rankings(year: int) -> str:
         
         games_played = wr_data.height
         if games_played > 0:
-            # Calculate difficulty multiplier if available
-            difficulty = None
-            if 'coverage_multiplier' in wr_data.columns:
-                difficulty = wr_data['coverage_multiplier'].mean()
+            # Get difficulty multiplier from avg_difficulty dataframe if available
+            difficulty = 1.0
+            if avg_difficulty is not None:
+                difficulty_row = avg_difficulty.filter(pl.col('player_id') == player_id)
+                if len(difficulty_row) > 0:
+                    difficulty = difficulty_row['avg_difficulty_multiplier'][0]
             
             # Calculate adjusted score
-            adjusted_contribution = contribution * difficulty if difficulty else contribution
+            adjusted_contribution = contribution * difficulty
             
             # Calculate typical game
             game_contributions = []
@@ -1261,7 +1283,7 @@ def generate_wr_rankings(year: int) -> str:
                 'games': games_played,
                 'raw_score': contribution,
                 'adjusted_score': adjusted_contribution,
-                'difficulty': difficulty if difficulty else 1.0,
+                'difficulty': difficulty,
                 'avg_per_game': contribution / games_played,
                 'typical': typical,
                 'consistency': consistency,
@@ -1310,6 +1332,16 @@ def generate_te_rankings(year: int) -> str:
     if te_stats is None:
         return "No TE data available."
     
+    # Load all player stats to calculate difficulty multipliers
+    position_stats = {}
+    for pos in SKILL_POSITIONS:
+        df = load_position_weekly_stats(year, pos)
+        if df is not None:
+            position_stats[pos] = df
+    
+    player_stats = pl.concat(list(position_stats.values())) if position_stats else None
+    avg_difficulty = calculate_average_difficulty(year, player_stats) if player_stats is not None else None
+    
     # Apply minimum activity threshold: 2 targets per game
     te_games = te_stats.group_by(['player_id', 'player_name']).agg([
         pl.col('week').count().alias('games'),
@@ -1350,13 +1382,15 @@ def generate_te_rankings(year: int) -> str:
         
         games_played = te_data.height
         if games_played > 0:
-            # Calculate difficulty multiplier if available
-            difficulty = None
-            if 'coverage_multiplier' in te_data.columns:
-                difficulty = te_data['coverage_multiplier'].mean()
+            # Get difficulty multiplier from avg_difficulty dataframe if available
+            difficulty = 1.0
+            if avg_difficulty is not None:
+                difficulty_row = avg_difficulty.filter(pl.col('player_id') == player_id)
+                if len(difficulty_row) > 0:
+                    difficulty = difficulty_row['avg_difficulty_multiplier'][0]
             
             # Calculate adjusted score
-            adjusted_contribution = contribution * difficulty if difficulty else contribution
+            adjusted_contribution = contribution * difficulty
             
             # Calculate typical game
             game_contributions = []
@@ -1406,7 +1440,7 @@ def generate_te_rankings(year: int) -> str:
                 'games': games_played,
                 'raw_score': contribution,
                 'adjusted_score': adjusted_contribution,
-                'difficulty': difficulty if difficulty else 1.0,
+                'difficulty': difficulty,
                 'avg_per_game': contribution / games_played,
                 'typical': typical,
                 'consistency': consistency,
@@ -2425,72 +2459,149 @@ def process_year(year: int) -> tuple[bool, str, str, str, str, str, str, str, st
         return False, error_msg, error_msg, error_msg, error_msg, error_msg, error_msg, error_msg, error_msg
 
 def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
-    """Check all years for missing difficulty columns and rebuild caches as needed.
+    """Check all years for missing caches and rebuild all cache types as needed.
     
-    This runs before main processing to ensure all caches have required columns.
-    Rebuilds happen in parallel for speed.
+    This runs before main processing to ensure all caches exist and have required data.
+    Rebuilds PBP, positional player stats, and team stats caches.
     
     Args:
         years: List of years to check
         parallel: Whether to rebuild in parallel (default True)
     """
+    from modules.positional_cache_builder import build_positional_cache_for_year
+    from modules.team_cache_builder import build_team_cache_for_year
+    
     logger.info("Checking cache completeness for all years...")
     
     required_cols = ['defenders_in_box', 'defense_coverage_type', 
                      'defenders_in_box_multiplier', 'coverage_multiplier']
     
-    years_needing_rebuild = []
+    years_needing_pbp_rebuild = []
+    years_needing_positional_rebuild = []
+    years_needing_team_rebuild = []
     
-    # Check each year's cache
+    # Check each year's caches
     for year in years:
+        # Check PBP cache
         pbp_path = Path("cache/pbp") / f"pbp_{year}.parquet"
         if not pbp_path.exists():
-            logger.info(f"Cache missing for {year}, will rebuild")
-            years_needing_rebuild.append(year)
+            logger.info(f"PBP cache missing for {year}, will rebuild")
+            years_needing_pbp_rebuild.append(year)
         else:
             try:
                 pbp_data = pl.read_parquet(pbp_path)
                 if not all(col in pbp_data.columns for col in required_cols):
-                    logger.info(f"Cache for {year} missing difficulty columns, will rebuild")
-                    years_needing_rebuild.append(year)
+                    logger.info(f"PBP cache for {year} missing difficulty columns, will rebuild")
+                    years_needing_pbp_rebuild.append(year)
             except Exception as e:
                 logger.warning(f"Error reading cache for {year}: {e}, will rebuild")
-                years_needing_rebuild.append(year)
+                years_needing_pbp_rebuild.append(year)
+        
+        # Check positional player stats cache
+        positional_cache_dir = Path("cache/positional_player_stats")
+        if not positional_cache_dir.exists():
+            years_needing_positional_rebuild.append(year)
+        else:
+            # Check if we have at least some position data for this year
+            has_positional_data = False
+            for pos_dir in positional_cache_dir.iterdir():
+                if pos_dir.is_dir():
+                    pos_file = pos_dir / f"{pos_dir.name}-{year}.csv"
+                    if pos_file.exists():
+                        has_positional_data = True
+                        break
+            if not has_positional_data:
+                logger.info(f"Positional player stats cache missing for {year}, will rebuild")
+                years_needing_positional_rebuild.append(year)
+        
+        # Check team stats cache
+        team_cache_dir = Path("cache/team_stats")
+        if not team_cache_dir.exists():
+            years_needing_team_rebuild.append(year)
+        else:
+            # Check if we have at least some team data for this year
+            has_team_data = False
+            for team_dir in team_cache_dir.iterdir():
+                if team_dir.is_dir():
+                    team_file = team_dir / f"{team_dir.name}-{year}.csv"
+                    if team_file.exists():
+                        has_team_data = True
+                        break
+            if not has_team_data:
+                logger.info(f"Team stats cache missing for {year}, will rebuild")
+                years_needing_team_rebuild.append(year)
     
-    if not years_needing_rebuild:
+    total_rebuilds = len(set(years_needing_pbp_rebuild + years_needing_positional_rebuild + years_needing_team_rebuild))
+    
+    if total_rebuilds == 0:
         logger.info("All caches up to date!")
         return
     
-    logger.info(f"Rebuilding caches for {len(years_needing_rebuild)} years: {years_needing_rebuild}")
+    logger.info(f"Rebuilding caches for {total_rebuilds} years")
+    if years_needing_pbp_rebuild:
+        logger.info(f"  PBP: {years_needing_pbp_rebuild}")
+    if years_needing_positional_rebuild:
+        logger.info(f"  Positional: {years_needing_positional_rebuild}")
+    if years_needing_team_rebuild:
+        logger.info(f"  Team: {years_needing_team_rebuild}")
     
-    # Rebuild caches
-    if parallel and len(years_needing_rebuild) > 1:
+    # Rebuild all cache types
+    years_to_rebuild = sorted(set(years_needing_pbp_rebuild + years_needing_positional_rebuild + years_needing_team_rebuild))
+    
+    if parallel and len(years_to_rebuild) > 1:
         from concurrent.futures import ThreadPoolExecutor
-        logger.info(f"Rebuilding {len(years_needing_rebuild)} caches in parallel...")
-        with ThreadPoolExecutor(max_workers=min(len(years_needing_rebuild), 8)) as executor:
-            futures = {executor.submit(build_cache, year, True): year for year in years_needing_rebuild}
+        logger.info(f"Rebuilding {len(years_to_rebuild)} caches in parallel...")
+        with ThreadPoolExecutor(max_workers=min(len(years_to_rebuild), 8)) as executor:
+            futures = {}
+            for year in years_to_rebuild:
+                if year in years_needing_pbp_rebuild:
+                    futures[executor.submit(build_cache, year, True)] = (year, "PBP")
+                if year in years_needing_positional_rebuild:
+                    futures[executor.submit(build_positional_cache_for_year, year)] = (year, "Positional")
+                if year in years_needing_team_rebuild:
+                    futures[executor.submit(build_team_cache_for_year, year)] = (year, "Team")
+            
             for future in concurrent.futures.as_completed(futures):
-                year = futures[future]
+                year, cache_type = futures[future]
                 try:
-                    success = future.result()
-                    if success:
-                        logger.info(f"✓ Cache rebuilt for {year}")
+                    result = future.result()
+                    if cache_type == "PBP" and result:
+                        logger.info(f"{cache_type} cache rebuilt for {year}")
+                    elif cache_type in ["Positional", "Team"]:
+                        logger.info(f"{cache_type} cache rebuilt for {year}")
                     else:
-                        logger.warning(f"✗ Cache rebuild failed for {year}")
+                        logger.warning(f"{cache_type} cache rebuild failed for {year}")
                 except Exception as e:
-                    logger.error(f"✗ Cache rebuild error for {year}: {e}")
+                    logger.error(f"{cache_type} cache rebuild error for {year}: {e}")
     else:
         # Sequential rebuild
-        for year in years_needing_rebuild:
-            try:
-                logger.info(f"Rebuilding cache for {year}...")
-                success = build_cache(year, force=True)
-                if success:
-                    logger.info(f"✓ Cache rebuilt for {year}")
-                else:
-                    logger.warning(f"✗ Cache rebuild failed for {year}")
-            except Exception as e:
-                logger.error(f"✗ Cache rebuild error for {year}: {e}")
+        for year in years_to_rebuild:
+            if year in years_needing_pbp_rebuild:
+                try:
+                    logger.info(f"Rebuilding PBP cache for {year}...")
+                    success = build_cache(year, force=True)
+                    if success:
+                        logger.info(f"PBP cache rebuilt for {year}")
+                    else:
+                        logger.warning(f"PBP cache rebuild failed for {year}")
+                except Exception as e:
+                    logger.error(f"PBP cache rebuild error for {year}: {e}")
+            
+            if year in years_needing_positional_rebuild:
+                try:
+                    logger.info(f"Rebuilding positional cache for {year}...")
+                    build_positional_cache_for_year(year)
+                    logger.info(f"Positional cache rebuilt for {year}")
+                except Exception as e:
+                    logger.error(f"Positional cache rebuild error for {year}: {e}")
+            
+            if year in years_needing_team_rebuild:
+                try:
+                    logger.info(f"Rebuilding team cache for {year}...")
+                    build_team_cache_for_year(year)
+                    logger.info(f"Team cache rebuilt for {year}")
+                except Exception as e:
+                    logger.error(f"Team cache rebuild error for {year}: {e}")
     
     logger.info("Cache rebuild complete!")
 

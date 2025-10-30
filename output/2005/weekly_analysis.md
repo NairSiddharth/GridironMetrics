@@ -6,4 +6,4 @@
 | J.Arrington  | RB       | 16.1          | 16.1               |
 | J.Jackson    | RB       | 9.7           | 9.7                |
 | O.Ayanbadejo | RB       | 6.5           | 6.5                |
-| B.Johnson    | WR       | 0.0           | 0.0                |
+| A.Boldin     | WR       | 0.0           | 0.0                |
