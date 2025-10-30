@@ -107,7 +107,7 @@
 | PIT  | J.Conner     | RB       | 40.0             |
 | SEA  | M.Lynch      | RB       | 100.0            |
 | SF   | R.Mostert    | RB       | 30.4             |
-| TB   | R.Jones      | RB       | 25.0             |
+| TB   | P.Barber     | RB       | 25.0             |
 | TEN  | D.Henry      | RB       | 66.7             |
 | WAS  | A.Peterson   | RB       | 25.6             |
 

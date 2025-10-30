@@ -4,6 +4,6 @@
 | :-----------| :--------| :-------------| :------------------|
 | T.Benson    | RB       | 47.3          | 47.3               |
 | J.Conner    | RB       | 26.7          | 26.7               |
-| Mi.Wilson   | WR       | 0.0           | 0.0                |
-| E.Demercado | RB       | 0.0           | 0.0                |
 | Z.Jones     | WR       | 0.0           | 0.0                |
+| M.Harrison  | WR       | 0.0           | 0.0                |
+| E.Demercado | RB       | 0.0           | 0.0                |

@@ -105,7 +105,7 @@
 | NYJ  | Mi.Carter    | RB       | 29.2             |
 | PHI  | B.Scott      | RB       | 40.9             |
 | PIT  | N.Harris     | RB       | 41.2             |
-| SEA  | A.Peterson   | RB       | 50.0             |
+| SEA  | C.Carson     | RB       | 50.0             |
 | SF   | D.Samuel     | WR       | 37.5             |
 | TB   | L.Fournette  | RB       | 30.4             |
 | TEN  | D.Henry      | RB       | 46.9             |

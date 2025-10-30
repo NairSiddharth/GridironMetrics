@@ -118,8 +118,20 @@ def _load_participation_data(year: int) -> Optional[pl.DataFrame]:
         participation = participation.select([
             pl.col("nflverse_game_id").alias("game_id"),
             pl.col("play_id"),
-            pl.col("personnel_actual")
+            pl.col("personnel_actual"),
+            pl.col("defenders_in_box"),
+            pl.col("defense_coverage_type"),
+            pl.col("defense_man_zone_type"),
+            pl.col("was_pressure"),
+            pl.col("offense_formation")
         ]).filter(pl.col("personnel_actual").is_not_null())
+        
+        # Log availability of tracking columns
+        dib_available = participation.filter(pl.col("defenders_in_box").is_not_null()).height
+        coverage_available = participation.filter(pl.col("defense_coverage_type").is_not_null()).height
+        logger.info(f"Participation data: {len(participation)} total plays, "
+                   f"{dib_available} with defenders_in_box ({dib_available/len(participation)*100:.1f}%), "
+                   f"{coverage_available} with coverage_type ({coverage_available/len(participation)*100:.1f}%)")
         
         logger.info(f"Parsed {len(participation)} plays with personnel data for {year}")
         
@@ -156,6 +168,10 @@ def _add_personnel_inference(pbp_data: pl.DataFrame, year: int) -> pl.DataFrame:
     if participation is not None:
         # Join with participation data
         logger.info(f"Joining PBP with participation data...")
+        # Cast play_id to Int64 in both dataframes to ensure types match
+        pbp_data = pbp_data.with_columns(pl.col("play_id").cast(pl.Int64))
+        participation = participation.with_columns(pl.col("play_id").cast(pl.Int64))
+        
         pbp_data = pbp_data.join(
             participation,
             on=["game_id", "play_id"],
@@ -164,9 +180,14 @@ def _add_personnel_inference(pbp_data: pl.DataFrame, year: int) -> pl.DataFrame:
         actual_count = pbp_data.filter(pl.col("personnel_actual").is_not_null()).height
         logger.info(f"Found actual personnel for {actual_count} plays ({actual_count/len(pbp_data)*100:.1f}%)")
     else:
-        # No participation data - add null column
+        # No participation data - add null columns for all participation fields
         pbp_data = pbp_data.with_columns([
-            pl.lit(None, dtype=pl.Utf8).alias("personnel_actual")
+            pl.lit(None, dtype=pl.Utf8).alias("personnel_actual"),
+            pl.lit(None, dtype=pl.Int64).alias("defenders_in_box"),
+            pl.lit(None, dtype=pl.Utf8).alias("defense_coverage_type"),
+            pl.lit(None, dtype=pl.Utf8).alias("defense_man_zone_type"),
+            pl.lit(None, dtype=pl.Int64).alias("was_pressure"),
+            pl.lit(None, dtype=pl.Utf8).alias("offense_formation")
         ])
     
     # Infer personnel for plays without actual data
@@ -245,11 +266,17 @@ def _add_personnel_inference(pbp_data: pl.DataFrame, year: int) -> pl.DataFrame:
           .alias("personnel_source")
     ]).drop(["personnel_actual", "personnel_inferred"])
     
+    # Note: defenders_in_box, defense_coverage_type, defense_man_zone_type,
+    # was_pressure, and offense_formation are preserved from the participation join
+    
     # Log summary
     actual_count = pbp_data.filter(pl.col("personnel_source") == "actual").height
     inferred_count = pbp_data.filter(pl.col("personnel_source") == "inferred").height
     logger.info(f"Personnel sources: {actual_count} actual ({actual_count/len(pbp_data)*100:.1f}%), "
                 f"{inferred_count} inferred ({inferred_count/len(pbp_data)*100:.1f}%)")
+    
+    # Debug: log column names to verify participation columns are present
+    logger.debug(f"Columns after personnel inference: {pbp_data.columns}")
     
     return pbp_data
 
@@ -363,7 +390,45 @@ def load_and_process_pbp(year: int) -> Optional[pl.DataFrame]:
             .when((pl.col("yards_after_catch") / pl.col("yards_gained")) >= 0.1)
             .then(1.0)   # Average YAC (10-30%)
             .otherwise(0.95)  # Low YAC (<10%)
-            .alias("yac_multiplier")
+            .alias("yac_multiplier"),
+            
+            # Defenders in box multiplier (Phase 2 - RB context)
+            # Rewards RBs who succeed against stacked boxes
+            pl.when(pl.col("defenders_in_box").is_null())
+            .then(1.0)  # Missing data = neutral
+            .when(pl.col("defenders_in_box") >= 9)
+            .then(1.25)  # Heavy box (9+)
+            .when(pl.col("defenders_in_box") == 8)
+            .then(1.15)  # Loaded box
+            .when(pl.col("defenders_in_box") == 7)
+            .then(1.05)  # Normal box
+            .when(pl.col("defenders_in_box") == 6)
+            .then(1.0)   # Neutral (base defense)
+            .when(pl.col("defenders_in_box") == 5)
+            .then(0.95)  # Light box
+            .when(pl.col("defenders_in_box") <= 4)
+            .then(0.85)  # Very light box (checkdown/screen territory)
+            .otherwise(1.0)
+            .alias("defenders_in_box_multiplier"),
+            
+            # Coverage type multiplier (Phase 3 - WR/TE context)
+            # Rewards beating man coverage, penalizes prevent defense
+            pl.when(pl.col("defense_coverage_type").is_null())
+            .then(1.0)  # Missing data = neutral
+            .when(pl.col("defense_coverage_type") == '2_MAN')
+            .then(1.15)  # 2-Man coverage (hardest)
+            .when(pl.col("defense_coverage_type").is_in(['1_MAN', '0_MAN']))
+            .then(1.10)  # Man-free or 0-Man
+            .when(pl.col("defense_coverage_type") == 'COVER_1')
+            .then(1.05)  # Cover 1 (mostly man)
+            .when(pl.col("defense_coverage_type").is_in(['COVER_2', 'COVER_3']))
+            .then(1.0)   # Cover 2/3 (neutral, most common)
+            .when(pl.col("defense_coverage_type").is_in(['COVER_4', 'COVER_6']))
+            .then(0.95)  # Cover 4/6 (lots of help)
+            .when(pl.col("defense_coverage_type") == 'PREVENT')
+            .then(0.90)  # Prevent defense (garbage time)
+            .otherwise(1.0)
+            .alias("coverage_multiplier")
         ]).with_columns([
             # Combined situational multiplier
             # Note: personnel_group and personnel_confidence are stored but not applied here
@@ -374,7 +439,9 @@ def load_and_process_pbp(year: int) -> Optional[pl.DataFrame]:
              pl.col("down_multiplier") * 
              pl.col("third_down_distance_multiplier") * 
              pl.col("garbage_time_multiplier") * 
-             pl.col("yac_multiplier")).alias("situational_multiplier")
+             pl.col("yac_multiplier") * 
+             pl.col("defenders_in_box_multiplier") * 
+             pl.col("coverage_multiplier")).alias("situational_multiplier")
         ])
         
         logger.info(f"Calculated multipliers for {len(pbp_data)} plays")

@@ -119,7 +119,7 @@
 | ATL  | R.White      | WR       | 31.2             |
 | BAL  | D.Mason      | WR       | 24.0             |
 | BUF  | St. Johnson  | WR       | 26.0             |
-| CAR  | J.King       | TE       | 14.3             |
+| CAR  | S.Smith      | WR       | 14.3             |
 | CHI  | G.Olsen      | TE       | 15.1             |
 | CIN  | J.Simpson    | WR       | 37.5             |
 | CLE  | B.Robiskie   | WR       | 19.2             |
@@ -146,7 +146,7 @@
 | SF   | M.Crabtree   | WR       | 30.2             |
 | TB   | M.Williams   | WR       | 40.0             |
 | TEN  | K.Britt      | WR       | 45.5             |
-| WAS  | L.Paulsen    | TE       | 25.0             |
+| WAS  | S.Moss       | WR       | 25.0             |
 
 | :----- :------------- :--------- :----------------|
 |              Receptions Share Leaders             |

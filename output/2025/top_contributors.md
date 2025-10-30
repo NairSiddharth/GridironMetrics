@@ -1,64 +1,64 @@
 # Top Contributors - 2025
 
+*High-level overview of top offensive contributors*
+
 ## Overall Rankings
 
-+------+----------------+------+----------------------+-----------+----------------+-------+----------+---------+---------+-------+---------+--------------+------------+---------------------------------------------+
-| Rank | Player         | Team | Position (Pos. Rank) | Raw Score | Adjusted Score | Games | Avg/Game | Typical | Std Dev | Floor | Ceiling | Peak         | Trend      | Notable Games                               |
-+------+----------------+------+----------------------+-----------+----------------+-------+----------+---------+---------+-------+---------+--------------+------------+---------------------------------------------+
-| 1    | J.Taylor       | IND  | RB (#1)              | 308.25    | 3628.13        | 8     | 453.52   | 487.76  | ±117.8  | 463.5 | 499.7   | Peak: 774.35 | Increasing | Wk 2 (vs DEN)                               |
-| 2    | C.McCaffrey    | SF   | RB (#2)              | 304.88    | 3596.41        | 8     | 449.55   | 466.45  | ±136.8  | 438.0 | 508.8   | Peak: 816.57 | Stable     | Wk 7 (vs ATL)                               |
-| 3    | B.Robinson     | ATL  | RB (#3)              | 267.14    | 2673.62        | 7     | 381.95   | 418.76  | ±160.3  | 358.4 | 492.8   | Peak: 794.88 | Stable     | Wk 6 (vs BUF), Wk 4 (vs WAS)                |
-| 4    | P.Nacua        | LA   | WR (#1)              | 242.33    | 2144.72        | 6     | 357.45   | 376.63  | ±152.0  | 344.7 | 439.7   | Peak: 743.50 | Stable     | Wk 4 (vs IND), Wk 2 (vs TEN)                |
-| 5    | D.Achane       | MIA  | RB (#4)              | 236.38    | 2773.81        | 8     | 346.73   | 343.16  | ±111.7  | 307.6 | 368.7   | Peak: 668.22 | Stable     | Wk 6 (vs LAC), Wk 2 (vs NE)                 |
-| 6    | J.Smith-Njigba | SEA  | WR (#2)              | 235.57    | 2426.98        | 7     | 346.71   | 384.58  | ±107.8  | 298.0 | 404.8   | Peak: 670.18 | Increasing | Wk 6 (vs JAX)                               |
-| 7    | J.Cook         | BUF  | RB (#5)              | 244.00    | 2315.98        | 7     | 330.85   | 366.75  | ±121.3  | 364.2 | 406.0   | Peak: 616.50 | Decreasing | Wk 8 (vs CAR)                               |
-| 8    | J.Gibbs        | DET  | RB (#6)              | 239.14    | 2272.14        | 7     | 324.59   | 282.59  | ±133.6  | 254.3 | 504.9   | Peak: 684.39 | Stable     | Wk 7 (vs TB), Wk 3 (vs BAL)                 |
-| 9    | J.Chase        | CIN  | WR (#3)              | 229.88    | 2536.39        | 8     | 317.05   | 330.95  | ±207.3  | 123.7 | 354.6   | Peak: 766.52 | Increasing | Wk 7 (vs PIT), Wk 2 (vs JAX)                |
-| 10   | A.St. Brown    | DET  | WR (#4)              | 212.71    | 2160.34        | 7     | 308.62   | 294.66  | ±133.5  | 266.0 | 348.3   | Peak: 733.72 | Decreasing | Wk 2 (vs CHI), Wk 4 (vs CLE), Wk 3 (vs BAL) |
-+------+----------------+------+----------------------+-----------+----------------+-------+----------+---------+---------+-------+---------+--------------+------------+---------------------------------------------+
+| Rank | Player         | Team | Position (Pos. Rank) | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :--------------| :----| :--------------------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | J.Taylor       | IND  | RB (#1)              | 3628.13        | 1.000      | 8     | 453.52   | 487.76  | 2/0/6       | Increasing |
+| 2    | C.McCaffrey    | SF   | RB (#2)              | 3596.41        | 1.000      | 8     | 449.55   | 466.45  | 1/1/6       | Stable     |
+| 3    | B.Robinson     | ATL  | RB (#3)              | 2673.62        | 1.000      | 7     | 381.95   | 418.76  | 2/0/5       | Stable     |
+| 4    | P.Nacua        | LA   | WR (#1)              | 2144.72        | 1.000      | 6     | 357.45   | 376.63  | 1/0/5       | Stable     |
+| 5    | D.Achane       | MIA  | RB (#4)              | 2773.81        | 1.000      | 8     | 346.73   | 343.16  | 2/0/6       | Stable     |
+| 6    | J.Smith-Njigba | SEA  | WR (#2)              | 2426.98        | 1.000      | 7     | 346.71   | 384.58  | 2/1/4       | Increasing |
+| 7    | J.Cook         | BUF  | RB (#5)              | 2315.98        | 1.000      | 7     | 330.85   | 366.75  | 2/0/5       | Decreasing |
+| 8    | J.Chase        | CIN  | WR (#3)              | 2536.39        | 1.000      | 8     | 317.05   | 330.95  | 3/0/5       | Increasing |
+| 9    | J.Gibbs        | DET  | RB (#6)              | 2209.02        | 1.000      | 7     | 315.57   | 274.74  | 1/0/6       | Stable     |
+| 10   | J.Jacobs       | GB   | RB (#7)              | 2134.47        | 1.000      | 7     | 304.92   | 243.51  | 0/0/7       | Increasing |
 
 ## RB Rankings
 
-| Rank | Player      | Team | Raw Score | Adjusted Score | Games | Avg/Game | Typical | Std Dev | Floor | Ceiling | Peak         | Trend      | Notable Games (>150% Typical) |
-| :----| :-----------| :----| :---------| :--------------| :-----| :--------| :-------| :-------| :-----| :-------| :------------| :----------| :-----------------------------|
-| 1    | J.Taylor    | IND  | 308.25    | 3628.13        | 8     | 453.52   | 487.76  | ±117.8  | 463.5 | 499.7   | Peak: 774.35 | Increasing | Wk 2 (vs DEN)                 |
-| 2    | C.McCaffrey | SF   | 304.88    | 3596.41        | 8     | 449.55   | 466.45  | ±136.8  | 438.0 | 508.8   | Peak: 816.57 | Stable     | Wk 7 (vs ATL)                 |
-| 3    | B.Robinson  | ATL  | 267.14    | 2673.62        | 7     | 381.95   | 418.76  | ±160.3  | 358.4 | 492.8   | Peak: 794.88 | Stable     | Wk 6 (vs BUF), Wk 4 (vs WAS)  |
-| 4    | D.Achane    | MIA  | 236.38    | 2773.81        | 8     | 346.73   | 343.16  | ±111.7  | 307.6 | 368.7   | Peak: 668.22 | Stable     | Wk 6 (vs LAC), Wk 2 (vs NE)   |
-| 5    | J.Cook      | BUF  | 244.00    | 2315.98        | 7     | 330.85   | 366.75  | ±121.3  | 364.2 | 406.0   | Peak: 616.50 | Decreasing | Wk 8 (vs CAR)                 |
-| 6    | J.Gibbs     | DET  | 239.14    | 2272.14        | 7     | 324.59   | 282.59  | ±133.6  | 254.3 | 504.9   | Peak: 684.39 | Stable     | Wk 7 (vs TB), Wk 3 (vs BAL)   |
-| 7    | J.Jacobs    | GB   | 240.14    | 2134.47        | 7     | 304.92   | 243.51  | ±116.7  | 237.1 | 438.9   | Peak: 717.94 | Increasing |                               |
-| 8    | J.Williams  | DAL  | 230.25    | 2431.70        | 8     | 303.96   | 309.24  | ±82.5   | 234.0 | 351.4   | Peak: 578.45 | Decreasing |                               |
-| 9    | K.Williams  | LA   | 206.71    | 2073.02        | 7     | 296.15   | 283.12  | ±111.3  | 241.5 | 365.9   | Peak: 662.88 | Stable     |                               |
-| 10   | S.Barkley   | PHI  | 204.38    | 2315.13        | 8     | 289.39   | 281.64  | ±104.3  | 232.7 | 344.2   | Peak: 604.63 | Decreasing |                               |
+| Rank | Player      | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :-----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | J.Taylor    | IND  | 3628.13        | 1.000      | 8     | 453.52   | 487.76  | 2/0/6       | Increasing |
+| 2    | C.McCaffrey | SF   | 3596.41        | 1.000      | 8     | 449.55   | 466.45  | 1/1/6       | Stable     |
+| 3    | B.Robinson  | ATL  | 2673.62        | 1.000      | 7     | 381.95   | 418.76  | 2/0/5       | Stable     |
+| 4    | D.Achane    | MIA  | 2773.81        | 1.000      | 8     | 346.73   | 343.16  | 2/0/6       | Stable     |
+| 5    | J.Cook      | BUF  | 2315.98        | 1.000      | 7     | 330.85   | 366.75  | 2/0/5       | Decreasing |
+| 6    | J.Gibbs     | DET  | 2209.02        | 1.000      | 7     | 315.57   | 274.74  | 1/0/6       | Stable     |
+| 7    | J.Jacobs    | GB   | 2134.47        | 1.000      | 7     | 304.92   | 243.51  | 0/0/7       | Increasing |
+| 8    | J.Williams  | DAL  | 2431.70        | 1.000      | 8     | 303.96   | 309.24  | 2/1/5       | Decreasing |
+| 9    | K.Williams  | LA   | 2073.02        | 1.000      | 7     | 296.15   | 283.12  | 1/0/6       | Stable     |
+| 10   | S.Barkley   | PHI  | 2315.13        | 1.000      | 8     | 289.39   | 281.64  | 2/1/5       | Decreasing |
 
 ## WR Rankings
 
-| Rank | Player         | Team | Raw Score | Adjusted Score | Games | Avg/Game | Typical | Std Dev | Floor | Ceiling | Peak         | Trend      | Notable Games (>150% Typical)               |
-| :----| :--------------| :----| :---------| :--------------| :-----| :--------| :-------| :-------| :-----| :-------| :------------| :----------| :-------------------------------------------|
-| 1    | P.Nacua        | LA   | 242.33    | 2144.72        | 6     | 357.45   | 376.63  | ±152.0  | 344.7 | 439.7   | Peak: 743.50 | Stable     | Wk 4 (vs IND), Wk 2 (vs TEN)                |
-| 2    | J.Smith-Njigba | SEA  | 235.57    | 2426.98        | 7     | 346.71   | 384.58  | ±107.8  | 298.0 | 404.8   | Peak: 670.18 | Increasing | Wk 6 (vs JAX)                               |
-| 3    | J.Chase        | CIN  | 229.88    | 2536.39        | 8     | 317.05   | 330.95  | ±207.3  | 123.7 | 354.6   | Peak: 766.52 | Increasing | Wk 7 (vs PIT), Wk 2 (vs JAX)                |
-| 4    | A.St. Brown    | DET  | 212.71    | 2160.34        | 7     | 308.62   | 294.66  | ±133.5  | 266.0 | 348.3   | Peak: 733.72 | Decreasing | Wk 2 (vs CHI), Wk 4 (vs CLE), Wk 3 (vs BAL) |
-| 5    | G.Pickens      | DAL  | 189.75    | 2050.32        | 8     | 256.29   | 204.86  | ±145.9  | 171.8 | 261.2   | Peak: 647.79 | Decreasing |                                             |
-| 6    | D.Smith        | PHI  | 150.62    | 1927.99        | 8     | 241.00   | 200.40  | ±164.8  | 146.9 | 329.8   | Peak: 708.24 | Increasing |                                             |
-| 7    | J.Jefferson    | MIN  | 168.00    | 1582.69        | 7     | 226.10   | 210.86  | ±67.2   | 187.4 | 301.7   | Peak: 442.51 | Increasing |                                             |
-| 8    | D.London       | ATL  | 177.00    | 1333.47        | 6     | 222.25   | 176.25  | ±129.4  | 116.0 | 330.5   | Peak: 591.68 | Increasing |                                             |
-| 9    | J.Waddle       | MIA  | 141.75    | 1732.46        | 8     | 216.56   | 252.10  | ±114.7  | 140.8 | 275.0   | Peak: 472.88 | Increasing |                                             |
-| 10   | M.Pittman      | IND  | 157.25    | 1708.54        | 8     | 213.57   | 246.18  | ±73.4   | 201.2 | 253.0   | Peak: 379.08 | Stable     |                                             |
+| Rank | Player         | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :--------------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | P.Nacua        | LA   | 2144.72        | 1.000      | 6     | 357.45   | 376.63  | 1/0/5       | Stable     |
+| 2    | J.Smith-Njigba | SEA  | 2426.98        | 1.000      | 7     | 346.71   | 384.58  | 2/1/4       | Increasing |
+| 3    | J.Chase        | CIN  | 2536.39        | 1.000      | 8     | 317.05   | 330.95  | 3/0/5       | Increasing |
+| 4    | A.St. Brown    | DET  | 2100.33        | 1.000      | 7     | 300.05   | 286.48  | 1/1/5       | Decreasing |
+| 5    | G.Pickens      | DAL  | 2050.32        | 1.000      | 8     | 256.29   | 204.86  | 1/1/6       | Decreasing |
+| 6    | D.Smith        | PHI  | 1927.99        | 1.000      | 8     | 241.00   | 200.40  | 3/1/4       | Increasing |
+| 7    | J.Jefferson    | MIN  | 1582.69        | 1.000      | 7     | 226.10   | 210.86  | 0/1/6       | Increasing |
+| 8    | D.London       | ATL  | 1296.43        | 1.000      | 6     | 216.07   | 171.35  | 1/2/3       | Increasing |
+| 9    | J.Waddle       | MIA  | 1684.34        | 1.000      | 8     | 210.54   | 245.10  | 3/0/5       | Increasing |
+| 10   | D.Adams        | LA   | 1448.45        | 1.000      | 7     | 206.92   | 194.77  | 1/1/5       | Stable     |
 
 ## TE Rankings
 
-| Rank | Player     | Team | Raw Score | Adjusted Score | Games | Avg/Game | Typical | Std Dev | Floor | Ceiling | Peak         | Trend      | Notable Games (>150% Typical) |
-| :----| :----------| :----| :---------| :--------------| :-----| :--------| :-------| :-------| :-----| :-------| :------------| :----------| :-----------------------------|
-| 1    | T.McBride  | ARI  | 170.71    | 1596.73        | 7     | 228.10   | 183.96  | ±97.8   | 182.9 | 309.3   | Peak: 541.56 | Increasing |                               |
-| 2    | J.Ferguson | DAL  | 152.38    | 1667.07        | 8     | 208.38   | 252.75  | ±103.3  | 178.3 | 272.1   | Peak: 426.39 | Decreasing |                               |
-| 3    | T.Kraft    | GB   | 162.57    | 1412.30        | 7     | 201.76   | 150.71  | ±112.0  | 139.2 | 288.5   | Peak: 588.12 | Increasing |                               |
-| 4    | T.Warren   | IND  | 144.50    | 1593.04        | 8     | 199.13   | 207.12  | ±65.6   | 183.4 | 215.3   | Peak: 368.92 | Stable     |                               |
-| 5    | D.Goedert  | PHI  | 142.29    | 1320.15        | 7     | 188.59   | 171.35  | ±85.5   | 165.1 | 220.4   | Peak: 461.46 | Stable     |                               |
-| 6    | T.Kelce    | KC   | 133.00    | 1504.44        | 8     | 188.06   | 161.56  | ±75.6   | 146.2 | 216.8   | Peak: 403.07 | Increasing |                               |
-| 7    | K.Pitts    | ATL  | 121.00    | 1202.76        | 7     | 171.82   | 187.21  | ±69.2   | 131.3 | 224.8   | Peak: 352.73 | Increasing |                               |
-| 8    | H.Fannin   | CLE  | 115.50    | 1255.79        | 8     | 156.97   | 144.52  | ±66.3   | 106.2 | 217.5   | Peak: 296.68 | Increasing |                               |
-| 9    | S.LaPorta  | DET  | 111.29    | 1081.77        | 7     | 154.54   | 125.04  | ±79.6   | 102.9 | 236.4   | Peak: 357.78 | Increasing |                               |
-| 10   | D.Kincaid  | BUF  | 118.17    | 922.59         | 6     | 153.76   | 157.64  | ±78.4   | 94.6  | 225.0   | Peak: 339.17 | Decreasing |                               |
+| Rank | Player     | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | T.McBride  | ARI  | 1552.38        | 1.000      | 7     | 221.77   | 178.85  | 1/0/6       | Increasing |
+| 2    | J.Ferguson | DAL  | 1718.63        | 1.000      | 8     | 214.83   | 260.57  | 2/1/5       | Decreasing |
+| 3    | T.Kraft    | GB   | 1455.98        | 1.000      | 7     | 208.00   | 155.37  | 1/0/6       | Increasing |
+| 4    | T.Warren   | IND  | 1517.18        | 1.000      | 8     | 189.65   | 197.26  | 2/0/6       | Stable     |
+| 5    | D.Goedert  | PHI  | 1320.15        | 1.000      | 7     | 188.59   | 171.35  | 1/0/6       | Stable     |
+| 6    | T.Kelce    | KC   | 1429.22        | 1.000      | 8     | 178.65   | 153.48  | 0/2/6       | Increasing |
+| 7    | K.Pitts    | ATL  | 1113.67        | 1.000      | 7     | 159.10   | 173.35  | 2/1/4       | Increasing |
+| 8    | H.Fannin   | CLE  | 1255.79        | 1.000      | 8     | 156.97   | 144.52  | 3/1/4       | Increasing |
+| 9    | O.Gadsden  | LAC  | 923.90         | 1.000      | 6     | 153.98   | 167.83  | 2/0/4       | Increasing |
+| 10   | D.Kincaid  | BUF  | 922.59         | 1.000      | 6     | 153.76   | 157.64  | 2/0/4       | Decreasing |
 

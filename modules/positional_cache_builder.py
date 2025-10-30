@@ -7,13 +7,13 @@ from nflreadpy. Data is split by position, year, and saved as CSVs in the 'cache
 
 from pathlib import Path
 import nflreadpy as nfl
-from constants import START_YEAR, END_YEAR, CACHE_DIR
+from modules.constants import START_YEAR, END_YEAR, CACHE_DIR
 import polars as pl
-from logger import get_logger
+from modules.logger import get_logger
 
 logger = get_logger(__name__)
 import logging
-from logger import LOG_DIR  # This ensures logger is configured
+from modules.logger import LOG_DIR  # This ensures logger is configured
 
 CACHE_DIR = (Path(CACHE_DIR) / "positional_player_stats").mkdir(parents=True, exist_ok=True)
 

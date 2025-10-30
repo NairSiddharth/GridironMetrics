@@ -13,6 +13,8 @@ from modules.constants import START_YEAR, END_YEAR, CACHE_DIR
 from modules.offensive_metrics import OffensiveMetricsCalculator
 from modules.play_by_play import PlayByPlayProcessor
 from modules.context_adjustments import ContextAdjustments
+from modules.personnel_inference import PersonnelInference
+from modules.pbp_cache_builder import build_cache
 import concurrent.futures
 import argparse
 
@@ -22,6 +24,7 @@ logger = get_logger(__name__)
 metrics_calculator = OffensiveMetricsCalculator()
 pbp_processor = PlayByPlayProcessor()
 context_adj = ContextAdjustments()
+personnel_inferencer = PersonnelInference()
 
 # Offensive metrics we want to track for skill positions (RB/WR/TE)
 SKILL_POSITION_METRICS = {
@@ -233,6 +236,24 @@ def adjust_for_opponent(df: pl.DataFrame, opponent_stats: pl.DataFrame) -> pl.Da
         (1 + (33 - pl.col("scoring_defense_rank")) / 64).alias("scoring_multiplier")
     ])
 
+def get_personnel_multiplier(position: str, personnel_group: str) -> float:
+    """
+    Get position-specific personnel multiplier based on formation.
+    
+    Args:
+        position: Player position (WR, RB, TE, QB)
+        personnel_group: Personnel grouping like '11', '12', '21', etc.
+        
+    Returns:
+        Multiplier value (0.85-1.15)
+    """
+    if position not in ['WR', 'RB', 'TE']:
+        return 1.0  # QBs and others get neutral multiplier
+    
+    # Use PersonnelInference to get the multiplier
+    # Use high confidence (0.9) since we're using actual/inferred personnel from PBP cache
+    return personnel_inferencer.get_position_multiplier(personnel_group, position, confidence=0.9)
+
 def calculate_offensive_shares(team_stats: pl.DataFrame, player_stats: pl.DataFrame, metric: str, 
                              opponent_stats: pl.DataFrame = None, year: int = None, week: int = None, team: str = None) -> pl.DataFrame:
     """Calculate what percentage of team total each player accounts for with situational and opponent adjustments."""
@@ -253,7 +274,10 @@ def calculate_offensive_shares(team_stats: pl.DataFrame, player_stats: pl.DataFr
                         pl.col("field_position_multiplier").mean().alias("redzone_multiplier"),
                         pl.col("score_multiplier").mean().alias("game_state_multiplier"),
                         pl.col("time_multiplier").mean().alias("time_multiplier"),
-                        pl.col("down_multiplier").mean().alias("down_multiplier")
+                        pl.col("down_multiplier").mean().alias("down_multiplier"),
+                        pl.col("personnel_group").mode().first().alias("personnel_group"),  # Most common personnel
+                        pl.col("defense_coverage_type").mode().first().alias("coverage_type"),  # Most common coverage
+                        pl.col("defenders_in_box").mean().alias("avg_defenders_in_box")  # Average box count
                     ])
                     multipliers.append({
                         'team': t,
@@ -261,19 +285,28 @@ def calculate_offensive_shares(team_stats: pl.DataFrame, player_stats: pl.DataFr
                         'redzone_multiplier': float(gm[0, 'redzone_multiplier']),
                         'game_state_multiplier': float(gm[0, 'game_state_multiplier']),
                         'time_multiplier': float(gm[0, 'time_multiplier']),
-                        'down_multiplier': float(gm[0, 'down_multiplier'])
+                        'down_multiplier': float(gm[0, 'down_multiplier']),
+                        'personnel_group': str(gm[0, 'personnel_group']) if gm[0, 'personnel_group'] is not None else '11',
+                        'coverage_type': str(gm[0, 'coverage_type']) if gm[0, 'coverage_type'] is not None else 'COVER_2',
+                        'avg_defenders_in_box': float(gm[0, 'avg_defenders_in_box']) if gm[0, 'avg_defenders_in_box'] is not None else 6.0
                     })
                 else:
                     multipliers.append({
                         'team': t, 'week': w,
                         'redzone_multiplier': 1.0, 'game_state_multiplier': 1.0,
-                        'time_multiplier': 1.0, 'down_multiplier': 1.0
+                        'time_multiplier': 1.0, 'down_multiplier': 1.0,
+                        'personnel_group': '11',  # Default to most common personnel
+                        'coverage_type': 'COVER_2',
+                        'avg_defenders_in_box': 6.0
                     })
             except Exception:
                 multipliers.append({
                     'team': t, 'week': w,
                     'redzone_multiplier': 1.0, 'game_state_multiplier': 1.0,
-                    'time_multiplier': 1.0, 'down_multiplier': 1.0
+                    'time_multiplier': 1.0, 'down_multiplier': 1.0,
+                    'personnel_group': '11',  # Default to most common personnel
+                    'coverage_type': 'COVER_2',
+                    'avg_defenders_in_box': 6.0
                 })
 
         if len(multipliers) > 0:
@@ -284,21 +317,33 @@ def calculate_offensive_shares(team_stats: pl.DataFrame, player_stats: pl.DataFr
         else:
             team_stats = team_stats.with_columns([
                 pl.lit(1.0).alias("redzone_multiplier"), pl.lit(1.0).alias("game_state_multiplier"),
-                pl.lit(1.0).alias("time_multiplier"), pl.lit(1.0).alias("down_multiplier")
+                pl.lit(1.0).alias("time_multiplier"), pl.lit(1.0).alias("down_multiplier"),
+                pl.lit('11').alias("personnel_group"),
+                pl.lit('COVER_2').alias("coverage_type"),
+                pl.lit(6.0).alias("avg_defenders_in_box")
             ])
             player_stats = player_stats.with_columns([
                 pl.lit(1.0).alias("redzone_multiplier"), pl.lit(1.0).alias("game_state_multiplier"),
-                pl.lit(1.0).alias("time_multiplier"), pl.lit(1.0).alias("down_multiplier")
+                pl.lit(1.0).alias("time_multiplier"), pl.lit(1.0).alias("down_multiplier"),
+                pl.lit('11').alias("personnel_group"),
+                pl.lit('COVER_2').alias("coverage_type"),
+                pl.lit(6.0).alias("avg_defenders_in_box")
             ])
     else:
         # No year provided -> raw values: set multipliers to 1.0
         team_stats = team_stats.with_columns([
             pl.lit(1.0).alias("redzone_multiplier"), pl.lit(1.0).alias("game_state_multiplier"),
-            pl.lit(1.0).alias("time_multiplier"), pl.lit(1.0).alias("down_multiplier")
+            pl.lit(1.0).alias("time_multiplier"), pl.lit(1.0).alias("down_multiplier"),
+            pl.lit('11').alias("personnel_group"),
+            pl.lit('COVER_2').alias("coverage_type"),
+            pl.lit(6.0).alias("avg_defenders_in_box")
         ])
         player_stats = player_stats.with_columns([
             pl.lit(1.0).alias("redzone_multiplier"), pl.lit(1.0).alias("game_state_multiplier"),
-            pl.lit(1.0).alias("time_multiplier"), pl.lit(1.0).alias("down_multiplier")
+            pl.lit(1.0).alias("time_multiplier"), pl.lit(1.0).alias("down_multiplier"),
+            pl.lit('11').alias("personnel_group"),
+            pl.lit('COVER_2').alias("coverage_type"),
+            pl.lit(6.0).alias("avg_defenders_in_box")
         ])
     
     # Apply opponent adjustments if available
@@ -378,6 +423,49 @@ def calculate_offensive_shares(team_stats: pl.DataFrame, player_stats: pl.DataFr
             player_stats = player_stats.with_columns([
                 pl.sum_horizontal(weighted_cols_player).alias(metric)
             ])
+            
+            # Apply position-specific personnel multipliers (Phase 1)
+            # Only apply if we have position and personnel_group columns
+            if 'position' in player_stats.columns and 'personnel_group' in player_stats.columns:
+                # Calculate personnel multiplier for each player based on their position
+                player_stats = player_stats.with_columns([
+                    pl.struct(['position', 'personnel_group'])
+                      .map_elements(
+                          lambda row: get_personnel_multiplier(row['position'], row['personnel_group']),
+                          return_dtype=pl.Float64
+                      )
+                      .alias('personnel_multiplier')
+                ])
+                
+                # Apply personnel multiplier to the overall contribution
+                player_stats = player_stats.with_columns([
+                    (pl.col(metric) * pl.col('personnel_multiplier')).alias(metric)
+                ])
+                
+                # Apply special case combo penalties (Phase 1 Enhancement)
+                # These are additional penalties for particularly easy situations
+                if 'coverage_type' in player_stats.columns:
+                    player_stats = player_stats.with_columns([
+                        pl.when(
+                            # RB receiving in 10 personnel (spread checkdowns)
+                            # Applies to RBs in spread formations (likely checkdowns)
+                            (pl.col('position') == 'RB') & 
+                            (pl.col('personnel_group') == '10')
+                        ).then(pl.col(metric) * 0.85)
+                        .when(
+                            # WR in prevent defense + 10 personnel (double easy - garbage time + spread)
+                            (pl.col('position') == 'WR') & 
+                            (pl.col('coverage_type') == 'PREVENT') &
+                            (pl.col('personnel_group') == '10')
+                        ).then(pl.col(metric) * 0.80)
+                        .when(
+                            # TE receiving in heavy personnel (13/22 - wide open mismatches)
+                            (pl.col('position') == 'TE') & 
+                            (pl.col('personnel_group').is_in(['13', '22']))
+                        ).then(pl.col(metric) * 0.85)
+                        .otherwise(pl.col(metric))
+                        .alias(metric)
+                    ])
         else:
             # For simple combined metrics, just sum the components
             team_stats = team_stats.with_columns([
@@ -578,6 +666,234 @@ def generate_season_summary(year: int) -> str:
     return markdown
 
 
+def calculate_qb_contribution_from_pbp(year: int, qb_name: str) -> float:
+    """
+    Calculate QB contribution from play-by-play data with contextual penalties and rewards.
+    
+    Positive contributions:
+    - Passing yards, TDs, completions, rushing yards/TDs (base weights)
+    - Bonus for completions under pressure (1.4x completion, 1.2x yards) when data available
+    
+    Negative penalties (with situation modifiers):
+    - Interceptions: -35 base
+    - Sacks: -10 base  
+    - Fumbles lost: -35 base
+    
+    Situation modifiers adjust penalties based on:
+    - Field position (own territory worse)
+    - Score differential (close games more critical)
+    - Time remaining (final 2 min more critical)
+    - Down & distance (3rd/4th down less harsh)
+    """
+    pbp_data = pbp_processor.load_pbp_data(year)
+    if pbp_data is None:
+        return 0.0
+    
+    # Check if pressure data is available (2024 and earlier have ~96% coverage)
+    has_pressure_data = pbp_data['was_pressure'].null_count() < len(pbp_data) * 0.5
+    
+    weights = COMBINED_METRICS['qb_contribution']['weights']
+    contribution = 0.0
+    
+    # Get all plays for this QB
+    qb_plays = pbp_data.filter(pl.col('passer_player_name') == qb_name)
+    
+    if len(qb_plays) == 0:
+        return 0.0
+    
+    # === POSITIVE CONTRIBUTIONS ===
+    
+    # Passing yards - with pressure bonus if available
+    if has_pressure_data:
+        # Clean pocket yards
+        clean_yards = qb_plays.filter(
+            (pl.col('passing_yards').is_not_null()) & 
+            ((pl.col('was_pressure') == 0) | (pl.col('was_pressure').is_null()))
+        )['passing_yards'].sum()
+        
+        # Pressured yards (1.2x bonus)
+        pressure_yards = qb_plays.filter(
+            (pl.col('passing_yards').is_not_null()) & 
+            (pl.col('was_pressure') == 1)
+        )['passing_yards'].sum()
+        
+        contribution += (clean_yards or 0) * weights['passing_yards']
+        contribution += (pressure_yards or 0) * weights['passing_yards'] * 1.2
+    else:
+        # No pressure data - use standard calculation
+        total_yards = qb_plays.filter(pl.col('passing_yards').is_not_null())['passing_yards'].sum()
+        contribution += (total_yards or 0) * weights['passing_yards']
+    
+    # Passing TDs
+    passing_tds = qb_plays.filter(pl.col('pass_touchdown') == 1).height
+    contribution += passing_tds * weights['passing_tds']
+    
+    # Completions - with pressure bonus if available
+    if has_pressure_data:
+        # Clean completions
+        clean_completions = qb_plays.filter(
+            (pl.col('complete_pass') == 1) & 
+            ((pl.col('was_pressure') == 0) | (pl.col('was_pressure').is_null()))
+        ).height
+        
+        # Pressured completions (1.4x bonus)
+        pressure_completions = qb_plays.filter(
+            (pl.col('complete_pass') == 1) & 
+            (pl.col('was_pressure') == 1)
+        ).height
+        
+        contribution += clean_completions * weights['completions']
+        contribution += pressure_completions * weights['completions'] * 1.4
+    else:
+        # No pressure data - use standard calculation
+        completions = qb_plays.filter(pl.col('complete_pass') == 1).height
+        contribution += completions * weights['completions']
+    
+    # Attempts (penalty for incompletions)
+    attempts = qb_plays.filter(pl.col('pass_attempt') == 1).height
+    contribution += attempts * weights['attempts']
+    
+    # Rushing yards and TDs
+    rushing_yards = qb_plays.filter(
+        (pl.col('rusher_player_name') == qb_name) & 
+        (pl.col('rushing_yards').is_not_null())
+    )['rushing_yards'].sum()
+    contribution += (rushing_yards or 0) * weights['rushing_yards']
+    
+    rushing_tds = qb_plays.filter(
+        (pl.col('rusher_player_name') == qb_name) & 
+        (pl.col('rush_touchdown') == 1)
+    ).height
+    contribution += rushing_tds * weights['rushing_tds']
+    
+    # === NEGATIVE PENALTIES ===
+    
+    # Interceptions with contextual modifiers
+    ints = qb_plays.filter(pl.col('interception') == 1)
+    for int_play in ints.iter_rows(named=True):
+        base_penalty = -50.0
+        
+        # Field position modifier (worse in own territory)
+        yardline = int_play.get('yardline_100', 50)
+        if yardline > 65:  # Own 35 or deeper
+            field_mod = 1.5
+        elif yardline < 35:  # Opponent 35 or closer (red zone area)
+            field_mod = 0.8
+        else:
+            field_mod = 1.0
+        
+        # Score differential modifier
+        score_diff = abs(int_play.get('score_differential', 0))
+        if score_diff <= 8:  # One score game
+            score_mod = 1.2
+        elif score_diff >= 14:  # Losing by 2+ scores (garbage time)
+            score_mod = 0.8
+        else:
+            score_mod = 1.0
+        
+        # Time remaining modifier
+        seconds_remaining = int_play.get('game_seconds_remaining', 1800)
+        if seconds_remaining < 120:  # Final 2 minutes
+            time_mod = 1.3
+        else:
+            time_mod = 1.0
+        
+        # Down modifier (3rd/4th down attempts less harsh)
+        down = int_play.get('down', 1)
+        if down >= 3:
+            down_mod = 0.7
+        else:
+            down_mod = 1.0
+        
+        # Apply all modifiers
+        final_penalty = base_penalty * field_mod * score_mod * time_mod * down_mod
+        contribution += final_penalty
+    
+    # Sacks with contextual modifiers
+    sacks = qb_plays.filter(pl.col('sack') == 1)
+    for sack_play in sacks.iter_rows(named=True):
+        base_penalty = -10.0
+        
+        # Score differential modifier (less harsh when losing big)
+        score_diff = sack_play.get('score_differential', 0)
+        if score_diff <= -14:  # Losing by 2+ scores
+            score_mod = 0.7
+        else:
+            score_mod = 1.0
+        
+        # Down modifier (3rd/4th down less harsh - had to try)
+        down = sack_play.get('down', 1)
+        if down >= 3:
+            down_mod = 0.8
+        else:
+            down_mod = 1.0
+        
+        final_penalty = base_penalty * score_mod * down_mod
+        contribution += final_penalty
+    
+    # Fumbles lost (turnovers) with contextual modifiers (same as interceptions)
+    fumbles_lost = qb_plays.filter(
+        (pl.col('fumble_lost') == 1) & 
+        ((pl.col('fumbled_1_player_name') == qb_name) | (pl.col('passer_player_name') == qb_name))
+    )
+    for fumble_play in fumbles_lost.iter_rows(named=True):
+        base_penalty = -50.0
+        
+        # Same modifiers as interceptions
+        yardline = fumble_play.get('yardline_100', 50)
+        if yardline > 65:
+            field_mod = 1.5
+        elif yardline < 35:
+            field_mod = 0.8
+        else:
+            field_mod = 1.0
+        
+        score_diff = abs(fumble_play.get('score_differential', 0))
+        if score_diff <= 8:
+            score_mod = 1.2
+        elif score_diff >= 14:
+            score_mod = 0.8
+        else:
+            score_mod = 1.0
+        
+        seconds_remaining = fumble_play.get('game_seconds_remaining', 1800)
+        if seconds_remaining < 120:
+            time_mod = 1.3
+        else:
+            time_mod = 1.0
+        
+        down = fumble_play.get('down', 1)
+        if down >= 3:
+            down_mod = 0.7
+        else:
+            down_mod = 1.0
+        
+        final_penalty = base_penalty * field_mod * score_mod * time_mod * down_mod
+        contribution += final_penalty
+    
+    # Fumbles recovered by own team (still negative but less severe)
+    fumbles_recovered = qb_plays.filter(
+        (pl.col('fumble') == 1) & 
+        (pl.col('fumble_lost') == 0) &
+        ((pl.col('fumbled_1_player_name') == qb_name) | (pl.col('passer_player_name') == qb_name))
+    )
+    for fumble_play in fumbles_recovered.iter_rows(named=True):
+        # Less severe penalty since possession retained, but still lost down/yards
+        base_penalty = -15.0
+        
+        # Simple modifiers - mainly just down context
+        down = fumble_play.get('down', 1)
+        if down >= 3:
+            down_mod = 0.7  # Less harsh on 3rd/4th down
+        else:
+            down_mod = 1.0
+        
+        final_penalty = base_penalty * down_mod
+        contribution += final_penalty
+    
+    return contribution
+
+
 def generate_qb_rankings(year: int) -> str:
     """Generate a separate QB rankings table with normalized 0-100 scores."""
     logger.info(f"Generating QB rankings for {year}")
@@ -587,18 +903,43 @@ def generate_qb_rankings(year: int) -> str:
     if qb_stats is None:
         return "No QB data available."
     
-    # Calculate QB contribution scores using the qb_contribution metric
+    # Apply minimum activity threshold: 14 pass attempts per game (1978-now standard)
+    # Count only games with meaningful participation (10+ attempts)
+    # First, filter to only include games with 10+ attempts
+    qb_stats = qb_stats.filter(pl.col('attempts') >= 10)
+    
+    qb_games = qb_stats.group_by(['player_id', 'player_name']).agg([
+        pl.col('week').count().alias('games'),
+        pl.col('attempts').sum().alias('total_attempts')
+    ])
+    
+    qb_games = qb_games.with_columns([
+        (pl.col('total_attempts') / pl.col('games')).alias('attempts_per_game')
+    ])
+    
+    # Filter to qualified QBs (14+ attempts per game)
+    qualified_qbs = qb_games.filter(pl.col('attempts_per_game') >= 14.0)
+    qb_stats = qb_stats.join(
+        qualified_qbs.select(['player_id', 'player_name']), 
+        on=['player_id', 'player_name'], 
+        how='inner'
+    )
+    
+    if len(qb_stats) == 0:
+        return "No qualified QBs (14+ attempts/game) for this season."
+    
+    logger.info(f"Filtered to {len(qualified_qbs)} qualified QBs (14+ attempts/game)")
+    
+    # Calculate QB contribution scores using play-by-play data with contextual penalties/rewards
     qb_contributions = []
+    
+    logger.info(f"Calculating QB contributions from play-by-play data with contextual penalties and pressure bonuses...")
     
     for qb_name in qb_stats['player_name'].unique().to_list():
         qb_data = qb_stats.filter(pl.col('player_name') == qb_name)
         
-        # Calculate weighted contribution
-        weights = COMBINED_METRICS['qb_contribution']['weights']
-        contribution = 0
-        for metric, weight in weights.items():
-            if metric in qb_data.columns:
-                contribution += qb_data[metric].sum() * weight
+        # Calculate contribution from PBP data (includes penalties and pressure bonuses)
+        contribution = calculate_qb_contribution_from_pbp(year, qb_name)
         
         games_played = qb_data.height
         if games_played > 0:
@@ -620,14 +961,23 @@ def generate_qb_rankings(year: int) -> str:
     mean_contribution = qb_df['contribution'].mean()
     std_contribution = qb_df['contribution'].std()
     
-    # Calculate max games for hybrid scoring
-    max_games = qb_df['games'].max()
+    # Calculate team-level max games (to penalize QBs who missed games their team played)
+    # Group by team to count how many distinct weeks (games) each team has played
+    team_games = qb_stats.group_by('team').agg([
+        pl.col('week').n_unique().alias('team_max_games')
+    ])
     
-    # Z-score normalization: normalized = 50 + (z_score * 10)
-    # Hybrid scoring: adjusted_score * (games_played / max_games)^0.4
+    # Join team max games back to qb_df
+    qb_df = qb_df.join(team_games, on='team', how='left')
+    
+    logger.info(f"Team games played: {team_games}")
+    
+    # Z-score normalization: normalized = 50 + (z_score * 17.5)
+    # Hybrid scoring: contribution * (qb_games / team_games)^0.4
+    # This penalizes QBs who missed games their team played, but not for bye weeks
     qb_df = qb_df.with_columns([
-        (50 + ((pl.col('contribution') - mean_contribution) / std_contribution) * 10).alias('normalized_score'),
-        (pl.col('contribution') * (pl.col('games') / max_games).pow(0.4)).alias('hybrid_score')
+        (50 + ((pl.col('contribution') - mean_contribution) / std_contribution) * 17.5).alias('normalized_score'),
+        (pl.col('contribution') * (pl.col('games') / pl.col('team_max_games')).pow(0.4)).alias('hybrid_score')
     ])
     
     # Calculate z-score for hybrid scores to normalize those too
@@ -635,13 +985,13 @@ def generate_qb_rankings(year: int) -> str:
     std_hybrid = qb_df['hybrid_score'].std()
     
     qb_df = qb_df.with_columns([
-        (50 + ((pl.col('hybrid_score') - mean_hybrid) / std_hybrid) * 10).alias('normalized_hybrid')
+        (50 + ((pl.col('hybrid_score') - mean_hybrid) / std_hybrid) * 17.5).alias('normalized_hybrid')
     ]).sort('normalized_hybrid', descending=True)
     
     # Create table
     markdown = f"# QB Rankings - {year}\n\n"
     table = PrettyTable()
-    table.field_names = ["Rank", "QB", "Team", "Games", "Avg/Game", "Normalized"]
+    table.field_names = ["Rank", "QB", "Team", "Games", "Contribution", "Avg/Game", "Normalized"]
     table.align = "l"
     table.float_format = '.2'
     table.set_style(TableStyle.MARKDOWN)
@@ -652,6 +1002,7 @@ def generate_qb_rankings(year: int) -> str:
             row['player_name'],
             row['team'],
             row['games'],
+            f"{row['contribution']:.2f}",
             f"{row['avg_per_game']:.2f}",
             f"{row['normalized_hybrid']:.2f}"
         ])
@@ -659,8 +1010,441 @@ def generate_qb_rankings(year: int) -> str:
     markdown += table.get_string() + "\n\n"
     return markdown
 
-               
+
+def generate_rb_rankings(year: int) -> str:
+    """Generate comprehensive RB rankings showing all qualified players."""
+    logger.info(f"Generating RB rankings for {year}")
+    
+    # Load RB stats
+    rb_stats = load_position_weekly_stats(year, 'RB')
+    if rb_stats is None:
+        return "No RB data available."
+    
+    # Apply minimum activity threshold: 8 carries per game
+    rb_games = rb_stats.group_by(['player_id', 'player_name']).agg([
+        pl.col('week').count().alias('games'),
+        pl.col('carries').sum().alias('total_carries')
+    ])
+    
+    rb_games = rb_games.with_columns([
+        (pl.col('total_carries') / pl.col('games')).alias('carries_per_game')
+    ])
+    
+    # Filter to qualified RBs (8+ carries per game)
+    qualified_rbs = rb_games.filter(pl.col('carries_per_game') >= 8.0)
+    rb_stats = rb_stats.join(
+        qualified_rbs.select(['player_id', 'player_name']), 
+        on=['player_id', 'player_name'], 
+        how='inner'
+    )
+    
+    if len(rb_stats) == 0:
+        return "No qualified RBs (8+ carries/game) for this season."
+    
+    logger.info(f"Filtered to {len(qualified_rbs)} qualified RBs (8+ carries/game)")
+    
+    # Calculate RB contribution scores
+    rb_contributions = []
+    
+    # Group by player_id to avoid combining players with same name
+    for player_id in rb_stats['player_id'].unique().to_list():
+        rb_data = rb_stats.filter(pl.col('player_id') == player_id)
+        rb_name = rb_data['player_name'][0]
         
+        # Calculate weighted contribution using overall_contribution metric
+        weights = COMBINED_METRICS['overall_contribution']['weights']
+        contribution = 0
+        for metric, weight in weights.items():
+            if metric in rb_data.columns:
+                contribution += rb_data[metric].sum() * weight
+        
+        games_played = rb_data.height
+        if games_played > 0:
+            # Calculate difficulty multiplier if available
+            difficulty = None
+            if 'defenders_in_box_multiplier' in rb_data.columns:
+                difficulty = rb_data['defenders_in_box_multiplier'].mean()
+            
+            # Calculate adjusted score
+            adjusted_contribution = contribution * difficulty if difficulty else contribution
+            
+            # Calculate typical game (25th/75th percentile average)
+            game_contributions = []
+            for week_data in rb_data.iter_rows(named=True):
+                week_contrib = 0
+                for metric, weight in weights.items():
+                    if metric in week_data:
+                        week_contrib += week_data[metric] * weight
+                game_contributions.append(week_contrib)
+            
+            game_contributions.sort()
+            if len(game_contributions) >= 4:
+                q1_idx = len(game_contributions) // 4
+                q3_idx = 3 * len(game_contributions) // 4
+                typical = (game_contributions[q1_idx] + game_contributions[q3_idx]) / 2
+            else:
+                typical = sum(game_contributions) / len(game_contributions)
+            
+            # Calculate consistency (±5% threshold)
+            below_avg = sum(1 for g in game_contributions if g < typical * 0.95)
+            at_avg = sum(1 for g in game_contributions if typical * 0.95 <= g <= typical * 1.05)
+            above_avg = sum(1 for g in game_contributions if g > typical * 1.05)
+            consistency = f"{below_avg}/{at_avg}/{above_avg}"
+            
+            # Calculate trend (compare first half vs second half of games)
+            # But only if player has been active recently (played in last 2 weeks)
+            max_week_in_season = rb_stats['week'].max()
+            last_week_played = rb_data['week'].max()
+            weeks_since_last_game = max_week_in_season - last_week_played
+            
+            if weeks_since_last_game > 2:
+                # Player hasn't played recently - trend is stale/inactive
+                trend_str = "INACTIVE"
+            elif len(game_contributions) >= 6:
+                # For 6+ games with recent activity: compare first half vs second half
+                midpoint = len(game_contributions) // 2
+                first_half = sum(game_contributions[:midpoint]) / midpoint
+                second_half = sum(game_contributions[midpoint:]) / (len(game_contributions) - midpoint)
+                trend = ((second_half - first_half) / first_half * 100) if first_half > 0 else 0
+                trend_str = f"{trend:+.1f}%"
+            else:
+                trend_str = "N/A"
+            
+            rb_contributions.append({
+                'player_name': rb_name,
+                'team': rb_data['team'][0],
+                'games': games_played,
+                'raw_score': contribution,
+                'adjusted_score': adjusted_contribution,
+                'difficulty': difficulty if difficulty else 1.0,
+                'avg_per_game': contribution / games_played,
+                'typical': typical,
+                'consistency': consistency,
+                'trend': trend_str
+            })
+    
+    if not rb_contributions:
+        return "No RB contributions calculated."
+    
+    # Create DataFrame and sort by adjusted score
+    rb_df = pl.DataFrame(rb_contributions).sort('adjusted_score', descending=True)
+    
+    # Create table
+    markdown = f"# RB Rankings - {year}\n\n"
+    table = PrettyTable()
+    table.field_names = ["Rank", "Player", "Team", "Games", "Raw", "Adjusted", "Difficulty", "Avg/Game", "Typical", "Consistency", "Trend"]
+    table.align = "l"
+    table.float_format = '.2'
+    table.set_style(TableStyle.MARKDOWN)
+    
+    for rank, row in enumerate(rb_df.iter_rows(named=True), 1):
+        table.add_row([
+            rank,
+            row['player_name'],
+            row['team'],
+            row['games'],
+            f"{row['raw_score']:.2f}",
+            f"{row['adjusted_score']:.2f}",
+            f"{row['difficulty']:.3f}",
+            f"{row['avg_per_game']:.2f}",
+            f"{row['typical']:.2f}",
+            row['consistency'],
+            row['trend']
+        ])
+    
+    markdown += table.get_string() + "\n\n"
+    return markdown
+
+
+def generate_wr_rankings(year: int) -> str:
+    """Generate comprehensive WR rankings showing all qualified players."""
+    logger.info(f"Generating WR rankings for {year}")
+    
+    # Load WR stats
+    wr_stats = load_position_weekly_stats(year, 'WR')
+    if wr_stats is None:
+        return "No WR data available."
+    
+    # Apply minimum activity threshold: 3 targets per game
+    wr_games = wr_stats.group_by(['player_id', 'player_name']).agg([
+        pl.col('week').count().alias('games'),
+        pl.col('targets').sum().alias('total_targets')
+    ])
+    
+    wr_games = wr_games.with_columns([
+        (pl.col('total_targets') / pl.col('games')).alias('targets_per_game')
+    ])
+    
+    # Filter to qualified WRs (3+ targets per game)
+    qualified_wrs = wr_games.filter(pl.col('targets_per_game') >= 3.0)
+    wr_stats = wr_stats.join(
+        qualified_wrs.select(['player_id', 'player_name']), 
+        on=['player_id', 'player_name'], 
+        how='inner'
+    )
+    
+    if len(wr_stats) == 0:
+        return "No qualified WRs (3+ targets/game) for this season."
+    
+    logger.info(f"Filtered to {len(qualified_wrs)} qualified WRs (3+ targets/game)")
+    
+    # Calculate WR contribution scores
+    wr_contributions = []
+    
+    # Group by player_id to avoid combining players with same name
+    for player_id in wr_stats['player_id'].unique().to_list():
+        wr_data = wr_stats.filter(pl.col('player_id') == player_id)
+        wr_name = wr_data['player_name'][0]
+        
+        # Calculate weighted contribution using overall_contribution metric
+        weights = COMBINED_METRICS['overall_contribution']['weights']
+        contribution = 0
+        for metric, weight in weights.items():
+            if metric in wr_data.columns:
+                contribution += wr_data[metric].sum() * weight
+        
+        games_played = wr_data.height
+        if games_played > 0:
+            # Calculate difficulty multiplier if available
+            difficulty = None
+            if 'coverage_multiplier' in wr_data.columns:
+                difficulty = wr_data['coverage_multiplier'].mean()
+            
+            # Calculate adjusted score
+            adjusted_contribution = contribution * difficulty if difficulty else contribution
+            
+            # Calculate typical game
+            game_contributions = []
+            for week_data in wr_data.iter_rows(named=True):
+                week_contrib = 0
+                for metric, weight in weights.items():
+                    if metric in week_data:
+                        week_contrib += week_data[metric] * weight
+                game_contributions.append(week_contrib)
+            
+            game_contributions.sort()
+            if len(game_contributions) >= 4:
+                q1_idx = len(game_contributions) // 4
+                q3_idx = 3 * len(game_contributions) // 4
+                typical = (game_contributions[q1_idx] + game_contributions[q3_idx]) / 2
+            else:
+                typical = sum(game_contributions) / len(game_contributions)
+            
+            # Calculate consistency (±5% threshold)
+            below_avg = sum(1 for g in game_contributions if g < typical * 0.95)
+            at_avg = sum(1 for g in game_contributions if typical * 0.95 <= g <= typical * 1.05)
+            above_avg = sum(1 for g in game_contributions if g > typical * 1.05)
+            consistency = f"{below_avg}/{at_avg}/{above_avg}"
+            
+            # Calculate trend (compare first half vs second half of games)
+            # But only if player has been active recently (played in last 2 weeks)
+            max_week_in_season = wr_stats['week'].max()
+            last_week_played = wr_data['week'].max()
+            weeks_since_last_game = max_week_in_season - last_week_played
+            
+            if weeks_since_last_game > 2:
+                # Player hasn't played recently - trend is stale/inactive
+                trend_str = "INACTIVE"
+            elif len(game_contributions) >= 6:
+                # For 6+ games with recent activity: compare first half vs second half
+                midpoint = len(game_contributions) // 2
+                first_half = sum(game_contributions[:midpoint]) / midpoint
+                second_half = sum(game_contributions[midpoint:]) / (len(game_contributions) - midpoint)
+                trend = ((second_half - first_half) / first_half * 100) if first_half > 0 else 0
+                trend_str = f"{trend:+.1f}%"
+            else:
+                trend_str = "N/A"
+            
+            wr_contributions.append({
+                'player_name': wr_name,
+                'team': wr_data['team'][0],
+                'games': games_played,
+                'raw_score': contribution,
+                'adjusted_score': adjusted_contribution,
+                'difficulty': difficulty if difficulty else 1.0,
+                'avg_per_game': contribution / games_played,
+                'typical': typical,
+                'consistency': consistency,
+                'trend': trend_str
+            })
+    
+    if not wr_contributions:
+        return "No WR contributions calculated."
+    
+    # Create DataFrame and sort by adjusted score
+    wr_df = pl.DataFrame(wr_contributions).sort('adjusted_score', descending=True)
+    
+    # Create table
+    markdown = f"# WR Rankings - {year}\n\n"
+    table = PrettyTable()
+    table.field_names = ["Rank", "Player", "Team", "Games", "Raw", "Adjusted", "Difficulty", "Avg/Game", "Typical", "Consistency", "Trend"]
+    table.align = "l"
+    table.float_format = '.2'
+    table.set_style(TableStyle.MARKDOWN)
+    
+    for rank, row in enumerate(wr_df.iter_rows(named=True), 1):
+        table.add_row([
+            rank,
+            row['player_name'],
+            row['team'],
+            row['games'],
+            f"{row['raw_score']:.2f}",
+            f"{row['adjusted_score']:.2f}",
+            f"{row['difficulty']:.3f}",
+            f"{row['avg_per_game']:.2f}",
+            f"{row['typical']:.2f}",
+            row['consistency'],
+            row['trend']
+        ])
+    
+    markdown += table.get_string() + "\n\n"
+    return markdown
+
+
+def generate_te_rankings(year: int) -> str:
+    """Generate comprehensive TE rankings showing all qualified players."""
+    logger.info(f"Generating TE rankings for {year}")
+    
+    # Load TE stats
+    te_stats = load_position_weekly_stats(year, 'TE')
+    if te_stats is None:
+        return "No TE data available."
+    
+    # Apply minimum activity threshold: 2 targets per game
+    te_games = te_stats.group_by(['player_id', 'player_name']).agg([
+        pl.col('week').count().alias('games'),
+        pl.col('targets').sum().alias('total_targets')
+    ])
+    
+    te_games = te_games.with_columns([
+        (pl.col('total_targets') / pl.col('games')).alias('targets_per_game')
+    ])
+    
+    # Filter to qualified TEs (2+ targets per game)
+    qualified_tes = te_games.filter(pl.col('targets_per_game') >= 2.0)
+    te_stats = te_stats.join(
+        qualified_tes.select(['player_id', 'player_name']), 
+        on=['player_id', 'player_name'], 
+        how='inner'
+    )
+    
+    if len(te_stats) == 0:
+        return "No qualified TEs (2+ targets/game) for this season."
+    
+    logger.info(f"Filtered to {len(qualified_tes)} qualified TEs (2+ targets/game)")
+    
+    # Calculate TE contribution scores
+    te_contributions = []
+    
+    # Group by player_id to avoid combining players with same name
+    for player_id in te_stats['player_id'].unique().to_list():
+        te_data = te_stats.filter(pl.col('player_id') == player_id)
+        te_name = te_data['player_name'][0]
+        
+        # Calculate weighted contribution using overall_contribution metric
+        weights = COMBINED_METRICS['overall_contribution']['weights']
+        contribution = 0
+        for metric, weight in weights.items():
+            if metric in te_data.columns:
+                contribution += te_data[metric].sum() * weight
+        
+        games_played = te_data.height
+        if games_played > 0:
+            # Calculate difficulty multiplier if available
+            difficulty = None
+            if 'coverage_multiplier' in te_data.columns:
+                difficulty = te_data['coverage_multiplier'].mean()
+            
+            # Calculate adjusted score
+            adjusted_contribution = contribution * difficulty if difficulty else contribution
+            
+            # Calculate typical game
+            game_contributions = []
+            for week_data in te_data.iter_rows(named=True):
+                week_contrib = 0
+                for metric, weight in weights.items():
+                    if metric in week_data:
+                        week_contrib += week_data[metric] * weight
+                game_contributions.append(week_contrib)
+            
+            game_contributions.sort()
+            if len(game_contributions) >= 4:
+                q1_idx = len(game_contributions) // 4
+                q3_idx = 3 * len(game_contributions) // 4
+                typical = (game_contributions[q1_idx] + game_contributions[q3_idx]) / 2
+            else:
+                typical = sum(game_contributions) / len(game_contributions)
+            
+            # Calculate consistency (±5% threshold)
+            below_avg = sum(1 for g in game_contributions if g < typical * 0.95)
+            at_avg = sum(1 for g in game_contributions if typical * 0.95 <= g <= typical * 1.05)
+            above_avg = sum(1 for g in game_contributions if g > typical * 1.05)
+            consistency = f"{below_avg}/{at_avg}/{above_avg}"
+            
+            # Calculate trend (compare first half vs second half of games)
+            # But only if player has been active recently (played in last 2 weeks)
+            max_week_in_season = te_stats['week'].max()
+            last_week_played = te_data['week'].max()
+            weeks_since_last_game = max_week_in_season - last_week_played
+            
+            if weeks_since_last_game > 2:
+                # Player hasn't played recently - trend is stale/inactive
+                trend_str = "INACTIVE"
+            elif len(game_contributions) >= 6:
+                # For 6+ games with recent activity: compare first half vs second half
+                midpoint = len(game_contributions) // 2
+                first_half = sum(game_contributions[:midpoint]) / midpoint
+                second_half = sum(game_contributions[midpoint:]) / (len(game_contributions) - midpoint)
+                trend = ((second_half - first_half) / first_half * 100) if first_half > 0 else 0
+                trend_str = f"{trend:+.1f}%"
+            else:
+                trend_str = "N/A"
+            
+            te_contributions.append({
+                'player_name': te_name,
+                'team': te_data['team'][0],
+                'games': games_played,
+                'raw_score': contribution,
+                'adjusted_score': adjusted_contribution,
+                'difficulty': difficulty if difficulty else 1.0,
+                'avg_per_game': contribution / games_played,
+                'typical': typical,
+                'consistency': consistency,
+                'trend': trend_str
+            })
+    
+    if not te_contributions:
+        return "No TE contributions calculated."
+    
+    # Create DataFrame and sort by adjusted score
+    te_df = pl.DataFrame(te_contributions).sort('adjusted_score', descending=True)
+    
+    # Create table
+    markdown = f"# TE Rankings - {year}\n\n"
+    table = PrettyTable()
+    table.field_names = ["Rank", "Player", "Team", "Games", "Raw", "Adjusted", "Difficulty", "Avg/Game", "Typical", "Consistency", "Trend"]
+    table.align = "l"
+    table.float_format = '.2'
+    table.set_style(TableStyle.MARKDOWN)
+    
+    for rank, row in enumerate(te_df.iter_rows(named=True), 1):
+        table.add_row([
+            rank,
+            row['player_name'],
+            row['team'],
+            row['games'],
+            f"{row['raw_score']:.2f}",
+            f"{row['adjusted_score']:.2f}",
+            f"{row['difficulty']:.3f}",
+            f"{row['avg_per_game']:.2f}",
+            f"{row['typical']:.2f}",
+            row['consistency'],
+            row['trend']
+        ])
+    
+    markdown += table.get_string() + "\n\n"
+    return markdown
+
 
 def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataFrame:
     """
@@ -840,8 +1624,175 @@ def apply_phase5_adjustments(contributions: pl.DataFrame) -> pl.DataFrame:
     return contributions
 
 
-def generate_top_contributors(year: int) -> str:
-    """Generate a table of the top 10 offensive contributors for the season."""
+def calculate_average_difficulty(year: int, player_stats: pl.DataFrame) -> pl.DataFrame:
+    """Calculate average difficulty multiplier for each player across all their plays.
+    
+    This combines box count, coverage, and personnel multipliers to show
+    overall difficulty context each player faced.
+    
+    Returns DataFrame with:
+    - player_id, player_name, position
+    - avg_difficulty_multiplier (combined box × coverage × personnel)
+    - total_plays
+    """
+    logger.info(f"Calculating average difficulty multipliers for {year}")
+    
+    # Load PBP data
+    pbp_path = Path("cache/pbp") / f"pbp_{year}.parquet"
+    if not pbp_path.exists():
+        logger.warning(f"PBP cache not found for {year}, skipping difficulty calculation")
+        return None
+    
+    pbp_data = pl.read_parquet(pbp_path)
+    
+    # Check if multiplier columns exist (only available for 2016+)
+    required_cols = ['defenders_in_box_multiplier', 'coverage_multiplier']
+    if not all(col in pbp_data.columns for col in required_cols):
+        logger.info(f"Difficulty multiplier columns not available for {year} (data not available for this year), skipping")
+        return None
+    
+    # Get unique players from player_stats
+    players = player_stats.select(['player_id', 'player_name', 'position']).unique()
+    
+    difficulty_results = []
+    
+    # Process RBs (rush plays)
+    rb_players = players.filter(pl.col('position') == 'RB')
+    if len(rb_players) > 0:
+        rb_plays = pbp_data.filter(
+            (pl.col('play_type') == 'run') &
+            (pl.col('rusher_player_id').is_in(rb_players['player_id'].to_list()))
+        )
+        
+        if len(rb_plays) > 0:
+            rb_diff = rb_plays.group_by('rusher_player_id').agg([
+                # Average of (box_mult × coverage_mult) - coverage is 1.0 for rush plays
+                pl.col('defenders_in_box_multiplier').mean().alias('avg_difficulty_multiplier'),
+                pl.len().alias('total_plays')
+            ]).rename({'rusher_player_id': 'player_id'})
+            
+            rb_diff = rb_diff.join(rb_players, on='player_id', how='left')
+            difficulty_results.append(rb_diff)
+    
+    # Process WRs and TEs (pass plays)
+    for pos in ['WR', 'TE']:
+        pos_players = players.filter(pl.col('position') == pos)
+        if len(pos_players) > 0:
+            pass_plays = pbp_data.filter(
+                (pl.col('play_type') == 'pass') &
+                (pl.col('receiver_player_id').is_in(pos_players['player_id'].to_list()))
+            )
+            
+            if len(pass_plays) > 0:
+                pos_diff = pass_plays.group_by('receiver_player_id').agg([
+                    # Average of coverage_mult (box is 1.0 for pass plays)
+                    pl.col('coverage_multiplier').mean().alias('avg_difficulty_multiplier'),
+                    pl.len().alias('total_plays')
+                ]).rename({'receiver_player_id': 'player_id'})
+                
+                pos_diff = pos_diff.join(pos_players, on='player_id', how='left')
+                difficulty_results.append(pos_diff)
+    
+    if not difficulty_results:
+        return None
+    
+    # Combine all positions
+    difficulty_df = pl.concat(difficulty_results, how='diagonal')
+    
+    logger.info(f"Calculated average difficulty for {len(difficulty_df)} players")
+    return difficulty_df
+
+
+def calculate_difficulty_context(year: int, player_stats: pl.DataFrame) -> pl.DataFrame:
+    """Calculate difficulty context metrics for players from PBP data.
+    
+    Returns a DataFrame with columns:
+    - player_id, player_name, position
+    - avg_defenders_in_box (for RBs with rush attempts)
+    - pct_vs_8plus_box (for RBs with rush attempts)
+    - pct_vs_man_coverage (for WRs/TEs on pass plays)
+    - avg_box_multiplier (for RBs)
+    - avg_coverage_multiplier (for WRs/TEs)
+    """
+    logger.info(f"Calculating difficulty context for {year}")
+    
+    # Load PBP data
+    pbp_path = Path("cache/pbp") / f"pbp_{year}.parquet"
+    if not pbp_path.exists():
+        logger.warning(f"PBP cache not found for {year}, skipping difficulty context")
+        return None
+    
+    pbp_data = pl.read_parquet(pbp_path)
+    
+    # Check if required columns exist (only available for 2016+)
+    required_cols = ['defenders_in_box', 'defense_coverage_type', 'defenders_in_box_multiplier', 'coverage_multiplier']
+    if not all(col in pbp_data.columns for col in required_cols):
+        logger.info(f"Difficulty context columns not available for {year} (data not available for this year), skipping")
+        return None
+    
+    # Get unique players from player_stats
+    players = player_stats.select(['player_id', 'player_name', 'position']).unique()
+    
+    difficulty_metrics = []
+    
+    for pos in ['RB', 'WR', 'TE']:
+        pos_players = players.filter(pl.col('position') == pos)
+        
+        if pos == 'RB':
+            # For RBs: focus on rush plays
+            # Join with pbp_data on rush plays where they are the ball carrier
+            rush_plays = pbp_data.filter(
+                (pl.col('play_type') == 'run') &
+                (pl.col('rusher_player_id').is_in(pos_players['player_id'].to_list()))
+            )
+            
+            if len(rush_plays) > 0:
+                rb_difficulty = rush_plays.group_by('rusher_player_id').agg([
+                    pl.col('defenders_in_box').mean().alias('avg_defenders_in_box'),
+                    (pl.col('defenders_in_box') >= 8).mean().alias('pct_vs_8plus_box'),
+                    pl.col('defenders_in_box_multiplier').mean().alias('avg_box_multiplier'),
+                    pl.len().alias('rush_attempts')
+                ]).rename({'rusher_player_id': 'player_id'})
+                
+                # Join with player names/positions
+                rb_difficulty = rb_difficulty.join(pos_players, on='player_id', how='left')
+                difficulty_metrics.append(rb_difficulty)
+        
+        else:  # WR or TE
+            # For WRs/TEs: focus on pass plays where they are targeted
+            pass_plays = pbp_data.filter(
+                (pl.col('play_type') == 'pass') &
+                (pl.col('receiver_player_id').is_in(pos_players['player_id'].to_list()))
+            )
+            
+            if len(pass_plays) > 0:
+                # Classify man coverage: 2_MAN, 1_MAN, 0_MAN, COVER_1
+                wr_difficulty = pass_plays.group_by('receiver_player_id').agg([
+                    pl.col('defense_coverage_type').is_in(['2_MAN', '1_MAN', '0_MAN', 'COVER_1']).mean().alias('pct_vs_man_coverage'),
+                    pl.col('coverage_multiplier').mean().alias('avg_coverage_multiplier'),
+                    pl.len().alias('targets')
+                ]).rename({'receiver_player_id': 'player_id'})
+                
+                # Join with player names/positions
+                wr_difficulty = wr_difficulty.join(pos_players, on='player_id', how='left')
+                difficulty_metrics.append(wr_difficulty)
+    
+    if not difficulty_metrics:
+        return None
+    
+    # Combine all position difficulty metrics
+    difficulty_df = pl.concat(difficulty_metrics, how='diagonal')
+    
+    logger.info(f"Calculated difficulty context for {len(difficulty_df)} players")
+    return difficulty_df
+
+
+def generate_top_contributors(year: int) -> tuple[str, str]:
+    """Generate a table of the top 10 offensive contributors for the season.
+    
+    Returns:
+        tuple of (overview_markdown, deep_dive_markdown)
+    """
     logger.info(f"Generating top contributors table for {year}")
     
     # Load team stats
@@ -861,6 +1812,35 @@ def generate_top_contributors(year: int) -> str:
     
     # Combine all position stats
     player_stats = pl.concat(list(position_stats.values()))
+    
+    # Apply minimum activity thresholds (1978-now standards)
+    # Calculate per-game rates for each player
+    player_games = player_stats.group_by(['player_id', 'player_name', 'position']).agg([
+        pl.col('week').count().alias('games'),
+        pl.col('carries').sum().alias('total_carries'),
+        pl.col('receptions').sum().alias('total_receptions')
+    ])
+    
+    # Calculate per-game rates
+    player_games = player_games.with_columns([
+        (pl.col('total_carries') / pl.col('games')).alias('carries_per_game'),
+        (pl.col('total_receptions') / pl.col('games')).alias('receptions_per_game')
+    ])
+    
+    # Apply position-specific minimum thresholds
+    # RB: 6.25 rushing attempts per game
+    # WR/TE: 1.875 receptions per game
+    # Note: QB thresholds (14 attempts/game) handled separately in QB rankings
+    qualified_players = player_games.filter(
+        ((pl.col('position') == 'RB') & (pl.col('carries_per_game') >= 6.25)) |
+        ((pl.col('position').is_in(['WR', 'TE'])) & (pl.col('receptions_per_game') >= 1.875))
+    )
+    
+    # Filter player_stats to only include qualified players
+    qualified_ids = qualified_players.select(['player_id', 'player_name']).unique()
+    player_stats = player_stats.join(qualified_ids, on=['player_id', 'player_name'], how='inner')
+    
+    logger.info(f"Filtered to {len(qualified_ids)} qualified players meeting minimum activity thresholds")
     
     # Calculate RAW scores first (without situational adjustments - year=None means multipliers = 1.0)
     raw_contributions = calculate_offensive_shares(team_stats, player_stats, 'overall_contribution', year=None)
@@ -923,16 +1903,33 @@ def generate_top_contributors(year: int) -> str:
     # Join peak game scores back
     contributions = contributions.join(peak_games, on=['player_id', 'player_name', 'team'], how='left')
     
-    markdown = f"# Top Contributors - {year}\n\n"
-    markdown += "## Overall Rankings\n\n"
+    # Calculate average difficulty multipliers for all players
+    avg_difficulty = calculate_average_difficulty(year, player_stats)
     
-    # Create PrettyTable for top contributors
-    table = PrettyTable()
-    table.field_names = ["Rank", "Player", "Team", "Position (Pos. Rank)", "Raw Score", "Adjusted Score", 
-                        "Games", "Avg/Game", "Typical", "Std Dev", "Floor", "Ceiling", "Peak", "Trend", "Notable Games"]
-    table.align = "l"  # Left align text
-    table.float_format = '.2'  # Two decimal places for floats
-    table.set_style(TableStyle.MARKDOWN)
+    # Initialize markdown strings for both files
+    overview_md = f"# Top Contributors - {year}\n\n"
+    overview_md += "*High-level overview of top offensive contributors*\n\n"
+    overview_md += "## Overall Rankings\n\n"
+    
+    deep_dive_md = f"# Top Contributors - Deep Dive - {year}\n\n"
+    deep_dive_md += "*Detailed analysis with consistency metrics and notable performances*\n\n"
+    deep_dive_md += "## Overall Rankings\n\n"
+    
+    # Create PrettyTable for overview (simplified columns)
+    overview_table = PrettyTable()
+    overview_table.field_names = ["Rank", "Player", "Team", "Position (Pos. Rank)", "Adjusted Score", 
+                                    "Difficulty", "Games", "Avg/Game", "Typical", "Consistency", "Trend"]
+    overview_table.align = "l"
+    overview_table.float_format = '.2'
+    overview_table.set_style(TableStyle.MARKDOWN)
+    
+    # Create PrettyTable for deep dive (all columns)
+    deep_dive_table = PrettyTable()
+    deep_dive_table.field_names = ["Rank", "Player", "Team", "Position (Pos. Rank)", "Raw Score", "Adjusted Score", 
+                        "Difficulty", "Games", "Avg/Game", "Typical", "Consistency", "Floor", "Ceiling", "Peak", "Trend", "Notable Games"]
+    deep_dive_table.align = "l"
+    deep_dive_table.float_format = '.2'
+    deep_dive_table.set_style(TableStyle.MARKDOWN)
     
     # Get top 10 by adjusted contribution with consistency metrics
     top_contributors = (
@@ -977,7 +1974,6 @@ def generate_top_contributors(year: int) -> str:
         per_game_contributions.group_by(['player_id', 'player_name', 'team'])
         .agg([
             pl.col('player_overall_contribution').median().alias('typical_game_raw'),
-            pl.col('player_overall_contribution').std().alias('std_dev_raw'),
             pl.col('player_overall_contribution').quantile(0.25).alias('floor_raw'),
             pl.col('player_overall_contribution').quantile(0.75).alias('ceiling_raw')
         ])
@@ -987,14 +1983,38 @@ def generate_top_contributors(year: int) -> str:
     consistency_metrics = consistency_metrics.join(scaling_factors, on=['player_id', 'player_name', 'team'], how='left')
     consistency_metrics = consistency_metrics.with_columns([
         (pl.col('typical_game_raw') * pl.col('phase5_scaling_factor')).alias('typical_game'),
-        (pl.col('std_dev_raw') * pl.col('phase5_scaling_factor')).alias('std_dev'),
         (pl.col('floor_raw') * pl.col('phase5_scaling_factor')).alias('floor'),
         (pl.col('ceiling_raw') * pl.col('phase5_scaling_factor')).alias('ceiling')
     ])
     
-    # Select only the scaled metrics for joining
+    # Calculate consistency profile (below/at/above average games)
+    # Join typical_game back to per_game data to count performance levels
+    per_game_with_typical = per_game_contributions.join(
+        consistency_metrics.select(['player_id', 'player_name', 'team', 'typical_game']),
+        on=['player_id', 'player_name', 'team'],
+        how='left'
+    )
+    
+    consistency_profile = (
+        per_game_with_typical.group_by(['player_id', 'player_name', 'team'])
+        .agg([
+            # Below: < 95% of typical
+            (pl.col('player_overall_contribution') < (pl.col('typical_game') * 0.95)).sum().alias('below_avg'),
+            # At: 95-105% of typical
+            ((pl.col('player_overall_contribution') >= (pl.col('typical_game') * 0.95)) & 
+             (pl.col('player_overall_contribution') <= (pl.col('typical_game') * 1.05))).sum().alias('at_avg'),
+            # Above: > 105% of typical
+            (pl.col('player_overall_contribution') > (pl.col('typical_game') * 1.05)).sum().alias('above_avg')
+        ])
+    )
+    
+    # Join consistency profile to consistency metrics
+    consistency_metrics = consistency_metrics.join(consistency_profile, on=['player_id', 'player_name', 'team'], how='left')
+    
+    # Select metrics for joining (removed std_dev, added consistency profile)
     consistency_metrics = consistency_metrics.select([
-        'player_id', 'player_name', 'team', 'typical_game', 'std_dev', 'floor', 'ceiling'
+        'player_id', 'player_name', 'team', 'typical_game', 'floor', 'ceiling', 
+        'below_avg', 'at_avg', 'above_avg'
     ])
     
     top_contributors = top_contributors.join(consistency_metrics, on=['player_id', 'player_name', 'team'], how='left')
@@ -1025,6 +2045,14 @@ def generate_top_contributors(year: int) -> str:
         ])
     )
     top_contributors = top_contributors.join(raw_scores, on=['player_id', 'player_name', 'team'], how='left')
+    
+    # Join difficulty metrics
+    if avg_difficulty is not None:
+        top_contributors = top_contributors.join(
+            avg_difficulty.select(['player_id', 'player_name', 'avg_difficulty_multiplier']),
+            on=['player_id', 'player_name'],
+            how='left'
+        )
     
     # Get notable games (weeks where player had >150% of their average contribution)
     # Need to get opponent info from player_stats since it's not in contributions
@@ -1065,7 +2093,7 @@ def generate_top_contributors(year: int) -> str:
     
     table = PrettyTable()
     table.field_names = ["Rank", "Player", "Team", "Position (Pos. Rank)", "Raw Score", "Adjusted Score", 
-                        "Games", "Avg/Game", "Typical", "Std Dev", "Floor", "Ceiling", "Peak", "Trend", "Notable Games"]
+                        "Difficulty", "Games", "Avg/Game", "Typical", "Std Dev", "Floor", "Ceiling", "Peak", "Trend", "Notable Games"]
     table.align = "l"  # Left align text
     table.float_format = '.2'  # Two decimal places for floats
     
@@ -1081,7 +2109,7 @@ def generate_top_contributors(year: int) -> str:
         games_played = row['games_played']
         adj_score_total = adj_score_per_game * games_played  # Calculate season total for display
         avg_per_game = adj_score_per_game  # Already per-game from Phase 5
-        peak = f"Peak: {row['peak_score']:.2f}"
+        peak = f"{row['peak_score']:.2f}"
         
         # Calculate trend (compare first half to second half median - more robust to outliers)
         # Use per_game_contributions (before Phase 5) to get actual weekly performance
@@ -1105,19 +2133,34 @@ def generate_top_contributors(year: int) -> str:
         
         # Get consistency metrics
         typical = row.get('typical_game', avg_per_game)
-        std_dev = row.get('std_dev', 0)
         floor = row.get('floor', 0)
         ceiling = row.get('ceiling', 0)
+        below_avg = row.get('below_avg', 0)
+        at_avg = row.get('at_avg', 0)
+        above_avg = row.get('above_avg', 0)
+        consistency = f"{below_avg}/{at_avg}/{above_avg}"
         
-        table.add_row([rank, player_name, team, position_display, f"{raw_score:.2f}", f"{adj_score_total:.2f}", 
-                      games_played, f"{avg_per_game:.2f}", f"{typical:.2f}", f"±{std_dev:.1f}", 
-                      f"{floor:.1f}", f"{ceiling:.1f}", peak, trend, games])
+        # Get difficulty multiplier
+        difficulty_mult = row.get('avg_difficulty_multiplier', 1.0)
+        difficulty_str = f"{difficulty_mult:.3f}" if difficulty_mult else "1.000"
+        
+        # Add to overview table (simplified)
+        overview_table.add_row([rank, player_name, team, position_display, f"{adj_score_total:.2f}", 
+                                difficulty_str, games_played, f"{avg_per_game:.2f}", f"{typical:.2f}", 
+                                consistency, trend])
+        
+        # Add to deep dive table (full details)
+        deep_dive_table.add_row([rank, player_name, team, position_display, f"{raw_score:.2f}", f"{adj_score_total:.2f}", 
+                                 difficulty_str, games_played, f"{avg_per_game:.2f}", f"{typical:.2f}", consistency, 
+                                 f"{floor:.1f}", f"{ceiling:.1f}", peak, trend, games])
     
-    markdown += table.get_string() + "\n\n"
+    overview_md += overview_table.get_string() + "\n\n"
+    deep_dive_md += deep_dive_table.get_string() + "\n\n"
     
     # Add positional rankings for RB, WR, TE
     for pos in ['RB', 'WR', 'TE']:
-        markdown += f"## {pos} Rankings\n\n"
+        overview_md += f"## {pos} Rankings\n\n"
+        deep_dive_md += f"## {pos} Rankings\n\n"
         
         # Get top 10 players at this position
         pos_contributors = (
@@ -1150,7 +2193,6 @@ def generate_top_contributors(year: int) -> str:
             pos_per_game.group_by(['player_id', 'player_name', 'team'])
             .agg([
                 pl.col('player_overall_contribution').median().alias('typical_game_raw'),
-                pl.col('player_overall_contribution').std().alias('std_dev_raw'),
                 pl.col('player_overall_contribution').quantile(0.25).alias('floor_raw'),
                 pl.col('player_overall_contribution').quantile(0.75).alias('ceiling_raw')
             ])
@@ -1161,13 +2203,32 @@ def generate_top_contributors(year: int) -> str:
                                                on=['player_id', 'player_name', 'team'], how='left')
         pos_consistency = pos_consistency.with_columns([
             (pl.col('typical_game_raw') * pl.col('phase5_scaling_factor')).alias('typical_game'),
-            (pl.col('std_dev_raw') * pl.col('phase5_scaling_factor')).alias('std_dev'),
             (pl.col('floor_raw') * pl.col('phase5_scaling_factor')).alias('floor'),
             (pl.col('ceiling_raw') * pl.col('phase5_scaling_factor')).alias('ceiling')
         ])
         
+        # Calculate consistency profile for position
+        pos_per_game_with_typical = pos_per_game.join(
+            pos_consistency.select(['player_id', 'player_name', 'team', 'typical_game']),
+            on=['player_id', 'player_name', 'team'],
+            how='left'
+        )
+        
+        pos_consistency_profile = (
+            pos_per_game_with_typical.group_by(['player_id', 'player_name', 'team'])
+            .agg([
+                (pl.col('player_overall_contribution') < (pl.col('typical_game') * 0.95)).sum().alias('below_avg'),
+                ((pl.col('player_overall_contribution') >= (pl.col('typical_game') * 0.95)) & 
+                 (pl.col('player_overall_contribution') <= (pl.col('typical_game') * 1.05))).sum().alias('at_avg'),
+                (pl.col('player_overall_contribution') > (pl.col('typical_game') * 1.05)).sum().alias('above_avg')
+            ])
+        )
+        
+        pos_consistency = pos_consistency.join(pos_consistency_profile, on=['player_id', 'player_name', 'team'], how='left')
+        
         pos_consistency = pos_consistency.select([
-            'player_id', 'player_name', 'team', 'typical_game', 'std_dev', 'floor', 'ceiling'
+            'player_id', 'player_name', 'team', 'typical_game', 'floor', 'ceiling',
+            'below_avg', 'at_avg', 'above_avg'
         ])
         
         pos_contributors = pos_contributors.join(pos_consistency, on=['player_id', 'player_name', 'team'], how='left')
@@ -1175,13 +2236,29 @@ def generate_top_contributors(year: int) -> str:
         # Add raw scores
         pos_contributors = pos_contributors.join(raw_scores, on=['player_id', 'player_name', 'team'], how='left')
         
-        # Create table for this position
-        pos_table = PrettyTable()
-        pos_table.field_names = ["Rank", "Player", "Team", "Raw Score", "Adjusted Score", 
-                                "Games", "Avg/Game", "Typical", "Std Dev", "Floor", "Ceiling", "Peak", "Trend", "Notable Games (>150% Typical)"]
-        pos_table.align = "l"
-        pos_table.float_format = '.2'
-        pos_table.set_style(TableStyle.MARKDOWN)
+        # Add difficulty metrics
+        if avg_difficulty is not None:
+            pos_contributors = pos_contributors.join(
+                avg_difficulty.select(['player_id', 'player_name', 'avg_difficulty_multiplier']),
+                on=['player_id', 'player_name'],
+                how='left'
+            )
+        
+        # Create overview table for this position (simplified)
+        pos_overview_table = PrettyTable()
+        pos_overview_table.field_names = ["Rank", "Player", "Team", "Adjusted Score", 
+                                          "Difficulty", "Games", "Avg/Game", "Typical", "Consistency", "Trend"]
+        pos_overview_table.align = "l"
+        pos_overview_table.float_format = '.2'
+        pos_overview_table.set_style(TableStyle.MARKDOWN)
+        
+        # Create deep dive table for this position (all columns)
+        pos_deep_dive_table = PrettyTable()
+        pos_deep_dive_table.field_names = ["Rank", "Player", "Team", "Raw Score", "Adjusted Score", 
+                                "Difficulty", "Games", "Avg/Game", "Typical", "Consistency", "Floor", "Ceiling", "Peak", "Trend", "Notable Games (>150% Typical)"]
+        pos_deep_dive_table.align = "l"
+        pos_deep_dive_table.float_format = '.2'
+        pos_deep_dive_table.set_style(TableStyle.MARKDOWN)
         
         for rank, row in enumerate(pos_contributors.iter_rows(named=True), 1):
             player_id = row['player_id']
@@ -1192,7 +2269,7 @@ def generate_top_contributors(year: int) -> str:
             games_played = row['games_played']
             adj_score_total = adj_score_per_game * games_played  # Calculate season total for display
             avg_per_game = adj_score_per_game  # Already per-game from Phase 5
-            peak = f"Peak: {row['peak_score']:.2f}"
+            peak = f"{row['peak_score']:.2f}"
             
             # Calculate trend using median (more robust to outliers)
             player_games = per_game_contributions.filter(
@@ -1217,35 +2294,205 @@ def generate_top_contributors(year: int) -> str:
             
             # Get consistency metrics
             typical = row.get('typical_game', avg_per_game)
-            std_dev = row.get('std_dev', 0)
             floor = row.get('floor', 0)
             ceiling = row.get('ceiling', 0)
+            below_avg = row.get('below_avg', 0)
+            at_avg = row.get('at_avg', 0)
+            above_avg = row.get('above_avg', 0)
+            consistency = f"{below_avg}/{at_avg}/{above_avg}"
             
-            pos_table.add_row([rank, player_name, team, f"{raw_score:.2f}", f"{adj_score_total:.2f}", 
-                              games_played, f"{avg_per_game:.2f}", f"{typical:.2f}", f"±{std_dev:.1f}",
-                              f"{floor:.1f}", f"{ceiling:.1f}", peak, trend, games])
+            # Get difficulty multiplier
+            difficulty_mult = row.get('avg_difficulty_multiplier', 1.0)
+            difficulty_str = f"{difficulty_mult:.3f}" if difficulty_mult else "1.000"
+            
+            # Add to overview table (simplified)
+            pos_overview_table.add_row([rank, player_name, team, f"{adj_score_total:.2f}", 
+                                        difficulty_str, games_played, f"{avg_per_game:.2f}", 
+                                        f"{typical:.2f}", consistency, trend])
+            
+            # Add to deep dive table (full details)
+            pos_deep_dive_table.add_row([rank, player_name, team, f"{raw_score:.2f}", f"{adj_score_total:.2f}", 
+                                         difficulty_str, games_played, f"{avg_per_game:.2f}", f"{typical:.2f}", consistency,
+                                         f"{floor:.1f}", f"{ceiling:.1f}", peak, trend, games])
         
-        markdown += pos_table.get_string() + "\n\n"
+        overview_md += pos_overview_table.get_string() + "\n\n"
+        deep_dive_md += pos_deep_dive_table.get_string() + "\n\n"
     
-    return markdown
+    # Add difficulty context section (only to deep dive)
+    difficulty_context = calculate_difficulty_context(year, player_stats)
+    if difficulty_context is not None:
+        deep_dive_md += "## Difficulty Context\n\n"
+        deep_dive_md += "*How challenging were the situations these players faced?*\n\n"
+        
+        # Create tables for each position group
+        for pos in ['RB', 'WR', 'TE']:
+            pos_difficulty = difficulty_context.filter(pl.col('position') == pos)
+            if len(pos_difficulty) == 0:
+                continue
+            
+            # Join with season contributions to get top players
+            pos_season = raw_season_contributions.filter(pl.col('position') == pos).head(15)
+            pos_with_difficulty = pos_season.join(
+                pos_difficulty, 
+                on=['player_id', 'player_name'], 
+                how='left'
+            ).sort('raw_score', descending=True)
+            
+            if pos == 'RB':
+                # Filter to players with at least 50 rush attempts
+                pos_with_difficulty = pos_with_difficulty.filter(
+                    pl.col('rush_attempts') >= 50
+                )
+                
+                if len(pos_with_difficulty) == 0:
+                    continue
+                
+                deep_dive_md += f"### {pos} - Box Count Context\n\n"
+                deep_dive_md += "*Higher box counts = tougher runs (8+ defenders = stacked box)*\n\n"
+                
+                diff_table = PrettyTable()
+                diff_table.field_names = ["Player", "Avg Box", "8+ Box %", "Avg Multiplier", "Rush Att"]
+                diff_table.align = "l"
+                diff_table.float_format = '.2'
+                diff_table.set_style(TableStyle.MARKDOWN)
+                
+                for row in pos_with_difficulty.iter_rows(named=True):
+                    if row.get('avg_defenders_in_box') is not None:
+                        player_name = row['player_name']
+                        avg_box = row['avg_defenders_in_box']
+                        pct_8plus = row['pct_vs_8plus_box'] * 100
+                        avg_mult = row['avg_box_multiplier']
+                        rush_att = int(row['rush_attempts'])
+                        diff_table.add_row([player_name, f"{avg_box:.1f}", f"{pct_8plus:.1f}%", 
+                                          f"{avg_mult:.3f}", rush_att])
+                
+                deep_dive_md += diff_table.get_string() + "\n\n"
+            
+            else:  # WR or TE
+                # Filter to players with at least 20 targets
+                pos_with_difficulty = pos_with_difficulty.filter(
+                    pl.col('targets') >= 20
+                )
+                
+                if len(pos_with_difficulty) == 0:
+                    continue
+                
+                deep_dive_md += f"### {pos} - Coverage Context\n\n"
+                deep_dive_md += "*Higher man coverage % = tougher matchups (2-Man, 1-Man, 0-Man, Cover-1)*\n\n"
+                
+                diff_table = PrettyTable()
+                diff_table.field_names = ["Player", "Man Cov %", "Avg Multiplier", "Targets"]
+                diff_table.align = "l"
+                diff_table.float_format = '.2'
+                diff_table.set_style(TableStyle.MARKDOWN)
+                
+                for row in pos_with_difficulty.iter_rows(named=True):
+                    if row.get('pct_vs_man_coverage') is not None:
+                        player_name = row['player_name']
+                        pct_man = row['pct_vs_man_coverage'] * 100
+                        avg_mult = row['avg_coverage_multiplier']
+                        targets = int(row['targets'])
+                        diff_table.add_row([player_name, f"{pct_man:.1f}%", 
+                                          f"{avg_mult:.3f}", targets])
+                
+                deep_dive_md += diff_table.get_string() + "\n\n"
+        
+        deep_dive_md += "*Note: Multipliers > 1.0 indicate tougher situations (bonus), < 1.0 indicate easier situations (penalty)*\n\n"
+    
+    return overview_md, deep_dive_md
 
-def process_year(year: int) -> tuple[bool, str, str, str, str]:
+def process_year(year: int) -> tuple[bool, str, str, str, str, str, str, str, str]:
     """Process a single year's data with error recovery.
     
     Returns:
-        tuple of (success, weekly_markdown, summary_markdown, top_contributors_markdown, qb_rankings_markdown)
+        tuple of (success, weekly_markdown, summary_markdown, top_contributors_overview_markdown, 
+                 top_contributors_deep_dive_markdown, qb_rankings_markdown, rb_rankings_markdown,
+                 wr_rankings_markdown, te_rankings_markdown)
     """
     try:
         logger.info(f"Processing year {year}")
         weekly_markdown = generate_weekly_tables(year)
         summary_markdown = generate_season_summary(year)
-        top_contributors = generate_top_contributors(year)
+        top_contributors_overview, top_contributors_deep_dive = generate_top_contributors(year)
         qb_rankings = generate_qb_rankings(year)
-        return True, weekly_markdown, summary_markdown, top_contributors, qb_rankings
+        rb_rankings = generate_rb_rankings(year)
+        wr_rankings = generate_wr_rankings(year)
+        te_rankings = generate_te_rankings(year)
+        return True, weekly_markdown, summary_markdown, top_contributors_overview, top_contributors_deep_dive, qb_rankings, rb_rankings, wr_rankings, te_rankings
     except Exception as e:
         logger.error(f"Failed to process year {year}: {str(e)}")
         error_msg = f"Error processing {year}: {str(e)}"
-        return False, error_msg, error_msg, error_msg, error_msg
+        return False, error_msg, error_msg, error_msg, error_msg, error_msg, error_msg, error_msg, error_msg
+
+def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
+    """Check all years for missing difficulty columns and rebuild caches as needed.
+    
+    This runs before main processing to ensure all caches have required columns.
+    Rebuilds happen in parallel for speed.
+    
+    Args:
+        years: List of years to check
+        parallel: Whether to rebuild in parallel (default True)
+    """
+    logger.info("Checking cache completeness for all years...")
+    
+    required_cols = ['defenders_in_box', 'defense_coverage_type', 
+                     'defenders_in_box_multiplier', 'coverage_multiplier']
+    
+    years_needing_rebuild = []
+    
+    # Check each year's cache
+    for year in years:
+        pbp_path = Path("cache/pbp") / f"pbp_{year}.parquet"
+        if not pbp_path.exists():
+            logger.info(f"Cache missing for {year}, will rebuild")
+            years_needing_rebuild.append(year)
+        else:
+            try:
+                pbp_data = pl.read_parquet(pbp_path)
+                if not all(col in pbp_data.columns for col in required_cols):
+                    logger.info(f"Cache for {year} missing difficulty columns, will rebuild")
+                    years_needing_rebuild.append(year)
+            except Exception as e:
+                logger.warning(f"Error reading cache for {year}: {e}, will rebuild")
+                years_needing_rebuild.append(year)
+    
+    if not years_needing_rebuild:
+        logger.info("All caches up to date!")
+        return
+    
+    logger.info(f"Rebuilding caches for {len(years_needing_rebuild)} years: {years_needing_rebuild}")
+    
+    # Rebuild caches
+    if parallel and len(years_needing_rebuild) > 1:
+        from concurrent.futures import ThreadPoolExecutor
+        logger.info(f"Rebuilding {len(years_needing_rebuild)} caches in parallel...")
+        with ThreadPoolExecutor(max_workers=min(len(years_needing_rebuild), 8)) as executor:
+            futures = {executor.submit(build_cache, year, True): year for year in years_needing_rebuild}
+            for future in concurrent.futures.as_completed(futures):
+                year = futures[future]
+                try:
+                    success = future.result()
+                    if success:
+                        logger.info(f"✓ Cache rebuilt for {year}")
+                    else:
+                        logger.warning(f"✗ Cache rebuild failed for {year}")
+                except Exception as e:
+                    logger.error(f"✗ Cache rebuild error for {year}: {e}")
+    else:
+        # Sequential rebuild
+        for year in years_needing_rebuild:
+            try:
+                logger.info(f"Rebuilding cache for {year}...")
+                success = build_cache(year, force=True)
+                if success:
+                    logger.info(f"✓ Cache rebuilt for {year}")
+                else:
+                    logger.warning(f"✗ Cache rebuild failed for {year}")
+            except Exception as e:
+                logger.error(f"✗ Cache rebuild error for {year}: {e}")
+    
+    logger.info("Cache rebuild complete!")
 
 def main(start_year: int = None, end_year: int = None, parallel: bool = True):
     """Generate offensive share analysis for a range of years or all available years.
@@ -1268,6 +2515,10 @@ def main(start_year: int = None, end_year: int = None, parallel: bool = True):
     
     # Process each year
     years = list(range(start_year, end_year + 1))
+    
+    # Check and rebuild caches upfront if needed
+    check_and_rebuild_caches(years, parallel=parallel)
+    
     results = {}
     
     if parallel:
@@ -1277,21 +2528,21 @@ def main(start_year: int = None, end_year: int = None, parallel: bool = True):
             for future in concurrent.futures.as_completed(future_to_year):
                 year = future_to_year[future]
                 try:
-                    success, weekly, summary, top_contributors, qb_rankings = future.result()
-                    results[year] = (success, weekly, summary, top_contributors, qb_rankings)
+                    success, weekly, summary, top_overview, top_deep_dive, qb_rankings, rb_rankings, wr_rankings, te_rankings = future.result()
+                    results[year] = (success, weekly, summary, top_overview, top_deep_dive, qb_rankings, rb_rankings, wr_rankings, te_rankings)
                 except Exception as e:
                     logger.error(f"Year {year} failed with error: {str(e)}")
-                    results[year] = (False, str(e), str(e), str(e), str(e))
+                    results[year] = (False, str(e), str(e), str(e), str(e), str(e), str(e), str(e), str(e))
     else:
         for year in years:
-            success, weekly, summary, top_contributors, qb_rankings = process_year(year)
-            results[year] = (success, weekly, summary, top_contributors, qb_rankings)
+            success, weekly, summary, top_overview, top_deep_dive, qb_rankings, rb_rankings, wr_rankings, te_rankings = process_year(year)
+            results[year] = (success, weekly, summary, top_overview, top_deep_dive, qb_rankings, rb_rankings, wr_rankings, te_rankings)
     
     # Save results and build index
     successful_years = []
     failed_years = []
     
-    for year, (success, weekly, summary, top_contributors, qb_rankings) in results.items():
+    for year, (success, weekly, summary, top_overview, top_deep_dive, qb_rankings, rb_rankings, wr_rankings, te_rankings) in results.items():
         output_dir = output_base / str(year)
         output_dir.mkdir(exist_ok=True)
         
@@ -1300,11 +2551,19 @@ def main(start_year: int = None, end_year: int = None, parallel: bool = True):
             weekly_file = output_dir / "weekly_analysis.md"
             summary_file = output_dir / "season_summary.md"
             top_contributors_file = output_dir / "top_contributors.md"
+            top_contributors_deep_dive_file = output_dir / "top_contributors_deep_dive.md"
             qb_rankings_file = output_dir / "qb_rankings.md"
+            rb_rankings_file = output_dir / "rb_rankings.md"
+            wr_rankings_file = output_dir / "wr_rankings.md"
+            te_rankings_file = output_dir / "te_rankings.md"
             weekly_file.write_text(weekly, encoding='utf-8')
             summary_file.write_text(summary, encoding='utf-8')
-            top_contributors_file.write_text(top_contributors, encoding='utf-8')
+            top_contributors_file.write_text(top_overview, encoding='utf-8')
+            top_contributors_deep_dive_file.write_text(top_deep_dive, encoding='utf-8')
             qb_rankings_file.write_text(qb_rankings, encoding='utf-8')
+            rb_rankings_file.write_text(rb_rankings, encoding='utf-8')
+            wr_rankings_file.write_text(wr_rankings, encoding='utf-8')
+            te_rankings_file.write_text(te_rankings, encoding='utf-8')
             logger.info(f"Saved analysis for {year}")
         else:
             failed_years.append(year)
@@ -1318,16 +2577,20 @@ def main(start_year: int = None, end_year: int = None, parallel: bool = True):
     if successful_years:
         index_markdown += "## Successfully Processed Years\n\n"
         for year in sorted(successful_years):
-            index_markdown += f"- [{year}](/{year}/)\n"
-            index_markdown += f"  - [Weekly Analysis](/{year}/weekly_analysis.md)\n"
-            index_markdown += f"  - [Season Summary](/{year}/season_summary.md)\n"
-            index_markdown += f"  - [Top Contributors](/{year}/top_contributors.md)\n"
-            index_markdown += f"  - [QB Rankings](/{year}/qb_rankings.md)\n\n"
+            index_markdown += f"- [{year}](./{year}/)\n"
+            index_markdown += f"  - [Weekly Analysis](./{year}/weekly_analysis.md)\n"
+            index_markdown += f"  - [Season Summary](./{year}/season_summary.md)\n"
+            index_markdown += f"  - [Top Contributors - Overview](./{year}/top_contributors.md)\n"
+            index_markdown += f"  - [Top Contributors - Deep Dive](./{year}/top_contributors_deep_dive.md)\n"
+            index_markdown += f"  - [QB Rankings](./{year}/qb_rankings.md)\n"
+            index_markdown += f"  - [RB Rankings](./{year}/rb_rankings.md)\n"
+            index_markdown += f"  - [WR Rankings](./{year}/wr_rankings.md)\n"
+            index_markdown += f"  - [TE Rankings](./{year}/te_rankings.md)\n\n"
     
     if failed_years:
         index_markdown += "## Failed Years\n\n"
         for year in sorted(failed_years):
-            index_markdown += f"- [{year}](/{year}/error.md)\n\n"
+            index_markdown += f"- [{year}](./{year}/error.md)\n\n"
     
     index_file = output_base / "index.md"
     index_file.write_text(index_markdown, encoding='utf-8')
@@ -1338,9 +2601,18 @@ def main(start_year: int = None, end_year: int = None, parallel: bool = True):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate NFL offensive share analysis")
+    parser.add_argument("year", type=int, nargs='?', help="Single year to process (optional)")
     parser.add_argument("--start-year", type=int, help="Start year (default: START_YEAR from constants)")
     parser.add_argument("--end-year", type=int, help="End year (default: END_YEAR from constants)")
     parser.add_argument("--no-parallel", action="store_true", help="Disable parallel processing")
     args = parser.parse_args()
     
-    main(args.start_year, args.end_year, not args.no_parallel)
+    # If single year provided, use it for both start and end
+    if args.year:
+        start_year = args.year
+        end_year = args.year
+    else:
+        start_year = args.start_year
+        end_year = args.end_year
+    
+    main(start_year, end_year, not args.no_parallel)

@@ -81,7 +81,7 @@
 | ARI  | J.Dwyer     | RB       | 50.0             |
 | ATL  | S.Jackson   | RB       | 35.6             |
 | BAL  | J.Forsett   | RB       | 31.2             |
-| BUF  | A.Dixon     | RB       | 10.7             |
+| BUF  | F.Jackson   | RB       | 10.7             |
 | CAR  | C.Ogbonnaya | RB       | 33.3             |
 | CHI  | M.Forte     | RB       | 21.9             |
 | CIN  | J.Hill      | RB       | 31.2             |
@@ -95,7 +95,7 @@
 | JAX  | S.Johnson   | WR       | 30.0             |
 | KC   | J.Charles   | RB       | 38.9             |
 | LA   | T.Mason     | RB       | 20.8             |
-| LAC  | R.Mathews   | RB       | 50.0             |
+| LAC  | Ry.Mathews  | RB       | 50.0             |
 | LV   | D.McFadden  | RB       | 12.5             |
 | MIA  | L.Miller    | RB       | 40.6             |
 | MIN  | M.Asiata    | RB       | 25.0             |
