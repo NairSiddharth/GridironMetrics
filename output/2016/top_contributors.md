@@ -6,59 +6,59 @@
 
 | Rank | Player    | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :---------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | D.Johnson | ARI  | RB       | 9327.38        | 1.060      | 16    | 582.96   | 576.18  | 8/1/7       | Increasing |
-| 2    | L.Bell    | PIT  | RB       | 6793.10        | 1.054      | 12    | 566.09   | 544.89  | 5/0/7       | Increasing |
-| 3    | E.Elliott | DAL  | RB       | 7739.57        | 1.069      | 15    | 515.97   | 499.38  | 6/3/6       | Stable     |
-| 4    | L.McCoy   | BUF  | RB       | 6568.87        | 1.061      | 15    | 437.92   | 457.71  | 7/2/6       | Stable     |
-| 5    | D.Murray  | TEN  | RB       | 6892.19        | 1.096      | 16    | 430.76   | 438.34  | 8/3/5       | Decreasing |
-| 6    | D.Freeman | ATL  | RB       | 6276.95        | 1.074      | 16    | 392.31   | 360.16  | 7/2/7       | Increasing |
-| 7    | M.Gordon  | LAC  | RB       | 5006.56        | 1.078      | 13    | 385.12   | 374.38  | 5/0/8       | Increasing |
-| 8    | A.Brown   | PIT  | WR       | 5666.47        | 1.000      | 15    | 377.76   | 367.76  | 6/1/8       | Stable     |
-| 9    | J.Howard  | CHI  | RB       | 5512.14        | 1.063      | 15    | 367.48   | 345.56  | 7/2/6       | Stable     |
-| 10   | J.Ajayi   | MIA  | RB       | 5456.40        | 1.055      | 15    | 363.76   | 280.28  | 7/2/6       | Stable     |
+| 1    | D.Johnson | ARI  | RB       | 9345.07        | 1.060      | 16    | 584.07   | 546.65  | 8/2/6       | Stable     |
+| 2    | L.Bell    | PIT  | RB       | 6972.31        | 1.054      | 12    | 581.03   | 604.46  | 5/1/6       | Increasing |
+| 3    | E.Elliott | DAL  | RB       | 7680.48        | 1.069      | 15    | 512.03   | 500.61  | 7/3/5       | Increasing |
+| 4    | L.McCoy   | BUF  | RB       | 6180.57        | 1.061      | 15    | 412.04   | 455.64  | 7/4/4       | Increasing |
+| 5    | D.Murray  | TEN  | RB       | 6516.24        | 1.096      | 16    | 407.27   | 409.84  | 8/2/6       | Decreasing |
+| 6    | D.Freeman | ATL  | RB       | 6311.06        | 1.074      | 16    | 394.44   | 382.97  | 8/2/6       | Stable     |
+| 7    | A.Brown   | PIT  | WR       | 5867.98        | 1.000      | 15    | 391.20   | 370.96  | 7/1/7       | Stable     |
+| 8    | J.Ajayi   | MIA  | RB       | 5550.53        | 1.055      | 15    | 370.04   | 325.06  | 7/4/4       | Increasing |
+| 9    | M.Gordon  | LAC  | RB       | 4779.84        | 1.078      | 13    | 367.68   | 372.12  | 5/0/8       | Increasing |
+| 10   | J.Nelson  | GB   | WR       | 5837.90        | 1.000      | 16    | 364.87   | 359.79  | 6/3/7       | Stable     |
 
 ## RB Rankings
 
 | Rank | Player    | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :---------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | D.Johnson | ARI  | 9327.38        | 1.060      | 16    | 582.96   | 576.18  | 8/1/7       | Increasing |
-| 2    | L.Bell    | PIT  | 6793.10        | 1.054      | 12    | 566.09   | 544.89  | 5/0/7       | Increasing |
-| 3    | E.Elliott | DAL  | 7739.57        | 1.069      | 15    | 515.97   | 499.38  | 6/3/6       | Stable     |
-| 4    | L.McCoy   | BUF  | 6568.87        | 1.061      | 15    | 437.92   | 457.71  | 7/2/6       | Stable     |
-| 5    | D.Murray  | TEN  | 6892.19        | 1.096      | 16    | 430.76   | 438.34  | 8/3/5       | Decreasing |
-| 6    | D.Freeman | ATL  | 6276.95        | 1.074      | 16    | 392.31   | 360.16  | 7/2/7       | Increasing |
-| 7    | M.Gordon  | LAC  | 5006.56        | 1.078      | 13    | 385.12   | 374.38  | 5/0/8       | Increasing |
-| 8    | J.Howard  | CHI  | 5512.14        | 1.063      | 15    | 367.48   | 345.56  | 7/2/6       | Stable     |
-| 9    | J.Ajayi   | MIA  | 5456.40        | 1.055      | 15    | 363.76   | 280.28  | 7/2/6       | Stable     |
-| 10   | M.Ingram  | NO   | 5712.41        | 1.048      | 16    | 357.03   | 325.85  | 8/1/7       | Decreasing |
+| 1    | D.Johnson | ARI  | 9345.07        | 1.060      | 16    | 584.07   | 546.65  | 8/2/6       | Stable     |
+| 2    | L.Bell    | PIT  | 6972.31        | 1.054      | 12    | 581.03   | 604.46  | 5/1/6       | Increasing |
+| 3    | E.Elliott | DAL  | 7680.48        | 1.069      | 15    | 512.03   | 500.61  | 7/3/5       | Increasing |
+| 4    | L.McCoy   | BUF  | 6180.57        | 1.061      | 15    | 412.04   | 455.64  | 7/4/4       | Increasing |
+| 5    | D.Murray  | TEN  | 6516.24        | 1.096      | 16    | 407.27   | 409.84  | 8/2/6       | Decreasing |
+| 6    | D.Freeman | ATL  | 6311.06        | 1.074      | 16    | 394.44   | 382.97  | 8/2/6       | Stable     |
+| 7    | J.Ajayi   | MIA  | 5550.53        | 1.055      | 15    | 370.04   | 325.06  | 7/4/4       | Increasing |
+| 8    | M.Gordon  | LAC  | 4779.84        | 1.078      | 13    | 367.68   | 372.12  | 5/0/8       | Increasing |
+| 9    | J.Howard  | CHI  | 5422.25        | 1.063      | 15    | 361.48   | 372.75  | 7/2/6       | Increasing |
+| 10   | F.Gore    | IND  | 5773.41        | 1.062      | 16    | 360.84   | 332.48  | 8/1/7       | Stable     |
 
 ## WR Rankings
 
-| Rank | Player    | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
-| :----| :---------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | A.Brown   | PIT  | 5666.47        | 1.000      | 15    | 377.76   | 367.76  | 6/1/8       | Stable     |
-| 2    | O.Beckham | NYG  | 5817.33        | 1.000      | 16    | 363.58   | 362.85  | 8/4/4       | Increasing |
-| 3    | J.Nelson  | GB   | 5657.22        | 1.000      | 16    | 353.58   | 355.11  | 8/1/7       | Stable     |
-| 4    | M.Evans   | TB   | 5417.78        | 1.000      | 16    | 338.61   | 344.08  | 8/3/5       | Decreasing |
-| 5    | J.Jones   | ATL  | 4738.04        | 1.000      | 14    | 338.43   | 358.51  | 6/1/7       | Stable     |
-| 6    | T.Hilton  | IND  | 5240.88        | 1.000      | 16    | 327.56   | 303.77  | 8/2/6       | Stable     |
-| 7    | M.Thomas  | NO   | 4854.09        | 1.000      | 15    | 323.61   | 325.71  | 7/2/6       | Increasing |
-| 8    | B.Cooks   | NO   | 4829.75        | 1.000      | 15    | 321.98   | 279.96  | 6/2/7       | Stable     |
-| 9    | D.Baldwin | SEA  | 4835.47        | 1.000      | 16    | 302.22   | 251.84  | 8/3/5       | Stable     |
-| 10   | A.Green   | CIN  | 3010.47        | 1.000      | 10    | 301.05   | 296.53  | 3/1/6       | Increasing |
+| Rank | Player     | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | A.Brown    | PIT  | 5867.98        | 1.000      | 15    | 391.20   | 370.96  | 7/1/7       | Stable     |
+| 2    | J.Nelson   | GB   | 5837.90        | 1.000      | 16    | 364.87   | 359.79  | 6/3/7       | Stable     |
+| 3    | O.Beckham  | NYG  | 5753.32        | 1.000      | 16    | 359.58   | 345.01  | 8/3/5       | Increasing |
+| 4    | M.Evans    | TB   | 5333.53        | 1.000      | 16    | 333.35   | 313.33  | 8/2/6       | Decreasing |
+| 5    | T.Hilton   | IND  | 5303.37        | 1.000      | 16    | 331.46   | 310.06  | 8/1/7       | Stable     |
+| 6    | J.Jones    | ATL  | 4487.45        | 1.000      | 14    | 320.53   | 284.05  | 7/0/7       | Increasing |
+| 7    | M.Thomas   | NO   | 4723.69        | 1.000      | 15    | 314.91   | 289.59  | 6/3/6       | Increasing |
+| 8    | B.Cooks    | NO   | 4659.40        | 1.000      | 15    | 310.63   | 309.94  | 7/4/4       | Decreasing |
+| 9    | M.Crabtree | LV   | 4916.89        | 1.000      | 16    | 307.31   | 269.60  | 8/1/7       | Decreasing |
+| 10   | D.Baldwin  | SEA  | 4896.19        | 1.000      | 16    | 306.01   | 246.57  | 8/0/8       | Stable     |
 
 ## TE Rankings
 
 | Rank | Player    | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :---------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | T.Kelce   | KC   | 4263.30        | 1.000      | 16    | 266.46   | 225.15  | 8/1/7       | Increasing |
-| 2    | G.Olsen   | CAR  | 4085.04        | 1.000      | 16    | 255.32   | 252.13  | 8/2/6       | Decreasing |
-| 3    | J.Reed    | WAS  | 2957.73        | 1.000      | 12    | 246.48   | 233.17  | 4/0/8       | Decreasing |
-| 4    | K.Rudolph | MIN  | 3739.34        | 1.000      | 16    | 233.71   | 232.36  | 8/2/6       | Increasing |
-| 5    | Z.Ertz    | PHI  | 3125.84        | 1.000      | 14    | 223.27   | 207.98  | 6/0/8       | Increasing |
-| 6    | J.Graham  | SEA  | 3448.41        | 1.000      | 16    | 215.53   | 211.95  | 8/3/5       | Decreasing |
-| 7    | D.Pitta   | BAL  | 3272.02        | 1.000      | 16    | 204.50   | 176.50  | 8/1/7       | Decreasing |
-| 8    | D.Walker  | TEN  | 3051.71        | 1.000      | 15    | 203.45   | 176.43  | 6/2/7       | Stable     |
-| 9    | J.Witten  | DAL  | 3015.82        | 1.000      | 15    | 201.05   | 184.14  | 7/3/5       | Stable     |
-| 10   | C.Brate   | TB   | 2991.95        | 1.000      | 15    | 199.46   | 161.09  | 7/1/7       | Increasing |
+| 1    | T.Kelce   | KC   | 4270.46        | 1.000      | 16    | 266.90   | 242.56  | 8/1/7       | Increasing |
+| 2    | G.Olsen   | CAR  | 4086.44        | 1.000      | 16    | 255.40   | 235.72  | 8/1/7       | Decreasing |
+| 3    | K.Rudolph | MIN  | 3843.28        | 1.000      | 16    | 240.20   | 214.56  | 7/3/6       | Increasing |
+| 4    | J.Reed    | WAS  | 2877.06        | 1.000      | 12    | 239.75   | 217.66  | 5/0/7       | Decreasing |
+| 5    | J.Graham  | SEA  | 3440.30        | 1.000      | 16    | 215.02   | 221.28  | 8/2/6       | Decreasing |
+| 6    | Z.Ertz    | PHI  | 3001.95        | 1.000      | 14    | 214.43   | 187.88  | 6/0/8       | Increasing |
+| 7    | D.Walker  | TEN  | 3080.52        | 1.000      | 15    | 205.37   | 195.82  | 6/2/7       | Stable     |
+| 8    | D.Pitta   | BAL  | 3223.26        | 1.000      | 16    | 201.45   | 157.31  | 8/1/7       | Decreasing |
+| 9    | J.Witten  | DAL  | 2957.73        | 1.000      | 15    | 197.18   | 187.89  | 7/2/6       | Increasing |
+| 10   | C.Brate   | TB   | 2932.73        | 1.000      | 15    | 195.52   | 154.80  | 6/2/7       | Increasing |
 

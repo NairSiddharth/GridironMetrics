@@ -6,59 +6,59 @@
 
 | Rank | Player      | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :-----------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | S.Barkley   | NYG  | RB       | 9134.50        | 1.060      | 16    | 570.91   | 533.39  | 8/2/6       | Stable     |
-| 2    | E.Elliott   | DAL  | RB       | 8115.02        | 1.059      | 15    | 541.00   | 434.12  | 6/3/6       | Increasing |
-| 3    | C.McCaffrey | CAR  | RB       | 8435.28        | 1.053      | 16    | 527.20   | 533.36  | 8/2/6       | Increasing |
-| 4    | T.Gurley    | LA   | RB       | 6946.64        | 1.031      | 14    | 496.19   | 496.70  | 3/0/11      | Stable     |
-| 5    | A.Kamara    | NO   | RB       | 7277.18        | 1.060      | 15    | 485.15   | 461.64  | 7/1/7       | Decreasing |
-| 6    | J.Conner    | PIT  | RB       | 6047.89        | 1.066      | 13    | 465.22   | 332.25  | 4/3/6       | Decreasing |
-| 7    | M.Gordon    | LAC  | RB       | 5068.49        | 1.060      | 12    | 422.37   | 443.00  | 4/2/6       | Decreasing |
-| 8    | M.Thomas    | NO   | WR       | 6634.83        | 1.012      | 16    | 414.68   | 380.10  | 8/0/8       | Decreasing |
-| 9    | J.Jones     | ATL  | WR       | 6438.54        | 1.009      | 16    | 402.41   | 433.23  | 7/3/6       | Stable     |
-| 10   | D.Hopkins   | HOU  | WR       | 6431.26        | 1.008      | 16    | 401.95   | 360.95  | 8/0/8       | Stable     |
+| 1    | S.Barkley   | NYG  | RB       | 9701.73        | 1.060      | 16    | 606.36   | 591.86  | 8/3/5       | Stable     |
+| 2    | E.Elliott   | DAL  | RB       | 8378.89        | 1.059      | 15    | 558.59   | 455.92  | 6/3/6       | Increasing |
+| 3    | C.McCaffrey | CAR  | RB       | 8526.05        | 1.053      | 16    | 532.88   | 532.59  | 8/3/5       | Increasing |
+| 4    | A.Kamara    | NO   | RB       | 7706.80        | 1.060      | 15    | 513.79   | 475.28  | 7/1/7       | Decreasing |
+| 5    | T.Gurley    | LA   | RB       | 6550.95        | 1.031      | 14    | 467.93   | 469.19  | 3/1/10      | Stable     |
+| 6    | J.Conner    | PIT  | RB       | 5805.70        | 1.066      | 13    | 446.59   | 371.24  | 6/1/6       | Decreasing |
+| 7    | D.Hopkins   | HOU  | WR       | 6752.69        | 1.008      | 16    | 422.04   | 398.06  | 7/1/8       | Decreasing |
+| 8    | J.Mixon     | CIN  | RB       | 5682.02        | 1.048      | 14    | 405.86   | 377.46  | 7/0/7       | Decreasing |
+| 9    | T.Hill      | KC   | WR       | 6441.47        | 1.002      | 16    | 402.59   | 321.37  | 8/1/7       | Stable     |
+| 10   | D.Adams     | GB   | WR       | 5973.62        | 1.007      | 15    | 398.24   | 374.57  | 6/3/6       | Stable     |
 
 ## RB Rankings
 
 | Rank | Player      | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :-----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | S.Barkley   | NYG  | 9134.50        | 1.060      | 16    | 570.91   | 533.39  | 8/2/6       | Stable     |
-| 2    | E.Elliott   | DAL  | 8115.02        | 1.059      | 15    | 541.00   | 434.12  | 6/3/6       | Increasing |
-| 3    | C.McCaffrey | CAR  | 8435.28        | 1.053      | 16    | 527.20   | 533.36  | 8/2/6       | Increasing |
-| 4    | T.Gurley    | LA   | 6946.64        | 1.031      | 14    | 496.19   | 496.70  | 3/0/11      | Stable     |
-| 5    | A.Kamara    | NO   | 7277.18        | 1.060      | 15    | 485.15   | 461.64  | 7/1/7       | Decreasing |
-| 6    | J.Conner    | PIT  | 6047.89        | 1.066      | 13    | 465.22   | 332.25  | 4/3/6       | Decreasing |
-| 7    | M.Gordon    | LAC  | 5068.49        | 1.060      | 12    | 422.37   | 443.00  | 4/2/6       | Decreasing |
-| 8    | J.Mixon     | CIN  | 5561.04        | 1.048      | 14    | 397.22   | 372.70  | 7/0/7       | Decreasing |
-| 9    | K.Hunt      | KC   | 4342.20        | 1.041      | 11    | 394.75   | 395.93  | 5/0/6       | Increasing |
-| 10   | D.Johnson   | ARI  | 5784.46        | 1.060      | 16    | 361.53   | 347.22  | 8/4/4       | Stable     |
+| 1    | S.Barkley   | NYG  | 9701.73        | 1.060      | 16    | 606.36   | 591.86  | 8/3/5       | Stable     |
+| 2    | E.Elliott   | DAL  | 8378.89        | 1.059      | 15    | 558.59   | 455.92  | 6/3/6       | Increasing |
+| 3    | C.McCaffrey | CAR  | 8526.05        | 1.053      | 16    | 532.88   | 532.59  | 8/3/5       | Increasing |
+| 4    | A.Kamara    | NO   | 7706.80        | 1.060      | 15    | 513.79   | 475.28  | 7/1/7       | Decreasing |
+| 5    | T.Gurley    | LA   | 6550.95        | 1.031      | 14    | 467.93   | 469.19  | 3/1/10      | Stable     |
+| 6    | J.Conner    | PIT  | 5805.70        | 1.066      | 13    | 446.59   | 371.24  | 6/1/6       | Decreasing |
+| 7    | J.Mixon     | CIN  | 5682.02        | 1.048      | 14    | 405.86   | 377.46  | 7/0/7       | Decreasing |
+| 8    | M.Gordon    | LAC  | 4752.93        | 1.060      | 12    | 396.08   | 386.70  | 3/1/8       | Stable     |
+| 9    | D.Johnson   | ARI  | 6022.51        | 1.060      | 16    | 376.41   | 377.24  | 8/3/5       | Decreasing |
+| 10   | K.Hunt      | KC   | 4134.55        | 1.041      | 11    | 375.87   | 375.39  | 4/1/6       | Increasing |
 
 ## WR Rankings
 
-| Rank | Player           | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
-| :----| :----------------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | M.Thomas         | NO   | 6634.83        | 1.012      | 16    | 414.68   | 380.10  | 8/0/8       | Decreasing |
-| 2    | J.Jones          | ATL  | 6438.54        | 1.009      | 16    | 402.41   | 433.23  | 7/3/6       | Stable     |
-| 3    | D.Hopkins        | HOU  | 6431.26        | 1.008      | 16    | 401.95   | 360.95  | 8/0/8       | Stable     |
-| 4    | A.Brown          | PIT  | 6018.90        | 1.013      | 15    | 401.26   | 327.78  | 6/2/7       | Decreasing |
-| 5    | T.Hill           | KC   | 6415.73        | 1.002      | 16    | 400.98   | 354.67  | 8/2/6       | Stable     |
-| 6    | D.Adams          | GB   | 5911.56        | 1.007      | 15    | 394.10   | 365.79  | 7/2/6       | Stable     |
-| 7    | M.Evans          | TB   | 5897.67        | 1.010      | 16    | 368.60   | 405.26  | 8/3/5       | Stable     |
-| 8    | A.Thielen        | MIN  | 5874.28        | 1.018      | 16    | 367.14   | 358.16  | 8/1/7       | Decreasing |
-| 9    | J.Smith-Schuster | PIT  | 5430.35        | 1.015      | 16    | 339.40   | 295.65  | 8/1/7       | Stable     |
-| 10   | O.Beckham        | NYG  | 4061.38        | 1.008      | 12    | 338.45   | 327.28  | 5/1/6       | Increasing |
+| Rank | Player    | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :---------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | D.Hopkins | HOU  | 6752.69        | 1.008      | 16    | 422.04   | 398.06  | 7/1/8       | Decreasing |
+| 2    | T.Hill    | KC   | 6441.47        | 1.002      | 16    | 402.59   | 321.37  | 8/1/7       | Stable     |
+| 3    | D.Adams   | GB   | 5973.62        | 1.007      | 15    | 398.24   | 374.57  | 6/3/6       | Stable     |
+| 4    | A.Brown   | PIT  | 5873.96        | 1.013      | 15    | 391.60   | 368.07  | 7/1/7       | Stable     |
+| 5    | M.Thomas  | NO   | 6226.71        | 1.012      | 16    | 389.17   | 341.91  | 8/0/8       | Decreasing |
+| 6    | J.Jones   | ATL  | 6158.34        | 1.009      | 16    | 384.90   | 394.39  | 7/4/5       | Stable     |
+| 7    | A.Thielen | MIN  | 5803.14        | 1.018      | 16    | 362.70   | 359.21  | 8/1/7       | Decreasing |
+| 8    | M.Evans   | TB   | 5355.62        | 1.010      | 16    | 334.73   | 366.83  | 8/3/5       | Stable     |
+| 9    | T.Hilton  | IND  | 4668.47        | 1.012      | 14    | 333.46   | 300.32  | 6/1/7       | Increasing |
+| 10   | O.Beckham | NYG  | 3980.76        | 1.008      | 12    | 331.73   | 315.81  | 5/1/6       | Increasing |
 
 ## TE Rankings
 
 | Rank | Player       | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :------------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | Z.Ertz       | PHI  | 5714.21        | 1.003      | 16    | 357.14   | 322.50  | 8/0/8       | Decreasing |
-| 2    | T.Kelce      | KC   | 5638.52        | 1.005      | 16    | 352.41   | 311.49  | 8/1/7       | Increasing |
-| 3    | G.Kittle     | SF   | 4390.80        | 1.010      | 16    | 274.42   | 254.72  | 8/1/7       | Increasing |
-| 4    | E.Ebron      | IND  | 3816.81        | 1.010      | 16    | 238.55   | 255.36  | 7/4/5       | Increasing |
-| 5    | J.Cook       | LV   | 3572.41        | 1.007      | 16    | 223.28   | 178.79  | 8/1/7       | Stable     |
-| 6    | R.Gronkowski | NE   | 2529.94        | 1.009      | 13    | 194.61   | 157.52  | 6/1/6       | Decreasing |
-| 7    | E.Engram     | NYG  | 2097.26        | 1.003      | 11    | 190.66   | 165.38  | 3/2/6       | Increasing |
-| 8    | A.Hooper     | ATL  | 3023.92        | 1.014      | 16    | 188.99   | 147.81  | 7/2/7       | Stable     |
-| 9    | O.Howard     | TB   | 1876.78        | 1.027      | 10    | 187.68   | 216.12  | 3/0/7       | Stable     |
-| 10   | K.Rudolph    | MIN  | 2973.75        | 0.995      | 16    | 185.86   | 150.61  | 8/1/7       | Decreasing |
+| 1    | Z.Ertz       | PHI  | 5826.96        | 1.003      | 16    | 364.19   | 326.29  | 8/1/7       | Decreasing |
+| 2    | T.Kelce      | KC   | 5711.19        | 1.005      | 16    | 356.95   | 325.96  | 8/1/7       | Stable     |
+| 3    | G.Kittle     | SF   | 4361.80        | 1.010      | 16    | 272.61   | 251.79  | 8/1/7       | Increasing |
+| 4    | E.Ebron      | IND  | 4006.70        | 1.010      | 16    | 250.42   | 238.48  | 8/1/7       | Increasing |
+| 5    | J.Cook       | LV   | 3392.52        | 1.007      | 16    | 212.03   | 174.45  | 8/0/8       | Increasing |
+| 6    | E.Engram     | NYG  | 2179.78        | 1.003      | 11    | 198.16   | 172.64  | 5/0/6       | Increasing |
+| 7    | R.Gronkowski | NE   | 2485.23        | 1.009      | 13    | 191.17   | 184.85  | 6/1/6       | Decreasing |
+| 8    | K.Rudolph    | MIN  | 2951.28        | 0.995      | 16    | 184.45   | 151.49  | 8/2/6       | Decreasing |
+| 9    | A.Hooper     | ATL  | 2895.18        | 1.014      | 16    | 180.95   | 148.56  | 7/1/8       | Stable     |
+| 10   | T.Burton     | CHI  | 2750.19        | 1.003      | 16    | 171.89   | 170.39  | 8/2/6       | Decreasing |
 

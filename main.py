@@ -139,7 +139,8 @@ def load_team_weekly_stats(year: int) -> pl.DataFrame:
             # Cast numeric columns back
             numeric_cols = ['week', 'completions', 'attempts', 'passing_yards', 'passing_tds', 
                           'rushing_yards', 'rushing_tds', 'receiving_yards', 'receiving_tds',
-                          'receptions', 'targets', 'carries', 'sacks', 'interceptions']
+                          'receptions', 'targets', 'carries', 'sacks', 'interceptions',
+                          'def_tds', 'special_teams_tds', 'fg_made', 'pat_made']
             for col in numeric_cols:
                 if col in combined_df.columns:
                     combined_df = combined_df.with_columns(pl.col(col).cast(pl.Int64, strict=False))
@@ -214,26 +215,105 @@ def adjust_for_game_situation(df: pl.DataFrame, year: int = None, week: int = No
         pl.lit(1.0).alias("down_multiplier")
     ])
 
+def calculate_defensive_stats(team_stats: pl.DataFrame) -> pl.DataFrame:
+    """Calculate points and yards allowed by matching opponent's offensive performance.
+    
+    For each team's game, we look up what their opponent scored to determine points/yards allowed.
+    """
+    # Calculate points scored for each team-week
+    team_stats = team_stats.with_columns([
+        # Total points = (passing_tds + rushing_tds + def_tds + special_teams_tds) * 7 + (pat_made * 1) + (fg_made * 3)
+        # Simplified: TDs * 7 (assuming PATs are usually successful) + field goals
+        ((pl.col('passing_tds').fill_null(0) + 
+          pl.col('rushing_tds').fill_null(0) + 
+          pl.col('def_tds').fill_null(0) + 
+          pl.col('special_teams_tds').fill_null(0)) * 7 + 
+         pl.col('fg_made').fill_null(0) * 3 + 
+         pl.col('pat_made').fill_null(0)).alias('points_scored')
+    ])
+    
+    # Create opponent lookup: team X's opponent_team Y scored Z points
+    opponent_points = team_stats.select([
+        pl.col('week'),
+        pl.col('team').alias('opponent_team'),  # This team will be the opponent
+        pl.col('points_scored').alias('opponent_points_scored'),
+        pl.col('passing_yards').alias('opponent_passing_yards'),
+        pl.col('rushing_yards').alias('opponent_rushing_yards')
+    ])
+    
+    # Join back to get what the opponent scored = what this team's defense allowed
+    defensive_stats = team_stats.join(
+        opponent_points,
+        on=['week', 'opponent_team'],
+        how='left'
+    ).with_columns([
+        pl.col('opponent_points_scored').alias('points_allowed'),
+        pl.col('opponent_passing_yards').alias('passing_yards_allowed'),
+        pl.col('opponent_rushing_yards').alias('rushing_yards_allowed')
+    ])
+    
+    return defensive_stats
+
+
 def adjust_for_opponent(df: pl.DataFrame, opponent_stats: pl.DataFrame) -> pl.DataFrame:
-    """Apply opponent strength adjustments based on defensive rankings."""
-    # Join with opponent defensive rankings
+    """Apply opponent strength adjustments based on rolling defensive performance.
+    
+    Uses rolling average of points/yards allowed through the week the game was played,
+    providing a more accurate representation of defensive strength at that point in time.
+    """
+    # First, calculate defensive stats (points/yards allowed) from offensive stats
+    opponent_with_defense = calculate_defensive_stats(opponent_stats)
+    
+    # Calculate rolling averages for each team through each week
+    # Sort by team and week to ensure proper rolling calculation
+    opponent_rolling = opponent_with_defense.sort(['team', 'week'])
+    
+    # Calculate cumulative stats through each week for each team
+    opponent_rolling = opponent_rolling.with_columns([
+        # Cumulative sums for each team through current week
+        pl.col('points_allowed').fill_null(0).cum_sum().over('team').alias('cum_points_allowed'),
+        pl.col('passing_yards_allowed').fill_null(0).cum_sum().over('team').alias('cum_pass_yards_allowed'),
+        pl.col('rushing_yards_allowed').fill_null(0).cum_sum().over('team').alias('cum_rush_yards_allowed'),
+        pl.col('week').cum_count().over('team').alias('games_played')
+    ]).with_columns([
+        # Calculate rolling averages (cumulative / games played)
+        (pl.col('cum_points_allowed') / pl.col('games_played')).alias('rolling_ppg_allowed'),
+        (pl.col('cum_pass_yards_allowed') / pl.col('games_played')).alias('rolling_pass_ypg_allowed'),
+        (pl.col('cum_rush_yards_allowed') / pl.col('games_played')).alias('rolling_rush_ypg_allowed')
+    ])
+    
+    # Calculate league averages for this season (using same rolling approach)
+    league_rolling_avg = opponent_rolling.group_by('week').agg([
+        pl.col('rolling_ppg_allowed').mean().alias('league_avg_ppg'),
+        pl.col('rolling_pass_ypg_allowed').mean().alias('league_avg_pass_ypg'),
+        pl.col('rolling_rush_ypg_allowed').mean().alias('league_avg_rush_ypg')
+    ])
+    
+    # Join league averages back
+    opponent_rolling = opponent_rolling.join(league_rolling_avg, on='week', how='left')
+    
+    # Join with the main dataframe
+    # Match on opponent team AND week to get the defense's performance through that week
     df_with_opponent = df.join(
-        opponent_stats.select([
-            "team",
-            "pass_defense_rank",
-            "rush_defense_rank",
-            "scoring_defense_rank"
+        opponent_rolling.select([
+            'team', 'week',
+            'rolling_ppg_allowed', 'rolling_pass_ypg_allowed', 'rolling_rush_ypg_allowed',
+            'league_avg_ppg', 'league_avg_pass_ypg', 'league_avg_rush_ypg'
         ]),
-        left_on="opponent",
-        right_on="team"
+        left_on=['opponent_team', 'week'],
+        right_on=['team', 'week'],
+        how='left'
     )
     
-    # Calculate opponent difficulty multiplier (1.0-1.5 scale)
-    # Lower rank (better defense) = higher multiplier
+    # Calculate difficulty multipliers
+    # Better defense (lower points/yards allowed) = higher multiplier
+    # Formula: league_avg / opponent_avg
+    # Example: league avg = 22 ppg, opponent allows 18 ppg (tough) → 22/18 = 1.22x
+    # Example: league avg = 22 ppg, opponent allows 26 ppg (weak) → 22/26 = 0.85x
     return df_with_opponent.with_columns([
-        (1 + (33 - pl.col("pass_defense_rank")) / 64).alias("pass_defense_multiplier"),
-        (1 + (33 - pl.col("rush_defense_rank")) / 64).alias("rush_defense_multiplier"),
-        (1 + (33 - pl.col("scoring_defense_rank")) / 64).alias("scoring_multiplier")
+        (pl.col('league_avg_ppg') / pl.col('rolling_ppg_allowed')).fill_null(1.0).alias('scoring_multiplier'),
+        (pl.col('league_avg_pass_ypg') / pl.col('rolling_pass_ypg_allowed')).fill_null(1.0).alias('pass_defense_multiplier'),
+        (pl.col('league_avg_rush_ypg') / pl.col('rolling_rush_ypg_allowed')).fill_null(1.0).alias('rush_defense_multiplier')
     ])
 
 def get_personnel_multiplier(position: str, personnel_group: str) -> float:
@@ -541,6 +621,7 @@ def generate_weekly_tables(year: int) -> str:
                         team_stats.filter(pl.col('team') == team).filter(pl.col('week') == week),
                         player_stats.filter(pl.col('team') == team).filter(pl.col('week') == week),
                         metric,
+                        opponent_stats=team_stats,
                         year=year,
                         week=week,
                         team=team
@@ -583,11 +664,14 @@ def generate_season_summary(year: int) -> str:
     logger.info(f"Generating season summary for {year}")
     
     # Load team stats
+    logger.info("Loading team stats...")
     team_stats = load_team_weekly_stats(year)
     if team_stats is None:
         return "No team data available."
+    logger.info(f"Loaded {team_stats.height} team-week records")
         
     # Load player stats for each position
+    logger.info("Loading player stats...")
     position_stats = {}
     for pos in SKILL_POSITIONS:
         df = load_position_weekly_stats(year, pos)
@@ -596,17 +680,22 @@ def generate_season_summary(year: int) -> str:
     
     if not position_stats:
         return "No player data available."
+    logger.info(f"Loaded player stats for {len(position_stats)} positions")
     
     # Combine all position stats
     player_stats = pl.concat(list(position_stats.values()))
+    logger.info(f"Combined {player_stats.height} player-week records")
     
     # Get unique teams
     teams = sorted(team_stats['team'].unique().to_list())
+    logger.info(f"Processing {len(teams)} teams")
     
     markdown = f"# Season Summary - {year}\n\n"
     
     # Create a table for each skill position metric
+    logger.info(f"Creating tables for {len(SKILL_POSITION_METRICS)} metrics")
     for metric, metric_name in SKILL_POSITION_METRICS.items():
+        logger.info(f"Processing metric: {metric_name}")
             
         table = PrettyTable()
         table.title = f"{metric_name} Share Leaders"
@@ -615,7 +704,10 @@ def generate_season_summary(year: int) -> str:
         table.float_format = '.1'
         table.set_style(TableStyle.MARKDOWN)
         
-        for team in teams:
+        logger.info(f"Processing {len(teams)} teams for {metric_name}")
+        for team_idx, team in enumerate(teams):
+            if team_idx % 5 == 0:
+                logger.info(f"  Processing team {team_idx+1}/{len(teams)}: {team}")
             try:
                 # Get all weeks for this team
                 team_season = team_stats.filter(pl.col('team') == team)
@@ -627,7 +719,7 @@ def generate_season_summary(year: int) -> str:
                     team_week = team_season.filter(pl.col('week') == week)
                     player_week = player_season.filter(pl.col('week') == week)
                     
-                    week_shares = calculate_offensive_shares(team_week, player_week, metric, year=year, week=week, team=team)
+                    week_shares = calculate_offensive_shares(team_week, player_week, metric, opponent_stats=team_stats, year=year, week=week, team=team)
                     if week_shares.height > 0:
                         all_shares.append(week_shares)
                 
@@ -1025,13 +1117,18 @@ def calculate_qb_contribution_from_pbp(year: int, qb_name: str) -> float:
 
 
 def generate_qb_rankings(year: int) -> str:
-    """Generate a separate QB rankings table with normalized 0-100 scores."""
+    """Generate a separate QB rankings table using full adjustment pipeline."""
     logger.info(f"Generating QB rankings for {year}")
     
     # Load QB stats
     qb_stats = load_position_weekly_stats(year, 'QB')
     if qb_stats is None:
         return "No QB data available."
+    
+    # Load team stats for opponent defensive adjustments
+    team_stats = load_team_weekly_stats(year)
+    if team_stats is None:
+        return "No team stats available for opponent adjustments."
     
     # Apply minimum activity threshold: 14 pass attempts per game (1978-now standard)
     # Count only games with meaningful participation (10+ attempts)
@@ -1060,86 +1157,118 @@ def generate_qb_rankings(year: int) -> str:
     
     logger.info(f"Filtered to {len(qualified_qbs)} qualified QBs (14+ attempts/game)")
     
-    # Calculate QB contribution scores using play-by-play data with contextual penalties/rewards
-    qb_contributions = []
+    # Use the full pipeline for QB contributions (passing + rushing)
+    # Calculate raw contributions (no year context for baseline)
+    raw_contributions = calculate_offensive_shares(
+        team_stats, 
+        qb_stats, 
+        'overall_contribution',
+        opponent_stats=team_stats,  # Include opponent defensive adjustments
+        year=None  # No year context for raw baseline
+    )
     
-    # Check if FTN data is available for this year
-    from modules.ftn_cache_builder import FTN_START_YEAR
-    has_ftn = year >= FTN_START_YEAR
+    # Calculate adjusted contributions (with all context including opponent defense)
+    adjusted_contributions = calculate_offensive_shares(
+        team_stats,
+        qb_stats,
+        'overall_contribution', 
+        opponent_stats=team_stats,  # Include opponent defensive adjustments
+        year=year  # Include year context for situational adjustments
+    )
     
-    if has_ftn:
-        logger.info(f"Calculating QB contributions with FTN contextual adjustments (PA, OOP, blitz, screen)...")
-    else:
-        logger.info(f"Calculating QB contributions from play-by-play data with contextual penalties and pressure bonuses...")
+    # Add position column back for Phase 4 adjustments
+    adjusted_contributions = adjusted_contributions.with_columns([
+        pl.lit('QB').alias('position')
+    ])
     
-    for qb_name in qb_stats['player_name'].unique().to_list():
-        qb_data = qb_stats.filter(pl.col('player_name') == qb_name)
-        
-        # Calculate contribution from PBP data (includes penalties and pressure bonuses)
-        contribution = calculate_qb_contribution_from_pbp(year, qb_name)
-        
-        games_played = qb_data.height
-        if games_played > 0:
-            qb_contributions.append({
-                'player_name': qb_name,
-                'team': qb_data['team'][0],
-                'contribution': contribution,
-                'games': games_played,
-                'avg_per_game': contribution / games_played
-            })
+    # Apply Phase 4 adjustments (catch rate + blocking quality)
+    adjusted_contributions = apply_phase4_adjustments(adjusted_contributions, year)
     
-    if not qb_contributions:
-        return "No QB contributions calculated."
+    # Save per-game contributions before Phase 5 for consistency metrics
+    per_game_contributions = adjusted_contributions.clone().select([
+        'player_id', 'player_name', 'team', 'week', 'player_overall_contribution'
+    ])
     
-    # Create DataFrame and apply z-score normalization
-    qb_df = pl.DataFrame(qb_contributions)
+    # Apply Phase 5 adjustments (talent context + sample size dampening)
+    adjusted_contributions = apply_phase5_adjustments(adjusted_contributions)
     
-    # Calculate mean and standard deviation
-    mean_contribution = qb_df['contribution'].mean()
-    std_contribution = qb_df['contribution'].std()
+    # Aggregate to season totals
+    raw_season = raw_contributions.group_by(['player_id', 'player_name', 'team']).agg([
+        pl.col('week').count().alias('games'),
+        pl.col('player_overall_contribution').sum().alias('raw_score')
+    ])
+    
+    # After Phase 5, all weeks have the same dampened score, so use mean() to get per-game value
+    adjusted_season = adjusted_contributions.group_by(['player_id', 'player_name']).agg([
+        pl.col('player_overall_contribution').mean().alias('adjusted_score')
+    ])
+    
+    # Join raw and adjusted scores
+    qb_season = raw_season.join(adjusted_season, on=['player_id', 'player_name'], how='left')
+    
+    # Calculate average difficulty multipliers
+    avg_difficulty = calculate_average_difficulty(year, qb_stats)
+    if avg_difficulty is not None:
+        qb_season = qb_season.join(
+            avg_difficulty.select(['player_id', 'avg_difficulty_multiplier']),
+            on='player_id',
+            how='left'
+        )
     
     # Calculate team-level max games (to penalize QBs who missed games their team played)
-    # Group by team to count how many distinct weeks (games) each team has played
     team_games = qb_stats.group_by('team').agg([
         pl.col('week').n_unique().alias('team_max_games')
     ])
     
-    # Join team max games back to qb_df
-    qb_df = qb_df.join(team_games, on='team', how='left')
+    # Join team max games
+    qb_season = qb_season.join(team_games, on='team', how='left')
     
-    # Z-score normalization: normalized = 50 + (z_score * 17.5)
-    # Hybrid scoring: contribution * (qb_games / team_games)^0.4
+    # Calculate hybrid score: adjusted * (qb_games / team_games)^0.4
     # This penalizes QBs who missed games their team played, but not for bye weeks
-    qb_df = qb_df.with_columns([
-        (50 + ((pl.col('contribution') - mean_contribution) / std_contribution) * 17.5).alias('normalized_score'),
-        (pl.col('contribution') * (pl.col('games') / pl.col('team_max_games')).pow(0.4)).alias('hybrid_score')
+    # NOTE: After Phase 5, adjusted_score is already a per-game value, not a season total
+    # So we need to multiply by games first to get season total, then apply games played adjustment
+    qb_season = qb_season.with_columns([
+        ((pl.col('adjusted_score') * pl.col('games')) * (pl.col('games') / pl.col('team_max_games')).pow(0.4)).alias('hybrid_score')
     ])
     
-    # Calculate z-score for hybrid scores to normalize those too
-    mean_hybrid = qb_df['hybrid_score'].mean()
-    std_hybrid = qb_df['hybrid_score'].std()
+    # Z-score normalization for hybrid scores
+    mean_hybrid = qb_season['hybrid_score'].mean()
+    std_hybrid = qb_season['hybrid_score'].std()
     
-    qb_df = qb_df.with_columns([
+    qb_season = qb_season.with_columns([
         (50 + ((pl.col('hybrid_score') - mean_hybrid) / std_hybrid) * 17.5).alias('normalized_hybrid')
-    ]).sort('normalized_hybrid', descending=True)
+    ])
+    
+    # Sort by normalized hybrid score
+    qb_season = qb_season.sort('normalized_hybrid', descending=True)
     
     # Create table
     markdown = f"# QB Rankings - {year}\n\n"
     table = PrettyTable()
-    table.field_names = ["Rank", "QB", "Team", "Games", "Contribution", "Avg/Game", "Normalized"]
+    table.field_names = ["Rank", "QB", "Team", "Games", "Raw", "Adjusted", "Difficulty", "Avg/Game", "Normalized"]
     table.align = "l"
     table.float_format = '.2'
     table.set_style(TableStyle.MARKDOWN)
     
-    for rank, row in enumerate(qb_df.iter_rows(named=True), 1):
+    for rank, row in enumerate(qb_season.iter_rows(named=True), 1):
+        games = row['games']
+        raw = row['raw_score']
+        adjusted_per_game = row['adjusted_score']  # Phase 5 returns per-game dampened score
+        adjusted_total = adjusted_per_game * games  # Calculate season total for display
+        difficulty = row.get('avg_difficulty_multiplier', 1.0)
+        avg_per_game = adjusted_per_game  # Already per-game from Phase 5
+        normalized = row['normalized_hybrid']
+        
         table.add_row([
             rank,
             row['player_name'],
             row['team'],
-            row['games'],
-            f"{row['contribution']:.2f}",
-            f"{row['avg_per_game']:.2f}",
-            f"{row['normalized_hybrid']:.2f}"
+            games,
+            f"{raw:.2f}",
+            f"{adjusted_total:.2f}",
+            f"{difficulty:.3f}",
+            f"{avg_per_game:.2f}",
+            f"{normalized:.2f}"
         ])
     
     markdown += table.get_string() + "\n\n"
@@ -1147,25 +1276,20 @@ def generate_qb_rankings(year: int) -> str:
 
 
 def generate_rb_rankings(year: int) -> str:
-    """Generate comprehensive RB rankings showing all qualified players."""
+    """Generate comprehensive RB rankings showing all qualified players using full adjustment pipeline."""
     logger.info(f"Generating RB rankings for {year}")
+    
+    # Load team stats for opponent adjustments
+    team_stats = load_team_weekly_stats(year)
+    if team_stats is None:
+        return "No team data available."
     
     # Load RB stats
     rb_stats = load_position_weekly_stats(year, 'RB')
     if rb_stats is None:
         return "No RB data available."
     
-    # Load all player stats to calculate difficulty multipliers
-    position_stats = {}
-    for pos in SKILL_POSITIONS:
-        df = load_position_weekly_stats(year, pos)
-        if df is not None:
-            position_stats[pos] = df
-    
-    player_stats = pl.concat(list(position_stats.values())) if position_stats else None
-    avg_difficulty = calculate_average_difficulty(year, player_stats) if player_stats is not None else None
-    
-    # Apply minimum activity threshold: 7 carries per game
+    # Apply minimum activity threshold: 6.25 carries per game (matching top_contributors)
     rb_games = rb_stats.group_by(['player_id', 'player_name']).agg([
         pl.col('week').count().alias('games'),
         pl.col('carries').sum().alias('total_carries')
@@ -1175,8 +1299,8 @@ def generate_rb_rankings(year: int) -> str:
         (pl.col('total_carries') / pl.col('games')).alias('carries_per_game')
     ])
     
-    # Filter to qualified RBs (7+ carries per game)
-    qualified_rbs = rb_games.filter(pl.col('carries_per_game') >= 7.0)
+    # Filter to qualified RBs (6.25+ carries per game)
+    qualified_rbs = rb_games.filter(pl.col('carries_per_game') >= 6.25)
     rb_stats = rb_stats.join(
         qualified_rbs.select(['player_id', 'player_name']), 
         on=['player_id', 'player_name'], 
@@ -1184,151 +1308,166 @@ def generate_rb_rankings(year: int) -> str:
     )
     
     if len(rb_stats) == 0:
-        return "No qualified RBs (7+ carries/game) for this season."
+        return "No qualified RBs (6.25+ carries/game) for this season."
     
-    logger.info(f"Filtered to {len(qualified_rbs)} qualified RBs (7+ carries/game)")
+    logger.info(f"Filtered to {len(qualified_rbs)} qualified RBs (6.25+ carries/game)")
     
-    # Load PBP and FTN data for contextual adjustments
-    from modules.ftn_cache_builder import load_ftn_cache, FTN_START_YEAR
-    ftn_adjustments = {}
+    # Use the full calculate_offensive_shares pipeline with defensive adjustments
+    # This includes: game situation adjustments, opponent rolling averages, all multipliers
+    raw_contributions = calculate_offensive_shares(
+        team_stats, 
+        rb_stats, 
+        'overall_contribution',
+        opponent_stats=team_stats,
+        year=None  # year=None means no situational adjustments for "raw" score
+    )
     
-    if year >= FTN_START_YEAR:
-        pbp_data = pbp_processor.load_pbp_data(year)
-        ftn_data = load_ftn_cache(year)
+    adjusted_contributions = calculate_offensive_shares(
+        team_stats, 
+        rb_stats, 
+        'overall_contribution',
+        opponent_stats=team_stats,
+        year=year  # year=year enables situational adjustments
+    )
+    
+    # Add position column back for Phase 4 adjustments
+    adjusted_contributions = adjusted_contributions.with_columns([
+        pl.lit('RB').alias('position')
+    ])
+    
+    # Apply Phase 4 adjustments (catch rate + blocking quality)
+    adjusted_contributions = apply_phase4_adjustments(adjusted_contributions, year)
+    
+    # Save per-game contributions before Phase 5 for consistency metrics
+    per_game_contributions = adjusted_contributions.clone().select([
+        'player_id', 'player_name', 'team', 'week', 'player_overall_contribution'
+    ])
+    
+    # Apply Phase 5 adjustments (talent context + sample size dampening)
+    adjusted_contributions = apply_phase5_adjustments(adjusted_contributions)
+    
+    # Aggregate to season totals
+    # Raw scores (no adjustments)
+    raw_season = raw_contributions.group_by(['player_id', 'player_name', 'team']).agg([
+        pl.col('player_overall_contribution').sum().alias('raw_score'),
+        pl.col('week').count().alias('games')
+    ])
+    
+    # Adjusted scores (with Phase 4 & 5)
+    # After Phase 5, all weeks have the same dampened score, so we use mean() to get the per-game value
+    adjusted_season = adjusted_contributions.group_by(['player_id', 'player_name', 'team']).agg([
+        pl.col('player_overall_contribution').mean().alias('adjusted_score')
+    ])
+    
+    # Join raw and adjusted
+    rb_season = raw_season.join(adjusted_season, on=['player_id', 'player_name', 'team'], how='left')
+    
+    # Calculate average difficulty multiplier
+    avg_difficulty = calculate_average_difficulty(year, rb_stats)
+    if avg_difficulty is not None:
+        rb_season = rb_season.join(
+            avg_difficulty.select(['player_id', 'player_name', 'avg_difficulty_multiplier']),
+            on=['player_id', 'player_name'],
+            how='left'
+        )
+    else:
+        rb_season = rb_season.with_columns([
+            pl.lit(1.0).alias('avg_difficulty_multiplier')
+        ])
+    
+    # Calculate consistency metrics from per_game_contributions (pre-Phase 5)
+    # We need to scale these by the Phase 5 factor to match the adjusted scores
+    
+    # Get pre-Phase 5 means
+    pre_phase5_means = (
+        per_game_contributions.group_by(['player_id', 'player_name', 'team'])
+        .agg([
+            pl.col('player_overall_contribution').mean().alias('pre_phase5_mean')
+        ])
+    )
+    
+    # Get post-Phase 5 values (all weeks have same dampened value after Phase 5)
+    post_phase5_values = (
+        adjusted_contributions.group_by(['player_id', 'player_name', 'team'])
+        .agg([
+            pl.col('player_overall_contribution').mean().alias('post_phase5_value')
+        ])
+    )
+    
+    # Calculate scaling factor
+    scaling_factors = pre_phase5_means.join(post_phase5_values, on=['player_id', 'player_name', 'team'])
+    scaling_factors = scaling_factors.with_columns([
+        (pl.col('post_phase5_value') / pl.col('pre_phase5_mean')).alias('phase5_scaling_factor')
+    ])
+    
+    # Calculate consistency metrics for each RB
+    consistency_data = []
+    for player_id in rb_season['player_id'].to_list():
+        player_weeks = per_game_contributions.filter(pl.col('player_id') == player_id)
+        if len(player_weeks) == 0:
+            continue
+            
+        contributions = player_weeks['player_overall_contribution'].to_list()
+        contributions.sort()
         
-        if pbp_data is not None and ftn_data is not None:
-            # Cast play_id to Int32 to match FTN data type before joining
-            pbp_data = pbp_data.with_columns([
-                pl.col('play_id').cast(pl.Int32)
-            ])
-            # Join FTN data
-            pbp_data = pbp_data.join(
-                ftn_data,
-                left_on=['game_id', 'play_id'],
-                right_on=['nflverse_game_id', 'nflverse_play_id'],
-                how='left'
-            )
-            
-            logger.info(f"Calculating FTN adjustments for RBs (RPO, heavy box)...")
-            
-            # Calculate FTN adjustments for each RB
-            for player_id in rb_stats['player_id'].unique().to_list():
-                # Get all rushes for this RB
-                rb_rushes = pbp_data.filter(pl.col('rusher_player_id') == player_id)
-                
-                if len(rb_rushes) == 0:
-                    continue
-                
-                adjustment = 0.0
-                
-                # RPO adjustment: -12% on yards (easier runs with numbers advantage)
-                rpo_runs = rb_rushes.filter(pl.col('is_rpo') == True)
-                rpo_yards = rpo_runs['yards_gained'].sum() or 0
-                rpo_adjustment = rpo_yards * -0.12
-                
-                # Heavy box bonus: +15% for 8+ defenders (stacked box)
-                heavy_box_runs = rb_rushes.filter(pl.col('n_defense_box') >= 8)
-                heavy_box_yards = heavy_box_runs['yards_gained'].sum() or 0
-                heavy_box_bonus = heavy_box_yards * 0.15
-                
-                adjustment = rpo_adjustment + heavy_box_bonus
-                
-                if adjustment != 0:
-                    ftn_adjustments[player_id] = adjustment
-            
-            logger.info(f"Applied FTN adjustments to {len(ftn_adjustments)} RBs")
-    
-    # Calculate RB contribution scores
-    rb_contributions = []
-    
-    # Group by player_id to avoid combining players with same name
-    for player_id in rb_stats['player_id'].unique().to_list():
-        rb_data = rb_stats.filter(pl.col('player_id') == player_id)
-        rb_name = rb_data['player_name'][0]
+        # Get Phase 5 scaling factor for this player
+        player_scaling = scaling_factors.filter(pl.col('player_id') == player_id)
+        if len(player_scaling) > 0:
+            scale_factor = player_scaling['phase5_scaling_factor'][0]
+        else:
+            scale_factor = 1.0
         
-        # Calculate weighted contribution using overall_contribution metric
-        weights = COMBINED_METRICS['overall_contribution']['weights']
-        contribution = 0
-        for metric, weight in weights.items():
-            if metric in rb_data.columns:
-                contribution += rb_data[metric].sum() * weight
+        # Calculate typical (25th/75th percentile average) and apply Phase 5 scaling
+        if len(contributions) >= 4:
+            q1_idx = len(contributions) // 4
+            q3_idx = 3 * len(contributions) // 4
+            typical = (contributions[q1_idx] + contributions[q3_idx]) / 2 * scale_factor
+        else:
+            typical = sum(contributions) / len(contributions) * scale_factor if contributions else 0
         
-        # Add FTN contextual adjustments if available
-        if player_id in ftn_adjustments:
-            contribution += ftn_adjustments[player_id]
+        # Calculate consistency (±5% threshold) - use UNSCALED values for consistency counts
+        below_avg = sum(1 for g in contributions if g < (typical / scale_factor) * 0.95)
+        at_avg = sum(1 for g in contributions if (typical / scale_factor) * 0.95 <= g <= (typical / scale_factor) * 1.05)
+        above_avg = sum(1 for g in contributions if g > (typical / scale_factor) * 1.05)
         
-        games_played = rb_data.height
-        if games_played > 0:
-            # Get difficulty multiplier from avg_difficulty dataframe if available
-            difficulty = 1.0
-            if avg_difficulty is not None:
-                difficulty_row = avg_difficulty.filter(pl.col('player_id') == player_id)
-                if len(difficulty_row) > 0:
-                    difficulty = difficulty_row['avg_difficulty_multiplier'][0]
-            
-            # Calculate adjusted score
-            adjusted_contribution = contribution * difficulty
-            
-            # Calculate typical game (25th/75th percentile average)
-            game_contributions = []
-            for week_data in rb_data.iter_rows(named=True):
-                week_contrib = 0
-                for metric, weight in weights.items():
-                    if metric in week_data:
-                        week_contrib += week_data[metric] * weight
-                game_contributions.append(week_contrib)
-            
-            game_contributions.sort()
-            if len(game_contributions) >= 4:
-                q1_idx = len(game_contributions) // 4
-                q3_idx = 3 * len(game_contributions) // 4
-                typical = (game_contributions[q1_idx] + game_contributions[q3_idx]) / 2
-            else:
-                typical = sum(game_contributions) / len(game_contributions)
-            
-            # Calculate consistency (±5% threshold)
-            below_avg = sum(1 for g in game_contributions if g < typical * 0.95)
-            at_avg = sum(1 for g in game_contributions if typical * 0.95 <= g <= typical * 1.05)
-            above_avg = sum(1 for g in game_contributions if g > typical * 1.05)
-            consistency = f"{below_avg}/{at_avg}/{above_avg}"
-            
-            # Calculate trend (compare first half vs second half of games)
-            # But only if player has been active recently (played in last 2 weeks)
-            max_week_in_season = rb_stats['week'].max()
-            last_week_played = rb_data['week'].max()
-            weeks_since_last_game = max_week_in_season - last_week_played
-            
-            if weeks_since_last_game > 2:
-                # Player hasn't played recently - trend is stale/inactive
-                trend_str = "INACTIVE"
-            elif len(game_contributions) >= 6:
-                # For 6+ games with recent activity: compare first half vs second half
-                midpoint = len(game_contributions) // 2
-                first_half = sum(game_contributions[:midpoint]) / midpoint
-                second_half = sum(game_contributions[midpoint:]) / (len(game_contributions) - midpoint)
-                trend = ((second_half - first_half) / first_half * 100) if first_half > 0 else 0
-                trend_str = f"{trend:+.1f}%"
-            else:
-                trend_str = "N/A"
-            
-            rb_contributions.append({
-                'player_name': rb_name,
-                'team': rb_data['team'][0],
-                'games': games_played,
-                'raw_score': contribution,
-                'adjusted_score': adjusted_contribution,
-                'difficulty': difficulty,
-                'avg_per_game': contribution / games_played,
-                'typical': typical,
-                'consistency': consistency,
-                'trend': trend_str
-            })
+        # Calculate trend (compare first half vs second half)
+        max_week_in_season = rb_stats['week'].max()
+        last_week_played = player_weeks['week'].max()
+        weeks_since_last_game = max_week_in_season - last_week_played
+        
+        if weeks_since_last_game > 2:
+            trend_str = "INACTIVE"
+        elif len(contributions) >= 6:
+            midpoint = len(contributions) // 2
+            first_half = sum(contributions[:midpoint]) / midpoint
+            second_half = sum(contributions[midpoint:]) / (len(contributions) - midpoint)
+            trend = ((second_half - first_half) / first_half * 100) if first_half > 0 else 0
+            trend_str = f"{trend:+.1f}%"
+        else:
+            trend_str = "N/A"
+        
+        player_name = player_weeks['player_name'][0]
+        consistency_data.append({
+            'player_id': player_id,
+            'player_name': player_name,
+            'typical': typical,
+            'below_avg': below_avg,
+            'at_avg': at_avg,
+            'above_avg': above_avg,
+            'trend': trend_str
+        })
     
-    if not rb_contributions:
-        return "No RB contributions calculated."
+    if consistency_data:
+        consistency_df = pl.DataFrame(consistency_data)
+        rb_season = rb_season.join(consistency_df, on=['player_id', 'player_name'], how='left')
     
-    # Create DataFrame and sort by adjusted score
-    rb_df = pl.DataFrame(rb_contributions).sort('adjusted_score', descending=True)
+    # Calculate season total for sorting (adjusted per-game * games)
+    rb_season = rb_season.with_columns([
+        (pl.col('adjusted_score') * pl.col('games')).alias('adjusted_total')
+    ])
+    
+    # Sort by adjusted season total
+    rb_season = rb_season.sort('adjusted_total', descending=True)
     
     # Create table
     markdown = f"# RB Rankings - {year}\n\n"
@@ -1338,19 +1477,38 @@ def generate_rb_rankings(year: int) -> str:
     table.float_format = '.2'
     table.set_style(TableStyle.MARKDOWN)
     
-    for rank, row in enumerate(rb_df.iter_rows(named=True), 1):
+    for rank, row in enumerate(rb_season.iter_rows(named=True), 1):
+        games = row['games']
+        raw = row['raw_score']
+        adjusted_per_game = row['adjusted_score']  # Phase 5 returns per-game dampened score
+        adjusted_total = adjusted_per_game * games  # Calculate season total for display
+        difficulty = row.get('avg_difficulty_multiplier', 1.0)
+        # Handle None difficulty
+        if difficulty is None:
+            difficulty = 1.0
+        avg_per_game = adjusted_per_game  # Already per-game from Phase 5
+        typical = row.get('typical', avg_per_game)
+        # Handle None typical
+        if typical is None:
+            typical = avg_per_game
+        below = row.get('below_avg', 0)
+        at = row.get('at_avg', 0)
+        above = row.get('above_avg', 0)
+        consistency = f"{below}/{at}/{above}"
+        trend = row.get('trend', 'N/A')
+        
         table.add_row([
             rank,
             row['player_name'],
             row['team'],
-            row['games'],
-            f"{row['raw_score']:.2f}",
-            f"{row['adjusted_score']:.2f}",
-            f"{row['difficulty']:.3f}",
-            f"{row['avg_per_game']:.2f}",
-            f"{row['typical']:.2f}",
-            row['consistency'],
-            row['trend']
+            games,
+            f"{raw:.2f}",
+            f"{adjusted_total:.2f}",
+            f"{difficulty:.3f}",
+            f"{avg_per_game:.2f}",
+            f"{typical:.2f}",
+            consistency,
+            trend
         ])
     
     markdown += table.get_string() + "\n\n"
@@ -1366,15 +1524,10 @@ def generate_wr_rankings(year: int) -> str:
     if wr_stats is None:
         return "No WR data available."
     
-    # Load all player stats to calculate difficulty multipliers
-    position_stats = {}
-    for pos in SKILL_POSITIONS:
-        df = load_position_weekly_stats(year, pos)
-        if df is not None:
-            position_stats[pos] = df
-    
-    player_stats = pl.concat(list(position_stats.values())) if position_stats else None
-    avg_difficulty = calculate_average_difficulty(year, player_stats) if player_stats is not None else None
+    # Load team stats for opponent defensive adjustments
+    team_stats = load_team_weekly_stats(year)
+    if team_stats is None:
+        return "No team stats available for opponent adjustments."
     
     # Apply minimum activity threshold: 3 targets per game
     wr_games = wr_stats.group_by(['player_id', 'player_name']).agg([
@@ -1399,156 +1552,156 @@ def generate_wr_rankings(year: int) -> str:
     
     logger.info(f"Filtered to {len(qualified_wrs)} qualified WRs (3+ targets/game)")
     
-    # Load PBP and FTN data for contextual adjustments
-    from modules.ftn_cache_builder import load_ftn_cache, FTN_START_YEAR
-    ftn_adjustments = {}
+    # Use the full pipeline for WR contributions (receiving only)
+    # Calculate raw contributions (no year context for baseline)
+    raw_contributions = calculate_offensive_shares(
+        team_stats, 
+        wr_stats, 
+        'overall_contribution',
+        opponent_stats=team_stats,  # Include opponent defensive adjustments
+        year=None  # No year context for raw baseline
+    )
     
-    if year >= FTN_START_YEAR:
-        pbp_data = pbp_processor.load_pbp_data(year)
-        ftn_data = load_ftn_cache(year)
+    # Calculate adjusted contributions (with all context including opponent defense)
+    adjusted_contributions = calculate_offensive_shares(
+        team_stats,
+        wr_stats,
+        'overall_contribution', 
+        opponent_stats=team_stats,  # Include opponent defensive adjustments
+        year=year  # Include year context for situational adjustments
+    )
+    
+    # Add position column back for Phase 4 adjustments
+    adjusted_contributions = adjusted_contributions.with_columns([
+        pl.lit('WR').alias('position')
+    ])
+    
+    # Apply Phase 4 adjustments (catch rate + blocking quality)
+    adjusted_contributions = apply_phase4_adjustments(adjusted_contributions, year)
+    
+    # Save per-game contributions before Phase 5 for consistency metrics
+    per_game_contributions = adjusted_contributions.clone().select([
+        'player_id', 'player_name', 'team', 'week', 'player_overall_contribution'
+    ])
+    
+    # Apply Phase 5 adjustments (talent context + sample size dampening)
+    adjusted_contributions = apply_phase5_adjustments(adjusted_contributions)
+    
+    # Aggregate to season totals
+    raw_season = raw_contributions.group_by(['player_id', 'player_name', 'team']).agg([
+        pl.col('week').count().alias('games'),
+        pl.col('player_overall_contribution').sum().alias('raw_score')
+    ])
+    
+    # After Phase 5, all weeks have the same dampened score, so use mean() to get per-game value
+    adjusted_season = adjusted_contributions.group_by(['player_id', 'player_name']).agg([
+        pl.col('player_overall_contribution').mean().alias('adjusted_score')
+    ])
+    
+    # Join raw and adjusted scores
+    wr_season = raw_season.join(adjusted_season, on=['player_id', 'player_name'], how='left')
+    
+    # Calculate average difficulty multipliers
+    avg_difficulty = calculate_average_difficulty(year, wr_stats)
+    if avg_difficulty is not None:
+        wr_season = wr_season.join(
+            avg_difficulty.select(['player_id', 'avg_difficulty_multiplier']),
+            on='player_id',
+            how='left'
+        )
+    
+    # Calculate consistency metrics from per_game_contributions (pre-Phase 5)
+    # We need to scale these by the Phase 5 factor to match the adjusted scores
+    
+    # Get pre-Phase 5 means
+    pre_phase5_means = (
+        per_game_contributions.group_by(['player_id', 'player_name'])
+        .agg([
+            pl.col('player_overall_contribution').mean().alias('pre_phase5_mean')
+        ])
+    )
+    
+    # Get post-Phase 5 values (all weeks have same dampened value after Phase 5)
+    post_phase5_values = (
+        adjusted_contributions.group_by(['player_id', 'player_name'])
+        .agg([
+            pl.col('player_overall_contribution').mean().alias('post_phase5_value')
+        ])
+    )
+    
+    # Calculate scaling factor
+    scaling_factors = pre_phase5_means.join(post_phase5_values, on=['player_id', 'player_name'])
+    scaling_factors = scaling_factors.with_columns([
+        (pl.col('post_phase5_value') / pl.col('pre_phase5_mean')).alias('phase5_scaling_factor')
+    ])
+    
+    # Calculate consistency metrics from per-week contributions
+    consistency_data = []
+    for player_id in wr_season['player_id'].unique().to_list():
+        player_weeks = per_game_contributions.filter(pl.col('player_id') == player_id)
+        player_name = player_weeks['player_name'][0]
         
-        if pbp_data is not None and ftn_data is not None:
-            # Cast play_id to Int32 to match FTN data type before joining
-            pbp_data = pbp_data.with_columns([
-                pl.col('play_id').cast(pl.Int32)
-            ])
-            # Join FTN data
-            pbp_data = pbp_data.join(
-                ftn_data,
-                left_on=['game_id', 'play_id'],
-                right_on=['nflverse_game_id', 'nflverse_play_id'],
-                how='left'
-            )
-            
-            logger.info(f"Calculating FTN adjustments for WRs (contested catches, drops, screens)...")
-            
-            # Calculate FTN adjustments for each WR
-            for player_id in wr_stats['player_id'].unique().to_list():
-                # Get all targets for this WR
-                wr_targets = pbp_data.filter(pl.col('receiver_player_id') == player_id)
-                
-                if len(wr_targets) == 0:
-                    continue
-                
-                adjustment = 0.0
-                
-                # Contested catch bonus: 1.25x multiplier = 0.25 bonus per catch
-                contested_catches = wr_targets.filter(
-                    (pl.col('complete_pass') == 1) & 
-                    (pl.col('is_contested_ball') == True)
-                ).height
-                contested_bonus = contested_catches * 5.0 * 0.25  # 25% bonus on 5pt base value
-                
-                # Drop penalty: -8 points per drop
-                drops = wr_targets.filter(pl.col('is_drop') == True).height
-                drop_penalty = drops * -8.0
-                
-                # Screen pass adjustment: -10% on yards
-                screen_catches = wr_targets.filter(
-                    (pl.col('complete_pass') == 1) &
-                    (pl.col('is_screen_pass') == True)
-                )
-                screen_yards = screen_catches['yards_gained'].sum() or 0
-                screen_adjustment = screen_yards * -0.10
-                
-                adjustment = contested_bonus + drop_penalty + screen_adjustment
-                
-                if adjustment != 0:
-                    ftn_adjustments[player_id] = adjustment
-            
-            logger.info(f"Applied FTN adjustments to {len(ftn_adjustments)} WRs")
-    
-    # Calculate WR contribution scores
-    wr_contributions = []
-    
-    # Group by player_id to avoid combining players with same name
-    for player_id in wr_stats['player_id'].unique().to_list():
-        wr_data = wr_stats.filter(pl.col('player_id') == player_id)
-        wr_name = wr_data['player_name'][0]
+        game_contributions = player_weeks['player_overall_contribution'].to_list()
+        game_contributions.sort()
         
-        # Calculate weighted contribution using overall_contribution metric
-        weights = COMBINED_METRICS['overall_contribution']['weights']
-        contribution = 0
-        for metric, weight in weights.items():
-            if metric in wr_data.columns:
-                contribution += wr_data[metric].sum() * weight
+        # Get Phase 5 scaling factor for this player
+        player_scaling = scaling_factors.filter(pl.col('player_id') == player_id)
+        if len(player_scaling) > 0:
+            scale_factor = player_scaling['phase5_scaling_factor'][0]
+        else:
+            scale_factor = 1.0
         
-        # Add FTN contextual adjustments if available
-        if player_id in ftn_adjustments:
-            contribution += ftn_adjustments[player_id]
+        # Calculate typical and apply Phase 5 scaling
+        if len(game_contributions) >= 4:
+            q1_idx = len(game_contributions) // 4
+            q3_idx = 3 * len(game_contributions) // 4
+            typical = (game_contributions[q1_idx] + game_contributions[q3_idx]) / 2 * scale_factor
+        else:
+            typical = sum(game_contributions) / len(game_contributions) * scale_factor if game_contributions else 0
         
-        games_played = wr_data.height
-        if games_played > 0:
-            # Get difficulty multiplier from avg_difficulty dataframe if available
-            difficulty = 1.0
-            if avg_difficulty is not None:
-                difficulty_row = avg_difficulty.filter(pl.col('player_id') == player_id)
-                if len(difficulty_row) > 0:
-                    difficulty = difficulty_row['avg_difficulty_multiplier'][0]
-            
-            # Calculate adjusted score
-            adjusted_contribution = contribution * difficulty
-            
-            # Calculate typical game
-            game_contributions = []
-            for week_data in wr_data.iter_rows(named=True):
-                week_contrib = 0
-                for metric, weight in weights.items():
-                    if metric in week_data:
-                        week_contrib += week_data[metric] * weight
-                game_contributions.append(week_contrib)
-            
-            game_contributions.sort()
-            if len(game_contributions) >= 4:
-                q1_idx = len(game_contributions) // 4
-                q3_idx = 3 * len(game_contributions) // 4
-                typical = (game_contributions[q1_idx] + game_contributions[q3_idx]) / 2
-            else:
-                typical = sum(game_contributions) / len(game_contributions)
-            
-            # Calculate consistency (±5% threshold)
-            below_avg = sum(1 for g in game_contributions if g < typical * 0.95)
-            at_avg = sum(1 for g in game_contributions if typical * 0.95 <= g <= typical * 1.05)
-            above_avg = sum(1 for g in game_contributions if g > typical * 1.05)
-            consistency = f"{below_avg}/{at_avg}/{above_avg}"
-            
-            # Calculate trend (compare first half vs second half of games)
-            # But only if player has been active recently (played in last 2 weeks)
-            max_week_in_season = wr_stats['week'].max()
-            last_week_played = wr_data['week'].max()
-            weeks_since_last_game = max_week_in_season - last_week_played
-            
-            if weeks_since_last_game > 2:
-                # Player hasn't played recently - trend is stale/inactive
-                trend_str = "INACTIVE"
-            elif len(game_contributions) >= 6:
-                # For 6+ games with recent activity: compare first half vs second half
-                midpoint = len(game_contributions) // 2
-                first_half = sum(game_contributions[:midpoint]) / midpoint
-                second_half = sum(game_contributions[midpoint:]) / (len(game_contributions) - midpoint)
-                trend = ((second_half - first_half) / first_half * 100) if first_half > 0 else 0
-                trend_str = f"{trend:+.1f}%"
-            else:
-                trend_str = "N/A"
-            
-            wr_contributions.append({
-                'player_name': wr_name,
-                'team': wr_data['team'][0],
-                'games': games_played,
-                'raw_score': contribution,
-                'adjusted_score': adjusted_contribution,
-                'difficulty': difficulty,
-                'avg_per_game': contribution / games_played,
-                'typical': typical,
-                'consistency': consistency,
-                'trend': trend_str
-            })
+        # Calculate consistency (±5% threshold) - use UNSCALED values for consistency counts
+        below_avg = sum(1 for g in game_contributions if g < (typical / scale_factor) * 0.95)
+        at_avg = sum(1 for g in game_contributions if (typical / scale_factor) * 0.95 <= g <= (typical / scale_factor) * 1.05)
+        above_avg = sum(1 for g in game_contributions if g > (typical / scale_factor) * 1.05)
+        
+        # Calculate trend (compare first half vs second half of games)
+        max_week_in_season = wr_stats['week'].max()
+        last_week_played = player_weeks['week'].max()
+        weeks_since_last_game = max_week_in_season - last_week_played
+        
+        if weeks_since_last_game > 2:
+            trend_str = "INACTIVE"
+        elif len(game_contributions) >= 6:
+            midpoint = len(game_contributions) // 2
+            first_half = sum(game_contributions[:midpoint]) / midpoint
+            second_half = sum(game_contributions[midpoint:]) / (len(game_contributions) - midpoint)
+            trend = ((second_half - first_half) / first_half * 100) if first_half > 0 else 0
+            trend_str = f"{trend:+.1f}%"
+        else:
+            trend_str = "N/A"
+        
+        consistency_data.append({
+            'player_id': player_id,
+            'player_name': player_name,
+            'typical': typical,
+            'below_avg': below_avg,
+            'at_avg': at_avg,
+            'above_avg': above_avg,
+            'trend': trend_str
+        })
     
-    if not wr_contributions:
-        return "No WR contributions calculated."
+    # Join consistency data with season totals
+    if consistency_data:
+        consistency_df = pl.DataFrame(consistency_data)
+        wr_season = wr_season.join(consistency_df, on=['player_id', 'player_name'], how='left')
     
-    # Create DataFrame and sort by adjusted score
-    wr_df = pl.DataFrame(wr_contributions).sort('adjusted_score', descending=True)
+    # Calculate season total for sorting (adjusted per-game * games)
+    wr_season = wr_season.with_columns([
+        (pl.col('adjusted_score') * pl.col('games')).alias('adjusted_total')
+    ])
+    
+    # Sort by adjusted season total
+    wr_season = wr_season.sort('adjusted_total', descending=True)
     
     # Create table
     markdown = f"# WR Rankings - {year}\n\n"
@@ -1558,19 +1711,38 @@ def generate_wr_rankings(year: int) -> str:
     table.float_format = '.2'
     table.set_style(TableStyle.MARKDOWN)
     
-    for rank, row in enumerate(wr_df.iter_rows(named=True), 1):
+    for rank, row in enumerate(wr_season.iter_rows(named=True), 1):
+        games = row['games']
+        raw = row['raw_score']
+        adjusted_per_game = row['adjusted_score']  # Phase 5 returns per-game dampened score
+        adjusted_total = adjusted_per_game * games  # Calculate season total for display
+        difficulty = row.get('avg_difficulty_multiplier', 1.0)
+        # Handle None difficulty
+        if difficulty is None:
+            difficulty = 1.0
+        avg_per_game = adjusted_per_game  # Already per-game from Phase 5
+        typical = row.get('typical', avg_per_game)
+        # Handle None typical
+        if typical is None:
+            typical = avg_per_game
+        below = row.get('below_avg', 0)
+        at = row.get('at_avg', 0)
+        above = row.get('above_avg', 0)
+        consistency = f"{below}/{at}/{above}"
+        trend = row.get('trend', 'N/A')
+        
         table.add_row([
             rank,
             row['player_name'],
             row['team'],
-            row['games'],
-            f"{row['raw_score']:.2f}",
-            f"{row['adjusted_score']:.2f}",
-            f"{row['difficulty']:.3f}",
-            f"{row['avg_per_game']:.2f}",
-            f"{row['typical']:.2f}",
-            row['consistency'],
-            row['trend']
+            games,
+            f"{raw:.2f}",
+            f"{adjusted_total:.2f}",
+            f"{difficulty:.3f}",
+            f"{avg_per_game:.2f}",
+            f"{typical:.2f}",
+            consistency,
+            trend
         ])
     
     markdown += table.get_string() + "\n\n"
@@ -1586,15 +1758,10 @@ def generate_te_rankings(year: int) -> str:
     if te_stats is None:
         return "No TE data available."
     
-    # Load all player stats to calculate difficulty multipliers
-    position_stats = {}
-    for pos in SKILL_POSITIONS:
-        df = load_position_weekly_stats(year, pos)
-        if df is not None:
-            position_stats[pos] = df
-    
-    player_stats = pl.concat(list(position_stats.values())) if position_stats else None
-    avg_difficulty = calculate_average_difficulty(year, player_stats) if player_stats is not None else None
+    # Load team stats for opponent defensive adjustments
+    team_stats = load_team_weekly_stats(year)
+    if team_stats is None:
+        return "No team stats available for opponent adjustments."
     
     # Apply minimum activity threshold: 2 targets per game
     te_games = te_stats.group_by(['player_id', 'player_name']).agg([
@@ -1619,156 +1786,156 @@ def generate_te_rankings(year: int) -> str:
     
     logger.info(f"Filtered to {len(qualified_tes)} qualified TEs (2+ targets/game)")
     
-    # Load PBP and FTN data for contextual adjustments
-    from modules.ftn_cache_builder import load_ftn_cache, FTN_START_YEAR
-    ftn_adjustments = {}
+    # Use the full pipeline for TE contributions (receiving only)
+    # Calculate raw contributions (no year context for baseline)
+    raw_contributions = calculate_offensive_shares(
+        team_stats, 
+        te_stats, 
+        'overall_contribution',
+        opponent_stats=team_stats,  # Include opponent defensive adjustments
+        year=None  # No year context for raw baseline
+    )
     
-    if year >= FTN_START_YEAR:
-        pbp_data = pbp_processor.load_pbp_data(year)
-        ftn_data = load_ftn_cache(year)
+    # Calculate adjusted contributions (with all context including opponent defense)
+    adjusted_contributions = calculate_offensive_shares(
+        team_stats,
+        te_stats,
+        'overall_contribution', 
+        opponent_stats=team_stats,  # Include opponent defensive adjustments
+        year=year  # Include year context for situational adjustments
+    )
+    
+    # Add position column back for Phase 4 adjustments
+    adjusted_contributions = adjusted_contributions.with_columns([
+        pl.lit('TE').alias('position')
+    ])
+    
+    # Apply Phase 4 adjustments (catch rate + blocking quality)
+    adjusted_contributions = apply_phase4_adjustments(adjusted_contributions, year)
+    
+    # Save per-game contributions before Phase 5 for consistency metrics
+    per_game_contributions = adjusted_contributions.clone().select([
+        'player_id', 'player_name', 'team', 'week', 'player_overall_contribution'
+    ])
+    
+    # Apply Phase 5 adjustments (talent context + sample size dampening)
+    adjusted_contributions = apply_phase5_adjustments(adjusted_contributions)
+    
+    # Aggregate to season totals
+    raw_season = raw_contributions.group_by(['player_id', 'player_name', 'team']).agg([
+        pl.col('week').count().alias('games'),
+        pl.col('player_overall_contribution').sum().alias('raw_score')
+    ])
+    
+    # After Phase 5, all weeks have the same dampened score, so use mean() to get per-game value
+    adjusted_season = adjusted_contributions.group_by(['player_id', 'player_name']).agg([
+        pl.col('player_overall_contribution').mean().alias('adjusted_score')
+    ])
+    
+    # Join raw and adjusted scores
+    te_season = raw_season.join(adjusted_season, on=['player_id', 'player_name'], how='left')
+    
+    # Calculate average difficulty multipliers
+    avg_difficulty = calculate_average_difficulty(year, te_stats)
+    if avg_difficulty is not None:
+        te_season = te_season.join(
+            avg_difficulty.select(['player_id', 'avg_difficulty_multiplier']),
+            on='player_id',
+            how='left'
+        )
+    
+    # Calculate consistency metrics from per_game_contributions (pre-Phase 5)
+    # We need to scale these by the Phase 5 factor to match the adjusted scores
+    
+    # Get pre-Phase 5 means
+    pre_phase5_means = (
+        per_game_contributions.group_by(['player_id', 'player_name'])
+        .agg([
+            pl.col('player_overall_contribution').mean().alias('pre_phase5_mean')
+        ])
+    )
+    
+    # Get post-Phase 5 values (all weeks have same dampened value after Phase 5)
+    post_phase5_values = (
+        adjusted_contributions.group_by(['player_id', 'player_name'])
+        .agg([
+            pl.col('player_overall_contribution').mean().alias('post_phase5_value')
+        ])
+    )
+    
+    # Calculate scaling factor
+    scaling_factors = pre_phase5_means.join(post_phase5_values, on=['player_id', 'player_name'])
+    scaling_factors = scaling_factors.with_columns([
+        (pl.col('post_phase5_value') / pl.col('pre_phase5_mean')).alias('phase5_scaling_factor')
+    ])
+    
+    # Calculate consistency metrics from per-week contributions
+    consistency_data = []
+    for player_id in te_season['player_id'].unique().to_list():
+        player_weeks = per_game_contributions.filter(pl.col('player_id') == player_id)
+        player_name = player_weeks['player_name'][0]
         
-        if pbp_data is not None and ftn_data is not None:
-            # Cast play_id to Int32 to match FTN data type before joining
-            pbp_data = pbp_data.with_columns([
-                pl.col('play_id').cast(pl.Int32)
-            ])
-            # Join FTN data
-            pbp_data = pbp_data.join(
-                ftn_data,
-                left_on=['game_id', 'play_id'],
-                right_on=['nflverse_game_id', 'nflverse_play_id'],
-                how='left'
-            )
-            
-            logger.info(f"Calculating FTN adjustments for TEs (contested catches, drops, screens)...")
-            
-            # Calculate FTN adjustments for each TE
-            for player_id in te_stats['player_id'].unique().to_list():
-                # Get all targets for this TE
-                te_targets = pbp_data.filter(pl.col('receiver_player_id') == player_id)
-                
-                if len(te_targets) == 0:
-                    continue
-                
-                adjustment = 0.0
-                
-                # Contested catch bonus: 1.25x multiplier = 0.25 bonus per catch
-                contested_catches = te_targets.filter(
-                    (pl.col('complete_pass') == 1) & 
-                    (pl.col('is_contested_ball') == True)
-                ).height
-                contested_bonus = contested_catches * 5.0 * 0.25  # 25% bonus on 5pt base value
-                
-                # Drop penalty: -8 points per drop
-                drops = te_targets.filter(pl.col('is_drop') == True).height
-                drop_penalty = drops * -8.0
-                
-                # Screen pass adjustment: -10% on yards
-                screen_catches = te_targets.filter(
-                    (pl.col('complete_pass') == 1) &
-                    (pl.col('is_screen_pass') == True)
-                )
-                screen_yards = screen_catches['yards_gained'].sum() or 0
-                screen_adjustment = screen_yards * -0.10
-                
-                adjustment = contested_bonus + drop_penalty + screen_adjustment
-                
-                if adjustment != 0:
-                    ftn_adjustments[player_id] = adjustment
-            
-            logger.info(f"Applied FTN adjustments to {len(ftn_adjustments)} TEs")
-    
-    # Calculate TE contribution scores
-    te_contributions = []
-    
-    # Group by player_id to avoid combining players with same name
-    for player_id in te_stats['player_id'].unique().to_list():
-        te_data = te_stats.filter(pl.col('player_id') == player_id)
-        te_name = te_data['player_name'][0]
+        game_contributions = player_weeks['player_overall_contribution'].to_list()
+        game_contributions.sort()
         
-        # Calculate weighted contribution using overall_contribution metric
-        weights = COMBINED_METRICS['overall_contribution']['weights']
-        contribution = 0
-        for metric, weight in weights.items():
-            if metric in te_data.columns:
-                contribution += te_data[metric].sum() * weight
+        # Get Phase 5 scaling factor for this player
+        player_scaling = scaling_factors.filter(pl.col('player_id') == player_id)
+        if len(player_scaling) > 0:
+            scale_factor = player_scaling['phase5_scaling_factor'][0]
+        else:
+            scale_factor = 1.0
         
-        # Add FTN contextual adjustments if available
-        if player_id in ftn_adjustments:
-            contribution += ftn_adjustments[player_id]
+        # Calculate typical and apply Phase 5 scaling
+        if len(game_contributions) >= 4:
+            q1_idx = len(game_contributions) // 4
+            q3_idx = 3 * len(game_contributions) // 4
+            typical = (game_contributions[q1_idx] + game_contributions[q3_idx]) / 2 * scale_factor
+        else:
+            typical = sum(game_contributions) / len(game_contributions) * scale_factor if game_contributions else 0
         
-        games_played = te_data.height
-        if games_played > 0:
-            # Get difficulty multiplier from avg_difficulty dataframe if available
-            difficulty = 1.0
-            if avg_difficulty is not None:
-                difficulty_row = avg_difficulty.filter(pl.col('player_id') == player_id)
-                if len(difficulty_row) > 0:
-                    difficulty = difficulty_row['avg_difficulty_multiplier'][0]
-            
-            # Calculate adjusted score
-            adjusted_contribution = contribution * difficulty
-            
-            # Calculate typical game
-            game_contributions = []
-            for week_data in te_data.iter_rows(named=True):
-                week_contrib = 0
-                for metric, weight in weights.items():
-                    if metric in week_data:
-                        week_contrib += week_data[metric] * weight
-                game_contributions.append(week_contrib)
-            
-            game_contributions.sort()
-            if len(game_contributions) >= 4:
-                q1_idx = len(game_contributions) // 4
-                q3_idx = 3 * len(game_contributions) // 4
-                typical = (game_contributions[q1_idx] + game_contributions[q3_idx]) / 2
-            else:
-                typical = sum(game_contributions) / len(game_contributions)
-            
-            # Calculate consistency (±5% threshold)
-            below_avg = sum(1 for g in game_contributions if g < typical * 0.95)
-            at_avg = sum(1 for g in game_contributions if typical * 0.95 <= g <= typical * 1.05)
-            above_avg = sum(1 for g in game_contributions if g > typical * 1.05)
-            consistency = f"{below_avg}/{at_avg}/{above_avg}"
-            
-            # Calculate trend (compare first half vs second half of games)
-            # But only if player has been active recently (played in last 2 weeks)
-            max_week_in_season = te_stats['week'].max()
-            last_week_played = te_data['week'].max()
-            weeks_since_last_game = max_week_in_season - last_week_played
-            
-            if weeks_since_last_game > 2:
-                # Player hasn't played recently - trend is stale/inactive
-                trend_str = "INACTIVE"
-            elif len(game_contributions) >= 6:
-                # For 6+ games with recent activity: compare first half vs second half
-                midpoint = len(game_contributions) // 2
-                first_half = sum(game_contributions[:midpoint]) / midpoint
-                second_half = sum(game_contributions[midpoint:]) / (len(game_contributions) - midpoint)
-                trend = ((second_half - first_half) / first_half * 100) if first_half > 0 else 0
-                trend_str = f"{trend:+.1f}%"
-            else:
-                trend_str = "N/A"
-            
-            te_contributions.append({
-                'player_name': te_name,
-                'team': te_data['team'][0],
-                'games': games_played,
-                'raw_score': contribution,
-                'adjusted_score': adjusted_contribution,
-                'difficulty': difficulty,
-                'avg_per_game': contribution / games_played,
-                'typical': typical,
-                'consistency': consistency,
-                'trend': trend_str
-            })
+        # Calculate consistency (±5% threshold) - use UNSCALED values for consistency counts
+        below_avg = sum(1 for g in game_contributions if g < (typical / scale_factor) * 0.95)
+        at_avg = sum(1 for g in game_contributions if (typical / scale_factor) * 0.95 <= g <= (typical / scale_factor) * 1.05)
+        above_avg = sum(1 for g in game_contributions if g > (typical / scale_factor) * 1.05)
+        
+        # Calculate trend (compare first half vs second half of games)
+        max_week_in_season = te_stats['week'].max()
+        last_week_played = player_weeks['week'].max()
+        weeks_since_last_game = max_week_in_season - last_week_played
+        
+        if weeks_since_last_game > 2:
+            trend_str = "INACTIVE"
+        elif len(game_contributions) >= 6:
+            midpoint = len(game_contributions) // 2
+            first_half = sum(game_contributions[:midpoint]) / midpoint
+            second_half = sum(game_contributions[midpoint:]) / (len(game_contributions) - midpoint)
+            trend = ((second_half - first_half) / first_half * 100) if first_half > 0 else 0
+            trend_str = f"{trend:+.1f}%"
+        else:
+            trend_str = "N/A"
+        
+        consistency_data.append({
+            'player_id': player_id,
+            'player_name': player_name,
+            'typical': typical,
+            'below_avg': below_avg,
+            'at_avg': at_avg,
+            'above_avg': above_avg,
+            'trend': trend_str
+        })
     
-    if not te_contributions:
-        return "No TE contributions calculated."
+    # Join consistency data with season totals
+    if consistency_data:
+        consistency_df = pl.DataFrame(consistency_data)
+        te_season = te_season.join(consistency_df, on=['player_id', 'player_name'], how='left')
     
-    # Create DataFrame and sort by adjusted score
-    te_df = pl.DataFrame(te_contributions).sort('adjusted_score', descending=True)
+    # Calculate season total for sorting (adjusted per-game * games)
+    te_season = te_season.with_columns([
+        (pl.col('adjusted_score') * pl.col('games')).alias('adjusted_total')
+    ])
+    
+    # Sort by adjusted season total
+    te_season = te_season.sort('adjusted_total', descending=True)
     
     # Create table
     markdown = f"# TE Rankings - {year}\n\n"
@@ -1778,19 +1945,38 @@ def generate_te_rankings(year: int) -> str:
     table.float_format = '.2'
     table.set_style(TableStyle.MARKDOWN)
     
-    for rank, row in enumerate(te_df.iter_rows(named=True), 1):
+    for rank, row in enumerate(te_season.iter_rows(named=True), 1):
+        games = row['games']
+        raw = row['raw_score']
+        adjusted_per_game = row['adjusted_score']  # Phase 5 returns per-game dampened score
+        adjusted_total = adjusted_per_game * games  # Calculate season total for display
+        difficulty = row.get('avg_difficulty_multiplier', 1.0)
+        # Handle None difficulty
+        if difficulty is None:
+            difficulty = 1.0
+        avg_per_game = adjusted_per_game  # Already per-game from Phase 5
+        typical = row.get('typical', avg_per_game)
+        # Handle None typical
+        if typical is None:
+            typical = avg_per_game
+        below = row.get('below_avg', 0)
+        at = row.get('at_avg', 0)
+        above = row.get('above_avg', 0)
+        consistency = f"{below}/{at}/{above}"
+        trend = row.get('trend', 'N/A')
+        
         table.add_row([
             rank,
             row['player_name'],
             row['team'],
-            row['games'],
-            f"{row['raw_score']:.2f}",
-            f"{row['adjusted_score']:.2f}",
-            f"{row['difficulty']:.3f}",
-            f"{row['avg_per_game']:.2f}",
-            f"{row['typical']:.2f}",
-            row['consistency'],
-            row['trend']
+            games,
+            f"{raw:.2f}",
+            f"{adjusted_total:.2f}",
+            f"{difficulty:.3f}",
+            f"{avg_per_game:.2f}",
+            f"{typical:.2f}",
+            consistency,
+            trend
         ])
     
     markdown += table.get_string() + "\n\n"
@@ -2539,10 +2725,10 @@ def generate_top_contributors(year: int) -> tuple[str, str]:
     logger.info(f"Filtered to {len(qualified_ids)} qualified players meeting minimum activity thresholds")
     
     # Calculate RAW scores first (without situational adjustments - year=None means multipliers = 1.0)
-    raw_contributions = calculate_offensive_shares(team_stats, player_stats, 'overall_contribution', year=None)
+    raw_contributions = calculate_offensive_shares(team_stats, player_stats, 'overall_contribution', opponent_stats=team_stats, year=None)
     
     # Calculate ADJUSTED scores (with situational adjustments from PBP data)
-    contributions = calculate_offensive_shares(team_stats, player_stats, 'overall_contribution', year=year)
+    contributions = calculate_offensive_shares(team_stats, player_stats, 'overall_contribution', opponent_stats=team_stats, year=year)
     
     # Add position column back by joining with player_stats
     # Ensure player_positions is truly unique per player

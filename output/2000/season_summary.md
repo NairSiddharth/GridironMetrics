@@ -94,7 +94,7 @@
 | MIA  | L.Smith       | RB       | 67.9             |
 | MIN  | R.Smith       | WR       | 37.5             |
 | NE   | K.Faulk       | RB       | 21.9             |
-| NO   | R.Williams    | RB       | 50.0             |
+| NO   | T.Allen       | RB       | 50.0             |
 | NYG  | J.Montgomery  | RB       | 50.0             |
 | NYJ  | C.Martin      | RB       | 43.8             |
 | OAK  | T.Wheatley    | RB       | 31.4             |

@@ -109,7 +109,7 @@
 | STL  | M. Faulk     | RB       | 32.1             |
 | TB   | M.Pittman    | RB       | 3.1              |
 | TEN  | E.George     | RB       | 53.1             |
-| WAS  | F. Taylor    | RB       | 50.0             |
+| WAS  | S. Mack      | RB       | 50.0             |
 
 | :----- :------------- :--------- :----------------|
 |                Rec TD Share Leaders               |
@@ -139,7 +139,7 @@
 | NYJ  | W.Chrebet    | WR       | 25.6             |
 | OAK  | J.Porter     | WR       | 31.9             |
 | PHI  | K. Brady     | TE       | 33.3             |
-| PIT  | K. Brady     | TE       | 50.0             |
+| PIT  | J. Smith     | WR       | 50.0             |
 | SD   | F. McCrary   | RB       | 41.7             |
 | SEA  | R.Hannam     | TE       | 16.7             |
 | SF   | T.Owens      | WR       | 51.2             |

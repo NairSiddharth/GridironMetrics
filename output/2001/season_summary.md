@@ -77,7 +77,7 @@
 | Team | Player        | Position | Season Share (%) |
 | :----| :-------------| :--------| :----------------|
 | ARI  | M.Pittman     | RB       | 26.7             |
-| ATL  | M.Smith       | RB       | 33.3             |
+| ATL  | J.Anderson    | RB       | 33.3             |
 | BAL  | S.Mack        | RB       | 50.0             |
 | BUF  | T.Henry       | RB       | 26.9             |
 | CAR  | T.Biakabutuka | RB       | 20.0             |

@@ -6,59 +6,59 @@
 
 | Rank | Player      | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :-----------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | C.McCaffrey | CAR  | RB       | 9738.56        | 1.056      | 16    | 608.66   | 612.33  | 8/2/6       | Decreasing |
-| 2    | M.Thomas    | NO   | WR       | 7826.81        | 1.012      | 16    | 489.18   | 497.12  | 8/2/6       | Increasing |
-| 3    | D.Cook      | MIN  | RB       | 6713.15        | 1.065      | 14    | 479.51   | 459.34  | 6/2/6       | Decreasing |
-| 4    | D.Henry     | TEN  | RB       | 6761.45        | 1.077      | 15    | 450.76   | 418.61  | 7/2/6       | Increasing |
-| 5    | A.Jones     | GB   | RB       | 7169.14        | 1.058      | 16    | 448.07   | 409.96  | 8/1/7       | Stable     |
-| 6    | E.Elliott   | DAL  | RB       | 7033.98        | 1.048      | 16    | 439.62   | 450.54  | 8/3/5       | Stable     |
-| 7    | N.Chubb     | CLE  | RB       | 6663.47        | 1.038      | 16    | 416.47   | 380.57  | 8/1/7       | Stable     |
-| 8    | A.Ekeler    | LAC  | RB       | 6605.84        | 1.028      | 16    | 412.87   | 384.86  | 8/1/7       | Decreasing |
-| 9    | L.Fournette | JAX  | RB       | 6105.57        | 1.073      | 15    | 407.04   | 349.05  | 7/2/6       | Decreasing |
-| 10   | A.Kamara    | NO   | RB       | 5574.60        | 1.048      | 14    | 398.19   | 348.08  | 6/2/6       | Stable     |
+| 1    | C.McCaffrey | CAR  | RB       | 9763.88        | 1.056      | 16    | 610.24   | 580.72  | 8/2/6       | Decreasing |
+| 2    | M.Thomas    | NO   | WR       | 7597.52        | 1.012      | 16    | 474.85   | 465.33  | 8/3/5       | Stable     |
+| 3    | D.Cook      | MIN  | RB       | 6615.69        | 1.065      | 14    | 472.55   | 453.49  | 7/0/7       | Decreasing |
+| 4    | A.Jones     | GB   | RB       | 7412.22        | 1.058      | 16    | 463.26   | 426.28  | 8/2/6       | Stable     |
+| 5    | D.Henry     | TEN  | RB       | 6655.12        | 1.077      | 15    | 443.67   | 420.09  | 6/2/7       | Increasing |
+| 6    | N.Chubb     | CLE  | RB       | 7072.81        | 1.038      | 16    | 442.05   | 421.41  | 8/4/4       | Decreasing |
+| 7    | E.Elliott   | DAL  | RB       | 6917.80        | 1.048      | 16    | 432.36   | 416.94  | 8/2/6       | Increasing |
+| 8    | A.Kamara    | NO   | RB       | 5759.09        | 1.048      | 14    | 411.36   | 360.55  | 7/0/7       | Decreasing |
+| 9    | L.Fournette | JAX  | RB       | 5888.05        | 1.073      | 15    | 392.54   | 333.53  | 6/2/7       | Stable     |
+| 10   | A.Ekeler    | LAC  | RB       | 6248.85        | 1.028      | 16    | 390.55   | 387.03  | 8/1/7       | Decreasing |
 
 ## RB Rankings
 
 | Rank | Player      | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :-----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | C.McCaffrey | CAR  | 9738.56        | 1.056      | 16    | 608.66   | 612.33  | 8/2/6       | Decreasing |
-| 2    | D.Cook      | MIN  | 6713.15        | 1.065      | 14    | 479.51   | 459.34  | 6/2/6       | Decreasing |
-| 3    | D.Henry     | TEN  | 6761.45        | 1.077      | 15    | 450.76   | 418.61  | 7/2/6       | Increasing |
-| 4    | A.Jones     | GB   | 7169.14        | 1.058      | 16    | 448.07   | 409.96  | 8/1/7       | Stable     |
-| 5    | E.Elliott   | DAL  | 7033.98        | 1.048      | 16    | 439.62   | 450.54  | 8/3/5       | Stable     |
-| 6    | N.Chubb     | CLE  | 6663.47        | 1.038      | 16    | 416.47   | 380.57  | 8/1/7       | Stable     |
-| 7    | A.Ekeler    | LAC  | 6605.84        | 1.028      | 16    | 412.87   | 384.86  | 8/1/7       | Decreasing |
-| 8    | L.Fournette | JAX  | 6105.57        | 1.073      | 15    | 407.04   | 349.05  | 7/2/6       | Decreasing |
-| 9    | A.Kamara    | NO   | 5574.60        | 1.048      | 14    | 398.19   | 348.08  | 6/2/6       | Stable     |
-| 10   | S.Barkley   | NYG  | 5125.17        | 1.037      | 13    | 394.24   | 343.21  | 4/2/7       | Stable     |
+| 1    | C.McCaffrey | CAR  | 9763.88        | 1.056      | 16    | 610.24   | 580.72  | 8/2/6       | Decreasing |
+| 2    | D.Cook      | MIN  | 6615.69        | 1.065      | 14    | 472.55   | 453.49  | 7/0/7       | Decreasing |
+| 3    | A.Jones     | GB   | 7412.22        | 1.058      | 16    | 463.26   | 426.28  | 8/2/6       | Stable     |
+| 4    | D.Henry     | TEN  | 6655.12        | 1.077      | 15    | 443.67   | 420.09  | 6/2/7       | Increasing |
+| 5    | N.Chubb     | CLE  | 7072.81        | 1.038      | 16    | 442.05   | 421.41  | 8/4/4       | Decreasing |
+| 6    | E.Elliott   | DAL  | 6917.80        | 1.048      | 16    | 432.36   | 416.94  | 8/2/6       | Increasing |
+| 7    | A.Kamara    | NO   | 5759.09        | 1.048      | 14    | 411.36   | 360.55  | 7/0/7       | Decreasing |
+| 8    | L.Fournette | JAX  | 5888.05        | 1.073      | 15    | 392.54   | 333.53  | 6/2/7       | Stable     |
+| 9    | A.Ekeler    | LAC  | 6248.85        | 1.028      | 16    | 390.55   | 387.03  | 8/1/7       | Decreasing |
+| 10   | L.Bell      | NYJ  | 5815.66        | 1.040      | 15    | 387.71   | 386.40  | 7/3/5       | Stable     |
 
 ## WR Rankings
 
 | Rank | Player     | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | M.Thomas   | NO   | 7826.81        | 1.012      | 16    | 489.18   | 497.12  | 8/2/6       | Increasing |
-| 2    | C.Godwin   | TB   | 5403.58        | 1.011      | 14    | 385.97   | 318.02  | 5/3/6       | Decreasing |
-| 3    | M.Evans    | TB   | 4557.06        | 1.004      | 13    | 350.54   | 228.18  | 5/2/6       | Decreasing |
-| 4    | D.Hopkins  | HOU  | 5192.44        | 1.002      | 15    | 346.16   | 325.23  | 7/2/6       | Increasing |
-| 5    | J.Jones    | ATL  | 5070.08        | 1.008      | 15    | 338.01   | 269.45  | 7/1/7       | Increasing |
-| 6    | K.Allen    | LAC  | 5292.57        | 1.021      | 16    | 330.79   | 302.61  | 8/1/7       | Increasing |
-| 7    | D.Adams    | GB   | 3847.28        | 1.012      | 12    | 320.61   | 333.35  | 5/1/6       | Increasing |
-| 8    | C.Kupp     | LA   | 5049.95        | 1.007      | 16    | 315.62   | 241.58  | 8/1/7       | Decreasing |
-| 9    | A.Robinson | CHI  | 5043.75        | 1.005      | 16    | 315.23   | 331.32  | 8/1/7       | Increasing |
-| 10   | D.Moore    | CAR  | 4473.13        | 1.012      | 15    | 298.21   | 301.10  | 7/3/5       | Increasing |
+| 1    | M.Thomas   | NO   | 7597.52        | 1.012      | 16    | 474.85   | 465.33  | 8/3/5       | Stable     |
+| 2    | C.Godwin   | TB   | 5463.56        | 1.011      | 14    | 390.25   | 304.64  | 7/0/7       | Decreasing |
+| 3    | D.Hopkins  | HOU  | 5290.65        | 1.002      | 15    | 352.71   | 317.25  | 7/1/7       | Increasing |
+| 4    | J.Jones    | ATL  | 5052.78        | 1.008      | 15    | 336.85   | 266.38  | 6/2/7       | Stable     |
+| 5    | M.Evans    | TB   | 4341.23        | 1.004      | 13    | 333.94   | 221.54  | 5/2/6       | Decreasing |
+| 6    | D.Adams    | GB   | 3929.81        | 1.012      | 12    | 327.48   | 354.02  | 4/2/6       | Increasing |
+| 7    | A.Robinson | CHI  | 5088.40        | 1.005      | 16    | 318.02   | 339.35  | 8/1/7       | Increasing |
+| 8    | K.Allen    | LAC  | 5027.73        | 1.021      | 16    | 314.23   | 301.73  | 8/2/6       | Increasing |
+| 9    | C.Kupp     | LA   | 5009.98        | 1.007      | 16    | 313.12   | 284.21  | 8/1/7       | Decreasing |
+| 10   | D.Moore    | CAR  | 4443.77        | 1.012      | 15    | 296.25   | 301.78  | 7/4/4       | Increasing |
 
 ## TE Rankings
 
 | Rank | Player    | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :---------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | G.Kittle  | SF   | 4342.35        | 1.005      | 14    | 310.17   | 303.85  | 6/1/7       | Increasing |
-| 2    | T.Kelce   | KC   | 4759.56        | 1.015      | 16    | 297.47   | 305.71  | 8/1/7       | Increasing |
-| 3    | D.Waller  | LV   | 4260.14        | 1.002      | 16    | 266.26   | 241.23  | 8/1/7       | Increasing |
-| 4    | M.Andrews | BAL  | 3836.59        | 1.002      | 15    | 255.77   | 261.11  | 7/3/5       | Stable     |
-| 5    | A.Hooper  | ATL  | 3121.31        | 0.998      | 13    | 240.10   | 235.23  | 5/0/8       | Decreasing |
-| 6    | Z.Ertz    | PHI  | 3584.55        | 1.015      | 15    | 238.97   | 222.88  | 7/0/8       | Increasing |
-| 7    | H.Henry   | LAC  | 2836.98        | 1.009      | 12    | 236.42   | 235.98  | 5/1/6       | Decreasing |
-| 8    | J.Cook    | NO   | 3088.94        | 1.012      | 14    | 220.64   | 209.53  | 7/0/7       | Increasing |
-| 9    | T.Higbee  | LA   | 3031.76        | 0.998      | 14    | 216.55   | 155.02  | 6/2/6       | Increasing |
-| 10   | D.Goedert | PHI  | 2492.99        | 1.016      | 15    | 166.20   | 179.26  | 7/0/8       | Increasing |
+| 1    | G.Kittle  | SF   | 4525.61        | 1.005      | 14    | 323.26   | 359.53  | 6/4/4       | Increasing |
+| 2    | T.Kelce   | KC   | 4721.76        | 1.015      | 16    | 295.11   | 277.45  | 8/2/6       | Increasing |
+| 3    | D.Waller  | LV   | 4273.99        | 1.002      | 16    | 267.12   | 239.08  | 8/1/7       | Stable     |
+| 4    | M.Andrews | BAL  | 3867.98        | 1.002      | 15    | 257.87   | 260.29  | 7/2/6       | Stable     |
+| 5    | Z.Ertz    | PHI  | 3844.40        | 1.015      | 15    | 256.29   | 210.38  | 7/0/8       | Increasing |
+| 6    | A.Hooper  | ATL  | 3071.13        | 0.998      | 13    | 236.24   | 221.16  | 3/5/5       | Decreasing |
+| 7    | H.Henry   | LAC  | 2737.49        | 1.009      | 12    | 228.12   | 207.86  | 5/1/6       | Decreasing |
+| 8    | T.Higbee  | LA   | 3087.23        | 0.998      | 14    | 220.52   | 146.62  | 6/2/6       | Increasing |
+| 9    | J.Cook    | NO   | 3072.78        | 1.012      | 14    | 219.48   | 185.40  | 7/0/7       | Increasing |
+| 10   | D.Goedert | PHI  | 2631.61        | 1.016      | 15    | 175.44   | 185.51  | 6/1/8       | Increasing |
 

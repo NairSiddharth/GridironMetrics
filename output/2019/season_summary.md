@@ -107,46 +107,46 @@
 | PIT  | J.Conner     | RB       | 40.0             |
 | SEA  | M.Lynch      | RB       | 100.0            |
 | SF   | R.Mostert    | RB       | 30.4             |
-| TB   | R.Jones      | RB       | 25.0             |
+| TB   | P.Barber     | RB       | 25.0             |
 | TEN  | D.Henry      | RB       | 66.7             |
 | WAS  | A.Peterson   | RB       | 25.6             |
 
-| :----- :-------------- :--------- :----------------|
-|                Rec TD Share Leaders                |
-| Team | Player        | Position | Season Share (%) |
-| :----| :-------------| :--------| :----------------|
-| ARI  | D.Arnold      | TE       | 50.0             |
-| ATL  | C.Ridley      | WR       | 30.1             |
-| BAL  | M.Andrews     | TE       | 25.2             |
-| BUF  | C.Beasley     | WR       | 26.7             |
-| CAR  | C.Samuel      | WR       | 23.4             |
-| CHI  | A.Robinson    | WR       | 21.9             |
-| CIN  | J.Ross III    | WR       | 21.4             |
-| CLE  | R.Seals-Jones | TE       | 33.3             |
-| DAL  | A.Cooper      | WR       | 23.4             |
-| DEN  | E.Sanders     | WR       | 28.6             |
-| DET  | K.Golladay    | WR       | 37.5             |
-| GB   | D.Adams       | WR       | 25.0             |
-| HOU  | D.Hopkins     | WR       | 27.8             |
-| IND  | T.Hilton      | WR       | 20.8             |
-| JAX  | D.Chark       | WR       | 47.2             |
-| KC   | T.Hill        | WR       | 29.2             |
-| LA   | C.Kupp        | WR       | 33.3             |
-| LAC  | A.Ekeler      | RB       | 24.5             |
-| LV   | J.Nelson      | WR       | 50.0             |
-| MIA  | D.Parker      | WR       | 31.8             |
-| MIN  | A.Thielen     | WR       | 35.0             |
-| NE   | A.Brown       | WR       | 50.0             |
-| NO   | J.Cook        | TE       | 23.7             |
-| NYG  | T.Jones       | WR       | 33.3             |
-| NYJ  | J.Crowder     | WR       | 26.6             |
-| PHI  | J.Perkins     | TE       | 33.3             |
-| PIT  | J.Conner      | RB       | 25.0             |
-| SEA  | W.Dissly      | TE       | 36.1             |
-| SF   | R.James       | WR       | 100.0            |
-| TB   | C.Godwin      | WR       | 33.3             |
-| TEN  | A.Brown       | WR       | 19.8             |
-| WAS  | T.McLaurin    | WR       | 27.4             |
+| :----- :----------- :--------- :----------------|
+|               Rec TD Share Leaders              |
+| Team | Player     | Position | Season Share (%) |
+| :----| :----------| :--------| :----------------|
+| ARI  | D.Arnold   | TE       | 50.0             |
+| ATL  | C.Ridley   | WR       | 30.1             |
+| BAL  | M.Andrews  | TE       | 25.2             |
+| BUF  | C.Beasley  | WR       | 26.7             |
+| CAR  | C.Samuel   | WR       | 23.4             |
+| CHI  | A.Robinson | WR       | 21.9             |
+| CIN  | J.Ross III | WR       | 21.4             |
+| CLE  | D.Njoku    | TE       | 33.3             |
+| DAL  | A.Cooper   | WR       | 23.4             |
+| DEN  | E.Sanders  | WR       | 28.6             |
+| DET  | K.Golladay | WR       | 37.5             |
+| GB   | D.Adams    | WR       | 25.0             |
+| HOU  | D.Hopkins  | WR       | 27.8             |
+| IND  | T.Hilton   | WR       | 20.8             |
+| JAX  | D.Chark    | WR       | 47.2             |
+| KC   | T.Hill     | WR       | 29.2             |
+| LA   | C.Kupp     | WR       | 33.3             |
+| LAC  | A.Ekeler   | RB       | 24.5             |
+| LV   | J.Nelson   | WR       | 50.0             |
+| MIA  | D.Parker   | WR       | 31.8             |
+| MIN  | A.Thielen  | WR       | 35.0             |
+| NE   | A.Brown    | WR       | 50.0             |
+| NO   | J.Cook     | TE       | 23.7             |
+| NYG  | T.Jones    | WR       | 33.3             |
+| NYJ  | J.Crowder  | WR       | 26.6             |
+| PHI  | J.Perkins  | TE       | 33.3             |
+| PIT  | J.Conner   | RB       | 25.0             |
+| SEA  | W.Dissly   | TE       | 36.1             |
+| SF   | R.James    | WR       | 100.0            |
+| TB   | C.Godwin   | WR       | 33.3             |
+| TEN  | A.Brown    | WR       | 19.8             |
+| WAS  | T.McLaurin | WR       | 27.4             |
 
 | :----- :------------ :--------- :----------------|
 |             Receptions Share Leaders             |

@@ -4,61 +4,61 @@
 
 ## Overall Rankings
 
-| Rank | Player       | Team | Position (Pos. Rank) | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
-| :----| :------------| :----| :--------------------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | P. Holmes    | KC   | RB (#1)              | 9549.99        | 1.000      | 14    | 682.14   | 621.74  | 7/0/7       | Decreasing |
-| 2    | T.Barber     | NYG  | RB (#2)              | 8661.97        | 1.000      | 16    | 541.37   | 506.86  | 8/4/4       | Stable     |
-| 3    | D.McAllister | NO   | RB (#3)              | 7938.09        | 1.000      | 15    | 529.21   | 483.52  | 6/2/7       | Stable     |
-| 4    | S.Alexander  | SEA  | RB (#4)              | 7599.31        | 1.000      | 16    | 474.96   | 425.25  | 8/1/7       | Stable     |
-| 5    | A.Green      | GB   | RB (#5)              | 6424.38        | 1.000      | 14    | 458.88   | 441.26  | 5/4/5       | Decreasing |
-| 6    | R. Williams  | MIA  | RB (#6)              | 5837.50        | 1.000      | 13    | 449.04   | 449.57  | 5/0/8       | Increasing |
-| 7    | T.Owens      | SF   | WR (#1)              | 6109.15        | 1.000      | 14    | 436.37   | 388.79  | 7/0/7       | Increasing |
-| 8    | J.Lewis      | BAL  | RB (#7)              | 6594.83        | 1.000      | 16    | 412.18   | 356.04  | 8/2/6       | Stable     |
-| 9    | C. Portis    | DEN  | RB (#8)              | 3184.05        | 1.000      | 8     | 398.01   | 374.33  | 1/0/7       | Increasing |
-| 10   | M.Harrison   | IND  | WR (#2)              | 6297.99        | 1.000      | 16    | 393.62   | 404.57  | 7/0/9       | Increasing |
+| Rank | Player       | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :------------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | P. Holmes    | KC   | RB       | 8986.16        | 1.000      | 14    | 641.87   | 577.59  | 7/0/7       | Decreasing |
+| 2    | T.Barber     | NYG  | RB       | 8566.05        | 1.000      | 16    | 535.38   | 546.25  | 8/1/7       | Decreasing |
+| 3    | S.Alexander  | SEA  | RB       | 7352.15        | 1.000      | 16    | 459.51   | 400.67  | 8/1/7       | Stable     |
+| 4    | D.McAllister | NO   | RB       | 6874.65        | 1.000      | 15    | 458.31   | 370.59  | 7/1/7       | Increasing |
+| 5    | R. Williams  | MIA  | RB       | 5787.73        | 1.000      | 13    | 445.21   | 465.02  | 5/0/8       | Increasing |
+| 6    | T.Owens      | SF   | WR       | 5842.35        | 1.000      | 14    | 417.31   | 397.93  | 7/0/7       | Increasing |
+| 7    | J.Lewis      | BAL  | RB       | 6288.58        | 1.000      | 16    | 393.04   | 359.04  | 9/0/7       | Stable     |
+| 8    | A.Green      | GB   | RB       | 5375.36        | 1.000      | 14    | 383.95   | 366.47  | 6/2/6       | Stable     |
+| 9    | M.Harrison   | IND  | WR       | 6128.80        | 1.000      | 16    | 383.05   | 360.29  | 5/2/9       | Increasing |
+| 10   | C. Portis    | DEN  | RB       | 3020.67        | 1.000      | 8     | 377.58   | 337.17  | 0/1/7       | Increasing |
 
 ## RB Rankings
 
 | Rank | Player       | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :------------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | P. Holmes    | KC   | 9549.99        | 1.000      | 14    | 682.14   | 621.74  | 7/0/7       | Decreasing |
-| 2    | T.Barber     | NYG  | 8661.97        | 1.000      | 16    | 541.37   | 506.86  | 8/4/4       | Stable     |
-| 3    | D.McAllister | NO   | 7938.09        | 1.000      | 15    | 529.21   | 483.52  | 6/2/7       | Stable     |
-| 4    | S.Alexander  | SEA  | 7599.31        | 1.000      | 16    | 474.96   | 425.25  | 8/1/7       | Stable     |
-| 5    | A.Green      | GB   | 6424.38        | 1.000      | 14    | 458.88   | 441.26  | 5/4/5       | Decreasing |
-| 6    | R. Williams  | MIA  | 5837.50        | 1.000      | 13    | 449.04   | 449.57  | 5/0/8       | Increasing |
-| 7    | J.Lewis      | BAL  | 6594.83        | 1.000      | 16    | 412.18   | 356.04  | 8/2/6       | Stable     |
-| 8    | C. Portis    | DEN  | 3184.05        | 1.000      | 8     | 398.01   | 374.33  | 1/0/7       | Increasing |
-| 9    | J.Stewart    | DET  | 5487.48        | 1.000      | 14    | 391.96   | 329.02  | 6/2/6       | Decreasing |
-| 10   | C.Dillon     | CIN  | 6121.01        | 1.000      | 16    | 382.56   | 374.77  | 8/1/7       | Increasing |
+| 1    | P. Holmes    | KC   | 8986.16        | 1.000      | 14    | 641.87   | 577.59  | 7/0/7       | Decreasing |
+| 2    | T.Barber     | NYG  | 8566.05        | 1.000      | 16    | 535.38   | 546.25  | 8/1/7       | Decreasing |
+| 3    | S.Alexander  | SEA  | 7352.15        | 1.000      | 16    | 459.51   | 400.67  | 8/1/7       | Stable     |
+| 4    | D.McAllister | NO   | 6874.65        | 1.000      | 15    | 458.31   | 370.59  | 7/1/7       | Increasing |
+| 5    | R. Williams  | MIA  | 5787.73        | 1.000      | 13    | 445.21   | 465.02  | 5/0/8       | Increasing |
+| 6    | J.Lewis      | BAL  | 6288.58        | 1.000      | 16    | 393.04   | 359.04  | 9/0/7       | Stable     |
+| 7    | A.Green      | GB   | 5375.36        | 1.000      | 14    | 383.95   | 366.47  | 6/2/6       | Stable     |
+| 8    | C. Portis    | DEN  | 3020.67        | 1.000      | 8     | 377.58   | 337.17  | 0/1/7       | Increasing |
+| 9    | T.Henry      | BUF  | 4404.72        | 1.000      | 12    | 367.06   | 349.47  | 4/1/7       | Decreasing |
+| 10   | C.Dillon     | CIN  | 5695.79        | 1.000      | 16    | 355.99   | 304.48  | 9/2/5       | Stable     |
 
 ## WR Rankings
 
 | Rank | Player     | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | T.Owens    | SF   | 6109.15        | 1.000      | 14    | 436.37   | 388.79  | 7/0/7       | Increasing |
-| 2    | M.Harrison | IND  | 6297.99        | 1.000      | 16    | 393.62   | 404.57  | 7/0/9       | Increasing |
-| 3    | R.Moss     | MIN  | 6127.43        | 1.000      | 16    | 382.96   | 365.46  | 8/2/6       | Increasing |
-| 4    | H.Ward     | PIT  | 5637.70        | 1.000      | 16    | 352.36   | 337.96  | 7/1/8       | Decreasing |
-| 5    | J.Horn     | NO   | 5444.60        | 1.000      | 16    | 340.29   | 340.14  | 8/3/5       | Stable     |
-| 6    | A.Toomer   | NYG  | 5212.21        | 1.000      | 16    | 325.76   | 307.23  | 7/2/7       | Increasing |
-| 7    | M.Booker   | CHI  | 5100.40        | 1.000      | 16    | 318.77   | 270.94  | 8/3/5       | Stable     |
-| 8    | E.Moulds   | BUF  | 3662.25        | 1.000      | 12    | 305.19   | 312.81  | 4/1/7       | Decreasing |
-| 9    | D.Driver   | GB   | 4710.54        | 1.000      | 16    | 294.41   | 302.65  | 8/3/5       | Stable     |
-| 10   | K.Robinson | SEA  | 4658.88        | 1.000      | 16    | 291.18   | 302.69  | 8/0/8       | Increasing |
+| 1    | T.Owens    | SF   | 5842.35        | 1.000      | 14    | 417.31   | 397.93  | 7/0/7       | Increasing |
+| 2    | M.Harrison | IND  | 6128.80        | 1.000      | 16    | 383.05   | 360.29  | 5/2/9       | Increasing |
+| 3    | R.Moss     | MIN  | 5229.88        | 1.000      | 16    | 326.87   | 310.86  | 8/1/7       | Increasing |
+| 4    | H.Ward     | PIT  | 5136.53        | 1.000      | 16    | 321.03   | 302.23  | 7/1/8       | Stable     |
+| 5    | J.Horn     | NO   | 4951.57        | 1.000      | 16    | 309.47   | 301.76  | 8/4/4       | Stable     |
+| 6    | A.Toomer   | NYG  | 4806.78        | 1.000      | 16    | 300.42   | 269.57  | 7/2/7       | Increasing |
+| 7    | E.Moulds   | BUF  | 3210.42        | 1.000      | 12    | 267.53   | 252.77  | 3/1/8       | Decreasing |
+| 8    | K.Robinson | SEA  | 4280.26        | 1.000      | 16    | 267.52   | 271.40  | 8/1/7       | Increasing |
+| 9    | D.Mason    | TEN  | 3709.60        | 1.000      | 14    | 264.97   | 243.74  | 4/3/7       | Increasing |
+| 10   | M.Booker   | CHI  | 4163.07        | 1.000      | 16    | 260.19   | 242.41  | 10/0/6      | Stable     |
 
 ## TE Rankings
 
 | Rank | Player      | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :-----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | T.Heap      | BAL  | 3871.20        | 1.000      | 16    | 241.95   | 207.47  | 8/1/7       | Increasing |
-| 2    | J.Shockey   | NYG  | 3444.78        | 1.000      | 15    | 229.65   | 221.02  | 7/0/8       | Increasing |
-| 3    | T. Gonzalez | KC   | 2923.46        | 1.000      | 15    | 194.90   | 163.38  | 6/1/8       | Decreasing |
-| 4    | S. Sharpe   | DEN  | 951.61         | 1.000      | 5     | 190.32   | 105.09  | 1/0/4       | Decreasing |
-| 5    | B.Franks    | GB   | 2672.20        | 1.000      | 16    | 167.01   | 151.09  | 8/2/6       | Increasing |
-| 6    | B.Miller    | HOU  | 2168.06        | 1.000      | 14    | 154.86   | 133.31  | 4/1/9       | Stable     |
-| 7    | A.Crumpler  | ATL  | 2177.98        | 1.000      | 16    | 136.12   | 129.05  | 8/1/7       | Increasing |
-| 8    | M.Pollard   | IND  | 1980.13        | 1.000      | 15    | 132.01   | 113.59  | 6/1/8       | Stable     |
-| 9    | I.Mili      | SEA  | 1977.78        | 1.000      | 15    | 131.85   | 120.77  | 7/1/7       | Increasing |
-| 10   | T.Gonzalez  | KC   | 121.16         | 1.000      | 1     | 121.16   | 121.16  | 0/0/1       | Stable     |
+| 1    | T.Heap      | BAL  | 3729.74        | 1.000      | 16    | 233.11   | 205.91  | 8/3/5       | Stable     |
+| 2    | J.Shockey   | NYG  | 3427.81        | 1.000      | 15    | 228.52   | 273.23  | 6/1/8       | Increasing |
+| 3    | T. Gonzalez | KC   | 2874.80        | 1.000      | 15    | 191.65   | 174.43  | 7/0/8       | Decreasing |
+| 4    | S. Sharpe   | DEN  | 845.57         | 1.000      | 5     | 169.11   | 123.25  | 1/0/4       | Decreasing |
+| 5    | B.Miller    | HOU  | 2185.36        | 1.000      | 14    | 156.10   | 142.71  | 5/1/8       | Decreasing |
+| 6    | B.Franks    | GB   | 2263.13        | 1.000      | 16    | 141.45   | 152.27  | 8/2/6       | Increasing |
+| 7    | M.Pollard   | IND  | 1915.03        | 1.000      | 15    | 127.67   | 130.95  | 6/1/8       | Stable     |
+| 8    | A.Crumpler  | ATL  | 2010.28        | 1.000      | 16    | 125.64   | 122.40  | 8/0/8       | Increasing |
+| 9    | E.Johnson   | SF   | 1443.98        | 1.000      | 12    | 120.33   | 80.40   | 5/1/6       | Decreasing |
+| 10   | I.Mili      | SEA  | 1765.64        | 1.000      | 15    | 117.71   | 113.01  | 7/0/8       | Increasing |
 
