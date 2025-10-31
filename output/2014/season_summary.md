@@ -74,42 +74,42 @@
 | TEN  | D.Walker     | TE       | 26.8             |
 | WAS  | D.Jackson    | WR       | 28.3             |
 
-| :----- :------------- :--------- :----------------|
-|               Rush TD Share Leaders               |
-| Team | Player       | Position | Season Share (%) |
-| :----| :------------| :--------| :----------------|
-| ARI  | J.Dwyer      | RB       | 50.0             |
-| ATL  | S.Jackson    | RB       | 35.6             |
-| BAL  | J.Forsett    | RB       | 31.2             |
-| BUF  | F.Jackson    | RB       | 10.7             |
-| CAR  | C.Ogbonnaya  | RB       | 33.3             |
-| CHI  | M.Forte      | RB       | 21.9             |
-| CIN  | J.Hill       | RB       | 31.2             |
-| CLE  | I.Crowell    | RB       | 27.8             |
-| DAL  | D.Murray     | RB       | 62.5             |
-| DEN  | C.Anderson   | RB       | 28.6             |
-| DET  | J.Bell       | RB       | 33.3             |
-| GB   | E.Lacy       | RB       | 43.8             |
-| HOU  | A.Foster     | RB       | 33.3             |
-| IND  | T.Richardson | RB       | 20.0             |
-| JAX  | S.Johnson    | WR       | 30.0             |
-| KC   | J.Charles    | RB       | 38.9             |
-| LA   | T.Mason      | RB       | 20.8             |
-| LAC  | Ry.Mathews   | RB       | 50.0             |
-| LV   | D.McFadden   | RB       | 12.5             |
-| MIA  | L.Miller     | RB       | 40.6             |
-| MIN  | M.Asiata     | RB       | 25.0             |
-| NE   | S.Ridley     | RB       | 33.3             |
-| NO   | M.Ingram     | RB       | 41.0             |
-| NYG  | A.Williams   | RB       | 40.6             |
-| NYJ  | C.Ivory      | RB       | 26.0             |
-| PHI  | D.Sproles    | RB       | 25.6             |
-| PIT  | L.Bell       | RB       | 34.4             |
-| SEA  | M.Lynch      | RB       | 40.4             |
-| SF   | C.Hyde       | RB       | 25.0             |
-| TB   | D.Martin     | RB       | 18.2             |
-| TEN  | S.Greene     | RB       | 15.4             |
-| WAS  | A.Morris     | RB       | 28.1             |
+| :----- :------------ :--------- :----------------|
+|              Rush TD Share Leaders               |
+| Team | Player      | Position | Season Share (%) |
+| :----| :-----------| :--------| :----------------|
+| ARI  | J.Dwyer     | RB       | 50.0             |
+| ATL  | S.Jackson   | RB       | 35.6             |
+| BAL  | J.Forsett   | RB       | 31.2             |
+| BUF  | A.Dixon     | RB       | 10.7             |
+| CAR  | C.Ogbonnaya | RB       | 33.3             |
+| CHI  | M.Forte     | RB       | 21.9             |
+| CIN  | J.Hill      | RB       | 31.2             |
+| CLE  | I.Crowell   | RB       | 27.8             |
+| DAL  | D.Murray    | RB       | 62.5             |
+| DEN  | C.Anderson  | RB       | 28.6             |
+| DET  | J.Bell      | RB       | 33.3             |
+| GB   | E.Lacy      | RB       | 43.8             |
+| HOU  | A.Foster    | RB       | 33.3             |
+| IND  | A.Bradshaw  | RB       | 20.0             |
+| JAX  | S.Johnson   | WR       | 30.0             |
+| KC   | J.Charles   | RB       | 38.9             |
+| LA   | T.Mason     | RB       | 20.8             |
+| LAC  | Ry.Mathews  | RB       | 50.0             |
+| LV   | D.McFadden  | RB       | 12.5             |
+| MIA  | L.Miller    | RB       | 40.6             |
+| MIN  | M.Asiata    | RB       | 25.0             |
+| NE   | S.Ridley    | RB       | 33.3             |
+| NO   | M.Ingram    | RB       | 41.0             |
+| NYG  | A.Williams  | RB       | 40.6             |
+| NYJ  | C.Ivory     | RB       | 26.0             |
+| PHI  | D.Sproles   | RB       | 25.6             |
+| PIT  | L.Bell      | RB       | 34.4             |
+| SEA  | M.Lynch     | RB       | 40.4             |
+| SF   | C.Hyde      | RB       | 25.0             |
+| TB   | D.Martin    | RB       | 18.2             |
+| TEN  | S.Greene    | RB       | 15.4             |
+| WAS  | A.Morris    | RB       | 28.1             |
 
 | :----- :------------- :--------- :----------------|
 |                Rec TD Share Leaders               |

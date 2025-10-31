@@ -92,7 +92,7 @@
 | GB   | A.Green      | RB       | 35.7             |
 | HOU  | S. Mack      | RB       | 50.0             |
 | IND  | F.Taylor     | RB       | 100.0            |
-| JAC  | S. Mack      | RB       | 37.5             |
+| JAC  | F. Taylor    | RB       | 37.5             |
 | KC   | P. Holmes    | RB       | 75.6             |
 | MIA  | R. Williams  | RB       | 47.4             |
 | MIN  | M.Williams   | RB       | 39.6             |
@@ -109,7 +109,7 @@
 | STL  | M. Faulk     | RB       | 32.1             |
 | TB   | M.Pittman    | RB       | 3.1              |
 | TEN  | E.George     | RB       | 53.1             |
-| WAS  | S. Mack      | RB       | 50.0             |
+| WAS  | F. Taylor    | RB       | 50.0             |
 
 | :----- :------------- :--------- :----------------|
 |                Rec TD Share Leaders               |

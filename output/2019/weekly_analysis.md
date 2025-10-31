@@ -6,4 +6,4 @@
 | C.Kirk       | WR       | 10.7          | 10.7               |
 | C.Edmonds    | RB       | 4.5           | 4.5                |
 | L.Fitzgerald | WR       | 0.0           | 0.0                |
-| C.Clay       | TE       | 0.0           | 0.0                |
+| K.Johnson    | WR       | 0.0           | 0.0                |

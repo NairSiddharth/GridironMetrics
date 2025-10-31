@@ -185,42 +185,42 @@
 | TEN  | D.Mason     | WR       | 27.6             |
 | WAS  | L.Coles     | WR       | 32.6             |
 
-| :----- :------------------- :--------- :----------------|
-|                  Targets Share Leaders                  |
-| Team | Player             | Position | Season Share (%) |
-| :----| :------------------| :--------| :----------------|
-| ARI  | L.Fitzgerald       | WR       | 0.0              |
-| ATL  | E.Beverly          | TE       | 0.0              |
-| BAL  | R.Hymes            | WR       | 0.0              |
-| BUF  | B.Shaw             | WR       | 0.0              |
-| CAR  | B.Bennett          | RB       | 0.0              |
-| CHI  | B.Wade             | WR       | 0.0              |
-| CIN  | R.Kelly            | TE       | 0.0              |
-| CLE  | A.Echemandu        | RB       | 0.0              |
-| DAL  | D.Campbell         | TE       | 0.0              |
-| DEN  | K.Johnson          | WR       | 0.0              |
-| DET  | S.Bryson           | RB       | 0.0              |
-| GB   | W.Williams         | RB       | 0.0              |
-| HOU  | M.Bruener          | TE       | 0.0              |
-| IND  | R.Wayne            | WR       | 0.0              |
-| JAX  | C.Fuamatu-Ma'afala | RB       | 0.0              |
-| KC   | L.Johnson          | RB       | 12.5             |
-| LA   | S.Trejo            | RB       | 0.0              |
-| LAC  | R.Krause           | TE       | 0.0              |
-| LV   | A.Zereoue          | RB       | 6.7              |
-| MIA  | C.Chambers         | WR       | 6.7              |
-| MIN  | L.Ned              | RB       | 0.0              |
-| NE   | D.Graham           | TE       | 7.7              |
-| NO   | F.McAfee           | RB       | 0.0              |
-| NYG  | W.Ponder           | WR       | 0.0              |
-| NYJ  | A.Becht            | TE       | 0.0              |
-| PHI  | R.Mahe             | RB       | 0.0              |
-| PIT  | D.Brown            | RB       | 0.0              |
-| SEA  | B.Engram           | WR       | 0.0              |
-| SF   | M.Hicks            | RB       | 0.0              |
-| TB   | W.Heller           | TE       | 0.0              |
-| TEN  | E. Kinney          | TE       | 11.1             |
-| WAS  | D.McCants          | WR       | 0.0              |
+| :----- :----------- :--------- :----------------|
+|              Targets Share Leaders              |
+| Team | Player     | Position | Season Share (%) |
+| :----| :----------| :--------| :----------------|
+| ARI  | T.Hambrick | RB       | 0.0              |
+| ATL  | J.Farris   | WR       | 0.0              |
+| BAL  | T.Taylor   | WR       | 0.0              |
+| BUF  | E.Moulds   | WR       | 0.0              |
+| CAR  | K.Colbert  | WR       | 0.0              |
+| CHI  | B.Wade     | WR       | 0.0              |
+| CIN  | T.Stewart  | TE       | 0.0              |
+| CLE  | K.Heinrich | TE       | 0.0              |
+| DAL  | P.Crayton  | WR       | 0.0              |
+| DEN  | J.Putzier  | TE       | 0.0              |
+| DET  | S.Bryson   | RB       | 0.0              |
+| GB   | B.Steele   | TE       | 0.0              |
+| HOU  | C.Bradford | WR       | 0.0              |
+| IND  | T.Walters  | WR       | 0.0              |
+| JAX  | B.Jones    | TE       | 0.0              |
+| KC   | L.Johnson  | RB       | 12.5             |
+| LA   | M.Faulk    | RB       | 0.0              |
+| LAC  | A.Gates    | TE       | 0.0              |
+| LV   | A.Zereoue  | RB       | 6.7              |
+| MIA  | C.Chambers | WR       | 6.7              |
+| MIN  | B.Nelson   | WR       | 0.0              |
+| NE   | D.Graham   | TE       | 7.7              |
+| NO   | A.Stecker  | RB       | 0.0              |
+| NYG  | M.Cloud    | RB       | 0.0              |
+| NYJ  | J.Cotchery | WR       | 0.0              |
+| PHI  | B.McMullen | WR       | 0.0              |
+| PIT  | J.Bettis   | RB       | 0.0              |
+| SEA  | J.Stevens  | TE       | 0.0              |
+| SF   | K.Barlow   | RB       | 0.0              |
+| TB   | E.Graham   | RB       | 0.0              |
+| TEN  | E. Kinney  | TE       | 11.1             |
+| WAS  | M.Sellers  | TE       | 0.0              |
 
 | :----- :------------- :--------- :----------------|
 |               Rush Att Share Leaders              |

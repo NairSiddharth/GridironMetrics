@@ -95,3 +95,61 @@ INJURY_PENALTY_RELIABLE = 0.25   # Forgive 75% of missed games
 INJURY_PENALTY_MODERATE = 0.50   # Forgive 50% of missed games
 INJURY_PENALTY_ELEVATED = 0.75   # Forgive 25% of missed games
 INJURY_PENALTY_PRONE = 1.00      # Forgive 0% of missed games
+
+# ============================================================================
+# PENALTY ADJUSTMENT CONSTANTS (Phase 4)
+# ============================================================================
+
+# Penalty Type Classifications - Base Multipliers
+PENALTY_LOSS_OF_DOWN_BASE = 2.0      # Intentional grounding, illegal forward pass
+PENALTY_DEAD_BALL_BASE = 1.5         # Taunting, unsportsmanlike conduct
+PENALTY_REPEAT_OFFENDER_BASE = 2.0   # Dead ball penalties when player has 2+
+PENALTY_STANDARD_BASE = 1.0          # OPI, face mask, unnecessary roughness
+
+# Down Situation Multipliers
+PENALTY_DOWN_1ST = 1.0               # 1st down - baseline
+PENALTY_DOWN_2ND = 1.2               # 2nd down - more critical
+PENALTY_DOWN_3RD_4TH = 1.5           # 3rd/4th down - drive killer
+
+# Field Position Multipliers
+PENALTY_FIELD_REDZONE = 1.5          # Inside 20 - kills scoring drives
+PENALTY_FIELD_MIDFIELD_IN = 1.2      # 20-50 yard line - wastes good position
+PENALTY_FIELD_MIDFIELD_OUT = 1.0     # 50+ yard line - less critical
+
+# Time/Quarter Context Multipliers
+PENALTY_TIME_EARLY = 1.0             # Q1/Q2 (>2:00) - plenty of time
+PENALTY_TIME_TWO_MINUTE = 1.3        # Q2 (<2:00) or Q4 (2:00-5:00) - critical drive
+PENALTY_TIME_CRITICAL = 1.5          # Q4 (<2:00) - game deciding
+
+# EPA Severity Multipliers
+PENALTY_EPA_MINOR = 1.0              # EPA > -0.5 - minor impact
+PENALTY_EPA_MODERATE = 1.2           # EPA -0.5 to -1.0 - moderate cost
+PENALTY_EPA_MAJOR = 1.5              # EPA -1.0 to -1.5 - major cost
+PENALTY_EPA_CATASTROPHIC = 2.0       # EPA < -1.5 - catastrophic
+
+# Penalty Type Lists
+LOSS_OF_DOWN_PENALTIES = [
+    'Intentional Grounding',
+    'Illegal Forward Pass',
+    'Illegal Touch Pass',
+    'Illegal Touch Kick'
+]
+
+DEAD_BALL_PENALTIES = [
+    'Taunting',
+    'Unsportsmanlike Conduct'
+]
+
+# All skill player offensive penalties we care about
+SKILL_PLAYER_PENALTIES = [
+    'Offensive Pass Interference',
+    'Intentional Grounding',
+    'Illegal Forward Pass',
+    'Taunting',
+    'Unsportsmanlike Conduct',
+    'Unnecessary Roughness',
+    'Face Mask',
+    'Lowering the Head to Make Forcible Contact',
+    'Illegal Touch Pass',
+    'Illegal Touch Kick'
+]

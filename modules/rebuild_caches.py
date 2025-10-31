@@ -2,6 +2,7 @@
 
 from modules.logger import get_logger
 from modules.injury_cache_builder import build_injury_cache
+from modules.penalty_cache_builder import build_penalty_cache
 from pathlib import Path
 import subprocess
 import sys
@@ -19,6 +20,12 @@ if __name__ == "__main__":
     logger.info("Building injury and roster caches...")
     logger.info("=" * 80)
     build_injury_cache(YEARS_TO_REBUILD[0], YEARS_TO_REBUILD[-1])
+    
+    # Build penalty cache
+    logger.info("=" * 80)
+    logger.info("Building penalty caches...")
+    logger.info("=" * 80)
+    build_penalty_cache(YEARS_TO_REBUILD[0], YEARS_TO_REBUILD[-1])
     
     python_exe = sys.executable
     

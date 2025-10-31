@@ -82,7 +82,7 @@
 | ATL  | W.Dunn       | RB       | 21.9             |
 | BAL  | W.McGahee    | RB       | 46.7             |
 | BUF  | M.Lynch      | RB       | 53.8             |
-| CAR  | D.Williams   | WR       | 18.8             |
+| CAR  | D.Foster     | RB       | 18.8             |
 | CHI  | C.Benson     | RB       | 31.8             |
 | CIN  | K.Watson     | RB       | 30.0             |
 | CLE  | J.Lewis      | RB       | 36.7             |
@@ -105,7 +105,7 @@
 | NYJ  | L.Washington | RB       | 10.4             |
 | PHI  | B.Westbrook  | RB       | 33.3             |
 | PIT  | N.Davenport  | RB       | 26.7             |
-| SEA  | M.Morris     | RB       | 23.1             |
+| SEA  | S.Alexander  | RB       | 23.1             |
 | SF   | F.Gore       | RB       | 16.7             |
 | TB   | E.Graham     | RB       | 47.8             |
 | TEN  | C.Brown      | RB       | 33.3             |
@@ -185,42 +185,42 @@
 | TEN  | R.Williams       | WR       | 20.2             |
 | WAS  | S.Moss           | WR       | 23.6             |
 
-| :----- :-------------- :--------- :----------------|
-|               Targets Share Leaders                |
-| Team | Player        | Position | Season Share (%) |
-| :----| :-------------| :--------| :----------------|
-| ARI  | J.Urban       | WR       | 0.0              |
-| ATL  | A.Crumpler    | TE       | 7.7              |
-| BAL  | D.Darling     | WR       | 0.0              |
-| BUF  | L.Evans       | WR       | 12.5             |
-| CAR  | J.King        | TE       | 6.2              |
-| CHI  | R.Davis       | WR       | 0.0              |
-| CIN  | S.Green       | WR       | 0.0              |
-| CLE  | J.Wright      | RB       | 6.2              |
-| DAL  | A.Fasano      | TE       | 0.0              |
-| DEN  | T.Jacobs      | WR       | 0.0              |
-| DET  | C.Fitzsimmons | TE       | 0.0              |
-| GB   | D.Driver      | WR       | 6.7              |
-| HOU  | D.Anderson    | WR       | 20.0             |
-| IND  | D.Aromashodu  | WR       | 0.0              |
-| JAX  | M.Jones       | WR       | 0.0              |
-| KC   | S.Parker      | WR       | 0.0              |
-| LA   | S.Jackson     | RB       | 0.0              |
-| LAC  | K.Osgood      | WR       | 0.0              |
-| LV   | L.Jordan      | RB       | 0.0              |
-| MIA  | P.Cobbs       | RB       | 0.0              |
-| MIN  | J.Dugan       | TE       | 0.0              |
-| NE   | D.Thomas      | TE       | 0.0              |
-| NO   | T.Copper      | WR       | 7.7              |
-| NYG  | D.Ward        | RB       | 0.0              |
-| NYJ  | J.Dearth      | TE       | 0.0              |
-| PHI  | M.Schobel     | TE       | 8.3              |
-| PIT  | H.Ward        | WR       | 0.0              |
-| SEA  | W.Heller      | TE       | 11.1             |
-| SF   | D.Jackson     | WR       | 6.7              |
-| TB   | A.Smith       | TE       | 7.7              |
-| TEN  | B.Hartsock    | TE       | 0.0              |
-| WAS  | B.Lloyd       | WR       | 0.0              |
+| :----- :--------------- :--------- :----------------|
+|                Targets Share Leaders                |
+| Team | Player         | Position | Season Share (%) |
+| :----| :--------------| :--------| :----------------|
+| ARI  | Bry.Johnson    | WR       | 0.0              |
+| ATL  | A.Crumpler     | TE       | 7.7              |
+| BAL  | B.Sams         | RB       | 0.0              |
+| BUF  | L.Evans        | WR       | 12.5             |
+| CAR  | J.King         | TE       | 6.2              |
+| CHI  | D.Clark        | TE       | 0.0              |
+| CIN  | D.Coats        | TE       | 0.0              |
+| CLE  | J.Wright       | RB       | 6.2              |
+| DAL  | T.Owens        | WR       | 0.0              |
+| DEN  | J.Walker       | WR       | 0.0              |
+| DET  | J.Owens        | TE       | 0.0              |
+| GB   | D.Driver       | WR       | 6.7              |
+| HOU  | D.Anderson     | WR       | 20.0             |
+| IND  | J.Addai        | RB       | 0.0              |
+| JAX  | I.Smolko       | TE       | 0.0              |
+| KC   | J.Webb         | WR       | 0.0              |
+| LA   | J.Klopfenstein | TE       | 0.0              |
+| LAC  | V.Jackson      | WR       | 0.0              |
+| LV   | Z.Miller       | TE       | 0.0              |
+| MIA  | J.Peelle       | TE       | 0.0              |
+| MIN  | G.Mills        | TE       | 0.0              |
+| NE   | D.Thomas       | TE       | 0.0              |
+| NO   | T.Copper       | WR       | 7.7              |
+| NYG  | K.Boss         | TE       | 0.0              |
+| NYJ  | T.Jones        | RB       | 0.0              |
+| PHI  | M.Schobel      | TE       | 8.3              |
+| PIT  | G.Russell      | RB       | 0.0              |
+| SEA  | W.Heller       | TE       | 11.1             |
+| SF   | D.Jackson      | WR       | 6.7              |
+| TB   | A.Smith        | TE       | 7.7              |
+| TEN  | C.Henry        | WR       | 0.0              |
+| WAS  | R.Cartwright   | RB       | 0.0              |
 
 | :----- :------------ :--------- :----------------|
 |              Rush Att Share Leaders              |

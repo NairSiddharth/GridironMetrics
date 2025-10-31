@@ -2060,7 +2060,7 @@ def calculate_separation_adjustment(nextgen_data: pl.DataFrame, player_name: str
 
 def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataFrame:
     """
-    Apply Phase 4 player-level adjustments (catch rate, blocking quality, separation metrics).
+    Apply Phase 4 player-level adjustments (catch rate, blocking quality, separation metrics, penalties).
     
     These adjustments are calculated once per player after season aggregation.
     Unlike Phase 1-3 multipliers (applied per-play in cache), these require
@@ -2070,6 +2070,7 @@ def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataF
     - Catch rate over expected (WR/TE)
     - Blocking quality proxy (RB)
     - Separation/cushion metrics (WR/TE/RB receiving, 2016+)
+    - Penalty adjustments (QB/RB/WR/TE skill players)
     
     Args:
         contributions: DataFrame with player weekly contributions
@@ -2078,7 +2079,7 @@ def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataF
     Returns:
         DataFrame with Phase 4 adjustments applied to player_overall_contribution
     """
-    logger.info(f"Applying Phase 4 adjustments (catch rate + blocking quality) for {year}")
+    logger.info(f"Applying Phase 4 adjustments (catch rate + blocking + separation + penalties) for {year}")
     
     # Load full season PBP data for catch rate and blocking quality calculations
     try:
@@ -2136,13 +2137,24 @@ def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataF
                 logger.debug(f"Error calculating separation for {player_name}: {str(e)}")
                 separation_mult = 1.0
         
+        # Penalty adjustment (QB/RB/WR/TE - all skill players)
+        penalty_mult = 1.0
+        if position in ['QB', 'RB', 'WR', 'TE']:
+            try:
+                from modules.penalty_cache_builder import calculate_penalty_adjustment
+                penalty_mult = calculate_penalty_adjustment(player_id, year)
+            except Exception as e:
+                logger.debug(f"Error calculating penalty adjustment for {player_name}: {str(e)}")
+                penalty_mult = 1.0
+        
         adjustments.append({
             'player_id': player_id,
             'player_name': player_name,
             'team': player_team,
             'catch_rate_adjustment': catch_rate_mult,
             'blocking_adjustment': blocking_mult,
-            'separation_adjustment': separation_mult
+            'separation_adjustment': separation_mult,
+            'penalty_adjustment': penalty_mult
         })
     
     # Create DataFrame and join to contributions
@@ -2153,7 +2165,8 @@ def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataF
     contributions = contributions.with_columns([
         pl.col('catch_rate_adjustment').fill_null(1.0),
         pl.col('blocking_adjustment').fill_null(1.0),
-        pl.col('separation_adjustment').fill_null(1.0)
+        pl.col('separation_adjustment').fill_null(1.0),
+        pl.col('penalty_adjustment').fill_null(1.0)
     ])
     
     # Apply combined Phase 4 multiplier to player_overall_contribution
@@ -2161,7 +2174,8 @@ def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataF
         (pl.col('player_overall_contribution') * 
          pl.col('catch_rate_adjustment') * 
          pl.col('blocking_adjustment') *
-         pl.col('separation_adjustment')).alias('player_overall_contribution')
+         pl.col('separation_adjustment') *
+         pl.col('penalty_adjustment')).alias('player_overall_contribution')
     ])
     
     logger.info(f"Phase 4 adjustments applied to {len(unique_players)} players")
@@ -2847,7 +2861,8 @@ def generate_top_contributors(year: int) -> tuple[str, str]:
     top_contributors = (
         contributions.group_by(['player_id', 'player_name', 'team'])
         .agg([
-            pl.col('player_overall_contribution').mean().alias('adjusted_score'),
+            pl.col('player_overall_contribution').sum().alias('adjusted_score'),  # Total adjusted score
+            pl.col('player_overall_contribution').mean().alias('avg_per_game'),  # Average per game
             pl.col('peak_game_score').max().alias('peak_score'),
             pl.col('week').count().alias('games_played')
         ])
@@ -2934,7 +2949,7 @@ def generate_top_contributors(year: int) -> tuple[str, str]:
     # Recalculate positional rankings based on ADJUSTED scores (after Phase 5)
     # This ensures the position ranks in "Overall Rankings" match the position-specific tables
     adjusted_season_contributions = contributions.group_by(['player_id', 'player_name', 'team']).agg([
-        pl.col('player_overall_contribution').mean().alias('adjusted_score'),
+        pl.col('player_overall_contribution').sum().alias('adjusted_score'),  # Total adjusted score
         pl.col('position').first().alias('position')  # Carry position through
     ])
     
@@ -2953,7 +2968,7 @@ def generate_top_contributors(year: int) -> tuple[str, str]:
     raw_scores = (
         raw_contributions.group_by(['player_id', 'player_name', 'team'])
         .agg([
-            pl.col('player_overall_contribution').mean().alias('raw_score')
+            pl.col('player_overall_contribution').sum().alias('raw_score')  # Total raw score
         ])
     )
     top_contributors = top_contributors.join(raw_scores, on=['player_id', 'player_name', 'team'], how='left')
@@ -3018,10 +3033,9 @@ def generate_top_contributors(year: int) -> tuple[str, str]:
         position_display = f"{position} (#{pos_rank})"
         position_only = position
         raw_score = row['raw_score']
-        adj_score_per_game = row['adjusted_score']  # Phase 5 returns per-game dampened score
+        adj_score_total = row['adjusted_score']  # Now the total adjusted score
         games_played = row['games_played']
-        adj_score_total = adj_score_per_game * games_played  # Calculate season total for display
-        avg_per_game = adj_score_per_game  # Already per-game from Phase 5
+        avg_per_game = row['avg_per_game']  # Now separate from adjusted_score
         peak = f"{row['peak_score']:.2f}"
         
         # Calculate trend (compare first half to second half median - more robust to outliers)
@@ -3080,7 +3094,8 @@ def generate_top_contributors(year: int) -> tuple[str, str]:
             contributions.filter(pl.col('position') == pos)
             .group_by(['player_id', 'player_name', 'team'])
             .agg([
-                pl.col('player_overall_contribution').mean().alias('adjusted_score'),
+                pl.col('player_overall_contribution').sum().alias('adjusted_score'),  # Total adjusted score
+                pl.col('player_overall_contribution').mean().alias('avg_per_game'),  # Average per game
                 pl.col('peak_game_score').max().alias('peak_score'),
                 pl.col('week').count().alias('games_played')
             ])
@@ -3178,10 +3193,9 @@ def generate_top_contributors(year: int) -> tuple[str, str]:
             player_name = row['player_name']
             team = row['team']
             raw_score = row['raw_score']
-            adj_score_per_game = row['adjusted_score']  # Phase 5 returns per-game dampened score
+            adj_score_total = row['adjusted_score']  # Now the total adjusted score
             games_played = row['games_played']
-            adj_score_total = adj_score_per_game * games_played  # Calculate season total for display
-            avg_per_game = adj_score_per_game  # Already per-game from Phase 5
+            avg_per_game = row['avg_per_game']  # Now separate from adjusted_score
             peak = f"{row['peak_score']:.2f}"
             
             # Calculate trend using median (more robust to outliers)
@@ -3348,7 +3362,7 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
     """Check all years for missing caches and rebuild all cache types as needed.
     
     This runs before main processing to ensure all caches exist and have required data.
-    Rebuilds PBP, positional player stats, team stats, and FTN caches.
+    Rebuilds PBP, positional player stats, team stats, FTN, injury, and penalty caches.
     
     Args:
         years: List of years to check
@@ -3357,6 +3371,8 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
     from modules.positional_cache_builder import build_positional_cache_for_year
     from modules.team_cache_builder import build_team_cache_for_year
     from modules.ftn_cache_builder import build_ftn_cache_for_year, FTN_START_YEAR
+    from modules.injury_cache_builder import build_injury_cache
+    from modules.penalty_cache_builder import build_penalty_cache
     
     logger.info("Checking cache completeness for all years...")
     
@@ -3367,6 +3383,8 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
     years_needing_positional_rebuild = []
     years_needing_ftn_rebuild = []
     years_needing_team_rebuild = []
+    years_needing_injury_rebuild = []
+    years_needing_penalty_rebuild = []
     
     # Check each year's caches
     for year in years:
@@ -3425,8 +3443,20 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
             if not ftn_path.exists():
                 logger.info(f"FTN cache missing for {year}, will rebuild")
                 years_needing_ftn_rebuild.append(year)
+        
+        # Check injury cache
+        injury_path = Path("cache/injuries") / f"injuries-{year}.csv"
+        if not injury_path.exists():
+            logger.info(f"Injury cache missing for {year}, will rebuild")
+            years_needing_injury_rebuild.append(year)
+        
+        # Check penalty cache
+        penalty_path = Path("cache/penalties") / f"penalties-{year}.csv"
+        if not penalty_path.exists():
+            logger.info(f"Penalty cache missing for {year}, will rebuild")
+            years_needing_penalty_rebuild.append(year)
     
-    total_rebuilds = len(set(years_needing_pbp_rebuild + years_needing_positional_rebuild + years_needing_team_rebuild + years_needing_ftn_rebuild))
+    total_rebuilds = len(set(years_needing_pbp_rebuild + years_needing_positional_rebuild + years_needing_team_rebuild + years_needing_ftn_rebuild + years_needing_injury_rebuild + years_needing_penalty_rebuild))
     
     if total_rebuilds == 0:
         logger.info("All caches up to date!")
@@ -3441,9 +3471,30 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
         logger.info(f"  Team: {years_needing_team_rebuild}")
     if years_needing_ftn_rebuild:
         logger.info(f"  FTN: {years_needing_ftn_rebuild}")
+    if years_needing_injury_rebuild:
+        logger.info(f"  Injury: {years_needing_injury_rebuild}")
+    if years_needing_penalty_rebuild:
+        logger.info(f"  Penalty: {years_needing_penalty_rebuild}")
     
     # Rebuild all cache types
-    years_to_rebuild = sorted(set(years_needing_pbp_rebuild + years_needing_positional_rebuild + years_needing_team_rebuild + years_needing_ftn_rebuild))
+    years_to_rebuild = sorted(set(years_needing_pbp_rebuild + years_needing_positional_rebuild + years_needing_team_rebuild + years_needing_ftn_rebuild + years_needing_injury_rebuild + years_needing_penalty_rebuild))
+    
+    # Handle injury and penalty caches separately (they rebuild in bulk)
+    if years_needing_injury_rebuild:
+        try:
+            logger.info(f"Rebuilding injury cache for years {min(years_needing_injury_rebuild)}-{max(years_needing_injury_rebuild)}...")
+            build_injury_cache(min(years_needing_injury_rebuild), max(years_needing_injury_rebuild))
+            logger.info("Injury cache rebuilt successfully")
+        except Exception as e:
+            logger.error(f"Injury cache rebuild error: {e}")
+    
+    if years_needing_penalty_rebuild:
+        try:
+            logger.info(f"Rebuilding penalty cache for years {min(years_needing_penalty_rebuild)}-{max(years_needing_penalty_rebuild)}...")
+            build_penalty_cache(min(years_needing_penalty_rebuild), max(years_needing_penalty_rebuild))
+            logger.info("Penalty cache rebuilt successfully")
+        except Exception as e:
+            logger.error(f"Penalty cache rebuild error: {e}")
     
     if parallel and len(years_to_rebuild) > 1:
         from concurrent.futures import ThreadPoolExecutor
