@@ -189,38 +189,38 @@
 |               Targets Share Leaders               |
 | Team | Player       | Position | Season Share (%) |
 | :----| :------------| :--------| :----------------|
-| ARI  | M.Spurlock   | WR       | 0.0              |
-| ATL  | J.Norwood    | RB       | 0.0              |
-| BAL  | B.Sams       | RB       | 0.0              |
-| BUF  | R.Parrish    | WR       | 0.0              |
-| CAR  | D.Williams   | WR       | 0.0              |
-| CHI  | D.Clark      | TE       | 0.0              |
-| CIN  | K.Washington | WR       | 0.0              |
-| CLE  | J.Jurevicius | WR       | 0.0              |
-| DAL  | A.Fasano     | TE       | 0.0              |
-| DEN  | D.Nash       | RB       | 0.0              |
-| DET  | S.McHugh     | TE       | 0.0              |
-| GB   | Z.Alcorn     | TE       | 0.0              |
+| ARI  | E.James      | RB       | 0.0              |
+| ATL  | J.Elliott    | WR       | 0.0              |
+| BAL  | T.Heap       | TE       | 0.0              |
+| BUF  | K.Everett    | TE       | 0.0              |
+| CAR  | T.Biddle     | WR       | 0.0              |
+| CHI  | M.Bradley    | WR       | 0.0              |
+| CIN  | C.Perry      | RB       | 0.0              |
+| CLE  | T.Wilson     | WR       | 0.0              |
+| DAL  | S.Green      | WR       | 0.0              |
+| DEN  | T.Bell       | RB       | 0.0              |
+| DET  | S.Bryson     | RB       | 0.0              |
+| GB   | S.Gado       | RB       | 0.0              |
 | HOU  | E.Shepherd   | WR       | 0.0              |
-| IND  | R.Wayne      | WR       | 0.0              |
-| JAX  | R.Williams   | WR       | 0.0              |
-| KC   | D.Ross       | RB       | 0.0              |
-| LA   | To.Fisher    | RB       | 0.0              |
-| LAC  | K.Osgood     | WR       | 0.0              |
-| LV   | A.Whitted    | WR       | 0.0              |
-| MIA  | R.Brown      | WR       | 0.0              |
-| MIN  | J.Dugan      | TE       | 0.0              |
-| NE   | C.Dillon     | RB       | 0.0              |
-| NO   | M.Campbell   | TE       | 0.0              |
+| IND  | M.Harrison   | WR       | 0.0              |
+| JAX  | G.Wrighster  | TE       | 0.0              |
+| KC   | J.Webb       | WR       | 0.0              |
+| LA   | K.Curtis     | WR       | 0.0              |
+| LAC  | A.Gates      | TE       | 0.0              |
+| LV   | Z.Crockett   | RB       | 0.0              |
+| MIA  | T.Minor      | RB       | 0.0              |
+| MIN  | Be.Johnson   | WR       | 0.0              |
+| NE   | J.Gaffney    | WR       | 0.0              |
+| NO   | D.McAllister | RB       | 0.0              |
 | NYG  | A.Toomer     | WR       | 3.6              |
-| NYJ  | K.Barlow     | RB       | 0.0              |
+| NYJ  | C.Houston    | RB       | 0.0              |
 | PHI  | L.Smith      | TE       | 2.2              |
-| PIT  | H.Miller     | TE       | 0.0              |
-| SEA  | D.Branch     | WR       | 0.0              |
-| SF   | A.Battle     | WR       | 0.0              |
-| TB   | M.Stovall    | WR       | 0.0              |
-| TEN  | L.White      | RB       | 0.0              |
-| WAS  | C.Fauria     | TE       | 0.0              |
+| PIT  | C.Wilson     | WR       | 0.0              |
+| SEA  | S.Alexander  | RB       | 0.0              |
+| SF   | T.Jacobs     | WR       | 0.0              |
+| TB   | P.Warren     | WR       | 0.0              |
+| TEN  | D.Bennett    | WR       | 0.0              |
+| WAS  | B.Kozlowski  | TE       | 0.0              |
 
 | :----- :------------ :--------- :----------------|
 |              Rush Att Share Leaders              |

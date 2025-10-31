@@ -118,7 +118,7 @@
 | BUF  | K.Brady       | TE       | 50.0             |
 | CAR  | W.Walls       | TE       | 28.6             |
 | CHI  | M. Booker     | WR       | 21.9             |
-| CIN  | Ji.Smith      | WR       | 50.0             |
+| CIN  | K.McCardell   | WR       | 50.0             |
 | CLE  | K.McCardell   | WR       | 100.0            |
 | DAL  | J.Harris      | TE       | 16.7             |
 | DEN  | R.Smith       | WR       | 44.4             |

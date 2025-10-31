@@ -6,4 +6,4 @@
 | C.Edmonds    | RB       | 14.4          | 14.4               |
 | L.Fitzgerald | WR       | 0.0           | 0.0                |
 | D.Daniels    | TE       | 0.0           | 0.0                |
-| M.Williams   | WR       | 0.0           | 0.0                |
+| C.Kirk       | WR       | 0.0           | 0.0                |

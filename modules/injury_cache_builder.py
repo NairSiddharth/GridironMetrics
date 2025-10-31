@@ -39,6 +39,9 @@ ROSTER_CACHE = CACHE_DIR / "rosters"
 INJURY_CACHE.mkdir(parents=True, exist_ok=True)
 ROSTER_CACHE.mkdir(parents=True, exist_ok=True)
 
+# Injury data availability (nflverse data starts in 2009)
+INJURY_DATA_START_YEAR = 2009
+
 
 def load_injury_data(season: int) -> pl.DataFrame:
     """
@@ -72,14 +75,18 @@ def load_injury_data(season: int) -> pl.DataFrame:
     logger.info(f"Fetching injury data for {season} from nflreadpy...")
     try:
         injuries = nfl.load_injuries(seasons=season)
-        
+
         # Save to cache
         injuries.write_csv(cache_file)
         logger.info(f"Cached injury data to {cache_file}")
-        
+
         return injuries
     except Exception as e:
-        logger.error(f"Failed to load injury data for {season}: {e}")
+        # Check if it's a 404 error (data not available for this season yet)
+        if "404" in str(e) or "Not Found" in str(e):
+            logger.debug(f"Injury data not yet available for {season} (expected for current/future seasons)")
+        else:
+            logger.warning(f"Failed to load injury data for {season}: {e}")
         return pl.DataFrame()
 
 
@@ -101,27 +108,34 @@ def load_roster_data(season: int) -> pl.DataFrame:
         - team (str)
         - position (str)
         - status (str) - 'ACT', 'INA', 'RES', etc.
-        - jersey_number (int)
+        - jersey_number (str) - Can include letter suffixes like "69B"
     """
     cache_file = ROSTER_CACHE / f"rosters-{season}.csv"
     
-    # Try to load from cache
+    # Try to load from cache with schema override for jersey_number
     if cache_file.exists():
         logger.debug(f"Loading roster data from cache: {cache_file}")
-        return pl.read_csv(cache_file)
+        return pl.read_csv(cache_file, schema_overrides={"jersey_number": pl.Utf8})
     
     # Load from nflreadpy
     logger.info(f"Fetching roster data for {season} from nflreadpy...")
     try:
         rosters = nfl.load_rosters_weekly(seasons=season)
-        
+
+        # Cast jersey_number to string to handle cases like "69B"
+        rosters = rosters.with_columns(pl.col('jersey_number').cast(pl.Utf8))
+
         # Save to cache
         rosters.write_csv(cache_file)
         logger.info(f"Cached roster data to {cache_file}")
-        
+
         return rosters
     except Exception as e:
-        logger.error(f"Failed to load roster data for {season}: {e}")
+        # Check if it's a 404 error (data not available for this season yet)
+        if "404" in str(e) or "Not Found" in str(e):
+            logger.debug(f"Roster data not yet available for {season} (expected for current/future seasons)")
+        else:
+            logger.warning(f"Failed to load roster data for {season}: {e}")
         return pl.DataFrame()
 
 
@@ -381,7 +395,7 @@ def get_player_gsis_id(player_name: str, team: str, position: str, season: int) 
     rosters = load_roster_data(season)
     
     if rosters.is_empty():
-        logger.error(f"No roster data available for {season}")
+        logger.warning(f"No roster data available for {season}")
         return ""
     
     # Try exact match first (for full names)
@@ -436,26 +450,40 @@ def get_player_gsis_id(player_name: str, team: str, position: str, season: int) 
 def build_injury_cache_for_year(year: int) -> bool:
     """
     Build injury cache for a single year.
-    
+
     Args:
         year: Season year to cache
-        
+
     Returns:
         True if successful, False otherwise
     """
+    from datetime import datetime
+
+    # Skip current/future seasons - injury data is only available for completed seasons
+    current_year = datetime.now().year
+    current_month = datetime.now().month
+
+    # If it's before March, the previous season might still be incomplete
+    # (playoffs end in February)
+    last_complete_season = current_year - 1 if current_month < 3 else current_year
+
+    if year >= last_complete_season:
+        logger.debug(f"Skipping injury cache for {year} (incomplete/future season)")
+        return False
+
     logger.info(f"Building injury cache for {year}...")
-    
+
     # Load data (this will cache it automatically via load_injury_data)
     injuries = load_injury_data(year)
     rosters = load_roster_data(year)
-    
+
     success = (not injuries.is_empty()) and (not rosters.is_empty())
-    
+
     if success:
         logger.info(f"Successfully cached injury data for {year}")
     else:
         logger.warning(f"No data cached for {year}")
-    
+
     return success
 
 

@@ -108,7 +108,7 @@
 | SEA  | Z.Charbonnet      | RB       | 66.7             |
 | SF   | C.McCaffrey       | RB       | 25.0             |
 | TB   | R.White           | RB       | 31.2             |
-| TEN  | T.Pollard         | RB       | 25.0             |
+| TEN  | T.Spears          | RB       | 25.0             |
 | WAS  | J.Croskey-Merritt | RB       | 22.9             |
 
 | :----- :------------------ :--------- :----------------|

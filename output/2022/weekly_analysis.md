@@ -5,5 +5,5 @@
 | E.Benjamin | RB       | 27.2          | 27.2               |
 | J.Conner   | RB       | 25.2          | 25.2               |
 | M.Brown    | WR       | 0.0           | 0.0                |
-| G.Dortch   | WR       | 0.0           | 0.0                |
-| J.Ward     | RB       | 0.0           | 0.0                |
+| A.Isabella | WR       | 0.0           | 0.0                |
+| A.Green    | WR       | 0.0           | 0.0                |

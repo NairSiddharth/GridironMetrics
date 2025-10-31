@@ -216,42 +216,69 @@ def adjust_for_game_situation(df: pl.DataFrame, year: int = None, week: int = No
     ])
 
 def calculate_defensive_stats(team_stats: pl.DataFrame) -> pl.DataFrame:
-    """Calculate points and yards allowed by matching opponent's offensive performance.
-    
-    For each team's game, we look up what their opponent scored to determine points/yards allowed.
+    """Calculate comprehensive defensive stats by matching opponent's offensive performance.
+
+    For each team's game, we look up what their opponent did to determine what the defense allowed.
+    Includes yards, points, sacks, pressures, INTs, TFLs, etc.
     """
     # Calculate points scored for each team-week
     team_stats = team_stats.with_columns([
         # Total points = (passing_tds + rushing_tds + def_tds + special_teams_tds) * 7 + (pat_made * 1) + (fg_made * 3)
         # Simplified: TDs * 7 (assuming PATs are usually successful) + field goals
-        ((pl.col('passing_tds').fill_null(0) + 
-          pl.col('rushing_tds').fill_null(0) + 
-          pl.col('def_tds').fill_null(0) + 
-          pl.col('special_teams_tds').fill_null(0)) * 7 + 
-         pl.col('fg_made').fill_null(0) * 3 + 
+        ((pl.col('passing_tds').fill_null(0) +
+          pl.col('rushing_tds').fill_null(0) +
+          pl.col('def_tds').fill_null(0) +
+          pl.col('special_teams_tds').fill_null(0)) * 7 +
+         pl.col('fg_made').fill_null(0) * 3 +
          pl.col('pat_made').fill_null(0)).alias('points_scored')
     ])
-    
-    # Create opponent lookup: team X's opponent_team Y scored Z points
-    opponent_points = team_stats.select([
+
+    # Create opponent lookup: team X's opponent_team Y's offensive stats = what team X's defense allowed
+    opponent_offense = team_stats.select([
         pl.col('week'),
-        pl.col('team').alias('opponent_team'),  # This team will be the opponent
+        pl.col('team').alias('opponent_team'),
+        # Points and yards allowed (offensive production = defensive stats allowed)
         pl.col('points_scored').alias('opponent_points_scored'),
         pl.col('passing_yards').alias('opponent_passing_yards'),
-        pl.col('rushing_yards').alias('opponent_rushing_yards')
+        pl.col('rushing_yards').alias('opponent_rushing_yards'),
+        pl.col('passing_tds').alias('opponent_passing_tds'),
+        pl.col('rushing_tds').alias('opponent_rushing_tds'),
+        # Sacks/pressures suffered by opponent (offensive stat) = what defense generated
+        pl.col('sacks_suffered').fill_null(0).alias('opponent_sacks_suffered'),
+        # Turnovers by opponent offense = what defense forced
+        pl.col('passing_interceptions').fill_null(0).alias('opponent_interceptions_thrown'),
+        pl.col('rushing_fumbles_lost').fill_null(0).alias('opponent_rush_fumbles_lost'),
+        pl.col('receiving_fumbles_lost').fill_null(0).alias('opponent_rec_fumbles_lost')
     ])
-    
-    # Join back to get what the opponent scored = what this team's defense allowed
+
+    # Join back to get what the opponent's offense did = what this team's defense allowed/generated
     defensive_stats = team_stats.join(
-        opponent_points,
+        opponent_offense,
         on=['week', 'opponent_team'],
         how='left'
     ).with_columns([
+        # What defense allowed
         pl.col('opponent_points_scored').alias('points_allowed'),
         pl.col('opponent_passing_yards').alias('passing_yards_allowed'),
-        pl.col('opponent_rushing_yards').alias('rushing_yards_allowed')
+        pl.col('opponent_rushing_yards').alias('rushing_yards_allowed'),
+        pl.col('opponent_passing_tds').alias('passing_tds_allowed'),
+        pl.col('opponent_rushing_tds').alias('rushing_tds_allowed'),
+        # What defense generated (sacks on opponent QB)
+        pl.col('opponent_sacks_suffered').alias('sacks_generated'),
+        # Turnovers forced
+        pl.col('opponent_interceptions_thrown').alias('interceptions_forced'),
+        (pl.col('opponent_rush_fumbles_lost').fill_null(0) +
+         pl.col('opponent_rec_fumbles_lost').fill_null(0)).alias('fumbles_forced')
     ])
-    
+
+    # Add direct defensive stats from team's own defensive columns
+    defensive_stats = defensive_stats.with_columns([
+        pl.col('def_sacks').fill_null(0).alias('def_sacks_recorded'),
+        pl.col('def_qb_hits').fill_null(0).alias('def_qb_hits_recorded'),
+        pl.col('def_interceptions').fill_null(0).alias('def_interceptions_recorded'),
+        pl.col('def_tackles_for_loss').fill_null(0).alias('def_tfl_recorded')
+    ])
+
     return defensive_stats
 
 
@@ -274,19 +301,41 @@ def adjust_for_opponent(df: pl.DataFrame, opponent_stats: pl.DataFrame) -> pl.Da
         pl.col('points_allowed').fill_null(0).cum_sum().over('team').alias('cum_points_allowed'),
         pl.col('passing_yards_allowed').fill_null(0).cum_sum().over('team').alias('cum_pass_yards_allowed'),
         pl.col('rushing_yards_allowed').fill_null(0).cum_sum().over('team').alias('cum_rush_yards_allowed'),
+        pl.col('passing_tds_allowed').fill_null(0).cum_sum().over('team').alias('cum_pass_tds_allowed'),
+        pl.col('rushing_tds_allowed').fill_null(0).cum_sum().over('team').alias('cum_rush_tds_allowed'),
+        # Pass defense metrics
+        pl.col('def_sacks_recorded').fill_null(0).cum_sum().over('team').alias('cum_sacks'),
+        pl.col('def_qb_hits_recorded').fill_null(0).cum_sum().over('team').alias('cum_qb_hits'),
+        pl.col('def_interceptions_recorded').fill_null(0).cum_sum().over('team').alias('cum_interceptions'),
+        # Run defense metrics
+        pl.col('def_tfl_recorded').fill_null(0).cum_sum().over('team').alias('cum_tfls'),
         pl.col('week').cum_count().over('team').alias('games_played')
     ]).with_columns([
         # Calculate rolling averages (cumulative / games played)
         (pl.col('cum_points_allowed') / pl.col('games_played')).alias('rolling_ppg_allowed'),
         (pl.col('cum_pass_yards_allowed') / pl.col('games_played')).alias('rolling_pass_ypg_allowed'),
-        (pl.col('cum_rush_yards_allowed') / pl.col('games_played')).alias('rolling_rush_ypg_allowed')
+        (pl.col('cum_rush_yards_allowed') / pl.col('games_played')).alias('rolling_rush_ypg_allowed'),
+        (pl.col('cum_pass_tds_allowed') / pl.col('games_played')).alias('rolling_pass_tds_allowed'),
+        (pl.col('cum_rush_tds_allowed') / pl.col('games_played')).alias('rolling_rush_tds_allowed'),
+        # Pass defense rates
+        (pl.col('cum_sacks') / pl.col('games_played')).alias('rolling_sacks_pg'),
+        (pl.col('cum_qb_hits') / pl.col('games_played')).alias('rolling_qb_hits_pg'),
+        (pl.col('cum_interceptions') / pl.col('games_played')).alias('rolling_ints_pg'),
+        # Run defense rates
+        (pl.col('cum_tfls') / pl.col('games_played')).alias('rolling_tfls_pg')
     ])
     
     # Calculate league averages for this season (using same rolling approach)
     league_rolling_avg = opponent_rolling.group_by('week').agg([
         pl.col('rolling_ppg_allowed').mean().alias('league_avg_ppg'),
         pl.col('rolling_pass_ypg_allowed').mean().alias('league_avg_pass_ypg'),
-        pl.col('rolling_rush_ypg_allowed').mean().alias('league_avg_rush_ypg')
+        pl.col('rolling_rush_ypg_allowed').mean().alias('league_avg_rush_ypg'),
+        pl.col('rolling_pass_tds_allowed').mean().alias('league_avg_pass_tds'),
+        pl.col('rolling_rush_tds_allowed').mean().alias('league_avg_rush_tds'),
+        pl.col('rolling_sacks_pg').mean().alias('league_avg_sacks'),
+        pl.col('rolling_qb_hits_pg').mean().alias('league_avg_qb_hits'),
+        pl.col('rolling_ints_pg').mean().alias('league_avg_ints'),
+        pl.col('rolling_tfls_pg').mean().alias('league_avg_tfls')
     ])
     
     # Join league averages back
@@ -298,23 +347,56 @@ def adjust_for_opponent(df: pl.DataFrame, opponent_stats: pl.DataFrame) -> pl.Da
         opponent_rolling.select([
             'team', 'week',
             'rolling_ppg_allowed', 'rolling_pass_ypg_allowed', 'rolling_rush_ypg_allowed',
-            'league_avg_ppg', 'league_avg_pass_ypg', 'league_avg_rush_ypg'
+            'rolling_pass_tds_allowed', 'rolling_rush_tds_allowed',
+            'rolling_sacks_pg', 'rolling_qb_hits_pg', 'rolling_ints_pg', 'rolling_tfls_pg',
+            'league_avg_ppg', 'league_avg_pass_ypg', 'league_avg_rush_ypg',
+            'league_avg_pass_tds', 'league_avg_rush_tds',
+            'league_avg_sacks', 'league_avg_qb_hits', 'league_avg_ints', 'league_avg_tfls'
         ]),
         left_on=['opponent_team', 'week'],
         right_on=['team', 'week'],
         how='left'
     )
-    
-    # Calculate difficulty multipliers
-    # Better defense (lower points/yards allowed) = higher multiplier
-    # Formula: league_avg / opponent_avg
-    # Example: league avg = 22 ppg, opponent allows 18 ppg (tough) → 22/18 = 1.22x
-    # Example: league avg = 22 ppg, opponent allows 26 ppg (weak) → 22/26 = 0.85x
-    return df_with_opponent.with_columns([
-        (pl.col('league_avg_ppg') / pl.col('rolling_ppg_allowed')).fill_null(1.0).alias('scoring_multiplier'),
-        (pl.col('league_avg_pass_ypg') / pl.col('rolling_pass_ypg_allowed')).fill_null(1.0).alias('pass_defense_multiplier'),
-        (pl.col('league_avg_rush_ypg') / pl.col('rolling_rush_ypg_allowed')).fill_null(1.0).alias('rush_defense_multiplier')
+
+    # Calculate individual component multipliers
+    # Better defense (lower allowed, higher forced) = higher multiplier
+    # Formula: league_avg / opponent_avg for "allowed" stats (yards, TDs)
+    # Formula: opponent_avg / league_avg for "generated" stats (sacks, INTs, TFLs)
+    df_with_opponent = df_with_opponent.with_columns([
+        # Pass defense components (lower is better for defense = harder for offense)
+        (pl.col('league_avg_pass_ypg') / pl.col('rolling_pass_ypg_allowed')).fill_null(1.0).alias('pass_yards_mult'),
+        (pl.col('rolling_sacks_pg') / pl.col('league_avg_sacks')).fill_null(1.0).alias('sacks_mult'),
+        (pl.col('rolling_qb_hits_pg') / pl.col('league_avg_qb_hits')).fill_null(1.0).alias('qb_hits_mult'),
+        (pl.col('rolling_ints_pg') / pl.col('league_avg_ints')).fill_null(1.0).alias('ints_mult'),
+        (pl.col('league_avg_pass_tds') / pl.col('rolling_pass_tds_allowed')).fill_null(1.0).alias('pass_td_mult'),
+        # Run defense components
+        (pl.col('league_avg_rush_ypg') / pl.col('rolling_rush_ypg_allowed')).fill_null(1.0).alias('rush_yards_mult'),
+        (pl.col('rolling_tfls_pg') / pl.col('league_avg_tfls')).fill_null(1.0).alias('tfl_mult'),
+        (pl.col('league_avg_rush_tds') / pl.col('rolling_rush_tds_allowed')).fill_null(1.0).alias('rush_td_mult'),
+        # Overall scoring
+        (pl.col('league_avg_ppg') / pl.col('rolling_ppg_allowed')).fill_null(1.0).alias('scoring_multiplier')
     ])
+
+    # Calculate composite pass defense quality score (weighted average)
+    # Weights: yards 30%, sacks 25%, pressures 20%, INTs 15%, TDs 10%
+    df_with_opponent = df_with_opponent.with_columns([
+        (pl.col('pass_yards_mult') * 0.30 +
+         pl.col('sacks_mult') * 0.25 +
+         pl.col('qb_hits_mult') * 0.20 +
+         pl.col('ints_mult') * 0.15 +
+         pl.col('pass_td_mult') * 0.10).alias('pass_defense_multiplier')
+    ])
+
+    # Calculate composite rush defense quality score (weighted average)
+    # Weights: yards 40%, TFLs 30%, stuffed runs 20%, TDs 10%
+    df_with_opponent = df_with_opponent.with_columns([
+        (pl.col('rush_yards_mult') * 0.40 +
+         pl.col('tfl_mult') * 0.30 +
+         pl.col('tfl_mult') * 0.20 +  # TFLs proxy for stuffed runs
+         pl.col('rush_td_mult') * 0.10).alias('rush_defense_multiplier')
+    ])
+
+    return df_with_opponent
 
 def get_personnel_multiplier(position: str, personnel_group: str) -> float:
     """
@@ -454,7 +536,7 @@ def calculate_offensive_shares(team_stats: pl.DataFrame, player_stats: pl.DataFr
                 
                 # Apply opponent adjustments if available
                 if any(col in team_stats.columns for col in ["pass_defense_multiplier", "rush_defense_multiplier"]):
-                    if m in ['receiving_yards', 'receiving_tds', 'receptions', 'targets']:
+                    if m in ['receiving_yards', 'receiving_tds', 'receptions', 'targets', 'passing_yards', 'passing_tds', 'completions', 'attempts']:
                         situational_weight = situational_weight * pl.col("pass_defense_multiplier")
                     elif m in ['rushing_yards', 'rushing_tds', 'carries']:
                         situational_weight = situational_weight * pl.col("rush_defense_multiplier")
@@ -492,7 +574,7 @@ def calculate_offensive_shares(team_stats: pl.DataFrame, player_stats: pl.DataFr
                 
                 # Apply opponent adjustments if available
                 if any(col in player_stats.columns for col in ["pass_defense_multiplier", "rush_defense_multiplier"]):
-                    if m in ['receiving_yards', 'receiving_tds', 'receptions', 'targets']:
+                    if m in ['receiving_yards', 'receiving_tds', 'receptions', 'targets', 'passing_yards', 'passing_tds', 'completions', 'attempts']:
                         situational_weight = situational_weight * pl.col("pass_defense_multiplier")
                     elif m in ['rushing_yards', 'rushing_tds', 'carries']:
                         situational_weight = situational_weight * pl.col("rush_defense_multiplier")
@@ -707,7 +789,7 @@ def generate_season_summary(year: int) -> str:
         logger.info(f"Processing {len(teams)} teams for {metric_name}")
         for team_idx, team in enumerate(teams):
             if team_idx % 5 == 0:
-                logger.info(f"  Processing team {team_idx+1}/{len(teams)}: {team}")
+                logger.info(f"  [{metric_name}] Processing team {team_idx+1}/{len(teams)}: {team}")
             try:
                 # Get all weeks for this team
                 team_season = team_stats.filter(pl.col('team') == team)
@@ -2062,15 +2144,14 @@ def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataF
     """
     Apply Phase 4 player-level adjustments (catch rate, blocking quality, separation metrics, penalties).
     
-    These adjustments are calculated once per player after season aggregation.
-    Unlike Phase 1-3 multipliers (applied per-play in cache), these require
-    full season context to calculate properly.
+    NOTE: Penalties are applied PER-WEEK (only affect the week they occurred).
+    Other adjustments are season-wide (catch rate, blocking, separation).
     
     Adjustments:
-    - Catch rate over expected (WR/TE)
-    - Blocking quality proxy (RB)
-    - Separation/cushion metrics (WR/TE/RB receiving, 2016+)
-    - Penalty adjustments (QB/RB/WR/TE skill players)
+    - Catch rate over expected (WR/TE) - season-wide
+    - Blocking quality proxy (RB) - season-wide
+    - Separation/cushion metrics (WR/TE/RB receiving, 2016+) - season-wide
+    - Penalty adjustments (QB/RB/WR/TE skill players) - PER-WEEK
     
     Args:
         contributions: DataFrame with player weekly contributions
@@ -2099,8 +2180,8 @@ def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataF
         if nextgen_data is not None:
             logger.info(f"NextGen Stats loaded for {year} ({len(nextgen_data)} records)")
     
-    # Calculate adjustments for each unique player
-    adjustments = []
+    # Calculate season-wide adjustments for each unique player (catch rate, blocking, separation)
+    season_adjustments = []
     unique_players = contributions.select(['player_id', 'player_name', 'team', 'position']).unique()
     
     for player_row in unique_players.iter_rows(named=True):
@@ -2137,35 +2218,50 @@ def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataF
                 logger.debug(f"Error calculating separation for {player_name}: {str(e)}")
                 separation_mult = 1.0
         
-        # Penalty adjustment (QB/RB/WR/TE - all skill players)
-        penalty_mult = 1.0
-        if position in ['QB', 'RB', 'WR', 'TE']:
-            try:
-                from modules.penalty_cache_builder import calculate_penalty_adjustment
-                penalty_mult = calculate_penalty_adjustment(player_id, year)
-            except Exception as e:
-                logger.debug(f"Error calculating penalty adjustment for {player_name}: {str(e)}")
-                penalty_mult = 1.0
-        
-        adjustments.append({
+        season_adjustments.append({
             'player_id': player_id,
             'player_name': player_name,
             'team': player_team,
             'catch_rate_adjustment': catch_rate_mult,
             'blocking_adjustment': blocking_mult,
-            'separation_adjustment': separation_mult,
-            'penalty_adjustment': penalty_mult
+            'separation_adjustment': separation_mult
         })
     
-    # Create DataFrame and join to contributions
-    adj_df = pl.DataFrame(adjustments)
-    contributions = contributions.join(adj_df, on=['player_id', 'player_name', 'team'], how='left')
+    # Join season-wide adjustments
+    season_adj_df = pl.DataFrame(season_adjustments)
+    contributions = contributions.join(season_adj_df, on=['player_id', 'player_name', 'team'], how='left')
     
     # Fill missing adjustments with 1.0 (neutral)
     contributions = contributions.with_columns([
         pl.col('catch_rate_adjustment').fill_null(1.0),
         pl.col('blocking_adjustment').fill_null(1.0),
-        pl.col('separation_adjustment').fill_null(1.0),
+        pl.col('separation_adjustment').fill_null(1.0)
+    ])
+    
+    # Calculate per-week penalty adjustments (vectorized for performance)
+    from modules.penalty_cache_builder import calculate_penalty_adjustments_batch
+    
+    # Filter to skill positions for penalty calculation
+    skill_positions = contributions.filter(pl.col('position').is_in(['QB', 'RB', 'WR', 'TE']))
+    
+    if skill_positions.height > 0:
+        # Calculate penalties in batch (vectorized)
+        penalty_adj_df = calculate_penalty_adjustments_batch(skill_positions, year)
+        
+        # Join back to all contributions
+        contributions = contributions.join(
+            penalty_adj_df, 
+            on=['player_id', 'player_name', 'team', 'week'], 
+            how='left'
+        )
+    else:
+        # No skill position players (shouldn't happen, but handle gracefully)
+        contributions = contributions.with_columns([
+            pl.lit(1.0).alias('penalty_adjustment')
+        ])
+    
+    # Fill missing penalty adjustments with 1.0 (neutral)
+    contributions = contributions.with_columns([
         pl.col('penalty_adjustment').fill_null(1.0)
     ])
     
@@ -2202,7 +2298,7 @@ def apply_phase5_adjustments(contributions: pl.DataFrame, year: int = None) -> p
     logger.info("Applying Phase 5 adjustments (talent context + sample size dampening)")
     
     # Import injury adjustment functions
-    from modules.injury_cache_builder import calculate_injury_adjusted_games, get_player_gsis_id
+    from modules.injury_cache_builder import calculate_injury_adjusted_games
     
     # Use year parameter for current season
     current_season = year
@@ -2260,24 +2356,21 @@ def apply_phase5_adjustments(contributions: pl.DataFrame, year: int = None) -> p
     for row in player_final.iter_rows(named=True):
         score = row['score_before_dampening']
         games = row['games_played']
+        player_id = row['player_id']  # This IS the GSIS ID
         player_name = row['player_name']
-        team = row['team']
-        position = row['position']
         
-        # Try to get GSIS ID and calculate injury-adjusted games
+        # Try to calculate injury-adjusted games using player_id (GSIS ID)
         effective_games = games  # Default to actual games
         
-        if current_season is not None:
+        if current_season is not None and player_id:
             try:
-                gsis_id = get_player_gsis_id(player_name, team, position, current_season)
-                if gsis_id:
-                    effective_games = calculate_injury_adjusted_games(
-                        gsis_id, current_season, games, max_games=17
+                effective_games = calculate_injury_adjusted_games(
+                    player_id, current_season, games, max_games=17
+                )
+                if effective_games != games:
+                    logger.debug(
+                        f"{player_name}: {games} actual → {effective_games:.1f} effective games"
                     )
-                    if effective_games != games:
-                        logger.debug(
-                            f"{player_name}: {games} actual → {effective_games:.1f} effective games"
-                        )
             except Exception as e:
                 logger.debug(f"Could not calculate injury adjustment for {player_name}: {e}")
         
@@ -2355,6 +2448,66 @@ def calculate_average_difficulty(year: int, player_stats: pl.DataFrame) -> pl.Da
             rb_diff = rb_diff.join(rb_players, on='player_id', how='left')
             difficulty_results.append(rb_diff)
     
+    # Process QBs (pass plays + rush plays for mobile QBs)
+    qb_players = players.filter(pl.col('position') == 'QB')
+    if len(qb_players) > 0:
+        # QB passing difficulty (coverage)
+        qb_pass_plays = pbp_data.filter(
+            (pl.col('play_type') == 'pass') &
+            (pl.col('passer_player_id').is_in(qb_players['player_id'].to_list()))
+        )
+
+        # QB rushing difficulty (box count for scrambles/designed runs)
+        qb_rush_plays = pbp_data.filter(
+            (pl.col('play_type') == 'run') &
+            (pl.col('rusher_player_id').is_in(qb_players['player_id'].to_list()))
+        )
+
+        # Combine both - weight by play volume (70% passing, 30% rushing for weighted average)
+        qb_pass_difficulty = None
+        qb_rush_difficulty = None
+
+        if len(qb_pass_plays) > 0:
+            qb_pass_difficulty = qb_pass_plays.group_by('passer_player_id').agg([
+                pl.col('coverage_multiplier').mean().alias('pass_difficulty'),
+                pl.len().alias('pass_plays')
+            ]).rename({'passer_player_id': 'player_id'})
+
+        if len(qb_rush_plays) > 0:
+            qb_rush_difficulty = qb_rush_plays.group_by('rusher_player_id').agg([
+                pl.col('defenders_in_box_multiplier').mean().alias('rush_difficulty'),
+                pl.len().alias('rush_plays')
+            ]).rename({'rusher_player_id': 'player_id'})
+
+        # Combine pass and rush difficulty for QBs
+        if qb_pass_difficulty is not None and qb_rush_difficulty is not None:
+            qb_combined = qb_pass_difficulty.join(qb_rush_difficulty, on='player_id', how='outer')
+            qb_combined = qb_combined.with_columns([
+                # Weighted average based on play volume
+                ((pl.col('pass_difficulty').fill_null(1.0) * pl.col('pass_plays').fill_null(0) +
+                  pl.col('rush_difficulty').fill_null(1.0) * pl.col('rush_plays').fill_null(0)) /
+                 (pl.col('pass_plays').fill_null(0) + pl.col('rush_plays').fill_null(0))).alias('avg_difficulty_multiplier'),
+                (pl.col('pass_plays').fill_null(0) + pl.col('rush_plays').fill_null(0)).alias('total_plays')
+            ])
+            qb_combined = qb_combined.join(qb_players, on='player_id', how='left')
+            difficulty_results.append(qb_combined)
+        elif qb_pass_difficulty is not None:
+            # Only passing data available
+            qb_pass_difficulty = qb_pass_difficulty.with_columns([
+                pl.col('pass_difficulty').alias('avg_difficulty_multiplier'),
+                pl.col('pass_plays').alias('total_plays')
+            ])
+            qb_pass_difficulty = qb_pass_difficulty.join(qb_players, on='player_id', how='left')
+            difficulty_results.append(qb_pass_difficulty)
+        elif qb_rush_difficulty is not None:
+            # Only rushing data available (rare)
+            qb_rush_difficulty = qb_rush_difficulty.with_columns([
+                pl.col('rush_difficulty').alias('avg_difficulty_multiplier'),
+                pl.col('rush_plays').alias('total_plays')
+            ])
+            qb_rush_difficulty = qb_rush_difficulty.join(qb_players, on='player_id', how='left')
+            difficulty_results.append(qb_rush_difficulty)
+
     # Process WRs and TEs (pass plays)
     for pos in ['WR', 'TE']:
         pos_players = players.filter(pl.col('position') == pos)
@@ -2363,14 +2516,14 @@ def calculate_average_difficulty(year: int, player_stats: pl.DataFrame) -> pl.Da
                 (pl.col('play_type') == 'pass') &
                 (pl.col('receiver_player_id').is_in(pos_players['player_id'].to_list()))
             )
-            
+
             if len(pass_plays) > 0:
                 pos_diff = pass_plays.group_by('receiver_player_id').agg([
                     # Average of coverage_mult (box is 1.0 for pass plays)
                     pl.col('coverage_multiplier').mean().alias('avg_difficulty_multiplier'),
                     pl.len().alias('total_plays')
                 ]).rename({'receiver_player_id': 'player_id'})
-                
+
                 pos_diff = pos_diff.join(pos_players, on='player_id', how='left')
                 difficulty_results.append(pos_diff)
     
@@ -3371,8 +3524,8 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
     from modules.positional_cache_builder import build_positional_cache_for_year
     from modules.team_cache_builder import build_team_cache_for_year
     from modules.ftn_cache_builder import build_ftn_cache_for_year, FTN_START_YEAR
-    from modules.injury_cache_builder import build_injury_cache
-    from modules.penalty_cache_builder import build_penalty_cache
+    from modules.injury_cache_builder import build_injury_cache, INJURY_DATA_START_YEAR
+    from modules.penalty_cache_builder import build_penalty_cache_for_year
     
     logger.info("Checking cache completeness for all years...")
     
@@ -3444,11 +3597,12 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
                 logger.info(f"FTN cache missing for {year}, will rebuild")
                 years_needing_ftn_rebuild.append(year)
         
-        # Check injury cache
-        injury_path = Path("cache/injuries") / f"injuries-{year}.csv"
-        if not injury_path.exists():
-            logger.info(f"Injury cache missing for {year}, will rebuild")
-            years_needing_injury_rebuild.append(year)
+        # Check injury cache (only for 2009+)
+        if year >= INJURY_DATA_START_YEAR:
+            injury_path = Path("cache/injuries") / f"injuries-{year}.csv"
+            if not injury_path.exists():
+                logger.info(f"Injury cache missing for {year}, will rebuild")
+                years_needing_injury_rebuild.append(year)
         
         # Check penalty cache
         penalty_path = Path("cache/penalties") / f"penalties-{year}.csv"
@@ -3486,15 +3640,16 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
             build_injury_cache(min(years_needing_injury_rebuild), max(years_needing_injury_rebuild))
             logger.info("Injury cache rebuilt successfully")
         except Exception as e:
-            logger.error(f"Injury cache rebuild error: {e}")
+            logger.warning(f"Injury cache rebuild incomplete: {e}")
     
     if years_needing_penalty_rebuild:
         try:
             logger.info(f"Rebuilding penalty cache for years {min(years_needing_penalty_rebuild)}-{max(years_needing_penalty_rebuild)}...")
-            build_penalty_cache(min(years_needing_penalty_rebuild), max(years_needing_penalty_rebuild))
+            for year in range(min(years_needing_penalty_rebuild), max(years_needing_penalty_rebuild) + 1):
+                build_penalty_cache_for_year(year)
             logger.info("Penalty cache rebuilt successfully")
         except Exception as e:
-            logger.error(f"Penalty cache rebuild error: {e}")
+            logger.warning(f"Penalty cache rebuild incomplete: {e}")
     
     if parallel and len(years_to_rebuild) > 1:
         from concurrent.futures import ThreadPoolExecutor

@@ -16,6 +16,8 @@ import sys
 import json
 from datetime import datetime
 from typing import Optional, Dict, Any
+from queue import Queue
+import atexit
 
 # ANSI color codes for console output
 COLORS = {
@@ -66,6 +68,38 @@ JSON_LOG_FILE = os.path.join(LOG_DIR, 'app.json.log')
 # Ensure log directory exists
 os.makedirs(LOG_DIR, exist_ok=True)
 
+# Global queue and listener for thread-safe logging (singleton pattern)
+_log_queue = None
+_queue_listener = None
+
+def _get_or_create_queue_listener(log_file: str, max_bytes: int, backup_count: int):
+    """Get or create the singleton queue listener for thread-safe logging."""
+    global _log_queue, _queue_listener
+    
+    if _log_queue is None:
+        _log_queue = Queue(-1)
+        
+        # File handler with rotation
+        file_handler = logging.handlers.RotatingFileHandler(
+            log_file,
+            maxBytes=max_bytes,
+            backupCount=backup_count
+        )
+        file_formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            datefmt='%Y-%m-%d %H:%M:%S'
+        )
+        file_handler.setFormatter(file_formatter)
+        
+        # Start queue listener
+        _queue_listener = logging.handlers.QueueListener(_log_queue, file_handler, respect_handler_level=True)
+        _queue_listener.start()
+        
+        # Ensure listener stops on exit
+        atexit.register(_queue_listener.stop)
+    
+    return _log_queue
+
 def get_logger(
     name: str,
     level: str = 'INFO',
@@ -105,20 +139,12 @@ def get_logger(
     console_handler.setFormatter(console_formatter)
     logger.addHandler(console_handler)
     
-    # File handler with rotation
-    file_handler = logging.handlers.RotatingFileHandler(
-        log_file or LOG_FILE,
-        maxBytes=max_bytes,
-        backupCount=backup_count
-    )
-    file_formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S'
-    )
-    file_handler.setFormatter(file_formatter)
-    logger.addHandler(file_handler)
+    # Use global queue for thread-safe file logging
+    log_queue = _get_or_create_queue_listener(log_file or LOG_FILE, max_bytes, backup_count)
+    queue_handler = logging.handlers.QueueHandler(log_queue)
+    logger.addHandler(queue_handler)
     
-    # Optional JSON structured logging
+    # Optional JSON structured logging (not implemented with queue for now)
     if enable_json:
         json_handler = logging.handlers.RotatingFileHandler(
             JSON_LOG_FILE,

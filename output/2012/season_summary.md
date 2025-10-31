@@ -139,7 +139,7 @@
 | NE   | R.Gronkowski | TE       | 45.5             |
 | NO   | J.Graham     | TE       | 26.1             |
 | NYG  | V.Cruz       | WR       | 28.9             |
-| NYJ  | J.Hill       | WR       | 25.0             |
+| NYJ  | S.Holmes     | WR       | 25.0             |
 | PHI  | J.Maclin     | WR       | 33.3             |
 | PIT  | M.Wallace    | WR       | 29.4             |
 | SEA  | G.Tate       | WR       | 23.3             |

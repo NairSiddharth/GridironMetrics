@@ -103,7 +103,7 @@
 | NO   | D.McAllister | RB       | 29.2             |
 | NYG  | D.Levens     | RB       | 27.3             |
 | NYJ  | L.Jordan     | RB       | 28.6             |
-| PHI  | C.Buckhalter | RB       | 28.9             |
+| PHI  | B.Westbrook  | RB       | 28.9             |
 | PIT  | J. Bettis    | RB       | 45.8             |
 | SEA  | S.Alexander  | RB       | 68.8             |
 | SF   | K.Barlow     | RB       | 25.0             |
@@ -129,7 +129,7 @@
 | GB   | J.Walker    | WR       | 28.1             |
 | HOU  | C.Bradford  | WR       | 21.4             |
 | IND  | B.Stokley   | WR       | 28.0             |
-| JAX  | M.Hatchette | WR       | 25.0             |
+| JAX  | J.Smith     | WR       | 25.0             |
 | KC   | J. Dunn     | TE       | 35.7             |
 | LA   | T.Holt      | WR       | 44.8             |
 | LAC  | D.Boston    | WR       | 30.6             |
@@ -185,42 +185,42 @@
 | TEN  | D.Mason      | WR       | 29.4             |
 | WAS  | L.Coles      | WR       | 28.4             |
 
-| :----- :------------- :--------- :----------------|
-|               Targets Share Leaders               |
-| Team | Player       | Position | Season Share (%) |
-| :----| :------------| :--------| :----------------|
-| ARI  | J.Hodgins    | RB       | 0.0              |
-| ATL  | B.Kozlowski  | TE       | 0.0              |
-| BAL  | T.Taylor     | WR       | 0.0              |
-| BUF  | J.Burns      | RB       | 0.0              |
-| CAR  | S.Smith      | WR       | 0.0              |
-| CHI  | B. Wade      | WR       | 0.0              |
-| CIN  | K.Washington | WR       | 0.0              |
-| CLE  | D. Sanders   | TE       | 0.0              |
-| DAL  | D.Campbell   | TE       | 0.0              |
-| DEN  | M.Anderson   | RB       | 0.0              |
-| DET  | D.Kircus     | WR       | 0.0              |
-| GB   | A.Chatman    | WR       | 0.0              |
-| HOU  | T.Hollings   | RB       | 0.0              |
-| IND  | A.Moorehead  | WR       | 0.0              |
-| JAX  | J.Smith      | WR       | 4.2              |
-| KC   | D. Hall      | WR       | 0.0              |
-| LA   | A.Harris     | RB       | 0.0              |
-| LAC  | G.Mattos     | WR       | 0.0              |
-| LV   | D. Jolley    | TE       | 0.0              |
-| MIA  | C.Chambers   | WR       | 6.2              |
-| MIN  | B. Liddiard  | TE       | 0.0              |
-| NE   | C.Fauria     | TE       | 0.0              |
-| NO   | K.Carter     | RB       | 0.0              |
-| NYG  | A.Toomer     | WR       | 0.0              |
-| NYJ  | J.Carter     | WR       | 0.0              |
-| PHI  | B.Westbrook  | RB       | 0.0              |
-| PIT  | J.Tuman      | TE       | 0.0              |
-| SEA  | I.Mili       | TE       | 0.0              |
-| SF   | A.Walker     | TE       | 0.0              |
-| TB   | K.McCardell  | WR       | 0.0              |
-| TEN  | C.Brown      | RB       | 0.0              |
-| WAS  | Z.Flemister  | TE       | 0.0              |
+| :----- :--------------- :--------- :----------------|
+|                Targets Share Leaders                |
+| Team | Player         | Position | Season Share (%) |
+| :----| :--------------| :--------| :----------------|
+| ARI  | J.Hodgins      | RB       | 0.0              |
+| ATL  | A.Crumpler     | TE       | 0.0              |
+| BAL  | A.Ricard       | RB       | 0.0              |
+| BUF  | A.Brown        | WR       | 0.0              |
+| CAR  | N.Goings       | RB       | 0.0              |
+| CHI  | D.White        | WR       | 0.0              |
+| CIN  | C.Dillon       | RB       | 0.0              |
+| CLE  | A.Shea         | TE       | 0.0              |
+| DAL  | Ra.Williams    | TE       | 0.0              |
+| DEN  | C.Sapp         | RB       | 0.0              |
+| DET  | B.Schroeder    | WR       | 0.0              |
+| GB   | A.Green        | RB       | 0.0              |
+| HOU  | J.Holloway     | TE       | 0.0              |
+| IND  | J.Davenport    | TE       | 0.0              |
+| JAX  | T.Edwards      | WR       | 4.2              |
+| KC   | J. Morton      | WR       | 0.0              |
+| LA   | S.McDonald     | WR       | 0.0              |
+| LAC  | A. Pinnock     | RB       | 0.0              |
+| LV   | R.Curry        | WR       | 0.0              |
+| MIA  | C.Chambers     | WR       | 6.2              |
+| MIN  | J. Kleinsasser | TE       | 0.0              |
+| NE   | D.Branch       | WR       | 0.0              |
+| NO   | E.Conwell      | TE       | 0.0              |
+| NYG  | I.Hilliard     | WR       | 0.0              |
+| NYJ  | J.Carter       | WR       | 0.0              |
+| PHI  | G.Lewis        | WR       | 0.0              |
+| PIT  | C. Doering     | WR       | 0.0              |
+| SEA  | S.Alexander    | RB       | 0.0              |
+| SF   | J.Weaver       | TE       | 0.0              |
+| TB   | A.Stecker      | RB       | 0.0              |
+| TEN  | D.Bennett      | WR       | 0.0              |
+| WAS  | K.Ware         | TE       | 0.0              |
 
 | :----- :------------- :--------- :----------------|
 |               Rush Att Share Leaders              |

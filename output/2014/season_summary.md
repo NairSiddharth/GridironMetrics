@@ -81,7 +81,7 @@
 | ARI  | J.Dwyer     | RB       | 50.0             |
 | ATL  | S.Jackson   | RB       | 35.6             |
 | BAL  | J.Forsett   | RB       | 31.2             |
-| BUF  | A.Dixon     | RB       | 10.7             |
+| BUF  | F.Jackson   | RB       | 10.7             |
 | CAR  | C.Ogbonnaya | RB       | 33.3             |
 | CHI  | M.Forte     | RB       | 21.9             |
 | CIN  | J.Hill      | RB       | 31.2             |
