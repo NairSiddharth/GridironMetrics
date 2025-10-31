@@ -70,3 +70,28 @@ RATE_LIMIT_STRICT = 10
 RATE_LIMIT_OTHER = 20
 # Default jail duration in seconds when a session/domain is put in jail for violations
 JAIL_DURATION_SECONDS = 24 * 60 * 60  # 24 hours
+
+# ============================================================================
+# INJURY ADJUSTMENT CONSTANTS (Phase 5)
+# ============================================================================
+
+# 3-Year Weighted Average Weights
+INJURY_YEAR1_WEIGHT = 0.50  # Current season
+INJURY_YEAR2_WEIGHT = 0.30  # Last season
+INJURY_YEAR3_WEIGHT = 0.20  # 2 seasons ago
+
+# Expected Games Missed Thresholds
+INJURY_RELIABLE_THRESHOLD = 3.0    # < 3 expected missed = reliable
+INJURY_MODERATE_THRESHOLD = 5.0    # 3-5 expected missed = moderate risk
+INJURY_PRONE_THRESHOLD = 7.0       # >= 7 expected missed = injury-prone
+
+# Injury Type Multipliers
+RECURRING_INJURY_MULTIPLIER = 1.25  # Recurring soft tissue injuries
+ONEOFF_INJURY_MULTIPLIER = 0.50     # Traumatic one-off injuries (broken bones, ACL)
+
+# Penalty Multipliers (how much to penalize missed games)
+# benefit_multiplier = 1.0 - penalty_multiplier
+INJURY_PENALTY_RELIABLE = 0.25   # Forgive 75% of missed games
+INJURY_PENALTY_MODERATE = 0.50   # Forgive 50% of missed games
+INJURY_PENALTY_ELEVATED = 0.75   # Forgive 25% of missed games
+INJURY_PENALTY_PRONE = 1.00      # Forgive 0% of missed games

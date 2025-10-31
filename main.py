@@ -1190,7 +1190,7 @@ def generate_qb_rankings(year: int) -> str:
     ])
     
     # Apply Phase 5 adjustments (talent context + sample size dampening)
-    adjusted_contributions = apply_phase5_adjustments(adjusted_contributions)
+    adjusted_contributions = apply_phase5_adjustments(adjusted_contributions, year)
     
     # Aggregate to season totals
     raw_season = raw_contributions.group_by(['player_id', 'player_name', 'team']).agg([
@@ -1344,7 +1344,7 @@ def generate_rb_rankings(year: int) -> str:
     ])
     
     # Apply Phase 5 adjustments (talent context + sample size dampening)
-    adjusted_contributions = apply_phase5_adjustments(adjusted_contributions)
+    adjusted_contributions = apply_phase5_adjustments(adjusted_contributions, year)
     
     # Aggregate to season totals
     # Raw scores (no adjustments)
@@ -1585,7 +1585,7 @@ def generate_wr_rankings(year: int) -> str:
     ])
     
     # Apply Phase 5 adjustments (talent context + sample size dampening)
-    adjusted_contributions = apply_phase5_adjustments(adjusted_contributions)
+    adjusted_contributions = apply_phase5_adjustments(adjusted_contributions, year)
     
     # Aggregate to season totals
     raw_season = raw_contributions.group_by(['player_id', 'player_name', 'team']).agg([
@@ -1819,7 +1819,7 @@ def generate_te_rankings(year: int) -> str:
     ])
     
     # Apply Phase 5 adjustments (talent context + sample size dampening)
-    adjusted_contributions = apply_phase5_adjustments(adjusted_contributions)
+    adjusted_contributions = apply_phase5_adjustments(adjusted_contributions, year)
     
     # Aggregate to season totals
     raw_season = raw_contributions.group_by(['player_id', 'player_name', 'team']).agg([
@@ -2169,22 +2169,29 @@ def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataF
     return contributions
 
 
-def apply_phase5_adjustments(contributions: pl.DataFrame) -> pl.DataFrame:
+def apply_phase5_adjustments(contributions: pl.DataFrame, year: int = None) -> pl.DataFrame:
     """
     Apply Phase 5 adjustments (talent context + sample size dampening).
     
     Two-pass system:
     1. Use baseline scores from contributions to calculate teammate quality
     2. Apply talent adjustment multiplier
-    3. Apply sample size dampening based on games played
+    3. Apply sample size dampening based on injury-adjusted games played
     
     Args:
         contributions: DataFrame with player weekly contributions including baseline scores
+        year: Season year for injury adjustment (optional)
         
     Returns:
         DataFrame with Phase 5 adjustments applied
     """
     logger.info("Applying Phase 5 adjustments (talent context + sample size dampening)")
+    
+    # Import injury adjustment functions
+    from modules.injury_cache_builder import calculate_injury_adjusted_games, get_player_gsis_id
+    
+    # Use year parameter for current season
+    current_season = year
     
     # Aggregate to player level with baseline scores and games played
     player_aggregates = contributions.group_by(['player_id', 'player_name', 'team', 'position']).agg([
@@ -2227,18 +2234,41 @@ def apply_phase5_adjustments(contributions: pl.DataFrame) -> pl.DataFrame:
     
     # Apply sample size dampening at player level
     # Group again to get updated scores after talent adjustment
-    player_final = contributions.group_by(['player_id', 'player_name', 'team']).agg([
+    player_final = contributions.group_by(['player_id', 'player_name', 'team', 'position']).agg([
         pl.col('player_overall_contribution').mean().alias('score_before_dampening'),
         pl.col('week').count().alias('games_played')
     ])
     
-    # Calculate dampened scores
+    # Calculate injury-adjusted effective games and dampened scores
+    logger.info("Calculating injury-adjusted sample size dampening...")
     dampened_scores = []
+    
     for row in player_final.iter_rows(named=True):
         score = row['score_before_dampening']
         games = row['games_played']
+        player_name = row['player_name']
+        team = row['team']
+        position = row['position']
         
-        dampened = context_adj.apply_sample_size_dampening(score, games, full_season_games=17)
+        # Try to get GSIS ID and calculate injury-adjusted games
+        effective_games = games  # Default to actual games
+        
+        if current_season is not None:
+            try:
+                gsis_id = get_player_gsis_id(player_name, team, position, current_season)
+                if gsis_id:
+                    effective_games = calculate_injury_adjusted_games(
+                        gsis_id, current_season, games, max_games=17
+                    )
+                    if effective_games != games:
+                        logger.debug(
+                            f"{player_name}: {games} actual → {effective_games:.1f} effective games"
+                        )
+            except Exception as e:
+                logger.debug(f"Could not calculate injury adjustment for {player_name}: {e}")
+        
+        # Apply dampening using effective games
+        dampened = context_adj.apply_sample_size_dampening(score, int(effective_games), full_season_games=17)
         
         dampened_scores.append({
             'player_id': row['player_id'],
@@ -2780,7 +2810,7 @@ def generate_top_contributors(year: int) -> tuple[str, str]:
     
     # Apply Phase 5 adjustments (talent context + sample size dampening)
     # Two-pass system: use baseline scores to calculate teammate quality, then dampen by games played
-    contributions = apply_phase5_adjustments(contributions)
+    contributions = apply_phase5_adjustments(contributions, year)
     
     # Join peak game scores back
     contributions = contributions.join(peak_games, on=['player_id', 'player_name', 'team'], how='left')

@@ -1,6 +1,7 @@
 """Rebuild PBP caches for all years with participation data (2016-2024)"""
 
 from modules.logger import get_logger
+from modules.injury_cache_builder import build_injury_cache
 from pathlib import Path
 import subprocess
 import sys
@@ -12,6 +13,12 @@ YEARS_TO_REBUILD = list(range(2016, 2025))
 
 if __name__ == "__main__":
     logger.info(f"Rebuilding PBP caches for {len(YEARS_TO_REBUILD)} years (2016-2024)")
+    
+    # First, rebuild injury cache
+    logger.info("=" * 80)
+    logger.info("Building injury and roster caches...")
+    logger.info("=" * 80)
+    build_injury_cache(YEARS_TO_REBUILD[0], YEARS_TO_REBUILD[-1])
     
     python_exe = sys.executable
     
