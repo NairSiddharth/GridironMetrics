@@ -1262,10 +1262,13 @@ def generate_qb_rankings(year: int) -> str:
     adjusted_contributions = adjusted_contributions.with_columns([
         pl.lit('QB').alias('position')
     ])
-    
+
     # Apply Phase 4 adjustments (catch rate + blocking quality)
     adjusted_contributions = apply_phase4_adjustments(adjusted_contributions, year)
-    
+
+    # Apply Phase 4.5 adjustments (weather-based performance)
+    adjusted_contributions = apply_phase4_5_weather_adjustments(adjusted_contributions, year, 'QB')
+
     # Save per-game contributions before Phase 5 for consistency metrics
     per_game_contributions = adjusted_contributions.clone().select([
         'player_id', 'player_name', 'team', 'week', 'player_overall_contribution'
@@ -1416,10 +1419,13 @@ def generate_rb_rankings(year: int) -> str:
     adjusted_contributions = adjusted_contributions.with_columns([
         pl.lit('RB').alias('position')
     ])
-    
+
     # Apply Phase 4 adjustments (catch rate + blocking quality)
     adjusted_contributions = apply_phase4_adjustments(adjusted_contributions, year)
-    
+
+    # Apply Phase 4.5 adjustments (weather-based performance)
+    adjusted_contributions = apply_phase4_5_weather_adjustments(adjusted_contributions, year, 'RB')
+
     # Save per-game contributions before Phase 5 for consistency metrics
     per_game_contributions = adjusted_contributions.clone().select([
         'player_id', 'player_name', 'team', 'week', 'player_overall_contribution'
@@ -1657,10 +1663,13 @@ def generate_wr_rankings(year: int) -> str:
     adjusted_contributions = adjusted_contributions.with_columns([
         pl.lit('WR').alias('position')
     ])
-    
+
     # Apply Phase 4 adjustments (catch rate + blocking quality)
     adjusted_contributions = apply_phase4_adjustments(adjusted_contributions, year)
-    
+
+    # Apply Phase 4.5 adjustments (weather-based performance)
+    adjusted_contributions = apply_phase4_5_weather_adjustments(adjusted_contributions, year, 'WR')
+
     # Save per-game contributions before Phase 5 for consistency metrics
     per_game_contributions = adjusted_contributions.clone().select([
         'player_id', 'player_name', 'team', 'week', 'player_overall_contribution'
@@ -1891,10 +1900,13 @@ def generate_te_rankings(year: int) -> str:
     adjusted_contributions = adjusted_contributions.with_columns([
         pl.lit('TE').alias('position')
     ])
-    
+
     # Apply Phase 4 adjustments (catch rate + blocking quality)
     adjusted_contributions = apply_phase4_adjustments(adjusted_contributions, year)
-    
+
+    # Apply Phase 4.5 adjustments (weather-based performance)
+    adjusted_contributions = apply_phase4_5_weather_adjustments(adjusted_contributions, year, 'TE')
+
     # Save per-game contributions before Phase 5 for consistency metrics
     per_game_contributions = adjusted_contributions.clone().select([
         'player_id', 'player_name', 'team', 'week', 'player_overall_contribution'
@@ -2275,8 +2287,122 @@ def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataF
     ])
     
     logger.info(f"Phase 4 adjustments applied to {len(unique_players)} players")
-    
+
     return contributions
+
+
+def apply_phase4_5_weather_adjustments(contributions: pl.DataFrame, year: int, position: str) -> pl.DataFrame:
+    """
+    Apply Phase 4.5 weather-based performance adjustments.
+
+    Calculates weather adjustments based on player historical performance in
+    different weather conditions (temperature, wind, precipitation, environment)
+    relative to position averages.
+
+    Args:
+        contributions: DataFrame with player weekly contributions
+        year: Season year
+        position: Position code ('QB', 'RB', 'WR', 'TE')
+
+    Returns:
+        DataFrame with weather adjustments applied to player_overall_contribution
+    """
+    logger.info(f"Applying Phase 4.5 weather adjustments for {position} {year}")
+
+    try:
+        # Import weather adjustment function
+        from modules.weather_cache_builder import (
+            build_weather_performance_cache,
+            calculate_weather_adjustment
+        )
+
+        # Pre-build cache for this season/position (idempotent - uses cache if exists)
+        build_weather_performance_cache(year, position)
+
+        # Load PBP data to get game-level weather info
+        pbp_cache_file = Path(CACHE_DIR) / "pbp" / f"pbp_{year}.parquet"
+        if not pbp_cache_file.exists():
+            logger.warning(f"PBP data not cached for {year}. Skipping weather adjustments.")
+            return contributions
+
+        pbp_data = pl.read_parquet(pbp_cache_file)
+
+        # Get unique game weather conditions
+        game_weather = pbp_data.select([
+            'game_id', 'temp', 'wind', 'weather', 'roof'
+        ]).unique(subset=['game_id'])
+
+        # Add weather adjustment column (default 1.0)
+        contributions = contributions.with_columns([
+            pl.lit(1.0).alias('weather_adjustment')
+        ])
+
+        # For each player-week combination, calculate weather adjustment
+        for row_idx in range(len(contributions)):
+            player_id = contributions['player_id'][row_idx]
+            week = contributions['week'][row_idx]
+            team = contributions['team'][row_idx]
+
+            # Find the game for this player-week-team combination
+            player_game = pbp_data.filter(
+                (pl.col('week') == week) &
+                ((pl.col('home_team') == team) | (pl.col('away_team') == team))
+            ).select('game_id').unique()
+
+            if len(player_game) == 0:
+                continue
+
+            game_id = player_game['game_id'][0]
+
+            # Get weather for this game
+            game_weather_row = game_weather.filter(pl.col('game_id') == game_id)
+
+            if len(game_weather_row) == 0:
+                continue
+
+            game_temp = game_weather_row['temp'][0]
+            game_wind = game_weather_row['wind'][0]
+            game_weather_desc = game_weather_row['weather'][0]
+            game_roof = game_weather_row['roof'][0]
+
+            # Skip if missing weather data
+            if game_temp is None or game_wind is None:
+                continue
+
+            # Calculate weather adjustment for this player-game
+            weather_adj = calculate_weather_adjustment(
+                player_id=player_id,
+                season=year,
+                position=position,
+                game_temp=game_temp,
+                game_wind=game_wind,
+                game_weather=game_weather_desc,
+                game_roof=game_roof
+            )
+
+            # Update the weather adjustment for this row
+            contributions[row_idx, 'weather_adjustment'] = weather_adj
+
+        # Apply weather adjustment to player_overall_contribution
+        contributions = contributions.with_columns([
+            (pl.col('player_overall_contribution') *
+             pl.col('weather_adjustment')).alias('player_overall_contribution')
+        ])
+
+        # Count how many players got adjustments != 1.0
+        adjusted_players = contributions.filter(
+            pl.col('weather_adjustment') != 1.0
+        )['player_id'].n_unique()
+
+        logger.info(f"Phase 4.5 weather adjustments applied to {adjusted_players} {position}s")
+
+        return contributions
+
+    except Exception as e:
+        logger.error(f"Error applying weather adjustments: {e}")
+        import traceback
+        traceback.print_exc()
+        return contributions
 
 
 def apply_phase5_adjustments(contributions: pl.DataFrame, year: int = None) -> pl.DataFrame:
@@ -3513,10 +3639,10 @@ def process_year(year: int) -> tuple[bool, str, str, str, str, str, str, str, st
 
 def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
     """Check all years for missing caches and rebuild all cache types as needed.
-    
+
     This runs before main processing to ensure all caches exist and have required data.
-    Rebuilds PBP, positional player stats, team stats, FTN, injury, and penalty caches.
-    
+    Rebuilds PBP, positional player stats, team stats, FTN, injury, penalty, and weather caches.
+
     Args:
         years: List of years to check
         parallel: Whether to rebuild in parallel (default True)
@@ -3526,18 +3652,20 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
     from modules.ftn_cache_builder import build_ftn_cache_for_year, FTN_START_YEAR
     from modules.injury_cache_builder import build_injury_cache, INJURY_DATA_START_YEAR
     from modules.penalty_cache_builder import build_penalty_cache_for_year
-    
+    from modules.weather_cache_builder import build_weather_performance_cache
+
     logger.info("Checking cache completeness for all years...")
-    
-    required_cols = ['defenders_in_box', 'defense_coverage_type', 
+
+    required_cols = ['defenders_in_box', 'defense_coverage_type',
                      'defenders_in_box_multiplier', 'coverage_multiplier']
-    
+
     years_needing_pbp_rebuild = []
     years_needing_positional_rebuild = []
     years_needing_ftn_rebuild = []
     years_needing_team_rebuild = []
     years_needing_injury_rebuild = []
     years_needing_penalty_rebuild = []
+    years_needing_weather_rebuild = []
     
     # Check each year's caches
     for year in years:
@@ -3609,8 +3737,21 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
         if not penalty_path.exists():
             logger.info(f"Penalty cache missing for {year}, will rebuild")
             years_needing_penalty_rebuild.append(year)
-    
-    total_rebuilds = len(set(years_needing_pbp_rebuild + years_needing_positional_rebuild + years_needing_team_rebuild + years_needing_ftn_rebuild + years_needing_injury_rebuild + years_needing_penalty_rebuild))
+
+        # Check weather cache (all 4 positions required)
+        weather_cache_dir = Path("cache/weather")
+        positions = ['QB', 'RB', 'WR', 'TE']
+        missing_weather = False
+        for pos in positions:
+            weather_path = weather_cache_dir / f"weather_{pos.lower()}_{year}.parquet"
+            if not weather_path.exists():
+                missing_weather = True
+                break
+        if missing_weather:
+            logger.info(f"Weather cache missing for {year}, will rebuild")
+            years_needing_weather_rebuild.append(year)
+
+    total_rebuilds = len(set(years_needing_pbp_rebuild + years_needing_positional_rebuild + years_needing_team_rebuild + years_needing_ftn_rebuild + years_needing_injury_rebuild + years_needing_penalty_rebuild + years_needing_weather_rebuild))
     
     if total_rebuilds == 0:
         logger.info("All caches up to date!")
@@ -3629,9 +3770,11 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
         logger.info(f"  Injury: {years_needing_injury_rebuild}")
     if years_needing_penalty_rebuild:
         logger.info(f"  Penalty: {years_needing_penalty_rebuild}")
-    
+    if years_needing_weather_rebuild:
+        logger.info(f"  Weather: {years_needing_weather_rebuild}")
+
     # Rebuild all cache types
-    years_to_rebuild = sorted(set(years_needing_pbp_rebuild + years_needing_positional_rebuild + years_needing_team_rebuild + years_needing_ftn_rebuild + years_needing_injury_rebuild + years_needing_penalty_rebuild))
+    years_to_rebuild = sorted(set(years_needing_pbp_rebuild + years_needing_positional_rebuild + years_needing_team_rebuild + years_needing_ftn_rebuild + years_needing_injury_rebuild + years_needing_penalty_rebuild + years_needing_weather_rebuild))
     
     # Handle injury and penalty caches separately (they rebuild in bulk)
     if years_needing_injury_rebuild:
@@ -3650,7 +3793,17 @@ def check_and_rebuild_caches(years: list[int], parallel: bool = True) -> None:
             logger.info("Penalty cache rebuilt successfully")
         except Exception as e:
             logger.warning(f"Penalty cache rebuild incomplete: {e}")
-    
+
+    if years_needing_weather_rebuild:
+        try:
+            logger.info(f"Rebuilding weather cache for years {min(years_needing_weather_rebuild)}-{max(years_needing_weather_rebuild)}...")
+            for year in years_needing_weather_rebuild:
+                for position in ['QB', 'RB', 'WR', 'TE']:
+                    build_weather_performance_cache(year, position)
+            logger.info("Weather cache rebuilt successfully")
+        except Exception as e:
+            logger.warning(f"Weather cache rebuild incomplete: {e}")
+
     if parallel and len(years_to_rebuild) > 1:
         from concurrent.futures import ThreadPoolExecutor
         logger.info(f"Rebuilding {len(years_to_rebuild)} caches in parallel...")

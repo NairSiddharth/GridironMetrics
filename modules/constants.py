@@ -153,3 +153,33 @@ SKILL_PLAYER_PENALTIES = [
     'Illegal Touch Pass',
     'Illegal Touch Kick'
 ]
+
+# ============================================================================
+# WEATHER ADJUSTMENT CONSTANTS (Phase 4.5)
+# ============================================================================
+
+# Temperature Thresholds (Fahrenheit)
+WEATHER_TEMP_COLD = 32.0      # Below 32°F = cold
+WEATHER_TEMP_COOL = 55.0      # 32-55°F = cool
+WEATHER_TEMP_MODERATE = 75.0  # 55-75°F = moderate
+# Above 75°F = hot
+
+# Wind Thresholds (mph)
+WEATHER_WIND_CALM = 10.0      # Below 10 mph = calm
+WEATHER_WIND_MODERATE = 20.0  # 10-20 mph = moderate
+# Above 20 mph = high
+
+# Adjustment Factor Caps
+WEATHER_FACTOR_MIN = 0.95     # Min adjustment per individual factor
+WEATHER_FACTOR_MAX = 1.05     # Max adjustment per individual factor
+WEATHER_TOTAL_MIN = 0.90      # Min total weather adjustment
+WEATHER_TOTAL_MAX = 1.10      # Max total weather adjustment
+
+# Sample Size Requirements
+WEATHER_MIN_PLAYS = 30        # Minimum plays in a condition to calculate adjustment
+
+# Precipitation Keywords (for weather description parsing)
+WEATHER_PRECIP_KEYWORDS = [
+    'rain', 'snow', 'sleet', 'hail', 'drizzle',
+    'showers', 'flurries', 'precipitation'
+]
