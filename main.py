@@ -2500,19 +2500,33 @@ def apply_phase4_5_weather_adjustments(contributions: pl.DataFrame, year: int, p
 
         # Build list of weather adjustments for each player-week combination
         weather_adjustments = []
+        skip_no_game = 0
+        skip_no_weather_data = 0
+        skip_null_weather = 0
+
+        # Debug: Check team name formats
+        if len(contributions) > 0:
+            sample_contrib_team = contributions['team'][0]
+            sample_pbp_teams = pbp_data.select(['home_team', 'away_team']).head(1)
+            logger.info(f"DEBUG - Sample contribution team: '{sample_contrib_team}' (type: {type(sample_contrib_team)})")
+            logger.info(f"DEBUG - Sample PBP teams: {sample_pbp_teams}")
 
         for row in contributions.iter_rows(named=True):
             player_id = row['player_id']
             week = row['week']
             team = row['team']
 
+            # Normalize team name to uppercase for matching with PBP data
+            team_upper = team.upper() if team else None
+
             # Find the game for this player-week-team combination
             player_game = pbp_data.filter(
                 (pl.col('week') == week) &
-                ((pl.col('home_team') == team) | (pl.col('away_team') == team))
+                ((pl.col('home_team') == team_upper) | (pl.col('away_team') == team_upper))
             ).select('game_id').unique()
 
             if len(player_game) == 0:
+                skip_no_game += 1
                 continue
 
             game_id = player_game['game_id'][0]
@@ -2521,6 +2535,7 @@ def apply_phase4_5_weather_adjustments(contributions: pl.DataFrame, year: int, p
             game_weather_row = game_weather.filter(pl.col('game_id') == game_id)
 
             if len(game_weather_row) == 0:
+                skip_no_weather_data += 1
                 continue
 
             game_temp = game_weather_row['temp'][0]
@@ -2530,6 +2545,7 @@ def apply_phase4_5_weather_adjustments(contributions: pl.DataFrame, year: int, p
 
             # Skip if missing weather data
             if game_temp is None or game_wind is None:
+                skip_null_weather += 1
                 continue
 
             # Calculate weather adjustment for this player-game
@@ -2551,23 +2567,30 @@ def apply_phase4_5_weather_adjustments(contributions: pl.DataFrame, year: int, p
                 'weather_adjustment': weather_adj
             })
 
+        logger.info(f"Weather adjustment debug for {position}: {len(weather_adjustments)} adjustments calculated, "
+                   f"skipped {skip_no_game} (no game), {skip_no_weather_data} (no weather row), {skip_null_weather} (null weather)")
+
         # Join weather adjustments back to contributions DataFrame
         if len(weather_adjustments) > 0:
             weather_adj_df = pl.DataFrame(weather_adjustments)
+            # Drop the weather_adjustment column if it exists (from previous phases)
+            if 'weather_adjustment' in contributions.columns:
+                contributions = contributions.drop('weather_adjustment')
+            # Join the calculated adjustments
             contributions = contributions.join(
                 weather_adj_df,
                 on=['player_id', 'week', 'team'],
-                how='left',
-                suffix='_weather'
+                how='left'
             ).with_columns([
                 # Use calculated adjustment if available, otherwise default to 1.0
-                pl.col('weather_adjustment_weather').fill_null(1.0).alias('weather_adjustment')
-            ]).drop('weather_adjustment_weather')
+                pl.col('weather_adjustment').fill_null(1.0)
+            ])
         else:
             # No weather adjustments calculated, add default column
-            contributions = contributions.with_columns([
-                pl.lit(1.0).alias('weather_adjustment')
-            ])
+            if 'weather_adjustment' not in contributions.columns:
+                contributions = contributions.with_columns([
+                    pl.lit(1.0).alias('weather_adjustment')
+                ])
 
         # Apply weather adjustment to player_overall_contribution
         contributions = contributions.with_columns([
