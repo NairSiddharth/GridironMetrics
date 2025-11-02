@@ -6,59 +6,59 @@
 
 | Rank | Player      | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :-----------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | T.Barber    | nyg  | RB       | 7032.26        | 1.000      | 16    | 439.52   | 459.30  | 8/1/7       | Decreasing |
-| 2    | C.Martin    | nyj  | RB       | 5988.36        | 1.000      | 16    | 374.27   | 395.98  | 9/2/5       | Stable     |
-| 3    | S.Alexander | sea  | RB       | 5832.92        | 1.000      | 16    | 364.56   | 376.81  | 8/3/5       | Stable     |
-| 4    | E.James     | ind  | RB       | 5807.95        | 1.000      | 16    | 363.00   | 371.31  | 5/4/7       | Stable     |
-| 5    | D.Davis     | hou  | RB       | 5653.40        | 1.000      | 15    | 376.89   | 360.58  | 6/2/7       | Increasing |
-| 6    | C.Dillon    | ne   | RB       | 5420.32        | 1.000      | 15    | 361.35   | 369.65  | 7/1/7       | Stable     |
-| 7    | L.Tomlinson | lac  | RB       | 5110.04        | 1.000      | 15    | 340.67   | 330.10  | 6/1/8       | Increasing |
-| 8    | R.Johnson   | cin  | RB       | 5001.24        | 1.000      | 16    | 312.58   | 274.39  | 8/1/7       | Increasing |
-| 9    | C.Johnson   | cin  | WR       | 4759.46        | 1.000      | 16    | 297.47   | 249.89  | 8/1/7       | Increasing |
-| 10   | C.Portis    | was  | RB       | 4625.99        | 1.000      | 15    | 308.40   | 333.06  | 7/1/7       | Decreasing |
+| 1    | T.Barber    | NYG  | RB       | 3696.02        | 1.000      | 16    | 231.00   | 239.59  | 8/2/6       | Decreasing |
+| 2    | C.Martin    | NYJ  | RB       | 3318.62        | 1.000      | 16    | 207.41   | 211.73  | 8/2/6       | Stable     |
+| 3    | D.Davis     | HOU  | RB       | 3258.82        | 1.000      | 15    | 217.25   | 214.64  | 6/3/6       | Increasing |
+| 4    | S.Alexander | SEA  | RB       | 3165.68        | 1.000      | 16    | 197.85   | 197.40  | 8/1/7       | Decreasing |
+| 5    | E.James     | IND  | RB       | 3074.29        | 1.000      | 16    | 192.14   | 192.02  | 7/2/7       | Stable     |
+| 6    | R.Johnson   | CIN  | RB       | 2866.72        | 1.000      | 16    | 179.17   | 169.62  | 8/1/7       | Increasing |
+| 7    | C.Dillon    | NE   | RB       | 2838.78        | 1.000      | 15    | 189.25   | 195.72  | 7/3/5       | Stable     |
+| 8    | L.Tomlinson | SD   | RB       | 2782.22        | 1.000      | 15    | 185.48   | 174.95  | 4/2/9       | Increasing |
+| 9    | C.Johnson   | CIN  | WR       | 2648.51        | 1.000      | 16    | 165.53   | 148.51  | 8/1/7       | Increasing |
+| 10   | C.Portis    | WAS  | RB       | 2637.11        | 1.000      | 15    | 175.81   | 186.37  | 7/1/7       | Decreasing |
 
 ## RB Rankings
 
 | Rank | Player      | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :-----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | T.Barber    | nyg  | 7032.26        | 1.000      | 16    | 439.52   | 459.30  | 8/1/7       | Decreasing |
-| 2    | C.Martin    | nyj  | 5988.36        | 1.000      | 16    | 374.27   | 395.98  | 9/2/5       | Stable     |
-| 3    | S.Alexander | sea  | 5832.92        | 1.000      | 16    | 364.56   | 376.81  | 8/3/5       | Stable     |
-| 4    | E.James     | ind  | 5807.95        | 1.000      | 16    | 363.00   | 371.31  | 5/4/7       | Stable     |
-| 5    | D.Davis     | hou  | 5653.40        | 1.000      | 15    | 376.89   | 360.58  | 6/2/7       | Increasing |
-| 6    | C.Dillon    | ne   | 5420.32        | 1.000      | 15    | 361.35   | 369.65  | 7/1/7       | Stable     |
-| 7    | L.Tomlinson | lac  | 5110.04        | 1.000      | 15    | 340.67   | 330.10  | 6/1/8       | Increasing |
-| 8    | R.Johnson   | cin  | 5001.24        | 1.000      | 16    | 312.58   | 274.39  | 8/1/7       | Increasing |
-| 9    | C.Portis    | was  | 4625.99        | 1.000      | 15    | 308.40   | 333.06  | 7/1/7       | Decreasing |
-| 10   | F.Taylor    | jax  | 4522.75        | 1.000      | 14    | 323.05   | 304.17  | 6/2/6       | Increasing |
+| 1    | T.Barber    | NYG  | 3696.02        | 1.000      | 16    | 231.00   | 239.59  | 8/2/6       | Decreasing |
+| 2    | C.Martin    | NYJ  | 3318.62        | 1.000      | 16    | 207.41   | 211.73  | 8/2/6       | Stable     |
+| 3    | D.Davis     | HOU  | 3258.82        | 1.000      | 15    | 217.25   | 214.64  | 6/3/6       | Increasing |
+| 4    | S.Alexander | SEA  | 3165.68        | 1.000      | 16    | 197.85   | 197.40  | 8/1/7       | Decreasing |
+| 5    | E.James     | IND  | 3074.29        | 1.000      | 16    | 192.14   | 192.02  | 7/2/7       | Stable     |
+| 6    | R.Johnson   | CIN  | 2866.72        | 1.000      | 16    | 179.17   | 169.62  | 8/1/7       | Increasing |
+| 7    | C.Dillon    | NE   | 2838.78        | 1.000      | 15    | 189.25   | 195.72  | 7/3/5       | Stable     |
+| 8    | L.Tomlinson | SD   | 2782.22        | 1.000      | 15    | 185.48   | 174.95  | 4/2/9       | Increasing |
+| 9    | C.Portis    | WAS  | 2637.11        | 1.000      | 15    | 175.81   | 186.37  | 7/1/7       | Decreasing |
+| 10   | W.McGahee   | BUF  | 2437.83        | 1.000      | 15    | 162.52   | 153.19  | 7/1/7       | Increasing |
 
 ## WR Rankings
 
 | Rank | Player     | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | C.Johnson  | cin  | 4759.46        | 1.000      | 16    | 297.47   | 249.89  | 8/1/7       | Increasing |
-| 2    | J.Horn     | no   | 4519.94        | 1.000      | 16    | 282.50   | 272.33  | 8/3/5       | Increasing |
-| 3    | M.Muhammad | car  | 4337.35        | 1.000      | 16    | 271.08   | 291.21  | 7/1/8       | Increasing |
-| 4    | T.Holt     | la   | 4198.75        | 1.000      | 16    | 262.42   | 270.39  | 8/0/8       | Stable     |
-| 5    | J.Walker   | gb   | 4025.89        | 1.000      | 16    | 251.62   | 237.03  | 8/1/7       | Stable     |
-| 6    | E.Moulds   | buf  | 3856.65        | 1.000      | 16    | 241.04   | 238.43  | 8/0/8       | Decreasing |
-| 7    | M.Harrison | ind  | 3682.34        | 1.000      | 16    | 230.15   | 208.49  | 7/2/7       | Stable     |
-| 8    | M.Clayton  | tb   | 3641.88        | 1.000      | 16    | 227.62   | 248.80  | 6/3/7       | Stable     |
-| 9    | I.Bruce    | la   | 3629.42        | 1.000      | 16    | 226.84   | 227.99  | 6/3/7       | Stable     |
-| 10   | D.Bennett  | ten  | 3623.13        | 1.000      | 15    | 241.54   | 186.54  | 6/2/7       | Increasing |
+| 1    | C.Johnson  | CIN  | 2648.51        | 1.000      | 16    | 165.53   | 148.51  | 8/1/7       | Increasing |
+| 2    | J.Horn     | NO   | 2537.56        | 1.000      | 16    | 158.60   | 152.78  | 8/4/4       | Stable     |
+| 3    | M.Muhammad | CAR  | 2518.10        | 1.000      | 16    | 157.38   | 172.44  | 8/0/8       | Increasing |
+| 4    | T.Holt     | STL  | 2479.07        | 1.000      | 16    | 154.94   | 146.72  | 8/1/7       | Increasing |
+| 5    | J.Walker   | GB   | 2406.82        | 1.000      | 16    | 150.43   | 143.73  | 8/2/6       | Stable     |
+| 6    | M.Harrison | IND  | 2177.41        | 1.000      | 16    | 136.09   | 119.74  | 8/1/7       | Increasing |
+| 7    | I.Bruce    | STL  | 2152.86        | 1.000      | 16    | 134.55   | 145.77  | 7/3/6       | Stable     |
+| 8    | E.Moulds   | BUF  | 2141.54        | 1.000      | 16    | 133.85   | 130.98  | 8/0/8       | Decreasing |
+| 9    | R.Wayne    | IND  | 2066.71        | 1.000      | 16    | 129.17   | 144.72  | 8/1/7       | Increasing |
+| 10   | D.Driver   | GB   | 2061.55        | 1.000      | 16    | 128.85   | 116.27  | 8/1/7       | Increasing |
 
 ## TE Rankings
 
 | Rank | Player      | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :-----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | T.Gonzalez  | kc   | 3518.93        | 1.000      | 16    | 219.93   | 226.80  | 7/1/8       | Stable     |
-| 2    | J.Witten    | dal  | 3005.90        | 1.000      | 16    | 187.87   | 181.14  | 7/1/8       | Stable     |
-| 3    | A.Gates     | lac  | 2974.63        | 1.000      | 15    | 198.31   | 213.40  | 5/2/8       | Increasing |
-| 4    | E.Johnson   | sf   | 2750.38        | 1.000      | 16    | 171.90   | 164.69  | 8/1/7       | Decreasing |
-| 5    | R.McMichael | mia  | 2737.37        | 1.000      | 16    | 171.09   | 176.10  | 7/1/8       | Decreasing |
-| 6    | J.Shockey   | nyg  | 2644.72        | 1.000      | 15    | 176.31   | 192.02  | 7/3/5       | Increasing |
-| 7    | A.Crumpler  | atl  | 2564.98        | 1.000      | 14    | 183.21   | 159.37  | 7/0/7       | Increasing |
-| 8    | J.Wiggins   | min  | 2025.66        | 1.000      | 14    | 144.69   | 124.04  | 5/0/9       | Stable     |
-| 9    | C.Cooley    | was  | 1542.35        | 1.000      | 14    | 110.17   | 84.40   | 7/0/7       | Increasing |
-| 10   | F.Jones     | ari  | 1525.84        | 1.000      | 16    | 95.37    | 94.63   | 8/1/7       | Decreasing |
+| 1    | T.Gonzalez  | KC   | 1913.11        | 1.000      | 16    | 119.57   | 118.38  | 7/1/8       | Stable     |
+| 2    | J.Witten    | DAL  | 1787.62        | 1.000      | 16    | 111.73   | 95.65   | 7/2/7       | Stable     |
+| 3    | A.Gates     | SD   | 1638.33        | 1.000      | 15    | 109.22   | 115.66  | 4/2/9       | Increasing |
+| 4    | R.McMichael | MIA  | 1633.80        | 1.000      | 16    | 102.11   | 104.34  | 8/0/8       | Decreasing |
+| 5    | E.Johnson   | SF   | 1612.19        | 1.000      | 16    | 100.76   | 97.17   | 8/1/7       | Decreasing |
+| 6    | J.Shockey   | NYG  | 1461.47        | 1.000      | 15    | 97.43    | 94.26   | 7/1/7       | Increasing |
+| 7    | A.Crumpler  | ATL  | 1413.56        | 1.000      | 14    | 100.97   | 86.51   | 7/0/7       | Increasing |
+| 8    | J.Wiggins   | MIN  | 1121.01        | 1.000      | 14    | 80.07    | 67.93   | 4/2/8       | Stable     |
+| 9    | F.Jones     | ARI  | 895.15         | 1.000      | 16    | 55.95    | 54.72   | 8/1/7       | Decreasing |
+| 10   | C.Cooley    | WAS  | 894.99         | 1.000      | 14    | 63.93    | 51.95   | 7/0/7       | Increasing |
 

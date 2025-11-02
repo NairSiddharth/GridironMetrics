@@ -6,59 +6,59 @@
 
 | Rank | Player       | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :------------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | D.Henry      | ten  | RB       | 7868.84        | 1.072      | 16    | 491.80   | 486.47  | 8/1/7       | Increasing |
-| 2    | A.Kamara     | no   | RB       | 7492.25        | 1.038      | 15    | 499.48   | 481.11  | 7/2/6       | Decreasing |
-| 3    | D.Cook       | min  | RB       | 7425.30        | 1.071      | 14    | 530.38   | 569.05  | 5/7/2       | Stable     |
-| 4    | S.Diggs      | buf  | WR       | 6435.60        | 1.017      | 16    | 402.22   | 356.02  | 6/2/8       | Increasing |
-| 5    | D.Montgomery | chi  | RB       | 6253.31        | 1.044      | 15    | 416.89   | 382.67  | 5/4/6       | Increasing |
-| 6    | D.Hopkins    | ari  | WR       | 5904.56        | 1.000      | 16    | 369.03   | 396.96  | 8/1/7       | Stable     |
-| 7    | E.Elliott    | dal  | RB       | 5851.04        | 1.053      | 15    | 390.07   | 387.44  | 6/4/5       | Stable     |
-| 8    | T.Hill       | kc   | WR       | 5826.83        | 1.008      | 15    | 388.46   | 384.14  | 7/2/6       | Increasing |
-| 9    | D.Waller     | lv   | TE       | 5733.98        | 1.009      | 16    | 358.37   | 319.71  | 8/1/7       | Increasing |
-| 10   | J.Taylor     | ind  | RB       | 5636.59        | 1.063      | 15    | 375.77   | 378.68  | 7/3/5       | Increasing |
+| 1    | D.Henry      | TEN  | RB       | 4351.64        | 1.072      | 16    | 271.98   | 247.45  | 8/1/7       | Increasing |
+| 2    | A.Kamara     | NO   | RB       | 4157.82        | 1.038      | 15    | 277.19   | 252.65  | 6/2/7       | Decreasing |
+| 3    | D.Cook       | MIN  | RB       | 4049.66        | 1.071      | 14    | 289.26   | 277.67  | 5/3/6       | Stable     |
+| 4    | S.Diggs      | BUF  | WR       | 3667.32        | 1.017      | 16    | 229.21   | 197.99  | 6/3/7       | Increasing |
+| 5    | D.Montgomery | CHI  | RB       | 3581.56        | 1.044      | 15    | 238.77   | 248.23  | 7/3/5       | Increasing |
+| 6    | T.Hill       | KC   | WR       | 3366.85        | 1.008      | 15    | 224.46   | 195.29  | 6/2/7       | Increasing |
+| 7    | E.Elliott    | DAL  | RB       | 3333.85        | 1.053      | 15    | 222.26   | 234.13  | 7/2/6       | Decreasing |
+| 8    | D.Hopkins    | ARI  | WR       | 3305.92        | 1.000      | 16    | 206.62   | 227.51  | 8/2/6       | Stable     |
+| 9    | D.Adams      | GB   | WR       | 3263.29        | 1.012      | 14    | 233.09   | 220.03  | 7/0/7       | Decreasing |
+| 10   | D.Metcalf    | SEA  | WR       | 3137.31        | 1.006      | 16    | 196.08   | 176.80  | 8/2/6       | Decreasing |
 
 ## RB Rankings
 
 | Rank | Player       | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :------------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | D.Henry      | ten  | 7868.84        | 1.072      | 16    | 491.80   | 486.47  | 8/1/7       | Increasing |
-| 2    | A.Kamara     | no   | 7492.25        | 1.038      | 15    | 499.48   | 481.11  | 7/2/6       | Decreasing |
-| 3    | D.Cook       | min  | 7425.30        | 1.071      | 14    | 530.38   | 569.05  | 5/7/2       | Stable     |
-| 4    | D.Montgomery | chi  | 6253.31        | 1.044      | 15    | 416.89   | 382.67  | 5/4/6       | Increasing |
-| 5    | E.Elliott    | dal  | 5851.04        | 1.053      | 15    | 390.07   | 387.44  | 6/4/5       | Stable     |
-| 6    | J.Taylor     | ind  | 5636.59        | 1.063      | 15    | 375.77   | 378.68  | 7/3/5       | Increasing |
-| 7    | J.Jacobs     | lv   | 5403.40        | 1.063      | 15    | 360.23   | 288.84  | 7/1/7       | Decreasing |
-| 8    | A.Jones      | gb   | 5290.76        | 1.050      | 14    | 377.91   | 380.71  | 6/2/6       | Stable     |
-| 9    | J.Robinson   | jax  | 5058.29        | 1.050      | 14    | 361.31   | 337.90  | 5/4/5       | Stable     |
-| 10   | M.Gordon     | den  | 4824.86        | 1.048      | 15    | 321.66   | 260.54  | 5/3/7       | Stable     |
+| 1    | D.Henry      | TEN  | 4351.64        | 1.072      | 16    | 271.98   | 247.45  | 8/1/7       | Increasing |
+| 2    | A.Kamara     | NO   | 4157.82        | 1.038      | 15    | 277.19   | 252.65  | 6/2/7       | Decreasing |
+| 3    | D.Cook       | MIN  | 4049.66        | 1.071      | 14    | 289.26   | 277.67  | 5/3/6       | Stable     |
+| 4    | D.Montgomery | CHI  | 3581.56        | 1.044      | 15    | 238.77   | 248.23  | 7/3/5       | Increasing |
+| 5    | E.Elliott    | DAL  | 3333.85        | 1.053      | 15    | 222.26   | 234.13  | 7/2/6       | Decreasing |
+| 6    | J.Robinson   | JAX  | 2988.68        | 1.050      | 14    | 213.48   | 190.03  | 4/4/6       | Stable     |
+| 7    | J.Taylor     | IND  | 2987.19        | 1.063      | 15    | 199.15   | 192.96  | 6/3/6       | Increasing |
+| 8    | J.Jacobs     | LV   | 2974.19        | 1.063      | 15    | 198.28   | 161.59  | 6/2/7       | Decreasing |
+| 9    | A.Jones      | GB   | 2967.10        | 1.050      | 14    | 211.94   | 219.96  | 6/4/4       | Stable     |
+| 10   | M.Gordon     | DEN  | 2790.94        | 1.048      | 15    | 186.06   | 173.70  | 7/1/7       | Decreasing |
 
 ## WR Rankings
 
 | Rank | Player      | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :-----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | S.Diggs     | buf  | 6435.60        | 1.017      | 16    | 402.22   | 356.02  | 6/2/8       | Increasing |
-| 2    | D.Hopkins   | ari  | 5904.56        | 1.000      | 16    | 369.03   | 396.96  | 8/1/7       | Stable     |
-| 3    | T.Hill      | kc   | 5826.83        | 1.008      | 15    | 388.46   | 384.14  | 7/2/6       | Increasing |
-| 4    | D.Metcalf   | sea  | 5540.69        | 1.006      | 16    | 346.29   | 320.35  | 8/1/7       | Decreasing |
-| 5    | D.Adams     | gb   | 5507.07        | 1.012      | 14    | 393.36   | 399.89  | 7/0/7       | Decreasing |
-| 6    | T.Lockett   | sea  | 5409.64        | 0.996      | 16    | 338.10   | 251.23  | 8/0/8       | Stable     |
-| 7    | C.Ridley    | atl  | 5381.15        | 1.014      | 15    | 358.74   | 353.62  | 6/3/6       | Stable     |
-| 8    | J.Jefferson | min  | 5110.90        | 1.009      | 16    | 319.43   | 310.65  | 8/1/7       | Increasing |
-| 9    | R.Woods     | la   | 4844.21        | 1.004      | 16    | 302.76   | 259.34  | 8/1/7       | Stable     |
-| 10   | A.Cooper    | dal  | 4731.53        | 1.012      | 16    | 295.72   | 313.14  | 8/3/5       | Stable     |
+| 1    | S.Diggs     | BUF  | 3667.32        | 1.017      | 16    | 229.21   | 197.99  | 6/3/7       | Increasing |
+| 2    | T.Hill      | KC   | 3366.85        | 1.008      | 15    | 224.46   | 195.29  | 6/2/7       | Increasing |
+| 3    | D.Hopkins   | ARI  | 3305.92        | 1.000      | 16    | 206.62   | 227.51  | 8/2/6       | Stable     |
+| 4    | D.Adams     | GB   | 3263.29        | 1.012      | 14    | 233.09   | 220.03  | 7/0/7       | Decreasing |
+| 5    | D.Metcalf   | SEA  | 3137.31        | 1.006      | 16    | 196.08   | 176.80  | 8/2/6       | Decreasing |
+| 6    | C.Ridley    | ATL  | 3050.30        | 1.014      | 15    | 203.35   | 205.04  | 6/4/5       | Stable     |
+| 7    | T.Lockett   | SEA  | 3027.64        | 0.996      | 16    | 189.23   | 140.28  | 8/0/8       | Stable     |
+| 8    | J.Jefferson | MIN  | 2992.75        | 1.009      | 16    | 187.05   | 183.38  | 8/1/7       | Increasing |
+| 9    | R.Woods     | LA   | 2807.98        | 1.004      | 16    | 175.50   | 157.91  | 8/1/7       | Stable     |
+| 10   | A.Thielen   | MIN  | 2758.88        | 1.010      | 15    | 183.93   | 150.21  | 6/2/7       | Stable     |
 
 ## TE Rankings
 
 | Rank | Player      | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :-----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | D.Waller    | lv   | 5733.98        | 1.009      | 16    | 358.37   | 319.71  | 8/1/7       | Increasing |
-| 2    | T.Kelce     | kc   | 5539.07        | 1.006      | 15    | 369.27   | 391.09  | 7/2/6       | Increasing |
-| 3    | L.Thomas    | was  | 3463.87        | 1.005      | 16    | 216.49   | 194.56  | 8/2/6       | Increasing |
-| 4    | T.Hockenson | det  | 2967.95        | 1.002      | 16    | 185.50   | 203.22  | 8/2/6       | Decreasing |
-| 5    | R.Tonyan    | gb   | 2938.23        | 1.011      | 15    | 195.88   | 176.34  | 7/1/7       | Increasing |
-| 6    | M.Andrews   | bal  | 2902.08        | 0.994      | 14    | 207.29   | 226.06  | 7/0/7       | Stable     |
-| 7    | D.Schultz   | dal  | 2868.32        | 1.002      | 16    | 179.27   | 164.88  | 8/2/6       | Stable     |
-| 8    | M.Gesicki   | mia  | 2811.71        | 1.012      | 15    | 187.45   | 166.23  | 5/5/5       | Increasing |
-| 9    | E.Engram    | nyg  | 2707.39        | 1.009      | 16    | 169.21   | 139.66  | 6/2/8       | Decreasing |
-| 10   | N.Fant      | den  | 2665.95        | 1.010      | 14    | 190.43   | 190.17  | 6/2/6       | Stable     |
+| 1    | T.Kelce     | KC   | 3112.34        | 1.006      | 15    | 207.49   | 216.61  | 7/3/5       | Increasing |
+| 2    | D.Waller    | LV   | 3052.77        | 1.009      | 16    | 190.80   | 182.63  | 8/1/7       | Increasing |
+| 3    | L.Thomas    | WAS  | 2014.00        | 1.005      | 16    | 125.88   | 104.65  | 8/1/7       | Increasing |
+| 4    | T.Hockenson | DET  | 1761.63        | 1.002      | 16    | 110.10   | 120.16  | 8/3/5       | Decreasing |
+| 5    | M.Andrews   | BAL  | 1724.45        | 0.994      | 14    | 123.17   | 133.52  | 6/3/5       | Increasing |
+| 6    | R.Tonyan    | GB   | 1704.64        | 1.011      | 15    | 113.64   | 101.79  | 7/1/7       | Increasing |
+| 7    | D.Schultz   | DAL  | 1647.03        | 1.002      | 16    | 102.94   | 92.47   | 8/2/6       | Stable     |
+| 8    | M.Gesicki   | MIA  | 1643.35        | 1.012      | 15    | 109.56   | 91.79   | 6/3/6       | Increasing |
+| 9    | N.Fant      | DEN  | 1580.24        | 1.010      | 14    | 112.87   | 100.91  | 6/2/6       | Stable     |
+| 10   | E.Engram    | NYG  | 1536.41        | 1.009      | 16    | 96.03    | 81.10   | 7/1/8       | Decreasing |
 

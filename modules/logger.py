@@ -79,11 +79,12 @@ def _get_or_create_queue_listener(log_file: str, max_bytes: int, backup_count: i
     if _log_queue is None:
         _log_queue = Queue(-1)
         
-        # File handler with rotation
+        # File handler with rotation (UTF-8 encoding for Unicode support)
         file_handler = logging.handlers.RotatingFileHandler(
             log_file,
             maxBytes=max_bytes,
-            backupCount=backup_count
+            backupCount=backup_count,
+            encoding='utf-8'
         )
         file_formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -149,7 +150,8 @@ def get_logger(
         json_handler = logging.handlers.RotatingFileHandler(
             JSON_LOG_FILE,
             maxBytes=max_bytes,
-            backupCount=backup_count
+            backupCount=backup_count,
+            encoding='utf-8'
         )
         json_formatter = JSONFormatter()
         json_handler.setFormatter(json_formatter)

@@ -430,8 +430,8 @@ def normalize_team_codes_in_dataframe(df, year: int, team_column: str = "team",
         DataFrame with normalized team codes
 
     Note:
-        This function requires polars to be imported. It's designed to work
-        with the Polars library used throughout the codebase.
+        This function uses vectorized operations for thread-safety and performance.
+        Previous implementation with map_elements caused deadlocks in parallel processing.
     """
     try:
         import polars as pl
@@ -439,22 +439,107 @@ def normalize_team_codes_in_dataframe(df, year: int, team_column: str = "team",
         # If polars not available, return unchanged
         return df
 
-    # Normalize team column if it exists
+    # Build replacement mapping for this specific year (vectorized)
+    # This avoids per-row lambda calls that cause GIL contention in threads
+    replacements = {}
+
+    # Handle relocations based on year
+    if year > 2016:
+        replacements['sd'] = 'lac'
+        replacements['SD'] = 'LAC'
+    else:
+        replacements['lac'] = 'sd'
+        replacements['LAC'] = 'SD'
+
+    if year > 2019:
+        replacements['oak'] = 'lv'
+        replacements['OAK'] = 'LV'
+    else:
+        replacements['lv'] = 'oak'
+        replacements['LV'] = 'OAK'
+
+    if year > 2015:
+        replacements['stl'] = 'la'
+        replacements['STL'] = 'LA'
+    else:
+        replacements['la'] = 'stl'
+        replacements['LA'] = 'STL'
+
+    # Normalize team column if it exists (vectorized replace)
     if team_column in df.columns:
         df = df.with_columns([
-            pl.col(team_column).map_elements(
-                lambda code: get_team_code_for_year(code, year) if code else code,
-                return_dtype=pl.Utf8
-            ).alias(team_column)
+            pl.col(team_column).replace(replacements, default=pl.col(team_column)).alias(team_column)
         ])
 
-    # Normalize opponent column if it exists
+    # Normalize opponent column if it exists (vectorized replace)
     if opponent_column in df.columns:
         df = df.with_columns([
-            pl.col(opponent_column).map_elements(
-                lambda code: get_team_code_for_year(code, year) if code else code,
-                return_dtype=pl.Utf8
-            ).alias(opponent_column)
+            pl.col(opponent_column).replace(replacements, default=pl.col(opponent_column)).alias(opponent_column)
         ])
 
     return df
+
+# ============================================================================
+# METRIC CONFIGURATIONS
+# ============================================================================
+
+# Metric groupings for combined stats
+COMBINED_METRICS = {
+    'total_yards': {
+        'metrics': ['receiving_yards', 'rushing_yards'],
+        'display': 'Total Yards (Rush + Rec)'
+    },
+    'total_touchdowns': {
+        'metrics': ['receiving_tds', 'rushing_tds'],
+        'display': 'Total TDs (Rush + Rec)'
+    },
+    'overall_contribution': {
+        'metrics': ['receiving_yards', 'rushing_yards', 'receiving_tds', 'rushing_tds', 'receptions', 'targets', 'carries'],
+        'display': 'Overall Offensive Contribution',
+        'weights': {  # Weights based on EPA and WPA analysis
+            'receiving_yards': 1.0,      # Base unit for comparison
+            'rushing_yards': 1.0,        # Equal to receiving yards in value
+            'receiving_tds': 50.0,       # Based on EPA conversion (~7 points / 0.14 points per yard)
+            'rushing_tds': 50.0,         # Equal to receiving TD in value
+            'receptions': 8.0,           # Success rate and chain-moving value beyond yards
+            'targets': 3.0,              # Opportunity cost and defensive attention value
+            'carries': 3.0               # Similar opportunity value to targets
+        }
+    },
+    'qb_contribution': {
+        'metrics': ['passing_yards', 'passing_tds', 'rushing_yards', 'rushing_tds', 'completions', 'attempts'],
+        'display': 'QB Overall Contribution',
+        'weights': {
+            'passing_yards': 1.0,        # Base unit
+            'passing_tds': 50.0,         # ~7 points / 0.14 per yard
+            'rushing_yards': 1.2,        # Slightly higher value for QB rushing
+            'rushing_tds': 50.0,         # Equal TD value
+            'completions': 5.0,          # Chain-moving and success rate value
+            'attempts': -1.0             # Penalty for inefficiency (balanced by completions)
+        }
+    }
+}
+
+SKILL_POSITIONS = ['WR', 'RB', 'TE']
+
+# Skill position metrics for table generation
+SKILL_POSITION_METRICS = {
+    'rushing_yards': 'Rush Yards',
+    'receiving_yards': 'Rec Yards',
+    'rushing_tds': 'Rush TD',
+    'receiving_tds': 'Rec TD',
+    'receptions': 'Receptions',
+    'targets': 'Targets',
+    'carries': 'Rush Att'
+}
+
+# QB-specific metrics
+QB_METRICS = {
+    'passing_yards': 'Pass Yards',
+    'passing_tds': 'Pass TDs',
+    'completions': 'Completions',
+    'attempts': 'Attempts',
+    'passing_interceptions': 'Interceptions',
+    'rushing_yards': 'Rush Yards',
+    'rushing_tds': 'Rush TDs'
+}
