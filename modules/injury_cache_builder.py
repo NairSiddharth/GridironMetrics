@@ -85,6 +85,10 @@ def load_injury_data(season: int) -> pl.DataFrame:
         # Check if it's a 404 error (data not available for this season yet)
         if "404" in str(e) or "Not Found" in str(e):
             logger.debug(f"Injury data not yet available for {season} (expected for current/future seasons)")
+            # Cache empty DataFrame to avoid repeated API calls
+            empty_df = pl.DataFrame()
+            empty_df.write_csv(cache_file)
+            logger.debug(f"Cached empty injury data for {season} to prevent repeated API calls")
         else:
             logger.warning(f"Failed to load injury data for {season}: {e}")
         return pl.DataFrame()
@@ -134,6 +138,10 @@ def load_roster_data(season: int) -> pl.DataFrame:
         # Check if it's a 404 error (data not available for this season yet)
         if "404" in str(e) or "Not Found" in str(e):
             logger.debug(f"Roster data not yet available for {season} (expected for current/future seasons)")
+            # Cache empty DataFrame to avoid repeated API calls
+            empty_df = pl.DataFrame()
+            empty_df.write_csv(cache_file)
+            logger.debug(f"Cached empty roster data for {season} to prevent repeated API calls")
         else:
             logger.warning(f"Failed to load roster data for {season}: {e}")
         return pl.DataFrame()
@@ -180,7 +188,8 @@ def count_games_missed_due_to_injury(
     )
     
     if len(player_rosters) == 0:
-        logger.warning(f"No roster data found for player {player_gsis_id} in {season}")
+        # This is expected for rookies when looking back at prior seasons
+        logger.debug(f"No roster data found for player {player_gsis_id} in {season}")
         return {
             'games_played': 0,
             'injury_missed': 0,

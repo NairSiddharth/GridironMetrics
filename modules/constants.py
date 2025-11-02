@@ -1,6 +1,12 @@
 from datetime import datetime
 from pathlib import Path
 
+# ============================================================================
+# TEAM CODE MAPPINGS AND RELOCATIONS
+# ============================================================================
+
+# Pro-Football-Reference team codes (used for PFR scraping)
+# NOTE: PFR uses static codes that never change, even after relocations
 TEAM_CODES = {
     "crd": "Arizona Cardinals",
     "atl": "Atlanta Falcons",
@@ -35,6 +41,106 @@ TEAM_CODES = {
     "oti": "Tennessee Titans",
     "was": "Washington Commanders",
 }
+
+# nflverse team codes (used in cache directories and data files)
+# Includes both current and historical codes for relocated teams
+NFLVERSE_TEAM_CODES = {
+    # Current teams (as of 2025)
+    "ari": "Arizona Cardinals",
+    "atl": "Atlanta Falcons",
+    "bal": "Baltimore Ravens",
+    "buf": "Buffalo Bills",
+    "car": "Carolina Panthers",
+    "chi": "Chicago Bears",
+    "cin": "Cincinnati Bengals",
+    "cle": "Cleveland Browns",
+    "dal": "Dallas Cowboys",
+    "den": "Denver Broncos",
+    "det": "Detroit Lions",
+    "gb": "Green Bay Packers",
+    "hou": "Houston Texans",
+    "ind": "Indianapolis Colts",
+    "jax": "Jacksonville Jaguars",
+    "kc": "Kansas City Chiefs",
+    "lv": "Las Vegas Raiders",          # Current (2020+)
+    "lac": "Los Angeles Chargers",      # Current (2017+)
+    "la": "Los Angeles Rams",           # Current (2016+)
+    "mia": "Miami Dolphins",
+    "min": "Minnesota Vikings",
+    "ne": "New England Patriots",
+    "no": "New Orleans Saints",
+    "nyg": "New York Giants",
+    "nyj": "New York Jets",
+    "phi": "Philadelphia Eagles",
+    "pit": "Pittsburgh Steelers",
+    "sf": "San Francisco 49ers",
+    "sea": "Seattle Seahawks",
+    "tb": "Tampa Bay Buccaneers",
+    "ten": "Tennessee Titans",
+    "was": "Washington Commanders",
+
+    # Historical codes (for relocated teams, used in early cache data 2000-2002)
+    "oak": "Oakland Raiders",           # Historical (used 2000-2002 in cache)
+    "sd": "San Diego Chargers",         # Historical (used 2000-2002 in cache)
+    "stl": "St. Louis Rams",            # Historical (used 2000-2002 in cache)
+    "jac": "Jacksonville Jaguars",      # Historical alternate code
+}
+
+# Team relocations mapping: tracks when teams moved and what codes changed
+TEAM_RELOCATIONS = {
+    "sd": {
+        "new_code": "lac",
+        "relocation_year": 2017,
+        "old_location": "San Diego",
+        "new_location": "Los Angeles",
+        "franchise": "Chargers"
+    },
+    "oak": {
+        "new_code": "lv",
+        "relocation_year": 2020,
+        "old_location": "Oakland",
+        "new_location": "Las Vegas",
+        "franchise": "Raiders"
+    },
+    "stl": {
+        "new_code": "la",
+        "relocation_year": 2016,
+        "old_location": "St. Louis",
+        "new_location": "Los Angeles",
+        "franchise": "Rams"
+    }
+}
+
+# Pro-Football-Reference codes → nflverse codes mapping
+# PFR uses static codes, nflverse uses current location codes retroactively
+PFR_TO_NFLVERSE_MAP = {
+    # Standard mappings (different abbreviation styles)
+    "crd": "ari",  # Arizona Cardinals
+    "rav": "bal",  # Baltimore Ravens
+    "clt": "ind",  # Indianapolis Colts
+    "gnb": "gb",   # Green Bay Packers
+    "htx": "hou",  # Houston Texans
+    "kan": "kc",   # Kansas City Chiefs
+    "nwe": "ne",   # New England Patriots
+    "nor": "no",   # New Orleans Saints
+    "oti": "ten",  # Tennessee Titans
+    "sfo": "sf",   # San Francisco 49ers
+    "tam": "tb",   # Tampa Bay Buccaneers
+
+    # Relocated teams (PFR uses historical codes, nflverse uses current)
+    "rai": "lv",   # Raiders (PFR: rai for all years, nflverse: lv)
+    "sdg": "lac",  # Chargers (PFR: sdg for all years, nflverse: lac)
+    "ram": "la",   # Rams (PFR: ram for all years, nflverse: la)
+
+    # Teams with same codes in both systems
+    "atl": "atl", "buf": "buf", "car": "car", "chi": "chi", "cin": "cin",
+    "cle": "cle", "dal": "dal", "den": "den", "det": "det", "jax": "jax",
+    "mia": "mia", "min": "min", "nyg": "nyg", "nyj": "nyj", "phi": "phi",
+    "pit": "pit", "sea": "sea", "was": "was"
+}
+
+# Reverse mapping: nflverse → PFR
+NFLVERSE_TO_PFR_MAP = {v: k for k, v in PFR_TO_NFLVERSE_MAP.items()}
 
 START_YEAR = 2000  # change if you want earlier data
 END_YEAR = datetime.now().year   # change if you want later data
@@ -183,3 +289,172 @@ WEATHER_PRECIP_KEYWORDS = [
     'rain', 'snow', 'sleet', 'hail', 'drizzle',
     'showers', 'flurries', 'precipitation'
 ]
+
+# ============================================================================
+# TEAM CODE UTILITY FUNCTIONS
+# ============================================================================
+
+def get_team_code_for_year(team_code: str, year: int) -> str:
+    """
+    Get the appropriate team code for a given year, accounting for relocations.
+
+    This function handles the complexity of team relocations and different coding
+    systems (PFR vs nflverse). It returns the correct nflverse code to use for
+    loading data from cache directories.
+
+    Args:
+        team_code: Team code (can be old/new, PFR/nflverse format)
+        year: Season year
+
+    Returns:
+        Correct nflverse team code for that year
+
+    Examples:
+        >>> get_team_code_for_year('sd', 2015)   # San Diego Chargers before move
+        'sd'
+        >>> get_team_code_for_year('sd', 2018)   # After relocation to LA
+        'lac'
+        >>> get_team_code_for_year('lac', 2015)  # Asking for LAC in 2015
+        'sd'
+        >>> get_team_code_for_year('rai', 2024)  # PFR code for Raiders
+        'lv'
+    """
+    # Normalize to lowercase
+    team_code = team_code.lower()
+
+    # First, convert PFR codes to nflverse codes
+    if team_code in PFR_TO_NFLVERSE_MAP:
+        team_code = PFR_TO_NFLVERSE_MAP[team_code]
+
+    # For years 2000-2002, nflverse cache uses old codes
+    # (due to data inconsistency in early nflverse processing)
+    if year <= 2002:
+        # If this is a new code for a relocated team, use the old code instead
+        for old_code, info in TEAM_RELOCATIONS.items():
+            if team_code == info["new_code"]:
+                return old_code
+        return team_code
+
+    # For years 2003+, check if this team has relocated
+    # Use the appropriate code based on relocation year
+    for old_code, info in TEAM_RELOCATIONS.items():
+        new_code = info["new_code"]
+        relocation_year = info["relocation_year"]
+
+        # If we're asking about this franchise (old or new code)
+        if team_code in [old_code, new_code]:
+            # nflverse retroactively uses new codes for ALL years 2003+
+            # regardless of actual relocation year
+            return new_code
+
+    # No relocation applies, return as-is
+    return team_code
+
+
+def get_all_team_codes_for_year(year: int) -> list:
+    """
+    Get all valid team codes for a specific year.
+
+    This accounts for:
+    - Teams that didn't exist yet (e.g., Houston Texans before 2002)
+    - Team relocations and which codes to use
+
+    Args:
+        year: Season year
+
+    Returns:
+        List of team codes that should have data for that year
+    """
+    all_codes = []
+
+    # Get all nflverse codes
+    for code in NFLVERSE_TEAM_CODES.keys():
+        # Skip historical codes if we're past the relocation
+        if code in ["oak", "sd", "stl"] and year > 2002:
+            continue
+
+        # Skip current relocated team codes for early years
+        if year <= 2002:
+            if code in ["lv", "lac", "la"]:
+                continue
+
+        # Skip Houston Texans before 2002
+        if code == "hou" and year < 2002:
+            continue
+
+        # Skip jac (use jax instead)
+        if code == "jac":
+            continue
+
+        all_codes.append(code)
+
+    return sorted(all_codes)
+
+
+def normalize_team_code(team_code: str, source: str = "auto") -> str:
+    """
+    Normalize a team code to nflverse format.
+
+    Args:
+        team_code: Team code to normalize
+        source: Source system - "pfr", "nflverse", or "auto" (detect automatically)
+
+    Returns:
+        Normalized nflverse team code
+    """
+    team_code = team_code.lower()
+
+    if source == "pfr" or (source == "auto" and team_code in PFR_TO_NFLVERSE_MAP):
+        return PFR_TO_NFLVERSE_MAP.get(team_code, team_code)
+
+    return team_code
+
+
+def normalize_team_codes_in_dataframe(df, year: int, team_column: str = "team",
+                                      opponent_column: str = "opponent_team"):
+    """
+    Normalize team codes in a Polars DataFrame to handle relocations.
+
+    For team and opponent columns, ensures consistent codes accounting for:
+    - Historical relocations (SD→LAC, OAK→LV, STL→LA)
+    - nflverse retroactive standardization
+    - Pro-Football-Reference static codes
+
+    Args:
+        df: Polars DataFrame with team code columns
+        year: Season year (determines which codes to use)
+        team_column: Name of the team column (default: "team")
+        opponent_column: Name of the opponent team column (default: "opponent_team")
+
+    Returns:
+        DataFrame with normalized team codes
+
+    Note:
+        This function requires polars to be imported. It's designed to work
+        with the Polars library used throughout the codebase.
+    """
+    try:
+        import polars as pl
+    except ImportError:
+        # If polars not available, return unchanged
+        return df
+
+    # Normalize team column if it exists
+    if team_column in df.columns:
+        df = df.with_columns([
+            pl.col(team_column).map_elements(
+                lambda code: get_team_code_for_year(code, year) if code else code,
+                return_dtype=pl.Utf8
+            ).alias(team_column)
+        ])
+
+    # Normalize opponent column if it exists
+    if opponent_column in df.columns:
+        df = df.with_columns([
+            pl.col(opponent_column).map_elements(
+                lambda code: get_team_code_for_year(code, year) if code else code,
+                return_dtype=pl.Utf8
+            ).alias(opponent_column)
+        ])
+
+    return df

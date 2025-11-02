@@ -397,7 +397,8 @@ def calculate_weather_adjustment(
             logger.debug(f"Player {player_id} not in weather cache (insufficient plays)")
             return 1.0
 
-        player_row = player_weather[0]
+        # Get first row as a dictionary for scalar access
+        player_row = player_weather.row(0, named=True)
 
         # Categorize current game conditions
         temp_cat = categorize_temperature(game_temp)

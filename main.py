@@ -9,7 +9,11 @@ from pathlib import Path
 import polars as pl
 from prettytable import PrettyTable, TableStyle
 from modules.logger import get_logger
-from modules.constants import START_YEAR, END_YEAR, CACHE_DIR
+from modules.constants import (
+    START_YEAR, END_YEAR, CACHE_DIR,
+    get_team_code_for_year, get_all_team_codes_for_year,
+    normalize_team_codes_in_dataframe, TEAM_RELOCATIONS
+)
 from modules.offensive_metrics import OffensiveMetricsCalculator
 from modules.play_by_play import PlayByPlayProcessor
 from modules.context_adjustments import ContextAdjustments
@@ -87,19 +91,101 @@ COMBINED_METRICS = {
 
 SKILL_POSITIONS = ['WR', 'RB', 'TE']
 
+
+def is_season_complete(year: int) -> bool:
+    """
+    Check if a season is complete based on current date.
+
+    Args:
+        year: Season year to check
+
+    Returns:
+        True if season is complete, False if ongoing
+    """
+    from datetime import datetime
+
+    current_year = datetime.now().year
+    current_month = datetime.now().month
+
+    # Previous years are always complete
+    if year < current_year:
+        return True
+
+    # Current year: complete if February or later (after Super Bowl)
+    if year == current_year and current_month >= 2:
+        return True
+
+    return False
+
+
+def classify_player_profile(boom_count: int, steady_count: int, bust_count: int) -> str:
+    """
+    Classify player's overall performance profile based on game distribution.
+
+    Args:
+        boom_count: Number of boom games (>0.5 SD above mean)
+        steady_count: Number of steady games (within ±0.5 SD of mean)
+        bust_count: Number of bust games (<0.5 SD below mean)
+
+    Returns:
+        Profile classification string
+    """
+    total_games = boom_count + steady_count + bust_count
+
+    if total_games == 0:
+        return "N/A"
+
+    steady_pct = steady_count / total_games
+    volatile_pct = (boom_count + bust_count) / total_games
+
+    # Classify based on distribution patterns
+    if steady_pct >= 0.50:
+        return "Consistent"
+    elif volatile_pct >= 0.75:
+        return "Boom/Bust"
+    elif boom_count > bust_count * 1.5:
+        return "High-Ceiling"
+    elif bust_count > boom_count * 1.5:
+        return "Low-Floor"
+    else:
+        return "Volatile"
+
+
 def load_team_weekly_stats(year: int) -> pl.DataFrame:
-    """Load team weekly stats for a given year."""
+    """Load team weekly stats for a given year, handling team relocations."""
     try:
         # Get all team data from the cache
         team_data = []
         team_cache_dir = Path(CACHE_DIR) / "team_stats"
+        loaded_teams = set()  # Track which teams we've loaded to avoid duplicates
+
+        # For each team directory, try to load data for this year
         for team_dir in team_cache_dir.iterdir():
             if team_dir.is_dir():
-                file_path = team_dir / f"{team_dir.name}-{year}.csv"
+                team_code = team_dir.name
+
+                # Skip if we've already loaded this team (handles relocation cases)
+                if team_code in loaded_teams:
+                    continue
+
+                file_path = team_dir / f"{team_code}-{year}.csv"
                 if file_path.exists():
                     try:
                         df = pl.read_csv(file_path, infer_schema_length=10000)
+
+                        # Normalize team codes in the dataframe
+                        df = normalize_team_codes_in_dataframe(df, year)
+
                         team_data.append(df)
+                        loaded_teams.add(team_code)
+
+                        # For relocated teams, mark the other code as loaded too
+                        for old_code, info in TEAM_RELOCATIONS.items():
+                            if team_code == old_code:
+                                loaded_teams.add(info["new_code"])
+                            elif team_code == info["new_code"]:
+                                loaded_teams.add(old_code)
+
                     except Exception as e:
                         logger.error(f"Error reading {file_path}: {str(e)}")
                         continue
@@ -160,21 +246,24 @@ def load_position_weekly_stats(year: int, position: str) -> pl.DataFrame:
         if not file_path.exists():
             logger.error(f"No {position} data found for {year}")
             return None
-        
+
         df = pl.read_csv(file_path)
-        
+
         # Convert problematic list columns to String type
         for col in ['fg_blocked_list', 'fg_missed_list', 'fg_made_list',
                    'fg_made_distance', 'fg_missed_distance', 'fg_blocked_distance', 'gwfg_distance']:
             if col in df.columns:
                 df = df.with_columns(pl.col(col).cast(pl.Utf8, strict=False))
-        
+
         # Convert columns that should be Float64 but might be String
         float_columns = ['pacr', 'passing_cpoe', 'passing_epa', 'racr', 'rushing_epa', 'receiving_epa']
         for col in float_columns:
             if col in df.columns and df[col].dtype == pl.Utf8:
                 df = df.with_columns(pl.col(col).cast(pl.Float64, strict=False))
-        
+
+        # Normalize team codes to handle relocations
+        df = normalize_team_codes_in_dataframe(df, year)
+
         return df
     except Exception as e:
         logger.error(f"Error loading {position} stats for {year}: {str(e)}")
@@ -257,26 +346,26 @@ def calculate_defensive_stats(team_stats: pl.DataFrame) -> pl.DataFrame:
         on=['week', 'opponent_team'],
         how='left'
     ).with_columns([
-        # What defense allowed
-        pl.col('opponent_points_scored').alias('points_allowed'),
-        pl.col('opponent_passing_yards').alias('passing_yards_allowed'),
-        pl.col('opponent_rushing_yards').alias('rushing_yards_allowed'),
-        pl.col('opponent_passing_tds').alias('passing_tds_allowed'),
-        pl.col('opponent_rushing_tds').alias('rushing_tds_allowed'),
+        # What defense allowed - cast to Float64 to ensure numeric type
+        pl.col('opponent_points_scored').cast(pl.Float64).fill_null(0.0).alias('points_allowed'),
+        pl.col('opponent_passing_yards').cast(pl.Float64).fill_null(0.0).alias('passing_yards_allowed'),
+        pl.col('opponent_rushing_yards').cast(pl.Float64).fill_null(0.0).alias('rushing_yards_allowed'),
+        pl.col('opponent_passing_tds').cast(pl.Float64).fill_null(0.0).alias('passing_tds_allowed'),
+        pl.col('opponent_rushing_tds').cast(pl.Float64).fill_null(0.0).alias('rushing_tds_allowed'),
         # What defense generated (sacks on opponent QB)
-        pl.col('opponent_sacks_suffered').alias('sacks_generated'),
+        pl.col('opponent_sacks_suffered').cast(pl.Float64).fill_null(0.0).alias('sacks_generated'),
         # Turnovers forced
-        pl.col('opponent_interceptions_thrown').alias('interceptions_forced'),
-        (pl.col('opponent_rush_fumbles_lost').fill_null(0) +
-         pl.col('opponent_rec_fumbles_lost').fill_null(0)).alias('fumbles_forced')
+        pl.col('opponent_interceptions_thrown').cast(pl.Float64).fill_null(0.0).alias('interceptions_forced'),
+        (pl.col('opponent_rush_fumbles_lost').cast(pl.Float64).fill_null(0.0) +
+         pl.col('opponent_rec_fumbles_lost').cast(pl.Float64).fill_null(0.0)).alias('fumbles_forced')
     ])
 
-    # Add direct defensive stats from team's own defensive columns
+    # Add direct defensive stats from team's own defensive columns - cast to Float64
     defensive_stats = defensive_stats.with_columns([
-        pl.col('def_sacks').fill_null(0).alias('def_sacks_recorded'),
-        pl.col('def_qb_hits').fill_null(0).alias('def_qb_hits_recorded'),
-        pl.col('def_interceptions').fill_null(0).alias('def_interceptions_recorded'),
-        pl.col('def_tackles_for_loss').fill_null(0).alias('def_tfl_recorded')
+        pl.col('def_sacks').cast(pl.Float64).fill_null(0.0).alias('def_sacks_recorded'),
+        pl.col('def_qb_hits').cast(pl.Float64).fill_null(0.0).alias('def_qb_hits_recorded'),
+        pl.col('def_interceptions').cast(pl.Float64).fill_null(0.0).alias('def_interceptions_recorded'),
+        pl.col('def_tackles_for_loss').cast(pl.Float64).fill_null(0.0).alias('def_tfl_recorded')
     ])
 
     return defensive_stats
@@ -295,34 +384,45 @@ def adjust_for_opponent(df: pl.DataFrame, opponent_stats: pl.DataFrame) -> pl.Da
     # Sort by team and week to ensure proper rolling calculation
     opponent_rolling = opponent_with_defense.sort(['team', 'week'])
     
-    # Calculate cumulative stats through each week for each team
+    # Calculate game weights: ramp from 0.25 to 1.0 over first 4 games
+    # This downweights early-season volatility
     opponent_rolling = opponent_rolling.with_columns([
-        # Cumulative sums for each team through current week
-        pl.col('points_allowed').fill_null(0).cum_sum().over('team').alias('cum_points_allowed'),
-        pl.col('passing_yards_allowed').fill_null(0).cum_sum().over('team').alias('cum_pass_yards_allowed'),
-        pl.col('rushing_yards_allowed').fill_null(0).cum_sum().over('team').alias('cum_rush_yards_allowed'),
-        pl.col('passing_tds_allowed').fill_null(0).cum_sum().over('team').alias('cum_pass_tds_allowed'),
-        pl.col('rushing_tds_allowed').fill_null(0).cum_sum().over('team').alias('cum_rush_tds_allowed'),
-        # Pass defense metrics
-        pl.col('def_sacks_recorded').fill_null(0).cum_sum().over('team').alias('cum_sacks'),
-        pl.col('def_qb_hits_recorded').fill_null(0).cum_sum().over('team').alias('cum_qb_hits'),
-        pl.col('def_interceptions_recorded').fill_null(0).cum_sum().over('team').alias('cum_interceptions'),
-        # Run defense metrics
-        pl.col('def_tfl_recorded').fill_null(0).cum_sum().over('team').alias('cum_tfls'),
-        pl.col('week').cum_count().over('team').alias('games_played')
+        pl.col('week').cum_count().over('team').alias('game_number')
     ]).with_columns([
-        # Calculate rolling averages (cumulative / games played)
-        (pl.col('cum_points_allowed') / pl.col('games_played')).alias('rolling_ppg_allowed'),
-        (pl.col('cum_pass_yards_allowed') / pl.col('games_played')).alias('rolling_pass_ypg_allowed'),
-        (pl.col('cum_rush_yards_allowed') / pl.col('games_played')).alias('rolling_rush_ypg_allowed'),
-        (pl.col('cum_pass_tds_allowed') / pl.col('games_played')).alias('rolling_pass_tds_allowed'),
-        (pl.col('cum_rush_tds_allowed') / pl.col('games_played')).alias('rolling_rush_tds_allowed'),
+        # Weight formula: min(game_number * 0.25, 1.0)
+        pl.when(pl.col('game_number') >= 4)
+          .then(1.0)
+          .otherwise(pl.col('game_number') * 0.25)
+          .alias('game_weight')
+    ])
+
+    # Calculate weighted cumulative stats (sum of stat * weight for each team)
+    opponent_rolling = opponent_rolling.with_columns([
+        # Weighted cumulative sums
+        (pl.col('points_allowed').fill_null(0) * pl.col('game_weight')).cum_sum().over('team').alias('weighted_cum_points_allowed'),
+        (pl.col('passing_yards_allowed').fill_null(0) * pl.col('game_weight')).cum_sum().over('team').alias('weighted_cum_pass_yards_allowed'),
+        (pl.col('rushing_yards_allowed').fill_null(0) * pl.col('game_weight')).cum_sum().over('team').alias('weighted_cum_rush_yards_allowed'),
+        (pl.col('passing_tds_allowed').fill_null(0) * pl.col('game_weight')).cum_sum().over('team').alias('weighted_cum_pass_tds_allowed'),
+        (pl.col('rushing_tds_allowed').fill_null(0) * pl.col('game_weight')).cum_sum().over('team').alias('weighted_cum_rush_tds_allowed'),
+        (pl.col('def_sacks_recorded').fill_null(0) * pl.col('game_weight')).cum_sum().over('team').alias('weighted_cum_sacks'),
+        (pl.col('def_qb_hits_recorded').fill_null(0) * pl.col('game_weight')).cum_sum().over('team').alias('weighted_cum_qb_hits'),
+        (pl.col('def_interceptions_recorded').fill_null(0) * pl.col('game_weight')).cum_sum().over('team').alias('weighted_cum_interceptions'),
+        (pl.col('def_tfl_recorded').fill_null(0) * pl.col('game_weight')).cum_sum().over('team').alias('weighted_cum_tfls'),
+        # Cumulative sum of weights (denominator)
+        pl.col('game_weight').cum_sum().over('team').alias('cum_weight')
+    ]).with_columns([
+        # Calculate weighted rolling averages (weighted sum / sum of weights)
+        (pl.col('weighted_cum_points_allowed') / pl.col('cum_weight')).alias('rolling_ppg_allowed'),
+        (pl.col('weighted_cum_pass_yards_allowed') / pl.col('cum_weight')).alias('rolling_pass_ypg_allowed'),
+        (pl.col('weighted_cum_rush_yards_allowed') / pl.col('cum_weight')).alias('rolling_rush_ypg_allowed'),
+        (pl.col('weighted_cum_pass_tds_allowed') / pl.col('cum_weight')).alias('rolling_pass_tds_allowed'),
+        (pl.col('weighted_cum_rush_tds_allowed') / pl.col('cum_weight')).alias('rolling_rush_tds_allowed'),
         # Pass defense rates
-        (pl.col('cum_sacks') / pl.col('games_played')).alias('rolling_sacks_pg'),
-        (pl.col('cum_qb_hits') / pl.col('games_played')).alias('rolling_qb_hits_pg'),
-        (pl.col('cum_interceptions') / pl.col('games_played')).alias('rolling_ints_pg'),
+        (pl.col('weighted_cum_sacks') / pl.col('cum_weight')).alias('rolling_sacks_pg'),
+        (pl.col('weighted_cum_qb_hits') / pl.col('cum_weight')).alias('rolling_qb_hits_pg'),
+        (pl.col('weighted_cum_interceptions') / pl.col('cum_weight')).alias('rolling_ints_pg'),
         # Run defense rates
-        (pl.col('cum_tfls') / pl.col('games_played')).alias('rolling_tfls_pg')
+        (pl.col('weighted_cum_tfls') / pl.col('cum_weight')).alias('rolling_tfls_pg')
     ])
     
     # Calculate league averages for this season (using same rolling approach)
@@ -362,19 +462,21 @@ def adjust_for_opponent(df: pl.DataFrame, opponent_stats: pl.DataFrame) -> pl.Da
     # Better defense (lower allowed, higher forced) = higher multiplier
     # Formula: league_avg / opponent_avg for "allowed" stats (yards, TDs)
     # Formula: opponent_avg / league_avg for "generated" stats (sacks, INTs, TFLs)
+    # Add small epsilon to denominators to prevent division by zero
+    # Cap multipliers at 0.5-2.5 range to balance elite defense recognition with reasonable score scaling
     df_with_opponent = df_with_opponent.with_columns([
         # Pass defense components (lower is better for defense = harder for offense)
-        (pl.col('league_avg_pass_ypg') / pl.col('rolling_pass_ypg_allowed')).fill_null(1.0).alias('pass_yards_mult'),
-        (pl.col('rolling_sacks_pg') / pl.col('league_avg_sacks')).fill_null(1.0).alias('sacks_mult'),
-        (pl.col('rolling_qb_hits_pg') / pl.col('league_avg_qb_hits')).fill_null(1.0).alias('qb_hits_mult'),
-        (pl.col('rolling_ints_pg') / pl.col('league_avg_ints')).fill_null(1.0).alias('ints_mult'),
-        (pl.col('league_avg_pass_tds') / pl.col('rolling_pass_tds_allowed')).fill_null(1.0).alias('pass_td_mult'),
+        (pl.col('league_avg_pass_ypg') / (pl.col('rolling_pass_ypg_allowed') + 0.1)).fill_null(1.0).fill_nan(1.0).clip(0.5, 2.5).alias('pass_yards_mult'),
+        (pl.col('rolling_sacks_pg') / (pl.col('league_avg_sacks') + 0.01)).fill_null(1.0).fill_nan(1.0).clip(0.5, 2.5).alias('sacks_mult'),
+        (pl.col('rolling_qb_hits_pg') / (pl.col('league_avg_qb_hits') + 0.01)).fill_null(1.0).fill_nan(1.0).clip(0.5, 2.5).alias('qb_hits_mult'),
+        (pl.col('rolling_ints_pg') / (pl.col('league_avg_ints') + 0.01)).fill_null(1.0).fill_nan(1.0).clip(0.5, 2.5).alias('ints_mult'),
+        (pl.col('league_avg_pass_tds') / (pl.col('rolling_pass_tds_allowed') + 0.05)).fill_null(1.0).fill_nan(1.0).clip(0.5, 2.5).alias('pass_td_mult'),
         # Run defense components
-        (pl.col('league_avg_rush_ypg') / pl.col('rolling_rush_ypg_allowed')).fill_null(1.0).alias('rush_yards_mult'),
-        (pl.col('rolling_tfls_pg') / pl.col('league_avg_tfls')).fill_null(1.0).alias('tfl_mult'),
-        (pl.col('league_avg_rush_tds') / pl.col('rolling_rush_tds_allowed')).fill_null(1.0).alias('rush_td_mult'),
+        (pl.col('league_avg_rush_ypg') / (pl.col('rolling_rush_ypg_allowed') + 0.1)).fill_null(1.0).fill_nan(1.0).clip(0.5, 2.5).alias('rush_yards_mult'),
+        (pl.col('rolling_tfls_pg') / (pl.col('league_avg_tfls') + 0.01)).fill_null(1.0).fill_nan(1.0).clip(0.5, 2.5).alias('tfl_mult'),
+        (pl.col('league_avg_rush_tds') / (pl.col('rolling_rush_tds_allowed') + 0.05)).fill_null(1.0).fill_nan(1.0).clip(0.5, 2.5).alias('rush_td_mult'),
         # Overall scoring
-        (pl.col('league_avg_ppg') / pl.col('rolling_ppg_allowed')).fill_null(1.0).alias('scoring_multiplier')
+        (pl.col('league_avg_ppg') / (pl.col('rolling_ppg_allowed') + 0.1)).fill_null(1.0).fill_nan(1.0).clip(0.5, 2.5).alias('scoring_multiplier')
     ])
 
     # Calculate composite pass defense quality score (weighted average)
@@ -876,10 +978,12 @@ def calculate_qb_contribution_from_pbp(year: int, qb_name: str) -> float:
     if year >= FTN_START_YEAR:
         ftn_data = load_ftn_cache(year)
         if ftn_data is not None:
-            # Cast play_id to Int32 to match FTN data type before joining
-            pbp_data = pbp_data.with_columns([
-                pl.col('play_id').cast(pl.Int32)
-            ])
+            # Ensure play_id is Int64 (handles both Float64 and Int64 sources)
+            if 'play_id' in pbp_data.columns:
+                pbp_data = pbp_data.with_columns([
+                    pl.col('play_id').cast(pl.Int64, strict=False)
+                ])
+            # Polars coerces Int64 to Int32 automatically during join
             # Join FTN data with PBP
             pbp_data = pbp_data.join(
                 ftn_data,
@@ -1239,58 +1343,70 @@ def generate_qb_rankings(year: int) -> str:
     
     logger.info(f"Filtered to {len(qualified_qbs)} qualified QBs (14+ attempts/game)")
     
-    # Use the full pipeline for QB contributions (passing + rushing)
-    # Calculate raw contributions (no year context for baseline)
-    raw_contributions = calculate_offensive_shares(
-        team_stats, 
-        qb_stats, 
-        'overall_contribution',
-        opponent_stats=team_stats,  # Include opponent defensive adjustments
-        year=None  # No year context for raw baseline
-    )
-    
-    # Calculate adjusted contributions (with all context including opponent defense)
-    adjusted_contributions = calculate_offensive_shares(
-        team_stats,
-        qb_stats,
-        'overall_contribution', 
-        opponent_stats=team_stats,  # Include opponent defensive adjustments
-        year=year  # Include year context for situational adjustments
-    )
-    
-    # Add position column back for Phase 4 adjustments
-    adjusted_contributions = adjusted_contributions.with_columns([
-        pl.lit('QB').alias('position')
+
+    # Calculate QB contribution scores using play-by-play data with contextual penalties/rewards
+    # This gives ABSOLUTE production (not team shares) - correct scale for comparing QBs across teams
+    qb_contributions = []
+
+    # Check if FTN data is available for this year
+    from modules.ftn_cache_builder import FTN_START_YEAR
+    has_ftn = year >= FTN_START_YEAR
+
+    if has_ftn:
+        logger.info(f"Calculating QB contributions with FTN contextual adjustments (PA, OOP, blitz, screen)...")
+    else:
+        logger.info(f"Calculating QB contributions from play-by-play data with contextual penalties and pressure bonuses...")
+
+    for qb_name in qb_stats['player_name'].unique().to_list():
+        qb_data = qb_stats.filter(pl.col('player_name') == qb_name)
+
+        # Calculate contribution from PBP data (includes penalties and pressure bonuses)
+        contribution = calculate_qb_contribution_from_pbp(year, qb_name)
+
+        games_played = qb_data.height
+        if games_played > 0:
+            player_id = qb_data['player_id'][0]
+            team = qb_data['recent_team'][0] if 'recent_team' in qb_data.columns else qb_data['team'][0]
+
+            qb_contributions.append({
+                'player_id': player_id,
+                'player_name': qb_name,
+                'team': team,
+                'contribution': contribution,
+                'games': games_played,
+                'avg_per_game': contribution / games_played
+            })
+
+    if not qb_contributions:
+        return "No QB contributions calculated."
+
+    # Create DataFrame with raw scores
+    qb_season = pl.DataFrame(qb_contributions).rename({'contribution': 'raw_score'})
+
+    # Calculate average opponent defense multipliers for each QB
+    # Apply opponent defense metrics to QB weekly stats
+    qb_weekly_with_defense = adjust_for_opponent(qb_stats, team_stats)
+
+    # Calculate average pass_defense_multiplier per QB
+    avg_opponent_defense = qb_weekly_with_defense.group_by(['player_id', 'player_name']).agg([
+        pl.col('pass_defense_multiplier').mean().alias('avg_opponent_defense_mult')
     ])
 
-    # Apply Phase 4 adjustments (catch rate + blocking quality)
-    adjusted_contributions = apply_phase4_adjustments(adjusted_contributions, year)
+    # Join opponent defense multiplier with season totals
+    qb_season = qb_season.join(
+        avg_opponent_defense.select(['player_id', 'avg_opponent_defense_mult']),
+        on='player_id',
+        how='left'
+    ).with_columns([
+        # Fill missing with 1.0 and clip to reasonable range
+        pl.col('avg_opponent_defense_mult').fill_null(1.0).clip(0.5, 2.5).alias('avg_opponent_defense_mult')
+    ])
 
-    # Apply Phase 4.5 adjustments (weather-based performance)
-    adjusted_contributions = apply_phase4_5_weather_adjustments(adjusted_contributions, year, 'QB')
+    # Apply opponent defense adjustment to raw score
+    qb_season = qb_season.with_columns([
+        (pl.col('raw_score') * pl.col('avg_opponent_defense_mult')).alias('defense_adjusted_score')
+    ])
 
-    # Save per-game contributions before Phase 5 for consistency metrics
-    per_game_contributions = adjusted_contributions.clone().select([
-        'player_id', 'player_name', 'team', 'week', 'player_overall_contribution'
-    ])
-    
-    # Apply Phase 5 adjustments (talent context + sample size dampening)
-    adjusted_contributions = apply_phase5_adjustments(adjusted_contributions, year)
-    
-    # Aggregate to season totals
-    raw_season = raw_contributions.group_by(['player_id', 'player_name', 'team']).agg([
-        pl.col('week').count().alias('games'),
-        pl.col('player_overall_contribution').sum().alias('raw_score')
-    ])
-    
-    # After Phase 5, all weeks have the same dampened score, so use mean() to get per-game value
-    adjusted_season = adjusted_contributions.group_by(['player_id', 'player_name']).agg([
-        pl.col('player_overall_contribution').mean().alias('adjusted_score')
-    ])
-    
-    # Join raw and adjusted scores
-    qb_season = raw_season.join(adjusted_season, on=['player_id', 'player_name'], how='left')
-    
     # Calculate average difficulty multipliers
     avg_difficulty = calculate_average_difficulty(year, qb_stats)
     if avg_difficulty is not None:
@@ -1308,12 +1424,10 @@ def generate_qb_rankings(year: int) -> str:
     # Join team max games
     qb_season = qb_season.join(team_games, on='team', how='left')
     
-    # Calculate hybrid score: adjusted * (qb_games / team_games)^0.4
+    # Calculate hybrid score: defense_adjusted_score * (qb_games / team_games)^0.4
     # This penalizes QBs who missed games their team played, but not for bye weeks
-    # NOTE: After Phase 5, adjusted_score is already a per-game value, not a season total
-    # So we need to multiply by games first to get season total, then apply games played adjustment
     qb_season = qb_season.with_columns([
-        ((pl.col('adjusted_score') * pl.col('games')) * (pl.col('games') / pl.col('team_max_games')).pow(0.4)).alias('hybrid_score')
+        (pl.col('defense_adjusted_score') * (pl.col('games') / pl.col('team_max_games')).pow(0.4)).alias('hybrid_score')
     ])
     
     # Z-score normalization for hybrid scores
@@ -1330,27 +1444,28 @@ def generate_qb_rankings(year: int) -> str:
     # Create table
     markdown = f"# QB Rankings - {year}\n\n"
     table = PrettyTable()
-    table.field_names = ["Rank", "QB", "Team", "Games", "Raw", "Adjusted", "Difficulty", "Avg/Game", "Normalized"]
+    table.field_names = ["Rank", "QB", "Team", "Games", "Raw", "Def Adj", "Opp Def", "Difficulty", "Avg/Game", "Normalized"]
     table.align = "l"
     table.float_format = '.2'
     table.set_style(TableStyle.MARKDOWN)
-    
+
     for rank, row in enumerate(qb_season.iter_rows(named=True), 1):
         games = row['games']
         raw = row['raw_score']
-        adjusted_per_game = row['adjusted_score']  # Phase 5 returns per-game dampened score
-        adjusted_total = adjusted_per_game * games  # Calculate season total for display
+        defense_adjusted = row['defense_adjusted_score']
+        opponent_defense_mult = row.get('avg_opponent_defense_mult', 1.0)
+        avg_per_game = row['avg_per_game']
         difficulty = row.get('avg_difficulty_multiplier', 1.0)
-        avg_per_game = adjusted_per_game  # Already per-game from Phase 5
         normalized = row['normalized_hybrid']
-        
+
         table.add_row([
             rank,
             row['player_name'],
-            row['team'],
+            row['team'].upper(),
             games,
             f"{raw:.2f}",
-            f"{adjusted_total:.2f}",
+            f"{defense_adjusted:.2f}",
+            f"{opponent_defense_mult:.3f}",
             f"{difficulty:.3f}",
             f"{avg_per_game:.2f}",
             f"{normalized:.2f}"
@@ -1513,24 +1628,41 @@ def generate_rb_rankings(year: int) -> str:
         else:
             typical = sum(contributions) / len(contributions) * scale_factor if contributions else 0
         
-        # Calculate consistency (±5% threshold) - use UNSCALED values for consistency counts
-        below_avg = sum(1 for g in contributions if g < (typical / scale_factor) * 0.95)
-        at_avg = sum(1 for g in contributions if (typical / scale_factor) * 0.95 <= g <= (typical / scale_factor) * 1.05)
-        above_avg = sum(1 for g in contributions if g > (typical / scale_factor) * 1.05)
+        # Calculate consistency using standard deviation-based thresholds
+        # Use UNSCALED values for consistency counts
+        unscaled_contribs = contributions  # Already unscaled
+        mean_contrib = sum(unscaled_contribs) / len(unscaled_contribs)
+        variance = sum((x - mean_contrib) ** 2 for x in unscaled_contribs) / len(unscaled_contribs)
+        std_dev = variance ** 0.5
+
+        # Define thresholds: ±0.5 SD from mean
+        bust_threshold = mean_contrib - (0.5 * std_dev)
+        boom_threshold = mean_contrib + (0.5 * std_dev)
+
+        below_avg = sum(1 for g in unscaled_contribs if g < bust_threshold)
+        at_avg = sum(1 for g in unscaled_contribs if bust_threshold <= g <= boom_threshold)
+        above_avg = sum(1 for g in unscaled_contribs if g > boom_threshold)
         
-        # Calculate trend (compare first half vs second half)
+        # Calculate trend/profile based on season completion status
         max_week_in_season = rb_stats['week'].max()
         last_week_played = player_weeks['week'].max()
         weeks_since_last_game = max_week_in_season - last_week_played
-        
-        if weeks_since_last_game > 2:
+
+        if is_season_complete(year):
+            # Show performance profile for completed seasons (even if player finished injured)
+            trend_str = classify_player_profile(above_avg, at_avg, below_avg)
+        elif weeks_since_last_game > 2:
             trend_str = "INACTIVE"
         elif len(contributions) >= 6:
+            # Show percentage trend for ongoing seasons
             midpoint = len(contributions) // 2
             first_half = sum(contributions[:midpoint]) / midpoint
             second_half = sum(contributions[midpoint:]) / (len(contributions) - midpoint)
             trend = ((second_half - first_half) / first_half * 100) if first_half > 0 else 0
-            trend_str = f"{trend:+.1f}%"
+            if abs(trend) < 5:
+                trend_str = "Stable"
+            else:
+                trend_str = f"{trend:+.1f}%"
         else:
             trend_str = "N/A"
         
@@ -1584,11 +1716,11 @@ def generate_rb_rankings(year: int) -> str:
         above = row.get('above_avg', 0)
         consistency = f"{below}/{at}/{above}"
         trend = row.get('trend', 'N/A')
-        
+
         table.add_row([
             rank,
             row['player_name'],
-            row['team'],
+            row['team'].upper(),
             games,
             f"{raw:.2f}",
             f"{adjusted_total:.2f}",
@@ -1598,7 +1730,7 @@ def generate_rb_rankings(year: int) -> str:
             consistency,
             trend
         ])
-    
+
     markdown += table.get_string() + "\n\n"
     return markdown
 
@@ -1750,24 +1882,41 @@ def generate_wr_rankings(year: int) -> str:
         else:
             typical = sum(game_contributions) / len(game_contributions) * scale_factor if game_contributions else 0
         
-        # Calculate consistency (±5% threshold) - use UNSCALED values for consistency counts
-        below_avg = sum(1 for g in game_contributions if g < (typical / scale_factor) * 0.95)
-        at_avg = sum(1 for g in game_contributions if (typical / scale_factor) * 0.95 <= g <= (typical / scale_factor) * 1.05)
-        above_avg = sum(1 for g in game_contributions if g > (typical / scale_factor) * 1.05)
-        
-        # Calculate trend (compare first half vs second half of games)
+        # Calculate consistency using standard deviation-based thresholds
+        # Use UNSCALED values for consistency counts
+        unscaled_contribs = game_contributions  # Already unscaled
+        mean_contrib = sum(unscaled_contribs) / len(unscaled_contribs)
+        variance = sum((x - mean_contrib) ** 2 for x in unscaled_contribs) / len(unscaled_contribs)
+        std_dev = variance ** 0.5
+
+        # Define thresholds: ±0.5 SD from mean
+        bust_threshold = mean_contrib - (0.5 * std_dev)
+        boom_threshold = mean_contrib + (0.5 * std_dev)
+
+        below_avg = sum(1 for g in unscaled_contribs if g < bust_threshold)
+        at_avg = sum(1 for g in unscaled_contribs if bust_threshold <= g <= boom_threshold)
+        above_avg = sum(1 for g in unscaled_contribs if g > boom_threshold)
+
+        # Calculate trend/profile based on season completion status
         max_week_in_season = wr_stats['week'].max()
         last_week_played = player_weeks['week'].max()
         weeks_since_last_game = max_week_in_season - last_week_played
-        
-        if weeks_since_last_game > 2:
+
+        if is_season_complete(year):
+            # Show performance profile for completed seasons (even if player finished injured)
+            trend_str = classify_player_profile(above_avg, at_avg, below_avg)
+        elif weeks_since_last_game > 2:
             trend_str = "INACTIVE"
         elif len(game_contributions) >= 6:
+            # Show percentage trend for ongoing seasons
             midpoint = len(game_contributions) // 2
             first_half = sum(game_contributions[:midpoint]) / midpoint
             second_half = sum(game_contributions[midpoint:]) / (len(game_contributions) - midpoint)
             trend = ((second_half - first_half) / first_half * 100) if first_half > 0 else 0
-            trend_str = f"{trend:+.1f}%"
+            if abs(trend) < 5:
+                trend_str = "Stable"
+            else:
+                trend_str = f"{trend:+.1f}%"
         else:
             trend_str = "N/A"
         
@@ -1821,11 +1970,11 @@ def generate_wr_rankings(year: int) -> str:
         above = row.get('above_avg', 0)
         consistency = f"{below}/{at}/{above}"
         trend = row.get('trend', 'N/A')
-        
+
         table.add_row([
             rank,
             row['player_name'],
-            row['team'],
+            row['team'].upper(),
             games,
             f"{raw:.2f}",
             f"{adjusted_total:.2f}",
@@ -1835,7 +1984,7 @@ def generate_wr_rankings(year: int) -> str:
             consistency,
             trend
         ])
-    
+
     markdown += table.get_string() + "\n\n"
     return markdown
 
@@ -1987,24 +2136,41 @@ def generate_te_rankings(year: int) -> str:
         else:
             typical = sum(game_contributions) / len(game_contributions) * scale_factor if game_contributions else 0
         
-        # Calculate consistency (±5% threshold) - use UNSCALED values for consistency counts
-        below_avg = sum(1 for g in game_contributions if g < (typical / scale_factor) * 0.95)
-        at_avg = sum(1 for g in game_contributions if (typical / scale_factor) * 0.95 <= g <= (typical / scale_factor) * 1.05)
-        above_avg = sum(1 for g in game_contributions if g > (typical / scale_factor) * 1.05)
-        
-        # Calculate trend (compare first half vs second half of games)
+        # Calculate consistency using standard deviation-based thresholds
+        # Use UNSCALED values for consistency counts
+        unscaled_contribs = game_contributions  # Already unscaled
+        mean_contrib = sum(unscaled_contribs) / len(unscaled_contribs)
+        variance = sum((x - mean_contrib) ** 2 for x in unscaled_contribs) / len(unscaled_contribs)
+        std_dev = variance ** 0.5
+
+        # Define thresholds: ±0.5 SD from mean
+        bust_threshold = mean_contrib - (0.5 * std_dev)
+        boom_threshold = mean_contrib + (0.5 * std_dev)
+
+        below_avg = sum(1 for g in unscaled_contribs if g < bust_threshold)
+        at_avg = sum(1 for g in unscaled_contribs if bust_threshold <= g <= boom_threshold)
+        above_avg = sum(1 for g in unscaled_contribs if g > boom_threshold)
+
+        # Calculate trend/profile based on season completion status
         max_week_in_season = te_stats['week'].max()
         last_week_played = player_weeks['week'].max()
         weeks_since_last_game = max_week_in_season - last_week_played
-        
-        if weeks_since_last_game > 2:
+
+        if is_season_complete(year):
+            # Show performance profile for completed seasons (even if player finished injured)
+            trend_str = classify_player_profile(above_avg, at_avg, below_avg)
+        elif weeks_since_last_game > 2:
             trend_str = "INACTIVE"
         elif len(game_contributions) >= 6:
+            # Show percentage trend for ongoing seasons
             midpoint = len(game_contributions) // 2
             first_half = sum(game_contributions[:midpoint]) / midpoint
             second_half = sum(game_contributions[midpoint:]) / (len(game_contributions) - midpoint)
             trend = ((second_half - first_half) / first_half * 100) if first_half > 0 else 0
-            trend_str = f"{trend:+.1f}%"
+            if abs(trend) < 5:
+                trend_str = "Stable"
+            else:
+                trend_str = f"{trend:+.1f}%"
         else:
             trend_str = "N/A"
         
@@ -2058,11 +2224,11 @@ def generate_te_rankings(year: int) -> str:
         above = row.get('above_avg', 0)
         consistency = f"{below}/{at}/{above}"
         trend = row.get('trend', 'N/A')
-        
+
         table.add_row([
             rank,
             row['player_name'],
-            row['team'],
+            row['team'].upper(),
             games,
             f"{raw:.2f}",
             f"{adjusted_total:.2f}",
@@ -2072,7 +2238,7 @@ def generate_te_rankings(year: int) -> str:
             consistency,
             trend
         ])
-    
+
     markdown += table.get_string() + "\n\n"
     return markdown
 
@@ -2332,16 +2498,13 @@ def apply_phase4_5_weather_adjustments(contributions: pl.DataFrame, year: int, p
             'game_id', 'temp', 'wind', 'weather', 'roof'
         ]).unique(subset=['game_id'])
 
-        # Add weather adjustment column (default 1.0)
-        contributions = contributions.with_columns([
-            pl.lit(1.0).alias('weather_adjustment')
-        ])
+        # Build list of weather adjustments for each player-week combination
+        weather_adjustments = []
 
-        # For each player-week combination, calculate weather adjustment
-        for row_idx in range(len(contributions)):
-            player_id = contributions['player_id'][row_idx]
-            week = contributions['week'][row_idx]
-            team = contributions['team'][row_idx]
+        for row in contributions.iter_rows(named=True):
+            player_id = row['player_id']
+            week = row['week']
+            team = row['team']
 
             # Find the game for this player-week-team combination
             player_game = pbp_data.filter(
@@ -2380,8 +2543,31 @@ def apply_phase4_5_weather_adjustments(contributions: pl.DataFrame, year: int, p
                 game_roof=game_roof
             )
 
-            # Update the weather adjustment for this row
-            contributions[row_idx, 'weather_adjustment'] = weather_adj
+            # Store the adjustment for this player-week-team combination
+            weather_adjustments.append({
+                'player_id': player_id,
+                'week': week,
+                'team': team,
+                'weather_adjustment': weather_adj
+            })
+
+        # Join weather adjustments back to contributions DataFrame
+        if len(weather_adjustments) > 0:
+            weather_adj_df = pl.DataFrame(weather_adjustments)
+            contributions = contributions.join(
+                weather_adj_df,
+                on=['player_id', 'week', 'team'],
+                how='left',
+                suffix='_weather'
+            ).with_columns([
+                # Use calculated adjustment if available, otherwise default to 1.0
+                pl.col('weather_adjustment_weather').fill_null(1.0).alias('weather_adjustment')
+            ]).drop('weather_adjustment_weather')
+        else:
+            # No weather adjustments calculated, add default column
+            contributions = contributions.with_columns([
+                pl.lit(1.0).alias('weather_adjustment')
+            ])
 
         # Apply weather adjustment to player_overall_contribution
         contributions = contributions.with_columns([
@@ -2607,7 +2793,7 @@ def calculate_average_difficulty(year: int, player_stats: pl.DataFrame) -> pl.Da
 
         # Combine pass and rush difficulty for QBs
         if qb_pass_difficulty is not None and qb_rush_difficulty is not None:
-            qb_combined = qb_pass_difficulty.join(qb_rush_difficulty, on='player_id', how='outer')
+            qb_combined = qb_pass_difficulty.join(qb_rush_difficulty, on='player_id', how='full')
             qb_combined = qb_combined.with_columns([
                 # Weighted average based on play volume
                 ((pl.col('pass_difficulty').fill_null(1.0) * pl.col('pass_plays').fill_null(0) +
@@ -2792,6 +2978,15 @@ def generate_ftn_context(year: int, player_stats: pl.DataFrame, season_contribut
     # Join FTN with PBP - handle column name variations and type casting
     # PBP cache may have 'game_id'/'play_id' or 'nflverse_game_id'/'nflverse_play_id'
     # Ensure types match for join
+        # Ensure play_id is Int64 (handles both Float64 and Int64 sources)
+        if 'play_id' in pbp_data.columns and 'nflverse_play_id' in pbp_data.columns:
+            pbp_data = pbp_data.with_columns([
+                pl.col('nflverse_play_id').cast(pl.Int64, strict=False)
+            ])
+        elif 'play_id' in pbp_data.columns:
+            pbp_data = pbp_data.with_columns([
+                pl.col('play_id').cast(pl.Int64, strict=False)
+            ])
     try:
         # Rename PBP columns if needed to match FTN
         if 'game_id' in pbp_data.columns and 'nflverse_game_id' not in pbp_data.columns:
@@ -2799,10 +2994,6 @@ def generate_ftn_context(year: int, player_stats: pl.DataFrame, season_contribut
         if 'play_id' in pbp_data.columns and 'nflverse_play_id' not in pbp_data.columns:
             pbp_data = pbp_data.rename({'play_id': 'nflverse_play_id'})
         
-        # Cast play_id to Int32 to match FTN data type
-        pbp_data = pbp_data.with_columns([
-            pl.col('nflverse_play_id').cast(pl.Int32)
-        ])
         
         pbp_with_ftn = pbp_data.join(
             ftn_data,

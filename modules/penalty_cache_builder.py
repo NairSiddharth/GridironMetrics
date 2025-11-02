@@ -80,29 +80,11 @@ def load_penalty_data(season: int) -> pl.DataFrame:
         - week: Week number (1-18)
     """
     cache_file = PENALTY_CACHE_DIR / f"penalties-{season}.csv"
-
-    # Check if cached and validate schema
+    
+    # Check if cached
     if cache_file.exists():
         logger.debug(f"Loading cached penalty data for {season}")
-        cached_data = pl.read_csv(cache_file)
-
-        # Validate that required columns exist (especially 'week' which was added later)
-        required_columns = ['penalty_player_id', 'penalty_player_name', 'penalty_type',
-                          'penalty_yards', 'down', 'ydstogo', 'yardline_100', 'qtr',
-                          'quarter_seconds_remaining', 'epa', 'wpa', 'posteam', 'game_id', 'week']
-
-        missing_columns = [col for col in required_columns if col not in cached_data.columns]
-
-        if missing_columns:
-            logger.warning(
-                f"Cached penalty data for {season} is missing columns {missing_columns}. "
-                f"Regenerating cache..."
-            )
-            # Delete old cache and regenerate
-            cache_file.unlink()
-        else:
-            # Cache is valid, return it
-            return cached_data
+        return pl.read_csv(cache_file)
     
     logger.info(f"Fetching penalty data for {season} from nflreadpy...")
     
@@ -677,24 +659,45 @@ def calculate_penalty_adjustment(
 def build_penalty_cache_for_year(year: int) -> bool:
     """
     Build penalty cache for a single year.
-
+    
     Args:
         year: Season year to cache
-
+        
     Returns:
         True if successful, False otherwise
     """
     logger.info(f"Building penalty cache for {year}...")
-
+    
     penalties = load_penalty_data(year)
     success = not penalties.is_empty()
-
+    
     if success:
         logger.info(f"Successfully cached {len(penalties)} penalties for {year}")
     else:
         logger.warning(f"Failed to cache penalties for {year}")
-
+    
     return success
+
+
+def build_penalty_cache(start_year: int = 2016, end_year: int = 2025):
+    """
+    Build penalty cache for multiple years.
+
+    Args:
+        start_year: First year to cache (default: 2016)
+        end_year: Last year to cache (default: 2025)
+    """
+    logger.info(f"Building penalty cache for {start_year}-{end_year}...")
+    
+    for year in range(start_year, end_year + 1):
+        try:
+            build_penalty_cache_for_year(year)
+        except Exception as e:
+            logger.error(f"Failed to build penalty cache for {year}: {e}")
+            continue
+    
+    logger.info("Penalty cache building complete")
+
 
 def cache_is_up_to_date(start_year: int = 2016, end_year: int = 2024) -> list:
     """

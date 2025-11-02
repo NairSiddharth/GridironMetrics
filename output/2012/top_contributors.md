@@ -4,61 +4,61 @@
 
 ## Overall Rankings
 
-| Rank | Player       | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
-| :----| :------------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | A.Peterson   | MIN  | RB       | 9014.96        | 1.000      | 16    | 563.44   | 511.13  | 8/2/6       | Increasing |
-| 2    | D.Martin     | TB   | RB       | 7887.53        | 1.000      | 16    | 492.97   | 473.90  | 8/3/5       | Increasing |
-| 3    | R.Rice       | BAL  | RB       | 7176.76        | 1.000      | 16    | 448.55   | 432.24  | 8/1/7       | Increasing |
-| 4    | B.Marshall   | CHI  | WR       | 6743.60        | 1.000      | 16    | 421.48   | 411.44  | 9/1/6       | Stable     |
-| 5    | A.Foster     | HOU  | RB       | 6658.60        | 1.000      | 16    | 416.16   | 381.72  | 8/1/7       | Stable     |
-| 6    | M.Lynch      | SEA  | RB       | 6537.96        | 1.000      | 16    | 408.62   | 397.31  | 8/3/5       | Stable     |
-| 7    | C.Johnson    | DET  | WR       | 6220.66        | 1.000      | 16    | 388.79   | 401.44  | 7/1/8       | Increasing |
-| 8    | T.Richardson | CLE  | RB       | 6182.92        | 1.000      | 15    | 412.19   | 403.46  | 6/3/6       | Increasing |
-| 9    | A.Morris     | WAS  | RB       | 6160.07        | 1.000      | 16    | 385.00   | 341.81  | 8/1/7       | Increasing |
-| 10   | S.Jackson    | LA   | RB       | 6053.88        | 1.000      | 16    | 378.37   | 365.94  | 8/1/7       | Increasing |
+| Rank | Player     | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :----------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | A.Peterson | min  | RB       | 9338.20        | 1.000      | 16    | 583.64   | 522.58  | 8/1/7       | Increasing |
+| 2    | D.Martin   | tb   | RB       | 7939.42        | 1.000      | 16    | 496.21   | 461.64  | 8/1/7       | Increasing |
+| 3    | A.Foster   | hou  | RB       | 7219.16        | 1.000      | 16    | 451.20   | 400.93  | 8/1/7       | Decreasing |
+| 4    | M.Lynch    | sea  | RB       | 6928.64        | 1.000      | 16    | 433.04   | 438.47  | 9/1/6       | Increasing |
+| 5    | B.Marshall | chi  | WR       | 6466.67        | 1.000      | 16    | 404.17   | 424.07  | 8/2/6       | Stable     |
+| 6    | R.Rice     | bal  | RB       | 6396.90        | 1.000      | 16    | 399.81   | 400.74  | 8/1/7       | Stable     |
+| 7    | C.Johnson  | det  | WR       | 6362.09        | 1.000      | 16    | 397.63   | 370.75  | 8/0/8       | Increasing |
+| 8    | A.Morris   | was  | RB       | 6199.92        | 1.000      | 16    | 387.50   | 353.78  | 8/2/6       | Stable     |
+| 9    | S.Jackson  | la   | RB       | 6110.16        | 1.000      | 16    | 381.88   | 403.95  | 8/3/5       | Increasing |
+| 10   | J.Charles  | kc   | RB       | 5975.63        | 1.000      | 16    | 373.48   | 387.87  | 8/2/6       | Increasing |
 
 ## RB Rankings
 
 | Rank | Player       | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :------------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | A.Peterson   | MIN  | 9014.96        | 1.000      | 16    | 563.44   | 511.13  | 8/2/6       | Increasing |
-| 2    | D.Martin     | TB   | 7887.53        | 1.000      | 16    | 492.97   | 473.90  | 8/3/5       | Increasing |
-| 3    | R.Rice       | BAL  | 7176.76        | 1.000      | 16    | 448.55   | 432.24  | 8/1/7       | Increasing |
-| 4    | A.Foster     | HOU  | 6658.60        | 1.000      | 16    | 416.16   | 381.72  | 8/1/7       | Stable     |
-| 5    | M.Lynch      | SEA  | 6537.96        | 1.000      | 16    | 408.62   | 397.31  | 8/3/5       | Stable     |
-| 6    | T.Richardson | CLE  | 6182.92        | 1.000      | 15    | 412.19   | 403.46  | 6/3/6       | Increasing |
-| 7    | A.Morris     | WAS  | 6160.07        | 1.000      | 16    | 385.00   | 341.81  | 8/1/7       | Increasing |
-| 8    | S.Jackson    | LA   | 6053.88        | 1.000      | 16    | 378.37   | 365.94  | 8/1/7       | Increasing |
-| 9    | C.Spiller    | BUF  | 5865.25        | 1.000      | 16    | 366.58   | 374.91  | 8/2/6       | Increasing |
-| 10   | J.Charles    | KC   | 5803.60        | 1.000      | 16    | 362.72   | 380.37  | 8/1/7       | Increasing |
+| 1    | A.Peterson   | min  | 9338.20        | 1.000      | 16    | 583.64   | 522.58  | 8/1/7       | Increasing |
+| 2    | D.Martin     | tb   | 7939.42        | 1.000      | 16    | 496.21   | 461.64  | 8/1/7       | Increasing |
+| 3    | A.Foster     | hou  | 7219.16        | 1.000      | 16    | 451.20   | 400.93  | 8/1/7       | Decreasing |
+| 4    | M.Lynch      | sea  | 6928.64        | 1.000      | 16    | 433.04   | 438.47  | 9/1/6       | Increasing |
+| 5    | R.Rice       | bal  | 6396.90        | 1.000      | 16    | 399.81   | 400.74  | 8/1/7       | Stable     |
+| 6    | A.Morris     | was  | 6199.92        | 1.000      | 16    | 387.50   | 353.78  | 8/2/6       | Stable     |
+| 7    | S.Jackson    | la   | 6110.16        | 1.000      | 16    | 381.88   | 403.95  | 8/3/5       | Increasing |
+| 8    | J.Charles    | kc   | 5975.63        | 1.000      | 16    | 373.48   | 387.87  | 8/2/6       | Increasing |
+| 9    | T.Richardson | cle  | 5968.26        | 1.000      | 15    | 397.88   | 409.98  | 7/2/6       | Stable     |
+| 10   | C.Spiller    | buf  | 5790.70        | 1.000      | 16    | 361.92   | 355.42  | 8/2/6       | Stable     |
 
 ## WR Rankings
 
 | Rank | Player     | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | B.Marshall | CHI  | 6743.60        | 1.000      | 16    | 421.48   | 411.44  | 9/1/6       | Stable     |
-| 2    | C.Johnson  | DET  | 6220.66        | 1.000      | 16    | 388.79   | 401.44  | 7/1/8       | Increasing |
-| 3    | A.Johnson  | HOU  | 5984.54        | 1.000      | 16    | 374.03   | 296.69  | 8/1/7       | Increasing |
-| 4    | A.Green    | CIN  | 5667.83        | 1.000      | 16    | 354.24   | 359.61  | 8/2/6       | Decreasing |
-| 5    | W.Welker   | NE   | 5444.64        | 1.000      | 16    | 340.29   | 335.61  | 8/2/6       | Stable     |
-| 6    | R.White    | ATL  | 5263.59        | 1.000      | 16    | 328.97   | 308.71  | 8/0/8       | Decreasing |
-| 7    | D.Bryant   | DAL  | 5178.44        | 1.000      | 16    | 323.65   | 290.21  | 7/2/7       | Increasing |
-| 8    | V.Jackson  | TB   | 5116.41        | 1.000      | 16    | 319.78   | 320.89  | 8/1/7       | Decreasing |
-| 9    | R.Wayne    | IND  | 5019.20        | 1.000      | 16    | 313.70   | 299.61  | 8/3/5       | Decreasing |
-| 10   | M.Colston  | NO   | 4913.93        | 1.000      | 16    | 307.12   | 238.29  | 8/2/6       | Stable     |
+| 1    | B.Marshall | chi  | 6466.67        | 1.000      | 16    | 404.17   | 424.07  | 8/2/6       | Stable     |
+| 2    | C.Johnson  | det  | 6362.09        | 1.000      | 16    | 397.63   | 370.75  | 8/0/8       | Increasing |
+| 3    | A.Green    | cin  | 5875.73        | 1.000      | 16    | 367.23   | 344.57  | 8/1/7       | Decreasing |
+| 4    | A.Johnson  | hou  | 5736.06        | 1.000      | 16    | 358.50   | 319.16  | 8/2/6       | Increasing |
+| 5    | W.Welker   | ne   | 5533.26        | 1.000      | 16    | 345.83   | 320.86  | 8/0/8       | Decreasing |
+| 6    | D.Bryant   | dal  | 5442.99        | 1.000      | 16    | 340.19   | 311.47  | 7/2/7       | Increasing |
+| 7    | R.White    | atl  | 5203.39        | 1.000      | 16    | 325.21   | 262.34  | 8/0/8       | Increasing |
+| 8    | R.Wayne    | ind  | 5181.15        | 1.000      | 16    | 323.82   | 278.11  | 8/2/6       | Stable     |
+| 9    | M.Crabtree | sf   | 4891.51        | 1.000      | 16    | 305.72   | 278.14  | 8/1/7       | Increasing |
+| 10   | V.Jackson  | tb   | 4855.62        | 1.000      | 16    | 303.48   | 296.90  | 8/2/6       | Stable     |
 
 ## TE Rankings
 
 | Rank | Player       | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :------------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | T.Gonzalez   | ATL  | 4171.14        | 1.000      | 16    | 260.70   | 226.17  | 8/1/7       | Stable     |
-| 2    | J.Witten     | DAL  | 4138.35        | 1.000      | 16    | 258.65   | 240.30  | 7/2/7       | Stable     |
-| 3    | J.Graham     | NO   | 3846.44        | 1.000      | 15    | 256.43   | 244.03  | 7/1/7       | Decreasing |
-| 4    | H.Miller     | PIT  | 3629.94        | 1.000      | 15    | 242.00   | 198.19  | 5/3/7       | Decreasing |
-| 5    | B.Myers      | LV   | 3349.14        | 1.000      | 16    | 209.32   | 192.05  | 8/1/7       | Decreasing |
-| 6    | G.Olsen      | CAR  | 3270.33        | 1.000      | 16    | 204.40   | 187.02  | 8/2/6       | Increasing |
-| 7    | R.Gronkowski | NE   | 3066.35        | 1.000      | 11    | 278.76   | 262.46  | 4/1/6       | Increasing |
-| 8    | D.Pitta      | BAL  | 3053.27        | 1.000      | 16    | 190.83   | 177.01  | 8/0/8       | Stable     |
-| 9    | J.Gresham    | CIN  | 3035.40        | 1.000      | 16    | 189.71   | 186.04  | 8/1/7       | Stable     |
-| 10   | O.Daniels    | HOU  | 2857.09        | 1.000      | 15    | 190.47   | 191.57  | 7/2/6       | Decreasing |
+| 1    | J.Witten     | dal  | 4493.96        | 1.000      | 16    | 280.87   | 236.88  | 6/2/8       | Stable     |
+| 2    | T.Gonzalez   | atl  | 4085.59        | 1.000      | 16    | 255.35   | 226.74  | 8/2/6       | Stable     |
+| 3    | J.Graham     | no   | 3772.35        | 1.000      | 15    | 251.49   | 238.39  | 7/1/7       | Decreasing |
+| 4    | H.Miller     | pit  | 3712.50        | 1.000      | 15    | 247.50   | 222.46  | 7/3/5       | Stable     |
+| 5    | B.Myers      | lv   | 3382.07        | 1.000      | 16    | 211.38   | 180.21  | 8/1/7       | Decreasing |
+| 6    | G.Olsen      | car  | 3375.10        | 1.000      | 16    | 210.94   | 165.31  | 8/2/6       | Stable     |
+| 7    | J.Gresham    | cin  | 3007.56        | 1.000      | 16    | 187.97   | 182.87  | 8/1/7       | Decreasing |
+| 8    | R.Gronkowski | ne   | 2900.73        | 1.000      | 11    | 263.70   | 250.07  | 5/0/6       | Increasing |
+| 9    | D.Pitta      | bal  | 2869.48        | 1.000      | 16    | 179.34   | 158.30  | 8/1/7       | Increasing |
+| 10   | A.Gates      | lac  | 2688.58        | 1.000      | 15    | 179.24   | 146.36  | 7/1/7       | Stable     |
 

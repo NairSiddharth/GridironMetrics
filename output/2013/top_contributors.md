@@ -4,61 +4,61 @@
 
 ## Overall Rankings
 
-| Rank | Player     | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
-| :----| :----------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | J.Charles  | KC   | RB       | 8496.83        | 1.000      | 15    | 566.46   | 532.66  | 6/3/6       | Decreasing |
-| 2    | M.Forte    | CHI  | RB       | 7996.29        | 1.000      | 16    | 499.77   | 503.26  | 8/2/6       | Decreasing |
-| 3    | L.McCoy    | PHI  | RB       | 7115.10        | 1.000      | 16    | 444.69   | 432.08  | 8/2/6       | Increasing |
-| 4    | M.Lynch    | SEA  | RB       | 6808.77        | 1.000      | 16    | 425.55   | 448.10  | 8/3/5       | Increasing |
-| 5    | K.Moreno   | DEN  | RB       | 6294.93        | 1.000      | 16    | 393.43   | 353.92  | 8/0/8       | Stable     |
-| 6    | A.Brown    | PIT  | WR       | 6277.56        | 1.000      | 16    | 392.35   | 386.01  | 8/4/4       | Increasing |
-| 7    | D.Murray   | DAL  | RB       | 6170.03        | 1.000      | 14    | 440.72   | 421.80  | 6/2/6       | Stable     |
-| 8    | C.Johnson  | TEN  | RB       | 6155.19        | 1.000      | 16    | 384.70   | 378.39  | 8/3/5       | Increasing |
-| 9    | R.Bush     | DET  | RB       | 5906.32        | 1.000      | 14    | 421.88   | 400.75  | 6/2/6       | Decreasing |
-| 10   | B.Marshall | CHI  | WR       | 5762.62        | 1.000      | 16    | 360.16   | 355.70  | 8/0/8       | Stable     |
+| Rank | Player    | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :---------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | J.Charles | kc   | RB       | 8154.06        | 1.000      | 15    | 543.60   | 515.28  | 6/3/6       | Decreasing |
+| 2    | M.Forte   | chi  | RB       | 7896.07        | 1.000      | 16    | 493.50   | 438.87  | 8/2/6       | Stable     |
+| 3    | L.McCoy   | phi  | RB       | 7440.74        | 1.000      | 16    | 465.05   | 469.15  | 8/3/5       | Increasing |
+| 4    | M.Lynch   | sea  | RB       | 6950.73        | 1.000      | 16    | 434.42   | 439.96  | 8/2/6       | Stable     |
+| 5    | A.Brown   | pit  | WR       | 6422.45        | 1.000      | 16    | 401.40   | 387.57  | 8/4/4       | Stable     |
+| 6    | C.Johnson | ten  | RB       | 6318.87        | 1.000      | 16    | 394.93   | 390.64  | 8/2/6       | Increasing |
+| 7    | D.Murray  | dal  | RB       | 6046.02        | 1.000      | 14    | 431.86   | 396.89  | 6/2/6       | Increasing |
+| 8    | K.Moreno  | den  | RB       | 6021.16        | 1.000      | 16    | 376.32   | 335.03  | 8/1/7       | Stable     |
+| 9    | R.Bush    | det  | RB       | 5661.49        | 1.000      | 14    | 404.39   | 392.75  | 5/3/6       | Decreasing |
+| 10   | R.Mathews | lac  | RB       | 5598.52        | 1.000      | 16    | 349.91   | 376.45  | 7/3/6       | Increasing |
 
 ## RB Rankings
 
-| Rank | Player    | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
-| :----| :---------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | J.Charles | KC   | 8496.83        | 1.000      | 15    | 566.46   | 532.66  | 6/3/6       | Decreasing |
-| 2    | M.Forte   | CHI  | 7996.29        | 1.000      | 16    | 499.77   | 503.26  | 8/2/6       | Decreasing |
-| 3    | L.McCoy   | PHI  | 7115.10        | 1.000      | 16    | 444.69   | 432.08  | 8/2/6       | Increasing |
-| 4    | M.Lynch   | SEA  | 6808.77        | 1.000      | 16    | 425.55   | 448.10  | 8/3/5       | Increasing |
-| 5    | K.Moreno  | DEN  | 6294.93        | 1.000      | 16    | 393.43   | 353.92  | 8/0/8       | Stable     |
-| 6    | D.Murray  | DAL  | 6170.03        | 1.000      | 14    | 440.72   | 421.80  | 6/2/6       | Stable     |
-| 7    | C.Johnson | TEN  | 6155.19        | 1.000      | 16    | 384.70   | 378.39  | 8/3/5       | Increasing |
-| 8    | R.Bush    | DET  | 5906.32        | 1.000      | 14    | 421.88   | 400.75  | 6/2/6       | Decreasing |
-| 9    | R.Mathews | LAC  | 5726.15        | 1.000      | 16    | 357.88   | 375.06  | 6/3/7       | Increasing |
-| 10   | F.Jackson | BUF  | 5675.04        | 1.000      | 16    | 354.69   | 364.06  | 8/3/5       | Decreasing |
+| Rank | Player     | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | J.Charles  | kc   | 8154.06        | 1.000      | 15    | 543.60   | 515.28  | 6/3/6       | Decreasing |
+| 2    | M.Forte    | chi  | 7896.07        | 1.000      | 16    | 493.50   | 438.87  | 8/2/6       | Stable     |
+| 3    | L.McCoy    | phi  | 7440.74        | 1.000      | 16    | 465.05   | 469.15  | 8/3/5       | Increasing |
+| 4    | M.Lynch    | sea  | 6950.73        | 1.000      | 16    | 434.42   | 439.96  | 8/2/6       | Stable     |
+| 5    | C.Johnson  | ten  | 6318.87        | 1.000      | 16    | 394.93   | 390.64  | 8/2/6       | Increasing |
+| 6    | D.Murray   | dal  | 6046.02        | 1.000      | 14    | 431.86   | 396.89  | 6/2/6       | Increasing |
+| 7    | K.Moreno   | den  | 6021.16        | 1.000      | 16    | 376.32   | 335.03  | 8/1/7       | Stable     |
+| 8    | R.Bush     | det  | 5661.49        | 1.000      | 14    | 404.39   | 392.75  | 5/3/6       | Decreasing |
+| 9    | R.Mathews  | lac  | 5598.52        | 1.000      | 16    | 349.91   | 376.45  | 7/3/6       | Increasing |
+| 10   | A.Peterson | min  | 5582.79        | 1.000      | 14    | 398.77   | 365.55  | 6/2/6       | Increasing |
 
 ## WR Rankings
 
 | Rank | Player     | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | A.Brown    | PIT  | 6277.56        | 1.000      | 16    | 392.35   | 386.01  | 8/4/4       | Increasing |
-| 2    | B.Marshall | CHI  | 5762.62        | 1.000      | 16    | 360.16   | 355.70  | 8/0/8       | Stable     |
-| 3    | A.Green    | CIN  | 5448.77        | 1.000      | 16    | 340.55   | 326.46  | 8/3/5       | Stable     |
-| 4    | A.Jeffery  | CHI  | 5438.28        | 1.000      | 16    | 339.89   | 333.41  | 8/2/6       | Stable     |
-| 5    | A.Johnson  | HOU  | 5245.12        | 1.000      | 16    | 327.82   | 332.75  | 8/0/8       | Stable     |
-| 6    | C.Johnson  | DET  | 5131.86        | 1.000      | 14    | 366.56   | 352.00  | 6/3/5       | Stable     |
-| 7    | D.Bryant   | DAL  | 5044.08        | 1.000      | 16    | 315.25   | 345.39  | 9/3/4       | Stable     |
-| 8    | E.Decker   | DEN  | 5037.90        | 1.000      | 16    | 314.87   | 228.56  | 7/2/7       | Decreasing |
-| 9    | J.Gordon   | CLE  | 4882.64        | 1.000      | 14    | 348.76   | 328.30  | 6/1/7       | Increasing |
-| 10   | D.Jackson  | PHI  | 4815.21        | 1.000      | 16    | 300.95   | 277.15  | 8/1/7       | Decreasing |
+| 1    | A.Brown    | pit  | 6422.45        | 1.000      | 16    | 401.40   | 387.57  | 8/4/4       | Stable     |
+| 2    | B.Marshall | chi  | 5572.89        | 1.000      | 16    | 348.31   | 352.93  | 8/1/7       | Stable     |
+| 3    | A.Green    | cin  | 5505.30        | 1.000      | 16    | 344.08   | 306.61  | 8/2/6       | Stable     |
+| 4    | A.Jeffery  | chi  | 5497.17        | 1.000      | 16    | 343.57   | 311.57  | 8/1/7       | Stable     |
+| 5    | A.Johnson  | hou  | 5456.45        | 1.000      | 16    | 341.03   | 386.85  | 8/0/8       | Decreasing |
+| 6    | D.Bryant   | dal  | 5101.47        | 1.000      | 16    | 318.84   | 327.93  | 8/3/5       | Stable     |
+| 7    | E.Decker   | den  | 4923.41        | 1.000      | 16    | 307.71   | 218.22  | 8/0/8       | Stable     |
+| 8    | C.Johnson  | det  | 4898.30        | 1.000      | 14    | 349.88   | 334.19  | 6/2/6       | Stable     |
+| 9    | J.Gordon   | cle  | 4850.84        | 1.000      | 14    | 346.49   | 352.61  | 5/1/8       | Increasing |
+| 10   | D.Thomas   | den  | 4773.84        | 1.000      | 16    | 298.36   | 323.23  | 8/2/6       | Increasing |
 
 ## TE Rankings
 
 | Rank | Player     | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | J.Graham   | NO   | 4949.59        | 1.000      | 16    | 309.35   | 303.06  | 8/1/7       | Decreasing |
-| 2    | V.Davis    | SF   | 4220.85        | 1.000      | 15    | 281.39   | 255.81  | 6/3/6       | Stable     |
-| 3    | T.Gonzalez | ATL  | 3849.70        | 1.000      | 16    | 240.61   | 184.57  | 5/4/7       | Stable     |
-| 4    | G.Olsen    | CAR  | 3675.86        | 1.000      | 16    | 229.74   | 235.41  | 7/2/7       | Increasing |
-| 5    | C.Clay     | MIA  | 3486.27        | 1.000      | 16    | 217.89   | 172.88  | 8/0/8       | Decreasing |
-| 6    | J.Cameron  | CLE  | 3435.03        | 1.000      | 15    | 229.00   | 190.46  | 6/1/8       | Decreasing |
-| 7    | J.Witten   | DAL  | 3351.09        | 1.000      | 16    | 209.44   | 148.68  | 8/2/6       | Increasing |
-| 8    | J.Thomas   | DEN  | 3300.95        | 1.000      | 14    | 235.78   | 241.81  | 5/1/8       | Stable     |
-| 9    | D.Walker   | TEN  | 3206.22        | 1.000      | 15    | 213.75   | 206.93  | 7/3/5       | Stable     |
-| 10   | A.Gates    | LAC  | 3197.44        | 1.000      | 16    | 199.84   | 183.09  | 6/2/8       | Decreasing |
+| 1    | J.Graham   | no   | 5179.76        | 1.000      | 16    | 323.73   | 302.39  | 8/3/5       | Decreasing |
+| 2    | V.Davis    | sf   | 4135.70        | 1.000      | 15    | 275.71   | 275.72  | 7/1/7       | Increasing |
+| 3    | J.Cameron  | cle  | 4118.00        | 1.000      | 15    | 274.53   | 205.79  | 7/0/8       | Decreasing |
+| 4    | T.Gonzalez | atl  | 3864.21        | 1.000      | 16    | 241.51   | 198.03  | 6/2/8       | Stable     |
+| 5    | C.Clay     | mia  | 3653.28        | 1.000      | 16    | 228.33   | 192.15  | 8/1/7       | Decreasing |
+| 6    | G.Olsen    | car  | 3524.12        | 1.000      | 16    | 220.26   | 234.03  | 7/5/4       | Increasing |
+| 7    | J.Witten   | dal  | 3299.07        | 1.000      | 16    | 206.19   | 132.52  | 7/3/6       | Increasing |
+| 8    | A.Gates    | lac  | 3154.15        | 1.000      | 16    | 197.13   | 190.17  | 7/1/8       | Decreasing |
+| 9    | J.Thomas   | den  | 3110.76        | 1.000      | 14    | 222.20   | 220.58  | 6/1/7       | Increasing |
+| 10   | M.Bennett  | chi  | 2932.09        | 1.000      | 16    | 183.26   | 162.90  | 8/2/6       | Decreasing |
 

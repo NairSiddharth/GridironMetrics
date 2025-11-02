@@ -1,3 +1,3 @@
 # Error Processing 2022
 
-Error processing 2022: too many values to unpack (expected 2)
+Error processing 2022: name 'add_opponent_defense_metrics' is not defined

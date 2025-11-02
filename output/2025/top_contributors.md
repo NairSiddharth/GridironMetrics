@@ -6,59 +6,59 @@
 
 | Rank | Player         | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :--------------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | C.McCaffrey    | SF   | RB       | 3733.40        | 1.000      | 8     | 466.68   | 475.45  | 1/1/6       | Increasing |
-| 2    | J.Taylor       | IND  | RB       | 3468.50        | 1.000      | 8     | 433.56   | 455.85  | 1/1/6       | Increasing |
-| 3    | D.Achane       | MIA  | RB       | 2904.01        | 1.000      | 8     | 363.00   | 351.84  | 0/2/6       | Stable     |
-| 4    | J.Chase        | CIN  | WR       | 2578.81        | 1.000      | 8     | 322.35   | 339.36  | 3/0/5       | Increasing |
-| 5    | J.Smith-Njigba | SEA  | WR       | 2517.17        | 1.000      | 7     | 359.60   | 397.04  | 3/0/4       | Increasing |
-| 6    | J.Williams     | DAL  | RB       | 2488.74        | 1.000      | 8     | 311.09   | 301.60  | 1/1/6       | Stable     |
-| 7    | B.Robinson     | ATL  | RB       | 2481.59        | 1.000      | 7     | 354.51   | 374.83  | 2/0/5       | Increasing |
-| 8    | S.Barkley      | PHI  | RB       | 2313.94        | 1.000      | 8     | 289.24   | 309.31  | 2/1/5       | Decreasing |
-| 9    | J.Gibbs        | DET  | RB       | 2252.44        | 1.000      | 7     | 321.78   | 290.09  | 1/1/5       | Stable     |
-| 10   | J.Jacobs       | GB   | RB       | 2250.24        | 1.000      | 7     | 321.46   | 319.17  | 1/0/6       | Stable     |
+| 1    | C.McCaffrey    | sf   | RB       | 3916.31        | 1.000      | 8     | 489.54   | 512.28  | 1/1/6       | Stable     |
+| 2    | J.Taylor       | ind  | RB       | 3349.88        | 1.000      | 8     | 418.74   | 459.62  | 2/1/5       | Increasing |
+| 3    | J.Chase        | cin  | WR       | 3000.73        | 1.000      | 8     | 375.09   | 287.92  | 3/0/5       | Increasing |
+| 4    | D.Achane       | mia  | RB       | 2993.04        | 1.000      | 8     | 374.13   | 313.63  | 0/0/8       | Stable     |
+| 5    | S.Barkley      | phi  | RB       | 2526.54        | 1.000      | 8     | 315.82   | 325.96  | 2/0/6       | Stable     |
+| 6    | B.Robinson     | atl  | RB       | 2506.26        | 1.000      | 7     | 358.04   | 371.54  | 2/1/4       | Stable     |
+| 7    | J.Smith-Njigba | sea  | WR       | 2433.31        | 1.000      | 7     | 347.62   | 362.22  | 2/0/5       | Increasing |
+| 8    | J.Gibbs        | det  | RB       | 2332.88        | 1.000      | 7     | 333.27   | 352.86  | 3/0/4       | Decreasing |
+| 9    | J.Williams     | dal  | RB       | 2325.17        | 1.000      | 8     | 290.65   | 286.74  | 2/0/6       | Stable     |
+| 10   | C.Skattebo     | nyg  | RB       | 2275.50        | 1.000      | 8     | 284.44   | 322.10  | 3/0/5       | Stable     |
 
 ## RB Rankings
 
 | Rank | Player      | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :-----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | C.McCaffrey | SF   | 3733.40        | 1.000      | 8     | 466.68   | 475.45  | 1/1/6       | Increasing |
-| 2    | J.Taylor    | IND  | 3468.50        | 1.000      | 8     | 433.56   | 455.85  | 1/1/6       | Increasing |
-| 3    | D.Achane    | MIA  | 2904.01        | 1.000      | 8     | 363.00   | 351.84  | 0/2/6       | Stable     |
-| 4    | J.Williams  | DAL  | 2488.74        | 1.000      | 8     | 311.09   | 301.60  | 1/1/6       | Stable     |
-| 5    | B.Robinson  | ATL  | 2481.59        | 1.000      | 7     | 354.51   | 374.83  | 2/0/5       | Increasing |
-| 6    | S.Barkley   | PHI  | 2313.94        | 1.000      | 8     | 289.24   | 309.31  | 2/1/5       | Decreasing |
-| 7    | J.Gibbs     | DET  | 2252.44        | 1.000      | 7     | 321.78   | 290.09  | 1/1/5       | Stable     |
-| 8    | J.Jacobs    | GB   | 2250.24        | 1.000      | 7     | 321.46   | 319.17  | 1/0/6       | Stable     |
-| 9    | C.Skattebo  | NYG  | 2243.33        | 1.000      | 8     | 280.42   | 318.84  | 3/0/5       | Increasing |
-| 10   | C.Brown     | CIN  | 2235.84        | 1.000      | 8     | 279.48   | 206.76  | 1/0/7       | Stable     |
+| 1    | C.McCaffrey | sf   | 3916.31        | 1.000      | 8     | 489.54   | 512.28  | 1/1/6       | Stable     |
+| 2    | J.Taylor    | ind  | 3349.88        | 1.000      | 8     | 418.74   | 459.62  | 2/1/5       | Increasing |
+| 3    | D.Achane    | mia  | 2993.04        | 1.000      | 8     | 374.13   | 313.63  | 0/0/8       | Stable     |
+| 4    | S.Barkley   | phi  | 2526.54        | 1.000      | 8     | 315.82   | 325.96  | 2/0/6       | Stable     |
+| 5    | B.Robinson  | atl  | 2506.26        | 1.000      | 7     | 358.04   | 371.54  | 2/1/4       | Stable     |
+| 6    | J.Gibbs     | det  | 2332.88        | 1.000      | 7     | 333.27   | 352.86  | 3/0/4       | Decreasing |
+| 7    | J.Williams  | dal  | 2325.17        | 1.000      | 8     | 290.65   | 286.74  | 2/0/6       | Stable     |
+| 8    | C.Skattebo  | nyg  | 2275.50        | 1.000      | 8     | 284.44   | 322.10  | 3/0/5       | Stable     |
+| 9    | J.Jacobs    | gb   | 2126.31        | 1.000      | 7     | 303.76   | 283.27  | 0/1/6       | Increasing |
+| 10   | C.Brown     | cin  | 2123.87        | 1.000      | 8     | 265.48   | 247.60  | 2/1/5       | Increasing |
 
 ## WR Rankings
 
 | Rank | Player         | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :--------------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | J.Chase        | CIN  | 2578.81        | 1.000      | 8     | 322.35   | 339.36  | 3/0/5       | Increasing |
-| 2    | J.Smith-Njigba | SEA  | 2517.17        | 1.000      | 7     | 359.60   | 397.04  | 3/0/4       | Increasing |
-| 3    | P.Nacua        | LA   | 2095.17        | 1.000      | 6     | 349.20   | 378.13  | 1/0/5       | Stable     |
-| 4    | D.Smith        | PHI  | 2078.81        | 1.000      | 8     | 259.85   | 196.67  | 3/0/5       | Increasing |
-| 5    | A.St. Brown    | DET  | 2077.22        | 1.000      | 7     | 296.75   | 262.02  | 1/0/6       | Stable     |
-| 6    | G.Pickens      | DAL  | 2004.27        | 1.000      | 8     | 250.53   | 196.01  | 1/1/6       | Stable     |
-| 7    | J.Waddle       | MIA  | 1884.75        | 1.000      | 8     | 235.59   | 230.97  | 3/1/4       | Increasing |
-| 8    | J.Jefferson    | MIN  | 1753.12        | 1.000      | 7     | 250.45   | 237.53  | 1/0/6       | Stable     |
-| 9    | S.Diggs        | NE   | 1744.01        | 1.000      | 8     | 218.00   | 160.76  | 2/1/5       | Increasing |
-| 10   | C.Sutton       | DEN  | 1699.01        | 1.000      | 8     | 212.38   | 196.10  | 3/0/5       | Decreasing |
+| 1    | J.Chase        | cin  | 3000.73        | 1.000      | 8     | 375.09   | 287.92  | 3/0/5       | Increasing |
+| 2    | J.Smith-Njigba | sea  | 2433.31        | 1.000      | 7     | 347.62   | 362.22  | 2/0/5       | Increasing |
+| 3    | D.Smith        | phi  | 2041.56        | 1.000      | 8     | 255.20   | 184.65  | 2/2/4       | Increasing |
+| 4    | A.St. Brown    | det  | 1963.41        | 1.000      | 7     | 280.49   | 269.79  | 1/0/6       | Stable     |
+| 5    | P.Nacua        | la   | 1957.49        | 1.000      | 6     | 326.25   | 374.26  | 2/0/4       | Decreasing |
+| 6    | J.Jefferson    | min  | 1949.78        | 1.000      | 7     | 278.54   | 272.61  | 1/1/5       | Stable     |
+| 7    | G.Pickens      | dal  | 1922.19        | 1.000      | 8     | 240.27   | 240.51  | 3/0/5       | Stable     |
+| 8    | J.Waddle       | mia  | 1695.59        | 1.000      | 8     | 211.95   | 253.30  | 3/0/5       | Increasing |
+| 9    | S.Diggs        | ne   | 1662.28        | 1.000      | 8     | 207.78   | 173.23  | 3/0/5       | Stable     |
+| 10   | C.Sutton       | den  | 1658.97        | 1.000      | 8     | 207.37   | 195.82  | 3/0/5       | Decreasing |
 
 ## TE Rankings
 
 | Rank | Player     | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | T.McBride  | ARI  | 1668.24        | 1.000      | 7     | 238.32   | 228.37  | 1/1/5       | Stable     |
-| 2    | J.Ferguson | DAL  | 1641.79        | 1.000      | 8     | 205.22   | 226.40  | 2/0/6       | Stable     |
-| 3    | T.Warren   | IND  | 1487.41        | 1.000      | 8     | 185.93   | 193.30  | 2/0/6       | Stable     |
-| 4    | D.Goedert  | PHI  | 1384.22        | 1.000      | 7     | 197.75   | 183.38  | 1/0/6       | Decreasing |
-| 5    | T.Kelce    | KC   | 1341.95        | 1.000      | 8     | 167.74   | 159.90  | 2/1/5       | Increasing |
-| 6    | T.Kraft    | GB   | 1325.11        | 1.000      | 7     | 189.30   | 146.61  | 0/1/6       | Increasing |
-| 7    | H.Fannin   | CLE  | 1213.51        | 1.000      | 8     | 151.69   | 148.83  | 4/0/4       | Increasing |
-| 8    | K.Pitts    | ATL  | 1159.10        | 1.000      | 7     | 165.59   | 168.98  | 2/0/5       | Increasing |
-| 9    | J.Johnson  | NO   | 1124.71        | 1.000      | 8     | 140.59   | 124.50  | 2/0/6       | Decreasing |
-| 10   | H.Henry    | NE   | 1058.54        | 1.000      | 8     | 132.32   | 110.79  | 1/1/6       | Decreasing |
+| 1    | T.McBride  | ari  | 1614.71        | 1.000      | 7     | 230.67   | 211.98  | 1/0/6       | Increasing |
+| 2    | J.Ferguson | dal  | 1541.55        | 1.000      | 8     | 192.69   | 231.18  | 3/0/5       | Decreasing |
+| 3    | T.Warren   | ind  | 1520.86        | 1.000      | 8     | 190.11   | 183.85  | 3/1/4       | Stable     |
+| 4    | T.Kelce    | kc   | 1462.26        | 1.000      | 8     | 182.78   | 163.70  | 3/0/5       | Increasing |
+| 5    | H.Fannin   | cle  | 1452.23        | 1.000      | 8     | 181.53   | 159.08  | 3/1/4       | Increasing |
+| 6    | D.Goedert  | phi  | 1402.34        | 1.000      | 7     | 200.33   | 187.82  | 1/0/6       | Stable     |
+| 7    | T.Kraft    | gb   | 1360.36        | 1.000      | 7     | 194.34   | 123.06  | 0/1/6       | Increasing |
+| 8    | H.Henry    | ne   | 1164.31        | 1.000      | 8     | 145.54   | 100.49  | 2/0/6       | Decreasing |
+| 9    | J.Johnson  | no   | 1068.58        | 1.000      | 8     | 133.57   | 154.13  | 3/0/5       | Decreasing |
+| 10   | M.Andrews  | bal  | 1054.62        | 1.000      | 7     | 150.66   | 122.62  | 3/0/4       | Increasing |
 

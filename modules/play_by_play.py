@@ -31,6 +31,15 @@ class PlayByPlayProcessor:
             try:
                 logger.info(f"Loading play-by-play data for {year} from cache...")
                 pbp_data = pl.read_parquet(cache_path)
+
+                # Normalize team codes to match player/team stats (lowercase)
+                team_columns = ['posteam', 'defteam', 'home_team', 'away_team']
+                for col in team_columns:
+                    if col in pbp_data.columns:
+                        pbp_data = pbp_data.with_columns([
+                            pl.col(col).str.to_lowercase().alias(col)
+                        ])
+
                 self.pbp_cache[year] = pbp_data
                 logger.info(f"Loaded {len(pbp_data)} plays for {year} from cache")
                 return pbp_data
@@ -51,7 +60,15 @@ class PlayByPlayProcessor:
             # Filter to regular season only
             if pbp_data is not None and "season_type" in pbp_data.columns:
                 pbp_data = pbp_data.filter(pl.col("season_type") == "REG")
-            
+
+            # Normalize team codes to match player/team stats (lowercase)
+            team_columns = ['posteam', 'defteam', 'home_team', 'away_team']
+            for col in team_columns:
+                if col in pbp_data.columns:
+                    pbp_data = pbp_data.with_columns([
+                        pl.col(col).str.to_lowercase().alias(col)
+                    ])
+
             # Calculate multipliers since they won't be in non-cached data
             pbp_data = self._calculate_multipliers(pbp_data)
                 
