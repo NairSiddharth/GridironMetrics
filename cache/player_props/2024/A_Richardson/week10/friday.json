@@ -1,0 +1,33 @@
+{
+  "player": "Anthony Richardson",
+  "gsis_id": "00-0039164",
+  "position": "QB",
+  "team": "IND",
+  "display_name": "A.Richardson",
+  "game": {
+    "game_id": "e552bfd99b12a0acd319b922f7a9fa7c",
+    "home_team": "New York Jets",
+    "away_team": "Indianapolis Colts",
+    "commence_time": "2024-11-17T18:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 172.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 36.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:34:10.744173",
+    "season": 2024,
+    "week": 10,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-15T12:55:56Z"
+  }
+}

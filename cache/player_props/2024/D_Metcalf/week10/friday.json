@@ -1,0 +1,33 @@
+{
+  "player": "DK Metcalf",
+  "gsis_id": "00-0035640",
+  "position": "WR",
+  "team": "SEA",
+  "display_name": "D.Metcalf",
+  "game": {
+    "game_id": "cc4a0f06f87d64f4a02816ca7da514fa",
+    "home_team": "San Francisco 49ers",
+    "away_team": "Seattle Seahawks",
+    "commence_time": "2024-11-17T21:05:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 58.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 4.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:34:10.766504",
+    "season": 2024,
+    "week": 10,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-15T12:55:36Z"
+  }
+}

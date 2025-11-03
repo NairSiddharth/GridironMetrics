@@ -1,0 +1,28 @@
+{
+  "player": "De'Von Achane",
+  "gsis_id": "00-0039040",
+  "position": "RB",
+  "team": "MIA",
+  "display_name": "D.Achane",
+  "game": {
+    "game_id": "d6eab9011bd146fdbb2639f6e8c07056",
+    "home_team": "Los Angeles Rams",
+    "away_team": "Miami Dolphins",
+    "commence_time": "2024-11-12T01:15:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 58.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:31:00.778353",
+    "season": 2024,
+    "week": 9,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-05T12:52:39Z"
+  }
+}

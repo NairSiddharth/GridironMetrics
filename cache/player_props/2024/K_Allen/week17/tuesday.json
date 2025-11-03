@@ -1,0 +1,28 @@
+{
+  "player": "Keenan Allen",
+  "gsis_id": "00-0030279",
+  "position": "WR",
+  "team": "LAC",
+  "display_name": "K.Allen",
+  "game": {
+    "game_id": "d2e5d211cba187e5865c9783f3db5288",
+    "home_team": "Green Bay Packers",
+    "away_team": "Chicago Bears",
+    "commence_time": "2025-01-05T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 55.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:47:12.944560",
+    "season": 2024,
+    "week": 17,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-31T12:55:31Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "player": "Tyler Johnson",
+  "gsis_id": "00-0036427",
+  "position": "WR",
+  "team": "LA",
+  "display_name": "T.Johnson",
+  "game": {
+    "game_id": "db997fc1b5fe71f4960012f81c21a017",
+    "home_team": "Arizona Cardinals",
+    "away_team": "Los Angeles Rams",
+    "commence_time": "2024-09-15T20:05:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 35.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 3.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:15:22.506340",
+    "season": 2024,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-13T12:56:09Z"
+  }
+}

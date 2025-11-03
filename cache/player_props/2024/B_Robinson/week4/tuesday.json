@@ -1,0 +1,28 @@
+{
+  "player": "Bijan Robinson",
+  "gsis_id": "00-0038542",
+  "position": "RB",
+  "team": "ATL",
+  "display_name": "B.Robinson",
+  "game": {
+    "game_id": "b516611a4ade7c4d55fcde561ed71328",
+    "home_team": "Atlanta Falcons",
+    "away_team": "Tampa Bay Buccaneers",
+    "commence_time": "2024-10-04T00:15:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 66.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:20:37.553412",
+    "season": 2024,
+    "week": 4,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-01T12:56:04Z"
+  }
+}

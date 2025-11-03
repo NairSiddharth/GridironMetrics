@@ -1,0 +1,33 @@
+{
+  "player": "Derrick Henry",
+  "gsis_id": "00-0032764",
+  "position": "RB",
+  "team": "TEN",
+  "display_name": "D.Henry",
+  "game": {
+    "game_id": "1e5feffbcc2b9c122727b45963203298",
+    "home_team": "Pittsburgh Steelers",
+    "away_team": "Baltimore Ravens",
+    "commence_time": "2024-11-17T18:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 85.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receiving Yards": {
+      "line": 5.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:32:54.940171",
+    "season": 2024,
+    "week": 10,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-12T12:55:30Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "Jayden Daniels",
+  "gsis_id": "00-0039910",
+  "position": "QB",
+  "team": "WAS",
+  "display_name": "J.Daniels",
+  "game": {
+    "game_id": "495d9f2c316b05ef092099ef9401a180",
+    "home_team": "Washington Commanders",
+    "away_team": "New York Giants",
+    "commence_time": "2024-09-15T17:01:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 199.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T11:34:55.359378",
+    "season": 2024,
+    "week": 1,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-10T12:54:02Z"
+  }
+}

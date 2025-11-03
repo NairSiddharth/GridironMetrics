@@ -1,0 +1,28 @@
+{
+  "player": "Michael Mayer",
+  "gsis_id": "00-0039066",
+  "position": "TE",
+  "team": "LV",
+  "display_name": "M.Mayer",
+  "game": {
+    "game_id": "398f58cef1cbb3c99805b52375104238",
+    "home_team": "New Orleans Saints",
+    "away_team": "Las Vegas Raiders",
+    "commence_time": "2024-12-29T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 16.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:46:25.795825",
+    "season": 2024,
+    "week": 16,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-27T12:55:51Z"
+  }
+}

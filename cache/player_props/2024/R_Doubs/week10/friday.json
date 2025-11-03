@@ -1,0 +1,33 @@
+{
+  "player": "Romeo Doubs",
+  "gsis_id": "00-0037816",
+  "position": "WR",
+  "team": "GB",
+  "display_name": "R.Doubs",
+  "game": {
+    "game_id": "7c742858a76089990395c3179731744b",
+    "home_team": "Chicago Bears",
+    "away_team": "Green Bay Packers",
+    "commence_time": "2024-11-17T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 45.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 4.0,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:34:10.731956",
+    "season": 2024,
+    "week": 10,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-15T12:55:32Z"
+  }
+}

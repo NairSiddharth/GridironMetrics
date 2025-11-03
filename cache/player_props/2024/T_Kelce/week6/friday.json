@@ -1,0 +1,33 @@
+{
+  "player": "Travis Kelce",
+  "gsis_id": "00-0030506",
+  "position": "TE",
+  "team": "KC",
+  "display_name": "T.Kelce",
+  "game": {
+    "game_id": "a0b429ad5863438f4550ced4f368d2e2",
+    "home_team": "San Francisco 49ers",
+    "away_team": "Kansas City Chiefs",
+    "commence_time": "2024-10-20T20:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 62.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 6.0,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:25:57.581727",
+    "season": 2024,
+    "week": 6,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-18T12:56:05Z"
+  }
+}

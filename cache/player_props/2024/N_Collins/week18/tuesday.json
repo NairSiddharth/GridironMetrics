@@ -1,0 +1,33 @@
+{
+  "player": "Nico Collins",
+  "gsis_id": "00-0036554",
+  "position": "WR",
+  "team": "HOU",
+  "display_name": "N.Collins",
+  "game": {
+    "game_id": "03dd880f071a65053e37000d3d826e14",
+    "home_team": "Houston Texans",
+    "away_team": "Los Angeles Chargers",
+    "commence_time": "2025-01-11T21:31:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 85.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 6.0,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:48:50.933998",
+    "season": 2024,
+    "week": 18,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2025-01-07T12:55:52Z"
+  }
+}

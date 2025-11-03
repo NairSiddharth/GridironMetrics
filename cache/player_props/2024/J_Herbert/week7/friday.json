@@ -1,0 +1,28 @@
+{
+  "player": "Justin Herbert",
+  "gsis_id": "00-0036355",
+  "position": "QB",
+  "team": "LAC",
+  "display_name": "J.Herbert",
+  "game": {
+    "game_id": "70c540bd6e70676319e44a7dd02cbd38",
+    "home_team": "Los Angeles Chargers",
+    "away_team": "New Orleans Saints",
+    "commence_time": "2024-10-27T20:05:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 197.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:28:11.906602",
+    "season": 2024,
+    "week": 7,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-25T12:56:35Z"
+  }
+}

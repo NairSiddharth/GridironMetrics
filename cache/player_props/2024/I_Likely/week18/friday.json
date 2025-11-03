@@ -1,0 +1,33 @@
+{
+  "player": "Isaiah Likely",
+  "gsis_id": "00-0037838",
+  "position": "TE",
+  "team": "BAL",
+  "display_name": "I.Likely",
+  "game": {
+    "game_id": "08e2147df0b21744fdef99cbcdf3edb7",
+    "home_team": "Baltimore Ravens",
+    "away_team": "Pittsburgh Steelers",
+    "commence_time": "2025-01-12T01:01:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 26.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 2.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:49:36.441075",
+    "season": 2024,
+    "week": 18,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2025-01-10T12:55:43Z"
+  }
+}

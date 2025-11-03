@@ -1,0 +1,22 @@
+{
+  "source": "Historical archive (sportsbookreview) + ESPN API",
+  "coverage": {
+    "2011-2021": "sportsbookreview archive (split from nfl_archive_10Y.json)",
+    "2022+": "ESPN public API"
+  },
+  "last_updated": "2024-11-02",
+  "seasons": [
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021
+  ],
+  "total_games": 2956
+}

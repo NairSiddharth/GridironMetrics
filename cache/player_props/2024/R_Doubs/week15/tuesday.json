@@ -1,0 +1,28 @@
+{
+  "player": "Romeo Doubs",
+  "gsis_id": "00-0037816",
+  "position": "WR",
+  "team": "GB",
+  "display_name": "R.Doubs",
+  "game": {
+    "game_id": "14c12ef82be07b0dc984dd20d477bb8f",
+    "home_team": "Green Bay Packers",
+    "away_team": "New Orleans Saints",
+    "commence_time": "2024-12-24T01:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 42.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:43:18.071442",
+    "season": 2024,
+    "week": 15,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-17T12:55:52Z"
+  }
+}

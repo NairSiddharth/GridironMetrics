@@ -1,0 +1,28 @@
+{
+  "player": "James Conner",
+  "gsis_id": "00-0033553",
+  "position": "RB",
+  "team": "ARI",
+  "display_name": "J.Conner",
+  "game": {
+    "game_id": "fb08594af963cff8fae2f93b2e0f4269",
+    "home_team": "Green Bay Packers",
+    "away_team": "Arizona Cardinals",
+    "commence_time": "2024-10-13T17:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 66.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:22:31.389880",
+    "season": 2024,
+    "week": 5,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-08T12:55:12Z"
+  }
+}

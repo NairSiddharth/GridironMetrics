@@ -1,0 +1,33 @@
+{
+  "player": "Justin Jefferson",
+  "gsis_id": "00-0036322",
+  "position": "WR",
+  "team": "MIN",
+  "display_name": "J.Jefferson",
+  "game": {
+    "game_id": "09d8388d4ccba7ddafec2e400b5c013f",
+    "home_team": "Detroit Lions",
+    "away_team": "Minnesota Vikings",
+    "commence_time": "2025-01-06T01:23:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 92.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 6.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:48:31.483639",
+    "season": 2024,
+    "week": 17,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2025-01-03T12:55:24Z"
+  }
+}

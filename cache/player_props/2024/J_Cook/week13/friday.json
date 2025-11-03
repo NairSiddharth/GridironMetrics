@@ -1,0 +1,28 @@
+{
+  "player": "James Cook",
+  "gsis_id": "00-0037248",
+  "position": "RB",
+  "team": "BUF",
+  "display_name": "J.Cook",
+  "game": {
+    "game_id": "5188cb03fd7577d7448874486c26dccb",
+    "home_team": "Los Angeles Rams",
+    "away_team": "Buffalo Bills",
+    "commence_time": "2024-12-08T21:25:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 65.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:40:13.268604",
+    "season": 2024,
+    "week": 13,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-06T12:55:48Z"
+  }
+}

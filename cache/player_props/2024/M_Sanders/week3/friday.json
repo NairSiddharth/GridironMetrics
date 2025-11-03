@@ -1,0 +1,38 @@
+{
+  "player": "Miles Sanders",
+  "gsis_id": "00-0035243",
+  "position": "RB",
+  "team": "CAR",
+  "display_name": "M.Sanders",
+  "game": {
+    "game_id": "82483a4f1a2ae000d00778810d85d13c",
+    "home_team": "Carolina Panthers",
+    "away_team": "Cincinnati Bengals",
+    "commence_time": "2024-09-29T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 8.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 1.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 24.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:19:56.326606",
+    "season": 2024,
+    "week": 3,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-27T12:56:45Z"
+  }
+}

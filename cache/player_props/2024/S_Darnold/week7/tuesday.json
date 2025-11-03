@@ -1,0 +1,33 @@
+{
+  "player": "Sam Darnold",
+  "gsis_id": "00-0034869",
+  "position": "QB",
+  "team": "SF",
+  "display_name": "S.Darnold",
+  "game": {
+    "game_id": "1f22f5d9de70779ac521b9c1de59162f",
+    "home_team": "Los Angeles Rams",
+    "away_team": "Minnesota Vikings",
+    "commence_time": "2024-10-25T00:15:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Passing Yards": {
+      "line": 232.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:26:44.395667",
+    "season": 2024,
+    "week": 7,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-10-22T12:55:41Z"
+  }
+}

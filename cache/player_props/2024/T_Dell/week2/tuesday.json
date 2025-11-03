@@ -1,0 +1,28 @@
+{
+  "player": "Tank Dell",
+  "gsis_id": "00-0038977",
+  "position": "WR",
+  "team": "HOU",
+  "display_name": "N.Dell",
+  "game": {
+    "game_id": "fc293a1ac914f24cb110ed2b8250292d",
+    "home_team": "Minnesota Vikings",
+    "away_team": "Houston Texans",
+    "commence_time": "2024-09-22T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 46.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:16:09.579766",
+    "season": 2024,
+    "week": 2,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-17T12:55:35Z"
+  }
+}

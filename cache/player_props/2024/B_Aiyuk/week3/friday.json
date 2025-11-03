@@ -1,0 +1,28 @@
+{
+  "player": "Brandon Aiyuk",
+  "gsis_id": "00-0036261",
+  "position": "WR",
+  "team": "SF",
+  "display_name": "B.Aiyuk",
+  "game": {
+    "game_id": "2536f23add2224ed79c070c55af28bbf",
+    "home_team": "San Francisco 49ers",
+    "away_team": "New England Patriots",
+    "commence_time": "2024-09-29T20:05:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 64.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:19:56.362571",
+    "season": 2024,
+    "week": 3,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-27T12:55:58Z"
+  }
+}

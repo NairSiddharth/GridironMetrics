@@ -1,0 +1,28 @@
+{
+  "player": "Derrick Henry",
+  "gsis_id": "00-0032764",
+  "position": "RB",
+  "team": "TEN",
+  "display_name": "D.Henry",
+  "game": {
+    "game_id": "887b10368f0b3f33a8c47e955736da89",
+    "home_team": "Los Angeles Chargers",
+    "away_team": "Baltimore Ravens",
+    "commence_time": "2024-11-26T01:15:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 87.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:34:49.372133",
+    "season": 2024,
+    "week": 11,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-19T12:55:45Z"
+  }
+}

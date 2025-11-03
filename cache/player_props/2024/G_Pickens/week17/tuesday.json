@@ -1,0 +1,28 @@
+{
+  "player": "George Pickens",
+  "gsis_id": "00-0037247",
+  "position": "WR",
+  "team": "PIT",
+  "display_name": "G.Pickens",
+  "game": {
+    "game_id": "68aa07e4336438b1f2f5a4dfb82fe9cc",
+    "home_team": "Pittsburgh Steelers",
+    "away_team": "Cincinnati Bengals",
+    "commence_time": "2025-01-05T01:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 66.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:47:12.937647",
+    "season": 2024,
+    "week": 17,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-31T12:56:00Z"
+  }
+}

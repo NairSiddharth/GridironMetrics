@@ -1,0 +1,33 @@
+{
+  "player": "Zach Charbonnet",
+  "gsis_id": "00-0039165",
+  "position": "RB",
+  "team": "SEA",
+  "display_name": "Z.Charbonnet",
+  "game": {
+    "game_id": "2cf5abcfe39f3ac0d82ffb5a90b49e93",
+    "home_team": "Los Angeles Rams",
+    "away_team": "Seattle Seahawks",
+    "commence_time": "2025-01-05T21:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 20.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 58.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:48:31.473978",
+    "season": 2024,
+    "week": 17,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2025-01-03T12:55:24Z"
+  }
+}

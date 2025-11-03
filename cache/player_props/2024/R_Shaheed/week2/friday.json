@@ -1,0 +1,33 @@
+{
+  "player": "Rashid Shaheed",
+  "gsis_id": "00-0037545",
+  "position": "WR",
+  "team": "NO",
+  "display_name": "R.Shaheed",
+  "game": {
+    "game_id": "326301fd41fe90d64929b44a2e227b23",
+    "home_team": "New Orleans Saints",
+    "away_team": "Philadelphia Eagles",
+    "commence_time": "2024-09-22T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 49.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 3.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:17:41.174096",
+    "season": 2024,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-20T12:56:32Z"
+  }
+}

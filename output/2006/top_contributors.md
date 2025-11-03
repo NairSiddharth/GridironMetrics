@@ -6,31 +6,31 @@
 
 | Rank | Player      | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :-----------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | S.Jackson   | STL  | RB       | 4511.58        | 1.000      | 16    | 281.97   | 258.85  | 8/3/5       | Increasing |
-| 2    | L.Tomlinson | SD   | RB       | 4273.04        | 1.000      | 16    | 267.07   | 272.30  | 8/2/6       | Increasing |
-| 3    | L.Johnson   | KC   | RB       | 4086.89        | 1.000      | 16    | 255.43   | 250.34  | 8/3/5       | Decreasing |
-| 4    | B.Westbrook | PHI  | RB       | 3609.86        | 1.000      | 15    | 240.66   | 211.63  | 5/4/6       | Stable     |
-| 5    | F.Gore      | SF   | RB       | 3468.95        | 1.000      | 16    | 216.81   | 222.10  | 8/3/5       | Increasing |
-| 6    | T.Barber    | NYG  | RB       | 3404.78        | 1.000      | 16    | 212.80   | 206.17  | 8/2/6       | Stable     |
-| 7    | W.Parker    | PIT  | RB       | 3307.19        | 1.000      | 16    | 206.70   | 221.28  | 8/3/5       | Stable     |
+| 1    | S.Jackson   | STL  | RB       | 4307.54        | 1.000      | 16    | 269.22   | 243.43  | 8/3/5       | Increasing |
+| 2    | L.Tomlinson | SD   | RB       | 4183.48        | 1.000      | 16    | 261.47   | 260.94  | 8/2/6       | Increasing |
+| 3    | L.Johnson   | KC   | RB       | 3818.11        | 1.000      | 16    | 238.63   | 227.33  | 8/2/6       | Decreasing |
+| 4    | B.Westbrook | PHI  | RB       | 3561.02        | 1.000      | 15    | 237.40   | 207.65  | 5/4/6       | Stable     |
+| 5    | F.Gore      | SF   | RB       | 3288.50        | 1.000      | 16    | 205.53   | 207.17  | 8/3/5       | Increasing |
+| 6    | T.Barber    | NYG  | RB       | 3219.85        | 1.000      | 16    | 201.24   | 198.07  | 8/3/5       | Decreasing |
+| 7    | W.Parker    | PIT  | RB       | 3137.94        | 1.000      | 16    | 196.12   | 209.25  | 8/2/6       | Stable     |
 | 8    | M.Harrison  | IND  | WR       | 2909.88        | 1.000      | 16    | 181.87   | 174.57  | 8/3/5       | Increasing |
 | 9    | L.Evans     | BUF  | WR       | 2899.56        | 1.000      | 16    | 181.22   | 152.94  | 8/2/6       | Increasing |
 | 10   | D.Driver    | GB   | WR       | 2866.64        | 1.000      | 16    | 179.17   | 157.15  | 8/0/8       | Stable     |
 
 ## RB Rankings
 
-| Rank | Player      | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
-| :----| :-----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | S.Jackson   | STL  | 4511.58        | 1.000      | 16    | 281.97   | 258.85  | 8/3/5       | Increasing |
-| 2    | L.Tomlinson | SD   | 4273.04        | 1.000      | 16    | 267.07   | 272.30  | 8/2/6       | Increasing |
-| 3    | L.Johnson   | KC   | 4086.89        | 1.000      | 16    | 255.43   | 250.34  | 8/3/5       | Decreasing |
-| 4    | B.Westbrook | PHI  | 3609.86        | 1.000      | 15    | 240.66   | 211.63  | 5/4/6       | Stable     |
-| 5    | F.Gore      | SF   | 3468.95        | 1.000      | 16    | 216.81   | 222.10  | 8/3/5       | Increasing |
-| 6    | T.Barber    | NYG  | 3404.78        | 1.000      | 16    | 212.80   | 206.17  | 8/2/6       | Stable     |
-| 7    | W.Parker    | PIT  | 3307.19        | 1.000      | 16    | 206.70   | 221.28  | 8/3/5       | Stable     |
-| 8    | E.James     | ARI  | 2761.06        | 1.000      | 16    | 172.57   | 162.26  | 8/1/7       | Decreasing |
-| 9    | T.Jones     | CHI  | 2704.27        | 1.000      | 16    | 169.02   | 141.49  | 8/1/7       | Stable     |
-| 10   | L.Betts     | WAS  | 2658.32        | 1.000      | 16    | 166.14   | 158.02  | 8/1/7       | Increasing |
+| Rank | Player       | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
+| :----| :------------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
+| 1    | S.Jackson    | STL  | 4307.54        | 1.000      | 16    | 269.22   | 243.43  | 8/3/5       | Increasing |
+| 2    | L.Tomlinson  | SD   | 4183.48        | 1.000      | 16    | 261.47   | 260.94  | 8/2/6       | Increasing |
+| 3    | L.Johnson    | KC   | 3818.11        | 1.000      | 16    | 238.63   | 227.33  | 8/2/6       | Decreasing |
+| 4    | B.Westbrook  | PHI  | 3561.02        | 1.000      | 15    | 237.40   | 207.65  | 5/4/6       | Stable     |
+| 5    | F.Gore       | SF   | 3288.50        | 1.000      | 16    | 205.53   | 207.17  | 8/3/5       | Increasing |
+| 6    | T.Barber     | NYG  | 3219.85        | 1.000      | 16    | 201.24   | 198.07  | 8/3/5       | Decreasing |
+| 7    | W.Parker     | PIT  | 3137.94        | 1.000      | 16    | 196.12   | 209.25  | 8/2/6       | Stable     |
+| 8    | T.Jones      | CHI  | 2616.07        | 1.000      | 16    | 163.50   | 144.51  | 8/1/7       | Stable     |
+| 9    | E.James      | ARI  | 2615.97        | 1.000      | 16    | 163.50   | 155.48  | 8/1/7       | Decreasing |
+| 10   | M.Jones-Drew | JAX  | 2530.45        | 1.000      | 16    | 158.15   | 143.23  | 8/1/7       | Increasing |
 
 ## WR Rankings
 
@@ -58,7 +58,7 @@
 | 5    | A.Crumpler  | ATL  | 1869.37        | 1.000      | 16    | 116.84   | 105.51  | 8/3/5       | Decreasing |
 | 6    | J.Shockey   | NYG  | 1669.56        | 1.000      | 15    | 111.30   | 116.36  | 7/2/6       | Increasing |
 | 7    | C.Cooley    | WAS  | 1638.66        | 1.000      | 16    | 102.42   | 94.78   | 8/2/6       | Increasing |
-| 8    | J.Witten    | DAL  | 1437.26        | 1.000      | 16    | 89.83    | 84.51   | 8/1/7       | Increasing |
-| 9    | R.McMichael | MIA  | 1374.99        | 1.000      | 16    | 85.94    | 80.78   | 7/2/7       | Stable     |
+| 8    | R.McMichael | MIA  | 1443.74        | 1.000      | 16    | 90.23    | 84.82   | 7/4/5       | Stable     |
+| 9    | J.Witten    | DAL  | 1437.26        | 1.000      | 16    | 89.83    | 84.51   | 8/1/7       | Increasing |
 | 10   | B.Watson    | NE   | 1344.07        | 1.000      | 13    | 103.39   | 84.20   | 6/1/6       | Increasing |
 

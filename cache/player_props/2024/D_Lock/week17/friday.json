@@ -1,0 +1,28 @@
+{
+  "player": "Drew Lock",
+  "gsis_id": "00-0035704",
+  "position": "QB",
+  "team": "SEA",
+  "display_name": "D.Lock",
+  "game": {
+    "game_id": "60b1da9a88c680190bfbf3ac935bff82",
+    "home_team": "Philadelphia Eagles",
+    "away_team": "New York Giants",
+    "commence_time": "2025-01-05T18:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 191.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:48:31.462729",
+    "season": 2024,
+    "week": 17,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2025-01-03T12:55:24Z"
+  }
+}

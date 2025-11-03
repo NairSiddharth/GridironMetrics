@@ -1,0 +1,33 @@
+{
+  "player": "J.K. Dobbins",
+  "gsis_id": "00-0036158",
+  "position": "RB",
+  "team": "BAL",
+  "display_name": "J.Dobbins",
+  "game": {
+    "game_id": "887b10368f0b3f33a8c47e955736da89",
+    "home_team": "Los Angeles Chargers",
+    "away_team": "Baltimore Ravens",
+    "commence_time": "2024-11-26T01:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 14.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 50.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:36:10.263268",
+    "season": 2024,
+    "week": 11,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-22T12:56:37Z"
+  }
+}

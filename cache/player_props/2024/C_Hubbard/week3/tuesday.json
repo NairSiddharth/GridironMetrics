@@ -1,0 +1,28 @@
+{
+  "player": "Chuba Hubbard",
+  "gsis_id": "00-0036555",
+  "position": "RB",
+  "team": "CAR",
+  "display_name": "C.Hubbard",
+  "game": {
+    "game_id": "82483a4f1a2ae000d00778810d85d13c",
+    "home_team": "Carolina Panthers",
+    "away_team": "Cincinnati Bengals",
+    "commence_time": "2024-09-29T17:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 56.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:18:29.005264",
+    "season": 2024,
+    "week": 3,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-24T12:55:53Z"
+  }
+}

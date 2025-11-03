@@ -1,0 +1,28 @@
+{
+  "player": "Ty Chandler",
+  "gsis_id": "00-0037276",
+  "position": "RB",
+  "team": "MIN",
+  "display_name": "T.Chandler",
+  "game": {
+    "game_id": "1f9f768db4ab5e36fad5080f8a338725",
+    "home_team": "Green Bay Packers",
+    "away_team": "Minnesota Vikings",
+    "commence_time": "2024-09-29T17:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 27.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:19:56.346653",
+    "season": 2024,
+    "week": 3,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-27T12:56:45Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "Mark Andrews",
+  "gsis_id": "00-0034753",
+  "position": "TE",
+  "team": "BAL",
+  "display_name": "M.Andrews",
+  "game": {
+    "game_id": "15a56f0e44d8fdb660a6a0aed2449e4b",
+    "home_team": "Baltimore Ravens",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2025-01-04T21:30:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 35.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:48:31.433242",
+    "season": 2024,
+    "week": 17,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2025-01-03T12:55:24Z"
+  }
+}

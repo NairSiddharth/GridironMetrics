@@ -1,0 +1,33 @@
+{
+  "player": "Rachaad White",
+  "gsis_id": "00-0037256",
+  "position": "RB",
+  "team": "TB",
+  "display_name": "R.White",
+  "game": {
+    "game_id": "853cc3b59ffe65a55a55d799789bc726",
+    "home_team": "Tampa Bay Buccaneers",
+    "away_team": "San Francisco 49ers",
+    "commence_time": "2024-11-10T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 25.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 21.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:32:12.939261",
+    "season": 2024,
+    "week": 9,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-08T12:56:13Z"
+  }
+}

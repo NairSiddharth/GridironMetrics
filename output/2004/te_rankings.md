@@ -1,1 +1,1 @@
-No qualified TEs (2+ targets/game) for this season.
+No qualified TEs (2.0+ targets/game) for this season.

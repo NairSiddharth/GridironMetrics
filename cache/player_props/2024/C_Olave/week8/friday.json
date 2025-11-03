@@ -1,0 +1,28 @@
+{
+  "player": "Chris Olave",
+  "gsis_id": "00-0037239",
+  "position": "WR",
+  "team": "NO",
+  "display_name": "C.Olave",
+  "game": {
+    "game_id": "3de2d54334c462aa393418b75994fee1",
+    "home_team": "Carolina Panthers",
+    "away_team": "New Orleans Saints",
+    "commence_time": "2024-11-03T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 67.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:30:19.042724",
+    "season": 2024,
+    "week": 8,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-11-01T12:56:36Z"
+  }
+}

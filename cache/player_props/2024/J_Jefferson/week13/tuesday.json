@@ -1,0 +1,28 @@
+{
+  "player": "Justin Jefferson",
+  "gsis_id": "00-0036322",
+  "position": "WR",
+  "team": "MIN",
+  "display_name": "J.Jefferson",
+  "game": {
+    "game_id": "c14dd2e8bf469a6736f73be3c28706e8",
+    "home_team": "Minnesota Vikings",
+    "away_team": "Atlanta Falcons",
+    "commence_time": "2024-12-08T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 84.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:38:52.458807",
+    "season": 2024,
+    "week": 13,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-03T12:55:46Z"
+  }
+}

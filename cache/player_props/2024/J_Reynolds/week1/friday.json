@@ -1,0 +1,28 @@
+{
+  "player": "Josh Reynolds",
+  "gsis_id": "00-0033943",
+  "position": "WR",
+  "team": "DET",
+  "display_name": "J.Reynolds",
+  "game": {
+    "game_id": "3a300e2fb659ca896b5e60252f13150c",
+    "home_team": "Denver Broncos",
+    "away_team": "Pittsburgh Steelers",
+    "commence_time": "2024-09-15T20:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 25.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:15:22.523518",
+    "season": 2024,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-13T12:56:09Z"
+  }
+}

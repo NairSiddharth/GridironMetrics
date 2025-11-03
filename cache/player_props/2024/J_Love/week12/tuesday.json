@@ -1,0 +1,38 @@
+{
+  "player": "Jordan Love",
+  "gsis_id": "00-0036264",
+  "position": "QB",
+  "team": "GB",
+  "display_name": "J.Love",
+  "game": {
+    "game_id": "e6b414e1b7a012e57d1a0746769f28a2",
+    "home_team": "Green Bay Packers",
+    "away_team": "Miami Dolphins",
+    "commence_time": "2024-11-29T01:20:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Passing Yards": {
+      "line": 242.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 6.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:36:59.190962",
+    "season": 2024,
+    "week": 12,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-26T12:55:31Z"
+  }
+}

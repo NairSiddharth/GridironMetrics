@@ -1,0 +1,28 @@
+{
+  "player": "Justin Fields",
+  "gsis_id": "00-0036945",
+  "position": "QB",
+  "team": "CHI",
+  "display_name": "J.Fields",
+  "game": {
+    "game_id": "81df9672b5e68bc84e98641d5de2505b",
+    "home_team": "Las Vegas Raiders",
+    "away_team": "Pittsburgh Steelers",
+    "commence_time": "2024-10-13T20:05:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 189.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:22:31.404504",
+    "season": 2024,
+    "week": 5,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-08T12:55:52Z"
+  }
+}

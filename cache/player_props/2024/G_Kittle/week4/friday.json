@@ -1,0 +1,28 @@
+{
+  "player": "George Kittle",
+  "gsis_id": "00-0033288",
+  "position": "TE",
+  "team": "SF",
+  "display_name": "G.Kittle",
+  "game": {
+    "game_id": "a0877d6a0f0a97e5790884008b9974c9",
+    "home_team": "San Francisco 49ers",
+    "away_team": "Arizona Cardinals",
+    "commence_time": "2024-10-06T20:05:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 49.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:21:50.031106",
+    "season": 2024,
+    "week": 4,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-10-04T12:56:36Z"
+  }
+}

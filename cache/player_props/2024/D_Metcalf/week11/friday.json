@@ -1,0 +1,28 @@
+{
+  "player": "DK Metcalf",
+  "gsis_id": "00-0035640",
+  "position": "WR",
+  "team": "SEA",
+  "display_name": "D.Metcalf",
+  "game": {
+    "game_id": "d9a2e1ead2367a3b0f46d247ed5b2906",
+    "home_team": "Seattle Seahawks",
+    "away_team": "Arizona Cardinals",
+    "commence_time": "2024-11-24T21:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 66.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:36:10.242411",
+    "season": 2024,
+    "week": 11,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-22T12:56:15Z"
+  }
+}

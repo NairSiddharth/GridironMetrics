@@ -1,0 +1,28 @@
+{
+  "player": "Kirk Cousins",
+  "gsis_id": "00-0029604",
+  "position": "QB",
+  "team": "MIN",
+  "display_name": "K.Cousins",
+  "game": {
+    "game_id": "45b543405582d30cef04650884f45c6d",
+    "home_team": "Atlanta Falcons",
+    "away_team": "Los Angeles Chargers",
+    "commence_time": "2024-12-01T18:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 242.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:36:59.211451",
+    "season": 2024,
+    "week": 12,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-26T12:55:48Z"
+  }
+}

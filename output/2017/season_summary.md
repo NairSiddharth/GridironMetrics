@@ -139,7 +139,7 @@
 | NO   | A.Kamara         | RB       | 18.8             |
 | NYG  | H.Sharp          | WR       | 50.0             |
 | NYJ  | R.Anderson       | WR       | 28.1             |
-| OAK  | A.Cooper         | WR       | 33.3             |
+| OAK  | M.Crabtree       | WR       | 33.3             |
 | PHI  | A.Jeffery        | WR       | 24.0             |
 | PIT  | J.Smith-Schuster | WR       | 35.7             |
 | SEA  | J.Graham         | TE       | 29.2             |

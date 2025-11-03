@@ -1,0 +1,28 @@
+{
+  "player": "Kyle Pitts",
+  "gsis_id": "00-0036970",
+  "position": "TE",
+  "team": "ATL",
+  "display_name": "K.Pitts",
+  "game": {
+    "game_id": "b72078945287a94944a0ffefcd09c42c",
+    "home_team": "Las Vegas Raiders",
+    "away_team": "Atlanta Falcons",
+    "commence_time": "2024-12-17T01:30:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 34.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:41:01.051288",
+    "season": 2024,
+    "week": 14,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-10T12:55:51Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "Lucas Krull",
+  "gsis_id": "00-0037539",
+  "position": "TE",
+  "team": "DEN",
+  "display_name": "L.Krull",
+  "game": {
+    "game_id": "4baedb2bf9b85f9b9ec40e88bacc1792",
+    "home_team": "Denver Broncos",
+    "away_team": "Atlanta Falcons",
+    "commence_time": "2024-11-17T21:05:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 9.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:32:54.978295",
+    "season": 2024,
+    "week": 10,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-11-12T12:55:20Z"
+  }
+}

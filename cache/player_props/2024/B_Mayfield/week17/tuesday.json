@@ -1,0 +1,28 @@
+{
+  "player": "Baker Mayfield",
+  "gsis_id": "00-0034855",
+  "position": "QB",
+  "team": "TB",
+  "display_name": "B.Mayfield",
+  "game": {
+    "game_id": "983cd3ee325119e16969d4797a6d94f2",
+    "home_team": "Tampa Bay Buccaneers",
+    "away_team": "New Orleans Saints",
+    "commence_time": "2025-01-05T18:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 268.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:47:12.949705",
+    "season": 2024,
+    "week": 17,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-31T12:55:33Z"
+  }
+}

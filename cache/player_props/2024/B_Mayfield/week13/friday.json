@@ -1,0 +1,38 @@
+{
+  "player": "Baker Mayfield",
+  "gsis_id": "00-0034855",
+  "position": "QB",
+  "team": "TB",
+  "display_name": "B.Mayfield",
+  "game": {
+    "game_id": "48859a2a659fe2dd71db168127a01b13",
+    "home_team": "Tampa Bay Buccaneers",
+    "away_team": "Las Vegas Raiders",
+    "commence_time": "2024-12-08T18:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 246.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 10.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:40:13.250846",
+    "season": 2024,
+    "week": 13,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-06T12:56:00Z"
+  }
+}

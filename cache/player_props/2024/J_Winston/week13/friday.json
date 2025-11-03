@@ -1,0 +1,33 @@
+{
+  "player": "Jameis Winston",
+  "gsis_id": "00-0031503",
+  "position": "QB",
+  "team": "NO",
+  "display_name": "J.Winston",
+  "game": {
+    "game_id": "7ae6be20a581839e77dd6b3f4eab564b",
+    "home_team": "Pittsburgh Steelers",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2024-12-08T18:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 252.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 8.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:40:13.240624",
+    "season": 2024,
+    "week": 13,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-06T12:56:00Z"
+  }
+}

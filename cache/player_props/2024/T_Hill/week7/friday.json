@@ -1,0 +1,33 @@
+{
+  "player": "Tyreek Hill",
+  "gsis_id": "00-0033040",
+  "position": "WR",
+  "team": "MIA",
+  "display_name": "T.Hill",
+  "game": {
+    "game_id": "2883af924ad72a75da65e3257b9284e7",
+    "home_team": "Miami Dolphins",
+    "away_team": "Arizona Cardinals",
+    "commence_time": "2024-10-27T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 85.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 6.0,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:28:11.845048",
+    "season": 2024,
+    "week": 7,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-25T12:56:03Z"
+  }
+}

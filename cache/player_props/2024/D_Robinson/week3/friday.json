@@ -1,0 +1,28 @@
+{
+  "player": "Demarcus Robinson",
+  "gsis_id": "00-0032775",
+  "position": "WR",
+  "team": "LA",
+  "display_name": "D.Robinson",
+  "game": {
+    "game_id": "e603ee3c4035a8558b9bcb6aded87ff4",
+    "home_team": "Chicago Bears",
+    "away_team": "Los Angeles Rams",
+    "commence_time": "2024-09-29T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 39.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:19:56.328765",
+    "season": 2024,
+    "week": 3,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-27T12:56:37Z"
+  }
+}

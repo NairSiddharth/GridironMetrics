@@ -1,0 +1,28 @@
+{
+  "player": "Tanner Hudson",
+  "gsis_id": "00-0034613",
+  "position": "TE",
+  "team": "CIN",
+  "display_name": "T.Hudson",
+  "game": {
+    "game_id": "134659e6aca5f32ceb1392398557953b",
+    "home_team": "Cincinnati Bengals",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2024-12-22T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 7.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:44:49.570734",
+    "season": 2024,
+    "week": 15,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-20T12:55:58Z"
+  }
+}

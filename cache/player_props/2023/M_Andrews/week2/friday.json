@@ -1,0 +1,33 @@
+{
+  "player": "Mark Andrews",
+  "gsis_id": "00-0034753",
+  "position": "TE",
+  "team": "BAL",
+  "display_name": "M.Andrews",
+  "game": {
+    "game_id": "2c66bee99eec7cca649ecb6b249868fb",
+    "home_team": "Baltimore Ravens",
+    "away_team": "Indianapolis Colts",
+    "commence_time": "2023-09-24T17:04:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 53.5,
+      "over_price": -115,
+      "under_price": -115
+    },
+    "Receptions": {
+      "line": 4.5,
+      "over_price": -110,
+      "under_price": -120
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:08:50.401524",
+    "season": 2023,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-22T12:55:38Z"
+  }
+}

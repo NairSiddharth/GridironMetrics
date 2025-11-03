@@ -1,0 +1,38 @@
+{
+  "player": "D'Andre Swift",
+  "gsis_id": "00-0036275",
+  "position": "RB",
+  "team": "PHI",
+  "display_name": "D.Swift",
+  "game": {
+    "game_id": "597e7fb5542c56bda7f1a73402cd47e0",
+    "home_team": "Arizona Cardinals",
+    "away_team": "Chicago Bears",
+    "commence_time": "2024-11-03T21:05:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 17.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 2.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 65.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:30:19.070186",
+    "season": 2024,
+    "week": 8,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-01T12:56:20Z"
+  }
+}

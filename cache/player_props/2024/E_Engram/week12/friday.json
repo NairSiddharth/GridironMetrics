@@ -1,0 +1,28 @@
+{
+  "player": "Evan Engram",
+  "gsis_id": "00-0033881",
+  "position": "TE",
+  "team": "JAX",
+  "display_name": "E.Engram",
+  "game": {
+    "game_id": "0693d63a0af985e361e21fa59fdd8bed",
+    "home_team": "Jacksonville Jaguars",
+    "away_team": "Houston Texans",
+    "commence_time": "2024-12-01T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 46.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:38:14.313709",
+    "season": 2024,
+    "week": 12,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-29T12:55:43Z"
+  }
+}

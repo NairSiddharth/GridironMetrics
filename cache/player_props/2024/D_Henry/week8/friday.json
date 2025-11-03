@@ -1,0 +1,33 @@
+{
+  "player": "Derrick Henry",
+  "gsis_id": "00-0032764",
+  "position": "RB",
+  "team": "TEN",
+  "display_name": "D.Henry",
+  "game": {
+    "game_id": "11154d508a0b557087b0fa84cccf8a66",
+    "home_team": "Baltimore Ravens",
+    "away_team": "Denver Broncos",
+    "commence_time": "2024-11-03T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 3.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 90.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:30:19.024575",
+    "season": 2024,
+    "week": 8,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-01T12:55:58Z"
+  }
+}

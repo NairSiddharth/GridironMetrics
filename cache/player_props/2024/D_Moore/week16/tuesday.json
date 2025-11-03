@@ -1,0 +1,28 @@
+{
+  "player": "DJ Moore",
+  "gsis_id": "00-0034827",
+  "position": "WR",
+  "team": "CHI",
+  "display_name": "D.Moore",
+  "game": {
+    "game_id": "1cc92f3601760bad475efd70d52ca482",
+    "home_team": "Chicago Bears",
+    "away_team": "Seattle Seahawks",
+    "commence_time": "2024-12-27T01:16:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 56.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:45:41.760316",
+    "season": 2024,
+    "week": 16,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-24T12:55:28Z"
+  }
+}

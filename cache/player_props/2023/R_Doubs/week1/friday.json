@@ -1,0 +1,28 @@
+{
+  "player": "Romeo Doubs",
+  "gsis_id": "00-0037816",
+  "position": "WR",
+  "team": "GB",
+  "display_name": "R.Doubs",
+  "game": {
+    "game_id": "666546663407166ca824cc304f740dfe",
+    "home_team": "Atlanta Falcons",
+    "away_team": "Green Bay Packers",
+    "commence_time": "2023-09-17T17:01:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 37.5,
+      "over_price": -115,
+      "under_price": -115
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:06:36.104413",
+    "season": 2023,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-15T12:57:52Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "Dalton Kincaid",
+  "gsis_id": "00-0038933",
+  "position": "TE",
+  "team": "BUF",
+  "display_name": "D.Kincaid",
+  "game": {
+    "game_id": "eb5a71180b3558fdc20a896e98c00385",
+    "home_team": "Buffalo Bills",
+    "away_team": "New York Jets",
+    "commence_time": "2024-12-29T18:01:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 33.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:46:25.797506",
+    "season": 2024,
+    "week": 16,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-27T12:55:10Z"
+  }
+}

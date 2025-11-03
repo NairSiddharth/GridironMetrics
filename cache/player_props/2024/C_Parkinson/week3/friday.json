@@ -1,0 +1,33 @@
+{
+  "player": "Colby Parkinson",
+  "gsis_id": "00-0036244",
+  "position": "TE",
+  "team": "SEA",
+  "display_name": "C.Parkinson",
+  "game": {
+    "game_id": "e603ee3c4035a8558b9bcb6aded87ff4",
+    "home_team": "Chicago Bears",
+    "away_team": "Los Angeles Rams",
+    "commence_time": "2024-09-29T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 28.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 3.0,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:19:56.332458",
+    "season": 2024,
+    "week": 3,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-27T12:56:37Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "player": "Ja'Marr Chase",
+  "gsis_id": "00-0036900",
+  "position": "WR",
+  "team": "CIN",
+  "display_name": "J.Chase",
+  "game": {
+    "game_id": "b11493a11859c02a97dfa186c32a2b7a",
+    "home_team": "Cincinnati Bengals",
+    "away_team": "Baltimore Ravens",
+    "commence_time": "2023-09-17T17:01:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 79.5,
+      "over_price": -115,
+      "under_price": -115
+    },
+    "Receptions": {
+      "line": 6.5,
+      "over_price": -130,
+      "under_price": 100
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:06:36.106261",
+    "season": 2023,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-15T12:54:09Z"
+  }
+}

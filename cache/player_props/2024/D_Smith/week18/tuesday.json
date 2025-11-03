@@ -1,0 +1,33 @@
+{
+  "player": "DeVonta Smith",
+  "gsis_id": "00-0036912",
+  "position": "WR",
+  "team": "PHI",
+  "display_name": "D.Smith",
+  "game": {
+    "game_id": "edbc8c5b53a7705b9caa5e1908109e19",
+    "home_team": "Philadelphia Eagles",
+    "away_team": "Green Bay Packers",
+    "commence_time": "2025-01-12T21:31:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 60.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 5.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:48:50.949328",
+    "season": 2024,
+    "week": 18,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2025-01-07T12:55:52Z"
+  }
+}

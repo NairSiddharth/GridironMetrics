@@ -1,0 +1,28 @@
+{
+  "player": "Derrick Henry",
+  "gsis_id": "00-0032764",
+  "position": "RB",
+  "team": "TEN",
+  "display_name": "D.Henry",
+  "game": {
+    "game_id": "adf41cffa9d818a982d19273df911106",
+    "home_team": "Houston Texans",
+    "away_team": "Baltimore Ravens",
+    "commence_time": "2024-12-25T21:30:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 91.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:45:41.757558",
+    "season": 2024,
+    "week": 16,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-24T12:55:53Z"
+  }
+}

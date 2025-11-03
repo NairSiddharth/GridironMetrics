@@ -1,0 +1,28 @@
+{
+  "player": "Davante Adams",
+  "gsis_id": "00-0031381",
+  "position": "WR",
+  "team": "LV",
+  "display_name": "D.Adams",
+  "game": {
+    "game_id": "7b58ba499776572737bf4335349ee5ca",
+    "home_team": "Jacksonville Jaguars",
+    "away_team": "New York Jets",
+    "commence_time": "2024-12-15T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 65.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:42:29.821536",
+    "season": 2024,
+    "week": 14,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-13T12:56:24Z"
+  }
+}

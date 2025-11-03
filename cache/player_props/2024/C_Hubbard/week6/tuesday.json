@@ -1,0 +1,28 @@
+{
+  "player": "Chuba Hubbard",
+  "gsis_id": "00-0036555",
+  "position": "RB",
+  "team": "CAR",
+  "display_name": "C.Hubbard",
+  "game": {
+    "game_id": "205e5260b14ecb55558ddb85f419edaf",
+    "home_team": "Washington Commanders",
+    "away_team": "Carolina Panthers",
+    "commence_time": "2024-10-20T20:05:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 66.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:24:33.248414",
+    "season": 2024,
+    "week": 6,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-15T12:55:38Z"
+  }
+}

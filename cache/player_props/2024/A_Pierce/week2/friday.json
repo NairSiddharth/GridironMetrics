@@ -1,0 +1,28 @@
+{
+  "player": "Alec Pierce",
+  "gsis_id": "00-0037664",
+  "position": "WR",
+  "team": "IND",
+  "display_name": "A.Pierce",
+  "game": {
+    "game_id": "e46e4c9f5d6884910657cd6581da3978",
+    "home_team": "Indianapolis Colts",
+    "away_team": "Chicago Bears",
+    "commence_time": "2024-09-22T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 28.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:17:41.133000",
+    "season": 2024,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-20T12:56:28Z"
+  }
+}

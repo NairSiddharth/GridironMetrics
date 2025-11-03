@@ -1,0 +1,38 @@
+{
+  "player": "Kyler Murray",
+  "gsis_id": "00-0035228",
+  "position": "QB",
+  "team": "ARI",
+  "display_name": "K.Murray",
+  "game": {
+    "game_id": "c562ac548944fe897e62f4a142de4d54",
+    "home_team": "Arizona Cardinals",
+    "away_team": "New England Patriots",
+    "commence_time": "2024-12-15T21:25:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Passing Yards": {
+      "line": 224.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 26.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:42:29.826032",
+    "season": 2024,
+    "week": 14,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-13T12:55:55Z"
+  }
+}

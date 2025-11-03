@@ -1,0 +1,33 @@
+{
+  "player": "Kyler Murray",
+  "gsis_id": "00-0035228",
+  "position": "QB",
+  "team": "ARI",
+  "display_name": "K.Murray",
+  "game": {
+    "game_id": "ebda13c375e6e6bb69822f91bce86756",
+    "home_team": "Arizona Cardinals",
+    "away_team": "San Francisco 49ers",
+    "commence_time": "2025-01-05T21:25:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 229.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 27.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:47:12.951705",
+    "season": 2024,
+    "week": 17,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-31T12:55:42Z"
+  }
+}

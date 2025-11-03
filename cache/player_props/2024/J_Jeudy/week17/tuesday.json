@@ -1,0 +1,28 @@
+{
+  "player": "Jerry Jeudy",
+  "gsis_id": "00-0036407",
+  "position": "WR",
+  "team": "DEN",
+  "display_name": "J.Jeudy",
+  "game": {
+    "game_id": "15a56f0e44d8fdb660a6a0aed2449e4b",
+    "home_team": "Baltimore Ravens",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2025-01-04T21:30:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 53.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:47:12.932713",
+    "season": 2024,
+    "week": 17,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-31T12:55:30Z"
+  }
+}

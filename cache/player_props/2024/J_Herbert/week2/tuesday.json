@@ -1,0 +1,28 @@
+{
+  "player": "Justin Herbert",
+  "gsis_id": "00-0036355",
+  "position": "QB",
+  "team": "LAC",
+  "display_name": "J.Herbert",
+  "game": {
+    "game_id": "2ee776f967540a404694111f27822004",
+    "home_team": "Pittsburgh Steelers",
+    "away_team": "Los Angeles Chargers",
+    "commence_time": "2024-09-22T17:01:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 198.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:16:09.583442",
+    "season": 2024,
+    "week": 2,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-17T12:56:22Z"
+  }
+}

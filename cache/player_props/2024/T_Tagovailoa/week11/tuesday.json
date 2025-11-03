@@ -1,0 +1,28 @@
+{
+  "player": "Tua Tagovailoa",
+  "gsis_id": "00-0036212",
+  "position": "QB",
+  "team": "MIA",
+  "display_name": "T.Tagovailoa",
+  "game": {
+    "game_id": "366a8618003ac848eac5144aebbeace4",
+    "home_team": "Miami Dolphins",
+    "away_team": "New England Patriots",
+    "commence_time": "2024-11-24T18:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 245.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:34:49.350488",
+    "season": 2024,
+    "week": 11,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-19T12:55:24Z"
+  }
+}

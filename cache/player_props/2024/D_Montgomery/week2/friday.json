@@ -1,0 +1,38 @@
+{
+  "player": "David Montgomery",
+  "gsis_id": "00-0035685",
+  "position": "RB",
+  "team": "DET",
+  "display_name": "D.Montgomery",
+  "game": {
+    "game_id": "e61fbdc294fce579705fa0ed6de85ce2",
+    "home_team": "Arizona Cardinals",
+    "away_team": "Detroit Lions",
+    "commence_time": "2024-09-22T20:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 8.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 1.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Rushing Yards": {
+      "line": 56.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:17:41.194671",
+    "season": 2024,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-20T12:56:04Z"
+  }
+}

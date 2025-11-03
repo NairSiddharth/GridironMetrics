@@ -1,0 +1,33 @@
+{
+  "player": "Sam Darnold",
+  "gsis_id": "00-0034869",
+  "position": "QB",
+  "team": "SF",
+  "display_name": "S.Darnold",
+  "game": {
+    "game_id": "09d8388d4ccba7ddafec2e400b5c013f",
+    "home_team": "Detroit Lions",
+    "away_team": "Minnesota Vikings",
+    "commence_time": "2025-01-06T01:23:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 267.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 9.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:47:12.958103",
+    "season": 2024,
+    "week": 17,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-31T12:55:31Z"
+  }
+}

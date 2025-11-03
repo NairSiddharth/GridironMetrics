@@ -1,0 +1,28 @@
+{
+  "player": "Darius Slayton",
+  "gsis_id": "00-0035535",
+  "position": "WR",
+  "team": "NYG",
+  "display_name": "D.Slayton",
+  "game": {
+    "game_id": "6166ce062983d3566b0ef03d8fd2ab87",
+    "home_team": "Arizona Cardinals",
+    "away_team": "New York Giants",
+    "commence_time": "2023-09-17T20:06:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 31.5,
+      "over_price": -110,
+      "under_price": -120
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:06:36.155088",
+    "season": 2023,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-15T12:54:09Z"
+  }
+}

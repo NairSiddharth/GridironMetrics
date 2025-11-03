@@ -1,0 +1,28 @@
+{
+  "player": "Jonathan Taylor",
+  "gsis_id": "00-0036223",
+  "position": "RB",
+  "team": "IND",
+  "display_name": "J.Taylor",
+  "game": {
+    "game_id": "e46e4c9f5d6884910657cd6581da3978",
+    "home_team": "Indianapolis Colts",
+    "away_team": "Chicago Bears",
+    "commence_time": "2024-09-22T17:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 77.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:16:09.564228",
+    "season": 2024,
+    "week": 2,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-17T12:56:04Z"
+  }
+}

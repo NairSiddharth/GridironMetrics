@@ -1,0 +1,33 @@
+{
+  "player": "Gardner Minshew",
+  "gsis_id": "00-0035289",
+  "position": "QB",
+  "team": "IND",
+  "display_name": "G.Minshew",
+  "game": {
+    "game_id": "5a2bfc721fb2300d4578743aee7ad891",
+    "home_team": "Baltimore Ravens",
+    "away_team": "Las Vegas Raiders",
+    "commence_time": "2024-09-15T17:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 201.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 7.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:15:22.397831",
+    "season": 2024,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-13T12:56:09Z"
+  }
+}

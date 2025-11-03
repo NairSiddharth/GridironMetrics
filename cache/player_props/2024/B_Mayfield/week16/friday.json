@@ -1,0 +1,33 @@
+{
+  "player": "Baker Mayfield",
+  "gsis_id": "00-0034855",
+  "position": "QB",
+  "team": "TB",
+  "display_name": "B.Mayfield",
+  "game": {
+    "game_id": "cb4060acc9d027ca0069619ef9983415",
+    "home_team": "Tampa Bay Buccaneers",
+    "away_team": "Carolina Panthers",
+    "commence_time": "2024-12-29T18:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 240.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 16.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:46:25.786976",
+    "season": 2024,
+    "week": 16,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-27T12:55:49Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "Terry McLaurin",
+  "gsis_id": "00-0035659",
+  "position": "WR",
+  "team": "WAS",
+  "display_name": "T.McLaurin",
+  "game": {
+    "game_id": "205e5260b14ecb55558ddb85f419edaf",
+    "home_team": "Washington Commanders",
+    "away_team": "Carolina Panthers",
+    "commence_time": "2024-10-20T20:05:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 61.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:24:33.247131",
+    "season": 2024,
+    "week": 6,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-15T12:55:38Z"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "player": "C.J. Stroud",
+  "gsis_id": "00-0039163",
+  "position": "QB",
+  "team": "HOU",
+  "display_name": "C.Stroud",
+  "game": {
+    "game_id": "2eb8e0798cb1b1f9d0f0d414253b4e37",
+    "home_team": "Houston Texans",
+    "away_team": "Buffalo Bills",
+    "commence_time": "2024-10-06T17:00:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Passing Yards": {
+      "line": 258.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Rushing Yards": {
+      "line": 10.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:21:50.005603",
+    "season": 2024,
+    "week": 4,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-04T12:56:30Z"
+  }
+}

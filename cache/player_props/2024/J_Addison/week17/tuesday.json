@@ -1,0 +1,28 @@
+{
+  "player": "Jordan Addison",
+  "gsis_id": "00-0038994",
+  "position": "WR",
+  "team": "MIN",
+  "display_name": "J.Addison",
+  "game": {
+    "game_id": "09d8388d4ccba7ddafec2e400b5c013f",
+    "home_team": "Detroit Lions",
+    "away_team": "Minnesota Vikings",
+    "commence_time": "2025-01-06T01:23:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 63.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:47:12.958750",
+    "season": 2024,
+    "week": 17,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-31T12:55:31Z"
+  }
+}

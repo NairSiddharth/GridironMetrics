@@ -1,0 +1,33 @@
+{
+  "player": "Derek Carr",
+  "gsis_id": "00-0031280",
+  "position": "QB",
+  "team": "NO",
+  "display_name": "D.Carr",
+  "game": {
+    "game_id": "5b05775b536cda3f2efab93935af4f54",
+    "home_team": "Dallas Cowboys",
+    "away_team": "New Orleans Saints",
+    "commence_time": "2024-09-15T17:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 216.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 2.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:15:22.437438",
+    "season": 2024,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-13T12:54:06Z"
+  }
+}

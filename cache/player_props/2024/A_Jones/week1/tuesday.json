@@ -1,0 +1,28 @@
+{
+  "player": "Aaron Jones",
+  "gsis_id": "00-0033293",
+  "position": "RB",
+  "team": "GB",
+  "display_name": "A.Jones",
+  "game": {
+    "game_id": "9d5dace601f10c135f5c03facf23fd22",
+    "home_team": "Minnesota Vikings",
+    "away_team": "San Francisco 49ers",
+    "commence_time": "2024-09-15T17:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 55.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:13:55.387053",
+    "season": 2024,
+    "week": 1,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-10T12:55:02Z"
+  }
+}

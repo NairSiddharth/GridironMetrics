@@ -1,0 +1,28 @@
+{
+  "player": "Quentin Johnston",
+  "gsis_id": "00-0038544",
+  "position": "WR",
+  "team": "LAC",
+  "display_name": "Q.Johnston",
+  "game": {
+    "game_id": "a2b3fd60eede2230285512b8c3b4eed3",
+    "home_team": "Los Angeles Chargers",
+    "away_team": "Cincinnati Bengals",
+    "commence_time": "2024-11-18T01:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 38.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:32:54.987776",
+    "season": 2024,
+    "week": 10,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-11-12T12:55:20Z"
+  }
+}

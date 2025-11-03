@@ -6,31 +6,31 @@
 
 | Rank | Player      | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :-----------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | M.Faulk     | STL  | RB       | 5134.28        | 1.000      | 14    | 366.73   | 380.49  | 6/3/5       | Stable     |
-| 2    | S.Alexander | SEA  | RB       | 4164.81        | 1.000      | 16    | 260.30   | 282.40  | 8/0/8       | Stable     |
-| 3    | L.Tomlinson | SD   | RB       | 3947.85        | 1.000      | 16    | 246.74   | 241.56  | 8/1/7       | Increasing |
-| 4    | A.Green     | GB   | RB       | 3933.54        | 1.000      | 16    | 245.85   | 243.39  | 6/2/8       | Increasing |
-| 5    | P. Holmes   | KC   | RB       | 3912.50        | 1.000      | 16    | 244.53   | 255.87  | 6/2/8       | Increasing |
-| 6    | C.Dillon    | CIN  | RB       | 3873.75        | 1.000      | 16    | 242.11   | 230.66  | 6/2/8       | Stable     |
-| 7    | C.Martin    | NYJ  | RB       | 3700.77        | 1.000      | 16    | 231.30   | 228.48  | 8/1/7       | Increasing |
-| 8    | R.Williams  | NO   | RB       | 3577.55        | 1.000      | 16    | 223.60   | 231.45  | 8/3/5       | Stable     |
-| 9    | S.Davis     | WAS  | RB       | 3503.61        | 1.000      | 16    | 218.98   | 195.39  | 8/1/7       | Increasing |
-| 10   | D.Boston    | ARI  | WR       | 3460.19        | 1.000      | 16    | 216.26   | 219.75  | 8/2/6       | Stable     |
+| 1    | M.Faulk     | STL  | RB       | 5038.73        | 1.000      | 14    | 359.91   | 388.26  | 6/3/5       | Stable     |
+| 2    | S.Alexander | SEA  | RB       | 3930.51        | 1.000      | 16    | 245.66   | 269.80  | 8/2/6       | Stable     |
+| 3    | L.Tomlinson | SD   | RB       | 3794.74        | 1.000      | 16    | 237.17   | 222.24  | 8/1/7       | Increasing |
+| 4    | P. Holmes   | KC   | RB       | 3742.68        | 1.000      | 16    | 233.92   | 247.25  | 6/1/9       | Increasing |
+| 5    | A.Green     | GB   | RB       | 3713.38        | 1.000      | 16    | 232.09   | 239.69  | 7/1/8       | Stable     |
+| 6    | C.Dillon    | CIN  | RB       | 3654.08        | 1.000      | 16    | 228.38   | 202.32  | 5/3/8       | Stable     |
+| 7    | C.Martin    | NYJ  | RB       | 3561.88        | 1.000      | 16    | 222.62   | 221.99  | 8/2/6       | Increasing |
+| 8    | D.Boston    | ARI  | WR       | 3460.19        | 1.000      | 16    | 216.26   | 219.75  | 8/2/6       | Stable     |
+| 9    | R.Williams  | NO   | RB       | 3379.82        | 1.000      | 16    | 211.24   | 224.47  | 8/2/6       | Stable     |
+| 10   | T.Owens     | SF   | WR       | 3305.03        | 1.000      | 16    | 206.56   | 200.96  | 8/2/6       | Stable     |
 
 ## RB Rankings
 
 | Rank | Player      | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :-----------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | M.Faulk     | STL  | 5134.28        | 1.000      | 14    | 366.73   | 380.49  | 6/3/5       | Stable     |
-| 2    | S.Alexander | SEA  | 4164.81        | 1.000      | 16    | 260.30   | 282.40  | 8/0/8       | Stable     |
-| 3    | L.Tomlinson | SD   | 3947.85        | 1.000      | 16    | 246.74   | 241.56  | 8/1/7       | Increasing |
-| 4    | A.Green     | GB   | 3933.54        | 1.000      | 16    | 245.85   | 243.39  | 6/2/8       | Increasing |
-| 5    | P. Holmes   | KC   | 3912.50        | 1.000      | 16    | 244.53   | 255.87  | 6/2/8       | Increasing |
-| 6    | C.Dillon    | CIN  | 3873.75        | 1.000      | 16    | 242.11   | 230.66  | 6/2/8       | Stable     |
-| 7    | C.Martin    | NYJ  | 3700.77        | 1.000      | 16    | 231.30   | 228.48  | 8/1/7       | Increasing |
-| 8    | R.Williams  | NO   | 3577.55        | 1.000      | 16    | 223.60   | 231.45  | 8/3/5       | Stable     |
-| 9    | S.Davis     | WAS  | 3503.61        | 1.000      | 16    | 218.98   | 195.39  | 8/1/7       | Increasing |
-| 10   | C. Garner   | OAK  | 3095.44        | 1.000      | 16    | 193.46   | 187.14  | 8/2/6       | Increasing |
+| 1    | M.Faulk     | STL  | 5038.73        | 1.000      | 14    | 359.91   | 388.26  | 6/3/5       | Stable     |
+| 2    | S.Alexander | SEA  | 3930.51        | 1.000      | 16    | 245.66   | 269.80  | 8/2/6       | Stable     |
+| 3    | L.Tomlinson | SD   | 3794.74        | 1.000      | 16    | 237.17   | 222.24  | 8/1/7       | Increasing |
+| 4    | P. Holmes   | KC   | 3742.68        | 1.000      | 16    | 233.92   | 247.25  | 6/1/9       | Increasing |
+| 5    | A.Green     | GB   | 3713.38        | 1.000      | 16    | 232.09   | 239.69  | 7/1/8       | Stable     |
+| 6    | C.Dillon    | CIN  | 3654.08        | 1.000      | 16    | 228.38   | 202.32  | 5/3/8       | Stable     |
+| 7    | C.Martin    | NYJ  | 3561.88        | 1.000      | 16    | 222.62   | 221.99  | 8/2/6       | Increasing |
+| 8    | R.Williams  | NO   | 3379.82        | 1.000      | 16    | 211.24   | 224.47  | 8/2/6       | Stable     |
+| 9    | S.Davis     | WAS  | 3238.49        | 1.000      | 16    | 202.41   | 187.49  | 8/1/7       | Increasing |
+| 10   | C. Garner   | OAK  | 3074.60        | 1.000      | 16    | 192.16   | 187.14  | 8/2/6       | Increasing |
 
 ## WR Rankings
 

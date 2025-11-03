@@ -1,0 +1,28 @@
+{
+  "player": "Jonnu Smith",
+  "gsis_id": "00-0033858",
+  "position": "TE",
+  "team": "ATL",
+  "display_name": "J.Smith",
+  "game": {
+    "game_id": "7c63b1e23a0c65ee07312131e1b7be7e",
+    "home_team": "Cleveland Browns",
+    "away_team": "Miami Dolphins",
+    "commence_time": "2024-12-29T21:06:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 49.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:46:25.805796",
+    "season": 2024,
+    "week": 16,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-27T12:55:39Z"
+  }
+}

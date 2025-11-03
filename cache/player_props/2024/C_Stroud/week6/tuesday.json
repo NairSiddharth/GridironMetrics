@@ -1,0 +1,38 @@
+{
+  "player": "C.J. Stroud",
+  "gsis_id": "00-0039163",
+  "position": "QB",
+  "team": "HOU",
+  "display_name": "C.Stroud",
+  "game": {
+    "game_id": "15077c31238fbc767b91e73f8068f2a2",
+    "home_team": "Green Bay Packers",
+    "away_team": "Houston Texans",
+    "commence_time": "2024-10-20T17:00:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Passing Yards": {
+      "line": 252.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Rushing Yards": {
+      "line": 10.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:24:33.236596",
+    "season": 2024,
+    "week": 6,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-15T12:56:05Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "player": "Cade Otton",
+  "gsis_id": "00-0038129",
+  "position": "TE",
+  "team": "TB",
+  "display_name": "C.Otton",
+  "game": {
+    "game_id": "9693ad2122e496b05f7efd56f0ef03d0",
+    "home_team": "Tampa Bay Buccaneers",
+    "away_team": "Atlanta Falcons",
+    "commence_time": "2024-10-27T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 47.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 4.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:28:11.854893",
+    "season": 2024,
+    "week": 7,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-25T12:56:13Z"
+  }
+}

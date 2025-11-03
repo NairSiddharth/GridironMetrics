@@ -1,0 +1,38 @@
+{
+  "player": "Aaron Jones",
+  "gsis_id": "00-0033293",
+  "position": "RB",
+  "team": "GB",
+  "display_name": "A.Jones",
+  "game": {
+    "game_id": "1f22f5d9de70779ac521b9c1de59162f",
+    "home_team": "Los Angeles Rams",
+    "away_team": "Minnesota Vikings",
+    "commence_time": "2024-10-25T00:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 24.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 3.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 69.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:26:44.399337",
+    "season": 2024,
+    "week": 7,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-10-22T12:55:41Z"
+  }
+}

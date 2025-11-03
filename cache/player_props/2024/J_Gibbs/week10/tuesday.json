@@ -1,0 +1,33 @@
+{
+  "player": "Jahmyr Gibbs",
+  "gsis_id": "00-0039139",
+  "position": "RB",
+  "team": "DET",
+  "display_name": "J.Gibbs",
+  "game": {
+    "game_id": "d0f73537e153be7455c87ae97864ef7d",
+    "home_team": "Detroit Lions",
+    "away_team": "Jacksonville Jaguars",
+    "commence_time": "2024-11-17T18:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 70.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receiving Yards": {
+      "line": 16.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:32:54.957459",
+    "season": 2024,
+    "week": 10,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-12T12:55:10Z"
+  }
+}

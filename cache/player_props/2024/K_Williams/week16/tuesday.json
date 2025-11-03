@@ -1,0 +1,33 @@
+{
+  "player": "Kyren Williams",
+  "gsis_id": "00-0037840",
+  "position": "RB",
+  "team": "LA",
+  "display_name": "K.Williams",
+  "game": {
+    "game_id": "8297b863d5f355bd3127adf93cf196a7",
+    "home_team": "Los Angeles Rams",
+    "away_team": "Arizona Cardinals",
+    "commence_time": "2024-12-29T01:16:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 88.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receiving Yards": {
+      "line": 8.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:45:41.788565",
+    "season": 2024,
+    "week": 16,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-24T12:55:53Z"
+  }
+}

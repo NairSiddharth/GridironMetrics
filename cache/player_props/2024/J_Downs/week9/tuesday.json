@@ -1,0 +1,28 @@
+{
+  "player": "Josh Downs",
+  "gsis_id": "00-0038997",
+  "position": "WR",
+  "team": "IND",
+  "display_name": "J.Downs",
+  "game": {
+    "game_id": "80899c1a82df27832eff9206d9c2ab1b",
+    "home_team": "Indianapolis Colts",
+    "away_team": "Buffalo Bills",
+    "commence_time": "2024-11-10T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 61.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:31:00.732654",
+    "season": 2024,
+    "week": 9,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-05T12:52:12Z"
+  }
+}

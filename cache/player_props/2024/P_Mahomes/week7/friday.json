@@ -1,0 +1,38 @@
+{
+  "player": "Patrick Mahomes",
+  "gsis_id": "00-0033873",
+  "position": "QB",
+  "team": "KC",
+  "display_name": "P.Mahomes",
+  "game": {
+    "game_id": "ccc621108fb48382b825128007dc8120",
+    "home_team": "Las Vegas Raiders",
+    "away_team": "Kansas City Chiefs",
+    "commence_time": "2024-10-27T20:25:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Passing Yards": {
+      "line": 237.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 20.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:28:11.915073",
+    "season": 2024,
+    "week": 7,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-25T12:56:13Z"
+  }
+}

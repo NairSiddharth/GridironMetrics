@@ -1,0 +1,33 @@
+{
+  "player": "Amon-Ra St. Brown",
+  "gsis_id": "00-0036963",
+  "position": "WR",
+  "team": "DET",
+  "display_name": "A.St. Brown",
+  "game": {
+    "game_id": "e61fbdc294fce579705fa0ed6de85ce2",
+    "home_team": "Arizona Cardinals",
+    "away_team": "Detroit Lions",
+    "commence_time": "2024-09-22T20:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 78.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 6.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:17:41.190792",
+    "season": 2024,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-20T12:56:04Z"
+  }
+}

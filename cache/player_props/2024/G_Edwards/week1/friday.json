@@ -1,0 +1,33 @@
+{
+  "player": "Gus Edwards",
+  "gsis_id": "00-0034184",
+  "position": "RB",
+  "team": "BAL",
+  "display_name": "G.Edwards",
+  "game": {
+    "game_id": "b4769cda12183128858f49f475aabfce",
+    "home_team": "Carolina Panthers",
+    "away_team": "Los Angeles Chargers",
+    "commence_time": "2024-09-15T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 3.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 45.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:15:22.420028",
+    "season": 2024,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-13T12:56:09Z"
+  }
+}

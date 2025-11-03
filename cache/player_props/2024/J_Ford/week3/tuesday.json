@@ -1,0 +1,28 @@
+{
+  "player": "Jerome Ford",
+  "gsis_id": "00-0037267",
+  "position": "RB",
+  "team": "CLE",
+  "display_name": "J.Ford",
+  "game": {
+    "game_id": "3f180e883b429700dd32ff2133ac37ef",
+    "home_team": "Las Vegas Raiders",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2024-09-29T20:25:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 46.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:18:29.031260",
+    "season": 2024,
+    "week": 3,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-24T12:56:20Z"
+  }
+}

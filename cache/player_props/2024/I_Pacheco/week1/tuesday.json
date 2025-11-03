@@ -1,0 +1,28 @@
+{
+  "player": "Isiah Pacheco",
+  "gsis_id": "00-0037197",
+  "position": "RB",
+  "team": "KC",
+  "display_name": "I.Pacheco",
+  "game": {
+    "game_id": "faaeaab20409da65e7314cc1857ccfba",
+    "home_team": "Kansas City Chiefs",
+    "away_team": "Cincinnati Bengals",
+    "commence_time": "2024-09-15T20:25:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 63.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:13:55.413672",
+    "season": 2024,
+    "week": 1,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-10T12:54:00Z"
+  }
+}

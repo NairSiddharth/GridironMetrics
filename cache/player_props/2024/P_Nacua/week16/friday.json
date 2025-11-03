@@ -1,0 +1,33 @@
+{
+  "player": "Puka Nacua",
+  "gsis_id": "00-0039075",
+  "position": "WR",
+  "team": "LA",
+  "display_name": "P.Nacua",
+  "game": {
+    "game_id": "8297b863d5f355bd3127adf93cf196a7",
+    "home_team": "Los Angeles Rams",
+    "away_team": "Arizona Cardinals",
+    "commence_time": "2024-12-29T01:16:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 87.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 8.0,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:46:25.782506",
+    "season": 2024,
+    "week": 16,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-27T12:55:57Z"
+  }
+}

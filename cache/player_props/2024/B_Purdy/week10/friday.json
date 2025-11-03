@@ -1,0 +1,33 @@
+{
+  "player": "Brock Purdy",
+  "gsis_id": "00-0037834",
+  "position": "QB",
+  "team": "SF",
+  "display_name": "B.Purdy",
+  "game": {
+    "game_id": "cc4a0f06f87d64f4a02816ca7da514fa",
+    "home_team": "San Francisco 49ers",
+    "away_team": "Seattle Seahawks",
+    "commence_time": "2024-11-17T21:05:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 259.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 19.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:34:10.765502",
+    "season": 2024,
+    "week": 10,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-15T12:55:36Z"
+  }
+}

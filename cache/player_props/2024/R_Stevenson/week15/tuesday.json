@@ -1,0 +1,28 @@
+{
+  "player": "Rhamondre Stevenson",
+  "gsis_id": "00-0036875",
+  "position": "RB",
+  "team": "NE",
+  "display_name": "R.Stevenson",
+  "game": {
+    "game_id": "987be0b1af962f068e2928a9067998c9",
+    "home_team": "Buffalo Bills",
+    "away_team": "New England Patriots",
+    "commence_time": "2024-12-22T21:25:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 46.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:43:18.062421",
+    "season": 2024,
+    "week": 15,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-17T12:55:38Z"
+  }
+}

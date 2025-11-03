@@ -1,0 +1,33 @@
+{
+  "player": "Terry McLaurin",
+  "gsis_id": "00-0035659",
+  "position": "WR",
+  "team": "WAS",
+  "display_name": "T.McLaurin",
+  "game": {
+    "game_id": "f049d09c797baccf11023b4cb7bc9b0b",
+    "home_team": "Washington Commanders",
+    "away_team": "Buffalo Bills",
+    "commence_time": "2023-09-24T17:04:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 52.5,
+      "over_price": -115,
+      "under_price": -115
+    },
+    "Receptions": {
+      "line": 4.5,
+      "over_price": 120,
+      "under_price": -150
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:08:50.404394",
+    "season": 2023,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-22T12:54:18Z"
+  }
+}

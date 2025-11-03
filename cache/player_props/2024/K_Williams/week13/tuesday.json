@@ -1,0 +1,28 @@
+{
+  "player": "Kyren Williams",
+  "gsis_id": "00-0037840",
+  "position": "RB",
+  "team": "LA",
+  "display_name": "K.Williams",
+  "game": {
+    "game_id": "5188cb03fd7577d7448874486c26dccb",
+    "home_team": "Los Angeles Rams",
+    "away_team": "Buffalo Bills",
+    "commence_time": "2024-12-08T21:25:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 76.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:38:52.499970",
+    "season": 2024,
+    "week": 13,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-03T12:55:11Z"
+  }
+}

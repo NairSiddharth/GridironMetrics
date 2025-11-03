@@ -6,38 +6,38 @@
 
 | Rank | Player       | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :------------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | R.Rice       | BAL  | RB       | 4057.50        | 1.000      | 16    | 253.59   | 246.08  | 8/3/5       | Stable     |
-| 2    | M.Jones-Drew | JAX  | RB       | 3511.68        | 1.000      | 16    | 219.48   | 206.33  | 8/3/5       | Increasing |
-| 3    | W.Welker     | NE   | WR       | 3482.52        | 1.000      | 16    | 217.66   | 212.35  | 8/2/6       | Decreasing |
-| 4    | L.McCoy      | PHI  | RB       | 3403.51        | 1.000      | 15    | 226.90   | 228.93  | 7/3/5       | Stable     |
-| 5    | C.Johnson    | DET  | WR       | 3368.90        | 1.000      | 16    | 210.56   | 182.54  | 6/3/7       | Decreasing |
-| 6    | R.Gronkowski | NE   | TE       | 3310.28        | 1.000      | 16    | 206.89   | 191.24  | 8/1/7       | Increasing |
-| 7    | A.Foster     | HOU  | RB       | 3088.32        | 1.000      | 13    | 237.56   | 239.95  | 4/3/6       | Stable     |
-| 8    | S.Smith      | CAR  | WR       | 3023.55        | 1.000      | 16    | 188.97   | 193.63  | 8/3/5       | Decreasing |
-| 9    | L.Fitzgerald | ARI  | WR       | 3015.96        | 1.000      | 16    | 188.50   | 156.08  | 8/1/7       | Increasing |
-| 10   | R.White      | ATL  | WR       | 2934.42        | 1.000      | 16    | 183.40   | 192.15  | 8/2/6       | Increasing |
+| 1    | R.Rice       | BAL  | RB       | 3857.04        | 1.000      | 16    | 241.07   | 232.61  | 9/2/5       | Stable     |
+| 2    | W.Welker     | NE   | WR       | 3482.52        | 1.000      | 16    | 217.66   | 212.35  | 8/2/6       | Decreasing |
+| 3    | L.McCoy      | PHI  | RB       | 3331.37        | 1.000      | 15    | 222.09   | 223.23  | 7/4/4       | Stable     |
+| 4    | R.Gronkowski | NE   | TE       | 3310.28        | 1.000      | 16    | 206.89   | 191.24  | 8/1/7       | Increasing |
+| 5    | M.Jones-Drew | JAX  | RB       | 3303.43        | 1.000      | 16    | 206.46   | 189.83  | 8/3/5       | Increasing |
+| 6    | C.Johnson    | DET  | WR       | 3267.84        | 1.000      | 16    | 204.24   | 177.06  | 6/2/8       | Decreasing |
+| 7    | S.Smith      | CAR  | WR       | 3023.55        | 1.000      | 16    | 188.97   | 193.63  | 8/3/5       | Decreasing |
+| 8    | L.Fitzgerald | ARI  | WR       | 3015.96        | 1.000      | 16    | 188.50   | 156.08  | 8/1/7       | Increasing |
+| 9    | R.White      | ATL  | WR       | 2934.42        | 1.000      | 16    | 183.40   | 192.15  | 8/2/6       | Increasing |
+| 10   | A.Foster     | HOU  | RB       | 2933.05        | 1.000      | 13    | 225.62   | 230.64  | 4/4/5       | Stable     |
 
 ## RB Rankings
 
 | Rank | Player       | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :------------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | R.Rice       | BAL  | 4057.50        | 1.000      | 16    | 253.59   | 246.08  | 8/3/5       | Stable     |
-| 2    | M.Jones-Drew | JAX  | 3511.68        | 1.000      | 16    | 219.48   | 206.33  | 8/3/5       | Increasing |
-| 3    | L.McCoy      | PHI  | 3403.51        | 1.000      | 15    | 226.90   | 228.93  | 7/3/5       | Stable     |
-| 4    | A.Foster     | HOU  | 3088.32        | 1.000      | 13    | 237.56   | 239.95  | 4/3/6       | Stable     |
-| 5    | M.Lynch      | SEA  | 2899.64        | 1.000      | 15    | 193.31   | 188.27  | 7/2/6       | Increasing |
-| 6    | C.Johnson    | TEN  | 2751.45        | 1.000      | 16    | 171.97   | 176.31  | 8/4/4       | Stable     |
-| 7    | R.Mathews    | SD   | 2564.42        | 1.000      | 14    | 183.17   | 182.19  | 5/3/6       | Stable     |
-| 8    | M.Turner     | ATL  | 2529.43        | 1.000      | 16    | 158.09   | 158.57  | 8/2/6       | Decreasing |
-| 9    | M.Bush       | OAK  | 2510.21        | 1.000      | 16    | 156.89   | 149.72  | 7/2/7       | Increasing |
-| 10   | S.Jackson    | STL  | 2492.34        | 1.000      | 15    | 166.16   | 177.02  | 5/2/8       | Decreasing |
+| 1    | R.Rice       | BAL  | 3857.04        | 1.000      | 16    | 241.07   | 232.61  | 9/2/5       | Stable     |
+| 2    | L.McCoy      | PHI  | 3331.37        | 1.000      | 15    | 222.09   | 223.23  | 7/4/4       | Stable     |
+| 3    | M.Jones-Drew | JAX  | 3303.43        | 1.000      | 16    | 206.46   | 189.83  | 8/3/5       | Increasing |
+| 4    | A.Foster     | HOU  | 2933.05        | 1.000      | 13    | 225.62   | 230.64  | 4/4/5       | Stable     |
+| 5    | M.Lynch      | SEA  | 2712.81        | 1.000      | 15    | 180.85   | 173.21  | 7/2/6       | Increasing |
+| 6    | C.Johnson    | TEN  | 2709.14        | 1.000      | 16    | 169.32   | 167.35  | 8/3/5       | Stable     |
+| 7    | R.Mathews    | SD   | 2478.72        | 1.000      | 14    | 177.05   | 182.19  | 6/3/5       | Decreasing |
+| 8    | M.Forte      | CHI  | 2421.30        | 1.000      | 12    | 201.77   | 212.26  | 5/0/7       | Decreasing |
+| 9    | M.Bush       | OAK  | 2416.17        | 1.000      | 16    | 151.01   | 143.68  | 8/1/7       | Increasing |
+| 10   | S.Jackson    | STL  | 2410.91        | 1.000      | 15    | 160.73   | 162.86  | 5/2/8       | Decreasing |
 
 ## WR Rankings
 
 | Rank | Player       | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :------------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
 | 1    | W.Welker     | NE   | 3482.52        | 1.000      | 16    | 217.66   | 212.35  | 8/2/6       | Decreasing |
-| 2    | C.Johnson    | DET  | 3368.90        | 1.000      | 16    | 210.56   | 182.54  | 6/3/7       | Decreasing |
+| 2    | C.Johnson    | DET  | 3267.84        | 1.000      | 16    | 204.24   | 177.06  | 6/2/8       | Decreasing |
 | 3    | S.Smith      | CAR  | 3023.55        | 1.000      | 16    | 188.97   | 193.63  | 8/3/5       | Decreasing |
 | 4    | L.Fitzgerald | ARI  | 3015.96        | 1.000      | 16    | 188.50   | 156.08  | 8/1/7       | Increasing |
 | 5    | R.White      | ATL  | 2934.42        | 1.000      | 16    | 183.40   | 192.15  | 8/2/6       | Increasing |

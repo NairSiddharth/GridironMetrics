@@ -1,0 +1,28 @@
+{
+  "player": "Kareem Hunt",
+  "gsis_id": "00-0033923",
+  "position": "RB",
+  "team": "CLE",
+  "display_name": "K.Hunt",
+  "game": {
+    "game_id": "2ac4732d168fd3fd0958719e2b11aad1",
+    "home_team": "Buffalo Bills",
+    "away_team": "Kansas City Chiefs",
+    "commence_time": "2024-11-17T21:25:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 60.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:32:54.984343",
+    "season": 2024,
+    "week": 10,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-12T12:56:02Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "player": "Tony Pollard",
+  "gsis_id": "00-0035261",
+  "position": "RB",
+  "team": "DAL",
+  "display_name": "T.Pollard",
+  "game": {
+    "game_id": "f6d5d91ea4480042265698647a6120f6",
+    "home_team": "Tennessee Titans",
+    "away_team": "Cincinnati Bengals",
+    "commence_time": "2024-12-15T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 17.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 69.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:42:29.805269",
+    "season": 2024,
+    "week": 14,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-13T12:55:28Z"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "player": "Javonte Williams",
+  "gsis_id": "00-0036997",
+  "position": "RB",
+  "team": "DEN",
+  "display_name": "J.Williams",
+  "game": {
+    "game_id": "3a300e2fb659ca896b5e60252f13150c",
+    "home_team": "Denver Broncos",
+    "away_team": "Pittsburgh Steelers",
+    "commence_time": "2024-09-15T20:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 16.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 40.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 3.0,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:15:22.525615",
+    "season": 2024,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-13T12:56:09Z"
+  }
+}

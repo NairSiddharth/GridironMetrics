@@ -1,0 +1,28 @@
+{
+  "player": "Tyreek Hill",
+  "gsis_id": "00-0033040",
+  "position": "WR",
+  "team": "MIA",
+  "display_name": "T.Hill",
+  "game": {
+    "game_id": "e6b414e1b7a012e57d1a0746769f28a2",
+    "home_team": "Green Bay Packers",
+    "away_team": "Miami Dolphins",
+    "commence_time": "2024-11-29T01:20:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 63.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:36:59.193631",
+    "season": 2024,
+    "week": 12,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-26T12:55:31Z"
+  }
+}

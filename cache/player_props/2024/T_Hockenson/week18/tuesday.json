@@ -1,0 +1,28 @@
+{
+  "player": "T.J. Hockenson",
+  "gsis_id": "00-0035229",
+  "position": "TE",
+  "team": "MIN",
+  "display_name": "T.Hockenson",
+  "game": {
+    "game_id": "a190a79160476a82ba6004f69be5729d",
+    "home_team": "Los Angeles Rams",
+    "away_team": "Minnesota Vikings",
+    "commence_time": "2025-01-14T01:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 40.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:48:50.959203",
+    "season": 2024,
+    "week": 18,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2025-01-07T12:55:52Z"
+  }
+}

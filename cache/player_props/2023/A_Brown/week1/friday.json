@@ -1,0 +1,33 @@
+{
+  "player": "Amon-Ra St. Brown",
+  "gsis_id": "00-0036963",
+  "position": "WR",
+  "team": "DET",
+  "display_name": "A.St. Brown",
+  "game": {
+    "game_id": "30e317800515c33d2635df2d05a6d14d",
+    "home_team": "Detroit Lions",
+    "away_team": "Seattle Seahawks",
+    "commence_time": "2023-09-17T17:01:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 77.5,
+      "over_price": -115,
+      "under_price": -115
+    },
+    "Receptions": {
+      "line": 6.5,
+      "over_price": -105,
+      "under_price": -125
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:06:36.122349",
+    "season": 2023,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-15T12:54:09Z"
+  }
+}

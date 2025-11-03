@@ -1,0 +1,33 @@
+{
+  "player": "Gus Edwards",
+  "gsis_id": "00-0034184",
+  "position": "RB",
+  "team": "BAL",
+  "display_name": "G.Edwards",
+  "game": {
+    "game_id": "2ee776f967540a404694111f27822004",
+    "home_team": "Pittsburgh Steelers",
+    "away_team": "Los Angeles Chargers",
+    "commence_time": "2024-09-22T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 3.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Rushing Yards": {
+      "line": 31.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:17:41.163875",
+    "season": 2024,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-20T12:56:02Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "Jalen Hurts",
+  "gsis_id": "00-0036389",
+  "position": "QB",
+  "team": "PHI",
+  "display_name": "J.Hurts",
+  "game": {
+    "game_id": "9cec3324e93aa4ece67f4ed4447bc212",
+    "home_team": "Philadelphia Eagles",
+    "away_team": "Pittsburgh Steelers",
+    "commence_time": "2024-12-15T21:25:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 211.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:41:01.040584",
+    "season": 2024,
+    "week": 14,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-10T12:55:47Z"
+  }
+}

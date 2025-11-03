@@ -1,0 +1,28 @@
+{
+  "player": "Javonte Williams",
+  "gsis_id": "00-0036997",
+  "position": "RB",
+  "team": "DEN",
+  "display_name": "J.Williams",
+  "game": {
+    "game_id": "9a9219cd7180fe6481e6bd9e460a7622",
+    "home_team": "Denver Broncos",
+    "away_team": "Las Vegas Raiders",
+    "commence_time": "2024-10-06T20:05:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 46.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:20:37.614093",
+    "season": 2024,
+    "week": 4,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-01T12:56:02Z"
+  }
+}

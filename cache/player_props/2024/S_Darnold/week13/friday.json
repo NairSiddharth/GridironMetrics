@@ -1,0 +1,33 @@
+{
+  "player": "Sam Darnold",
+  "gsis_id": "00-0034869",
+  "position": "QB",
+  "team": "SF",
+  "display_name": "S.Darnold",
+  "game": {
+    "game_id": "c14dd2e8bf469a6736f73be3c28706e8",
+    "home_team": "Minnesota Vikings",
+    "away_team": "Atlanta Falcons",
+    "commence_time": "2024-12-08T18:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 253.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 13.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:40:13.228193",
+    "season": 2024,
+    "week": 13,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-06T12:56:07Z"
+  }
+}

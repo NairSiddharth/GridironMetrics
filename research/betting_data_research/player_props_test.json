@@ -1,0 +1,304 @@
+{
+  "id": "f3dfb574e0a542375a480534525ee6cf",
+  "sport_key": "americanfootball_nfl",
+  "sport_title": "NFL",
+  "commence_time": "2025-11-04T01:15:00Z",
+  "home_team": "Dallas Cowboys",
+  "away_team": "Arizona Cardinals",
+  "bookmakers": [
+    {
+      "key": "prizepicks",
+      "title": "PrizePicks",
+      "markets": [
+        {
+          "key": "player_pass_yds",
+          "last_update": "2025-11-03T05:09:06Z",
+          "outcomes": [
+            {
+              "name": "Over",
+              "description": "Dak Prescott",
+              "price": -137,
+              "point": 268.5
+            },
+            {
+              "name": "Under",
+              "description": "Dak Prescott",
+              "price": -137,
+              "point": 268.5
+            },
+            {
+              "name": "Over",
+              "description": "Jacoby Brissett",
+              "price": -137,
+              "point": 249.5
+            },
+            {
+              "name": "Under",
+              "description": "Jacoby Brissett",
+              "price": -137,
+              "point": 249.5
+            }
+          ]
+        },
+        {
+          "key": "player_receptions",
+          "last_update": "2025-11-03T05:09:06Z",
+          "outcomes": [
+            {
+              "name": "Over",
+              "description": "Trey McBride",
+              "price": -137,
+              "point": 7.0
+            },
+            {
+              "name": "Under",
+              "description": "Trey McBride",
+              "price": -137,
+              "point": 7.0
+            },
+            {
+              "name": "Over",
+              "description": "CeeDee Lamb",
+              "price": -137,
+              "point": 6.5
+            },
+            {
+              "name": "Under",
+              "description": "CeeDee Lamb",
+              "price": -137,
+              "point": 6.5
+            },
+            {
+              "name": "Over",
+              "description": "Jake Ferguson",
+              "price": -137,
+              "point": 5.0
+            },
+            {
+              "name": "Under",
+              "description": "Jake Ferguson",
+              "price": -137,
+              "point": 5.0
+            },
+            {
+              "name": "Over",
+              "description": "George Pickens",
+              "price": -137,
+              "point": 4.5
+            },
+            {
+              "name": "Under",
+              "description": "George Pickens",
+              "price": -137,
+              "point": 4.5
+            },
+            {
+              "name": "Over",
+              "description": "Marvin Harrison Jr.",
+              "price": -137,
+              "point": 4.0
+            },
+            {
+              "name": "Under",
+              "description": "Marvin Harrison Jr.",
+              "price": -137,
+              "point": 4.0
+            }
+          ]
+        },
+        {
+          "key": "player_rush_yds",
+          "last_update": "2025-11-03T05:09:06Z",
+          "outcomes": [
+            {
+              "name": "Over",
+              "description": "Javonte Williams",
+              "price": -137,
+              "point": 65.5
+            },
+            {
+              "name": "Under",
+              "description": "Javonte Williams",
+              "price": -137,
+              "point": 65.5
+            },
+            {
+              "name": "Over",
+              "description": "Bam Knight",
+              "price": -137,
+              "point": 50.5
+            },
+            {
+              "name": "Under",
+              "description": "Bam Knight",
+              "price": -137,
+              "point": 50.5
+            },
+            {
+              "name": "Over",
+              "description": "Jaydon Blue",
+              "price": -137,
+              "point": 16.5
+            },
+            {
+              "name": "Under",
+              "description": "Jaydon Blue",
+              "price": -137,
+              "point": 16.5
+            },
+            {
+              "name": "Over",
+              "description": "Jacoby Brissett",
+              "price": -137,
+              "point": 15.5
+            },
+            {
+              "name": "Under",
+              "description": "Jacoby Brissett",
+              "price": -137,
+              "point": 15.5
+            },
+            {
+              "name": "Over",
+              "description": "Dak Prescott",
+              "price": -137,
+              "point": 6.5
+            },
+            {
+              "name": "Under",
+              "description": "Dak Prescott",
+              "price": -137,
+              "point": 6.5
+            },
+            {
+              "name": "Over",
+              "description": "CeeDee Lamb",
+              "price": -137,
+              "point": 1.5
+            },
+            {
+              "name": "Under",
+              "description": "CeeDee Lamb",
+              "price": -137,
+              "point": 1.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "underdog",
+      "title": "Underdog",
+      "markets": [
+        {
+          "key": "player_pass_yds",
+          "last_update": "2025-11-03T05:09:17Z",
+          "outcomes": [
+            {
+              "name": "Over",
+              "description": "Dak Prescott",
+              "price": -137,
+              "point": 271.5
+            },
+            {
+              "name": "Under",
+              "description": "Dak Prescott",
+              "price": -137,
+              "point": 271.5
+            },
+            {
+              "name": "Over",
+              "description": "Jacoby Brissett",
+              "price": -137,
+              "point": 249.5
+            },
+            {
+              "name": "Under",
+              "description": "Jacoby Brissett",
+              "price": -137,
+              "point": 249.5
+            }
+          ]
+        },
+        {
+          "key": "player_rush_yds",
+          "last_update": "2025-11-03T05:09:17Z",
+          "outcomes": [
+            {
+              "name": "Over",
+              "description": "Javonte Williams",
+              "price": -137,
+              "point": 65.5
+            },
+            {
+              "name": "Under",
+              "description": "Javonte Williams",
+              "price": -137,
+              "point": 65.5
+            },
+            {
+              "name": "Over",
+              "description": "CeeDee Lamb",
+              "price": -137,
+              "point": 1.5
+            },
+            {
+              "name": "Under",
+              "description": "CeeDee Lamb",
+              "price": -137,
+              "point": 1.5
+            },
+            {
+              "name": "Over",
+              "description": "Jaydon Blue",
+              "price": -137,
+              "point": 16.5
+            },
+            {
+              "name": "Under",
+              "description": "Jaydon Blue",
+              "price": -137,
+              "point": 16.5
+            },
+            {
+              "name": "Over",
+              "description": "Dak Prescott",
+              "price": -137,
+              "point": 6.5
+            },
+            {
+              "name": "Under",
+              "description": "Dak Prescott",
+              "price": -137,
+              "point": 6.5
+            },
+            {
+              "name": "Over",
+              "description": "Jacoby Brissett",
+              "price": -137,
+              "point": 14.5
+            },
+            {
+              "name": "Under",
+              "description": "Jacoby Brissett",
+              "price": -137,
+              "point": 14.5
+            },
+            {
+              "name": "Over",
+              "description": "Bam Knight",
+              "price": -137,
+              "point": 50.5
+            },
+            {
+              "name": "Under",
+              "description": "Bam Knight",
+              "price": -137,
+              "point": 50.5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

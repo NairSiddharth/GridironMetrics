@@ -1,0 +1,33 @@
+{
+  "player": "Justin Herbert",
+  "gsis_id": "00-0036355",
+  "position": "QB",
+  "team": "LAC",
+  "display_name": "J.Herbert",
+  "game": {
+    "game_id": "eab3d772c3c8e4a6d3813ece55055529",
+    "home_team": "Tennessee Titans",
+    "away_team": "Los Angeles Chargers",
+    "commence_time": "2023-09-17T17:01:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": -160,
+      "under_price": 124
+    },
+    "Passing Yards": {
+      "line": 277.5,
+      "over_price": -115,
+      "under_price": -115
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:06:36.145782",
+    "season": 2023,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-15T12:54:09Z"
+  }
+}

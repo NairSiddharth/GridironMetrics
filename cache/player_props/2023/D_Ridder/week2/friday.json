@@ -1,0 +1,38 @@
+{
+  "player": "Desmond Ridder",
+  "gsis_id": "00-0038122",
+  "position": "QB",
+  "team": "ATL",
+  "display_name": "D.Ridder",
+  "game": {
+    "game_id": "4609c9aaa9bc0b3a76b75f2f85f6a5f1",
+    "home_team": "Detroit Lions",
+    "away_team": "Atlanta Falcons",
+    "commence_time": "2023-09-24T17:04:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": 180,
+      "under_price": -238
+    },
+    "Passing Yards": {
+      "line": 195.5,
+      "over_price": -115,
+      "under_price": -115
+    },
+    "Rushing Yards": {
+      "line": 13.5,
+      "over_price": -130,
+      "under_price": 100
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:08:50.393674",
+    "season": 2023,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-22T12:55:38Z"
+  }
+}

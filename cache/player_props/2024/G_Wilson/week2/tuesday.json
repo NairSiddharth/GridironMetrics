@@ -1,0 +1,33 @@
+{
+  "player": "Garrett Wilson",
+  "gsis_id": "00-0037740",
+  "position": "WR",
+  "team": "NYJ",
+  "display_name": "G.Wilson",
+  "game": {
+    "game_id": "ff0f310a02a527f105b5b37dbd61c502",
+    "home_team": "New York Jets",
+    "away_team": "New England Patriots",
+    "commence_time": "2024-09-20T00:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 65.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 5.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:16:09.561786",
+    "season": 2024,
+    "week": 2,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-17T12:56:04Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "player": "Baker Mayfield",
+  "gsis_id": "00-0034855",
+  "position": "QB",
+  "team": "TB",
+  "display_name": "B.Mayfield",
+  "game": {
+    "game_id": "531a7692ed7474109ad7d6e331751234",
+    "home_team": "Los Angeles Chargers",
+    "away_team": "Tampa Bay Buccaneers",
+    "commence_time": "2024-12-15T21:25:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 236.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 13.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:42:29.836700",
+    "season": 2024,
+    "week": 14,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-13T12:56:13Z"
+  }
+}

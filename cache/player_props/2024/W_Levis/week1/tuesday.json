@@ -1,0 +1,28 @@
+{
+  "player": "Will Levis",
+  "gsis_id": "00-0039152",
+  "position": "QB",
+  "team": "TEN",
+  "display_name": "W.Levis",
+  "game": {
+    "game_id": "17d4d840f9f4094d76c6e9b53b18ac05",
+    "home_team": "Tennessee Titans",
+    "away_team": "New York Jets",
+    "commence_time": "2024-09-15T17:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 205.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:13:55.387537",
+    "season": 2024,
+    "week": 1,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-10T12:55:02Z"
+  }
+}

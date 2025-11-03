@@ -1,0 +1,28 @@
+{
+  "player": "Nick Chubb",
+  "gsis_id": "00-0034791",
+  "position": "RB",
+  "team": "CLE",
+  "display_name": "N.Chubb",
+  "game": {
+    "game_id": "e73de417d2fd01292ed12cea2a906903",
+    "home_team": "Denver Broncos",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2024-12-03T01:15:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 57.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:38:14.343737",
+    "season": 2024,
+    "week": 12,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-29T12:55:43Z"
+  }
+}

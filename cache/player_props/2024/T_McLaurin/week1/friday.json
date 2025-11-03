@@ -1,0 +1,33 @@
+{
+  "player": "Terry McLaurin",
+  "gsis_id": "00-0035659",
+  "position": "WR",
+  "team": "WAS",
+  "display_name": "T.McLaurin",
+  "game": {
+    "game_id": "495d9f2c316b05ef092099ef9401a180",
+    "home_team": "Washington Commanders",
+    "away_team": "New York Giants",
+    "commence_time": "2024-09-15T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 51.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 4.0,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:15:22.485438",
+    "season": 2024,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-13T12:56:09Z"
+  }
+}

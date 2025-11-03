@@ -1,0 +1,28 @@
+{
+  "player": "Greg Dulcich",
+  "gsis_id": "00-0037252",
+  "position": "TE",
+  "team": "DEN",
+  "display_name": "G.Dulcich",
+  "game": {
+    "game_id": "701d98795b391636de6d0860c6782f2d",
+    "home_team": "New York Jets",
+    "away_team": "Denver Broncos",
+    "commence_time": "2024-09-29T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 18.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:19:56.336698",
+    "season": 2024,
+    "week": 3,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-27T12:56:09Z"
+  }
+}

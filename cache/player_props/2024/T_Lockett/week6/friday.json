@@ -1,0 +1,33 @@
+{
+  "player": "Tyler Lockett",
+  "gsis_id": "00-0032211",
+  "position": "WR",
+  "team": "SEA",
+  "display_name": "T.Lockett",
+  "game": {
+    "game_id": "514ad4e46861e2aa51571079d75856b5",
+    "home_team": "Atlanta Falcons",
+    "away_team": "Seattle Seahawks",
+    "commence_time": "2024-10-20T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 47.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 4.0,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:25:57.520699",
+    "season": 2024,
+    "week": 6,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-18T12:56:19Z"
+  }
+}

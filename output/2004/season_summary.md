@@ -124,7 +124,7 @@
 | CIN  | C.Johnson    | WR       | 26.6             |
 | CLE  | Q.Morgan     | WR       | 37.5             |
 | DAL  | K.Johnson    | WR       | 26.0             |
-| DEN  | P.Hape       | TE       | 28.1             |
+| DEN  | R.Smith      | WR       | 28.1             |
 | DET  | A.Hakim      | WR       | 30.0             |
 | GB   | J.Walker     | WR       | 32.3             |
 | HOU  | A.Johnson    | WR       | 22.9             |
@@ -185,42 +185,42 @@
 | TEN  | D.Mason     | WR       | 27.6             |
 | WAS  | L.Coles     | WR       | 32.6             |
 
-| :----- :------------- :--------- :----------------|
-|               Targets Share Leaders               |
-| Team | Player       | Position | Season Share (%) |
-| :----| :------------| :--------| :----------------|
-| ARI  | F.Jones      | TE       | 0.0              |
-| ATL  | D.Blakley    | TE       | 0.0              |
-| BAL  | J.Lewis      | WR       | 0.0              |
-| BUF  | M.Campbell   | TE       | 0.0              |
-| CAR  | M.Gaines     | TE       | 0.0              |
-| CHI  | A.Peterson   | RB       | 0.0              |
-| CIN  | C.Russell    | WR       | 0.0              |
-| CLE  | F.Jackson    | WR       | 0.0              |
-| DAL  | A.Bryant     | WR       | 0.0              |
-| DEN  | R.Smith      | WR       | 0.0              |
-| DET  | K.Jones      | RB       | 0.0              |
-| GB   | N.Luchey     | RB       | 0.0              |
-| HOU  | J.Baxter     | RB       | 0.0              |
-| IND  | T.Walters    | WR       | 0.0              |
-| JAX  | D.Allen      | RB       | 0.0              |
-| KC   | L.Johnson    | RB       | 12.5             |
-| MIA  | C.Chambers   | WR       | 6.7              |
-| MIN  | L.Ned        | RB       | 0.0              |
-| NE   | D.Graham     | TE       | 7.7              |
-| NO   | L.Hall       | TE       | 0.0              |
-| NYG  | W.Ponder     | WR       | 0.0              |
-| NYJ  | J.Cotchery   | WR       | 0.0              |
-| OAK  | A.Zereoue    | RB       | 6.7              |
-| PHI  | L.Smith      | TE       | 0.0              |
-| PIT  | D.Staley     | RB       | 0.0              |
-| SD   | T.Dwight     | WR       | 0.0              |
-| SEA  | R.Hannam     | TE       | 0.0              |
-| SF   | E.Johnson    | TE       | 0.0              |
-| STL  | M.Furrey     | WR       | 0.0              |
-| TB   | J.Galloway   | WR       | 0.0              |
-| TEN  | E. Kinney    | TE       | 11.1             |
-| WAS  | R.Cartwright | RB       | 0.0              |
+| :----- :-------------- :--------- :----------------|
+|               Targets Share Leaders                |
+| Team | Player        | Position | Season Share (%) |
+| :----| :-------------| :--------| :----------------|
+| ARI  | J.Scobey      | RB       | 0.0              |
+| ATL  | M.Jenkins     | WR       | 0.0              |
+| BAL  | T.Jones       | RB       | 0.0              |
+| BUF  | S.Williams    | RB       | 0.0              |
+| CAR  | K.Colbert     | WR       | 0.0              |
+| CHI  | T.Jones       | RB       | 0.0              |
+| CIN  | C.Perry       | RB       | 0.0              |
+| CLE  | D.Brown       | RB       | 0.0              |
+| DAL  | E.George      | RB       | 0.0              |
+| DEN  | N.Jackson     | TE       | 0.0              |
+| DET  | A.Hakim       | WR       | 0.0              |
+| GB   | D.Martin      | TE       | 0.0              |
+| HOU  | B.Miller      | TE       | 0.0              |
+| IND  | M.Harrison    | WR       | 0.0              |
+| JAX  | C.Hankton     | WR       | 0.0              |
+| KC   | L.Johnson     | RB       | 12.5             |
+| MIA  | C.Chambers    | WR       | 6.7              |
+| MIN  | J.Kleinsasser | TE       | 0.0              |
+| NE   | D.Graham      | TE       | 7.7              |
+| NO   | T.Gardner     | WR       | 0.0              |
+| NYG  | A.Toomer      | WR       | 0.0              |
+| NYJ  | J.McCareins   | WR       | 0.0              |
+| OAK  | A.Zereoue     | RB       | 6.7              |
+| PHI  | L.Smith       | TE       | 0.0              |
+| PIT  | P.Burress     | WR       | 0.0              |
+| SD   | G.Layne       | RB       | 0.0              |
+| SEA  | I.Mili        | TE       | 0.0              |
+| SF   | M.Hicks       | RB       | 0.0              |
+| STL  | I.Bruce       | WR       | 0.0              |
+| TB   | M.Pittman     | RB       | 0.0              |
+| TEN  | E. Kinney     | TE       | 11.1             |
+| WAS  | C.Morton      | RB       | 0.0              |
 
 | :----- :------------- :--------- :----------------|
 |               Rush Att Share Leaders              |

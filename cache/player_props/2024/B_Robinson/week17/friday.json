@@ -1,0 +1,33 @@
+{
+  "player": "Bijan Robinson",
+  "gsis_id": "00-0038542",
+  "position": "RB",
+  "team": "ATL",
+  "display_name": "B.Robinson",
+  "game": {
+    "game_id": "4da44c8ba4e595d3fe313cbeb1fe797b",
+    "home_team": "Atlanta Falcons",
+    "away_team": "Carolina Panthers",
+    "commence_time": "2025-01-05T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 15.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 96.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:48:31.445868",
+    "season": 2024,
+    "week": 17,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2025-01-03T12:55:39Z"
+  }
+}

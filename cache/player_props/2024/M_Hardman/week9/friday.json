@@ -1,0 +1,28 @@
+{
+  "player": "Mecole Hardman",
+  "gsis_id": "00-0035140",
+  "position": "WR",
+  "team": "KC",
+  "display_name": "M.Hardman",
+  "game": {
+    "game_id": "d4901034c9f4ee931bc6971a4b089209",
+    "home_team": "Kansas City Chiefs",
+    "away_team": "Denver Broncos",
+    "commence_time": "2024-11-10T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 8.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:32:12.930464",
+    "season": 2024,
+    "week": 9,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-08T12:56:25Z"
+  }
+}

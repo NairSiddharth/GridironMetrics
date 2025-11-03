@@ -1,0 +1,33 @@
+{
+  "player": "Lamar Jackson",
+  "gsis_id": "00-0036152",
+  "position": "DB",
+  "team": "CAR",
+  "display_name": "L.Jackson",
+  "game": {
+    "game_id": "c3b700ee54cf3cb44de965e6cfcb19f9",
+    "home_team": "Baltimore Ravens",
+    "away_team": "Washington Commanders",
+    "commence_time": "2024-10-13T17:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 219.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Rushing Yards": {
+      "line": 56.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:22:31.390564",
+    "season": 2024,
+    "week": 5,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-08T12:55:25Z"
+  }
+}

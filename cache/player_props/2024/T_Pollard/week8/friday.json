@@ -1,0 +1,28 @@
+{
+  "player": "Tony Pollard",
+  "gsis_id": "00-0035261",
+  "position": "RB",
+  "team": "DAL",
+  "display_name": "T.Pollard",
+  "game": {
+    "game_id": "31f1bb5fbbc8c3d9b8719357fa40941e",
+    "home_team": "Tennessee Titans",
+    "away_team": "New England Patriots",
+    "commence_time": "2024-11-03T18:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 71.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:30:19.062868",
+    "season": 2024,
+    "week": 8,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-01T12:55:57Z"
+  }
+}

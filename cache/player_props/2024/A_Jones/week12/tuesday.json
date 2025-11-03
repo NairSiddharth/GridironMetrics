@@ -1,0 +1,28 @@
+{
+  "player": "Aaron Jones",
+  "gsis_id": "00-0033293",
+  "position": "RB",
+  "team": "GB",
+  "display_name": "A.Jones",
+  "game": {
+    "game_id": "2be5371e838993958fd7eb2eda6fc412",
+    "home_team": "Minnesota Vikings",
+    "away_team": "Arizona Cardinals",
+    "commence_time": "2024-12-01T18:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 65.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:36:59.209288",
+    "season": 2024,
+    "week": 12,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-26T12:56:03Z"
+  }
+}

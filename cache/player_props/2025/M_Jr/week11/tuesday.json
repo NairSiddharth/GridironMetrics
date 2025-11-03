@@ -1,0 +1,33 @@
+{
+  "player": "Marvin Harrison Jr.",
+  "gsis_id": "00-0039849",
+  "position": "WR",
+  "team": "ARI",
+  "display_name": "M.Harrison",
+  "game": {
+    "game_id": "f3dfb574e0a542375a480534525ee6cf",
+    "home_team": "Dallas Cowboys",
+    "away_team": "Arizona Cardinals",
+    "commence_time": "2025-11-04T01:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 58.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 4.0,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-02T23:48:03.279960",
+    "season": 2025,
+    "week": 11,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2025-11-03T05:47:33Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "player": "Jake Ferguson",
+  "gsis_id": "00-0038041",
+  "position": "TE",
+  "team": "DAL",
+  "display_name": "J.Ferguson",
+  "game": {
+    "game_id": "b08196b0745d9e2e0bebfe8627fc5a1f",
+    "home_team": "New York Giants",
+    "away_team": "Dallas Cowboys",
+    "commence_time": "2024-09-27T00:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 42.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 4.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:18:28.996205",
+    "season": 2024,
+    "week": 3,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-24T12:55:53Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "Marvin Harrison Jr.",
+  "gsis_id": "00-0039849",
+  "position": "WR",
+  "team": "ARI",
+  "display_name": "M.Harrison",
+  "game": {
+    "game_id": "db997fc1b5fe71f4960012f81c21a017",
+    "home_team": "Arizona Cardinals",
+    "away_team": "Los Angeles Rams",
+    "commence_time": "2024-09-15T20:06:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 54.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T11:34:55.365830",
+    "season": 2024,
+    "week": 1,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-10T12:55:01Z"
+  }
+}

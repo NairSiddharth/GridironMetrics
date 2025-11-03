@@ -1,0 +1,28 @@
+{
+  "player": "Mike Evans",
+  "gsis_id": "00-0031408",
+  "position": "WR",
+  "team": "TB",
+  "display_name": "M.Evans",
+  "game": {
+    "game_id": "59ffd762ad2b5d96196f4f58037ab670",
+    "home_team": "Carolina Panthers",
+    "away_team": "Tampa Bay Buccaneers",
+    "commence_time": "2024-12-01T21:05:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 58.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:38:14.326841",
+    "season": 2024,
+    "week": 12,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-29T12:55:43Z"
+  }
+}

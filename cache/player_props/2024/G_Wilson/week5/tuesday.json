@@ -1,0 +1,28 @@
+{
+  "player": "Garrett Wilson",
+  "gsis_id": "00-0037740",
+  "position": "WR",
+  "team": "NYJ",
+  "display_name": "G.Wilson",
+  "game": {
+    "game_id": "79b5655b7342104f50bc735a5d838b71",
+    "home_team": "New York Jets",
+    "away_team": "Buffalo Bills",
+    "commence_time": "2024-10-15T00:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 60.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:22:31.418600",
+    "season": 2024,
+    "week": 5,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-08T12:56:00Z"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "player": "Rachaad White",
+  "gsis_id": "00-0037256",
+  "position": "RB",
+  "team": "TB",
+  "display_name": "R.White",
+  "game": {
+    "game_id": "1e006c91ca2e69c339ed517495a2f428",
+    "home_team": "Tampa Bay Buccaneers",
+    "away_team": "Philadelphia Eagles",
+    "commence_time": "2023-09-25T23:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 16.5,
+      "over_price": -120,
+      "under_price": -110
+    },
+    "Receptions": {
+      "line": 3.5,
+      "over_price": 100,
+      "under_price": -130
+    },
+    "Rushing Yards": {
+      "line": 46.5,
+      "over_price": -110,
+      "under_price": -120
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:08:50.538678",
+    "season": 2023,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-22T12:55:39Z"
+  }
+}

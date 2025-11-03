@@ -1,0 +1,28 @@
+{
+  "player": "David Njoku",
+  "gsis_id": "00-0033885",
+  "position": "TE",
+  "team": "CLE",
+  "display_name": "D.Njoku",
+  "game": {
+    "game_id": "e73de417d2fd01292ed12cea2a906903",
+    "home_team": "Denver Broncos",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2024-12-03T01:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 49.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:36:59.270356",
+    "season": 2024,
+    "week": 12,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-11-26T12:56:05Z"
+  }
+}

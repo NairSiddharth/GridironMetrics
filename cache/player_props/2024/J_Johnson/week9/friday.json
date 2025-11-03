@@ -1,0 +1,28 @@
+{
+  "player": "Juwan Johnson",
+  "gsis_id": "00-0036040",
+  "position": "TE",
+  "team": "NO",
+  "display_name": "J.Johnson",
+  "game": {
+    "game_id": "a6383a73f7e6937fcdc376b50d4dc510",
+    "home_team": "New Orleans Saints",
+    "away_team": "Atlanta Falcons",
+    "commence_time": "2024-11-10T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 29.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:32:12.912584",
+    "season": 2024,
+    "week": 9,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-08T12:56:13Z"
+  }
+}

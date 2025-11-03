@@ -1,0 +1,28 @@
+{
+  "player": "Saquon Barkley",
+  "gsis_id": "00-0034844",
+  "position": "RB",
+  "team": "NYG",
+  "display_name": "S.Barkley",
+  "game": {
+    "game_id": "7f9202e3018e484a3f30bc99422776fa",
+    "home_team": "Washington Commanders",
+    "away_team": "Philadelphia Eagles",
+    "commence_time": "2024-12-22T18:01:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 98.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:43:18.061329",
+    "season": 2024,
+    "week": 15,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-17T12:55:15Z"
+  }
+}

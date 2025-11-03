@@ -1,0 +1,28 @@
+{
+  "player": "Jahan Dotson",
+  "gsis_id": "00-0037741",
+  "position": "WR",
+  "team": "WAS",
+  "display_name": "J.Dotson",
+  "game": {
+    "game_id": "ef026bf62bfb6cda42ee983680eda2d4",
+    "home_team": "Philadelphia Eagles",
+    "away_team": "Jacksonville Jaguars",
+    "commence_time": "2024-11-03T21:05:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 8.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:30:19.077670",
+    "season": 2024,
+    "week": 8,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-01T12:56:27Z"
+  }
+}

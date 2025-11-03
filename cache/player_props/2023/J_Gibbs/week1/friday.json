@@ -1,0 +1,33 @@
+{
+  "player": "Jahmyr Gibbs",
+  "gsis_id": "00-0039139",
+  "position": "RB",
+  "team": "DET",
+  "display_name": "J.Gibbs",
+  "game": {
+    "game_id": "30e317800515c33d2635df2d05a6d14d",
+    "home_team": "Detroit Lions",
+    "away_team": "Seattle Seahawks",
+    "commence_time": "2023-09-17T17:01:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 25.5,
+      "over_price": -115,
+      "under_price": -115
+    },
+    "Rushing Yards": {
+      "line": 34.5,
+      "over_price": -135,
+      "under_price": 105
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:06:36.126355",
+    "season": 2023,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-15T12:54:09Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "Kylen Granson",
+  "gsis_id": "00-0036876",
+  "position": "TE",
+  "team": "IND",
+  "display_name": "K.Granson",
+  "game": {
+    "game_id": "2ecfbe1dcf553f66dd34b4772c1c9b99",
+    "home_team": "Houston Texans",
+    "away_team": "Indianapolis Colts",
+    "commence_time": "2023-09-17T17:01:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 26.5,
+      "over_price": -105,
+      "under_price": -125
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:06:36.133659",
+    "season": 2023,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-15T12:53:17Z"
+  }
+}

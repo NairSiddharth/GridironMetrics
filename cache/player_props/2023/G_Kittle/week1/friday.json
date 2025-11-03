@@ -1,0 +1,28 @@
+{
+  "player": "George Kittle",
+  "gsis_id": "00-0033288",
+  "position": "TE",
+  "team": "SF",
+  "display_name": "G.Kittle",
+  "game": {
+    "game_id": "a6a30233e1ec7fb3b9f9a5e4444ff14b",
+    "home_team": "Los Angeles Rams",
+    "away_team": "San Francisco 49ers",
+    "commence_time": "2023-09-17T20:06:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 39.5,
+      "over_price": -110,
+      "under_price": -120
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:06:36.164695",
+    "season": 2023,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-15T12:54:10Z"
+  }
+}

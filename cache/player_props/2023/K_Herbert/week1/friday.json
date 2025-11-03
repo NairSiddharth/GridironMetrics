@@ -1,0 +1,33 @@
+{
+  "player": "Khalil Herbert",
+  "gsis_id": "00-0036906",
+  "position": "RB",
+  "team": "CHI",
+  "display_name": "K.Herbert",
+  "game": {
+    "game_id": "ec238fc4bfd91d24ae566950edc120fe",
+    "home_team": "Tampa Bay Buccaneers",
+    "away_team": "Chicago Bears",
+    "commence_time": "2023-09-17T17:01:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 8.5,
+      "over_price": -110,
+      "under_price": -120
+    },
+    "Rushing Yards": {
+      "line": 39.5,
+      "over_price": -135,
+      "under_price": 105
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:06:36.117850",
+    "season": 2023,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-15T12:54:09Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "D'Andre Swift",
+  "gsis_id": "00-0036275",
+  "position": "RB",
+  "team": "PHI",
+  "display_name": "D.Swift",
+  "game": {
+    "game_id": "e603ee3c4035a8558b9bcb6aded87ff4",
+    "home_team": "Chicago Bears",
+    "away_team": "Los Angeles Rams",
+    "commence_time": "2024-09-29T17:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 48.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:18:29.009993",
+    "season": 2024,
+    "week": 3,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-24T12:55:36Z"
+  }
+}

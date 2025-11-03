@@ -1,0 +1,38 @@
+{
+  "player": "Jalen Hurts",
+  "gsis_id": "00-0036389",
+  "position": "QB",
+  "team": "PHI",
+  "display_name": "J.Hurts",
+  "game": {
+    "game_id": "217559949d3b88a1267c2c4c480eab51",
+    "home_team": "Philadelphia Eagles",
+    "away_team": "Minnesota Vikings",
+    "commence_time": "2023-09-15T00:16:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": -130,
+      "under_price": 100
+    },
+    "Passing Yards": {
+      "line": 249.5,
+      "over_price": -115,
+      "under_price": -115
+    },
+    "Rushing Yards": {
+      "line": 45.5,
+      "over_price": -110,
+      "under_price": -120
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:05:09.641630",
+    "season": 2023,
+    "week": 1,
+    "day": "tuesday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-12T12:51:37Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "player": "Elijah Moore",
+  "gsis_id": "00-0036980",
+  "position": "WR",
+  "team": "CLE",
+  "display_name": "E.Moore",
+  "game": {
+    "game_id": "3f180e883b429700dd32ff2133ac37ef",
+    "home_team": "Las Vegas Raiders",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2024-09-29T20:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 29.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 3.0,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:19:56.369672",
+    "season": 2024,
+    "week": 3,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-27T12:56:35Z"
+  }
+}

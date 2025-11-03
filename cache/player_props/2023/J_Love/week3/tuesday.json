@@ -1,0 +1,38 @@
+{
+  "player": "Jordan Love",
+  "gsis_id": "00-0036264",
+  "position": "QB",
+  "team": "GB",
+  "display_name": "J.Love",
+  "game": {
+    "game_id": "934acd8d5f569c955f4a02aa42284fa4",
+    "home_team": "Green Bay Packers",
+    "away_team": "Detroit Lions",
+    "commence_time": "2023-09-29T00:15:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": 110,
+      "under_price": -160
+    },
+    "Passing Yards": {
+      "line": 222.5,
+      "over_price": -120,
+      "under_price": -120
+    },
+    "Rushing Yards": {
+      "line": 16.5,
+      "over_price": -110,
+      "under_price": -120
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:09:37.411708",
+    "season": 2023,
+    "week": 3,
+    "day": "tuesday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-26T12:55:31Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "Keenan Allen",
+  "gsis_id": "00-0030279",
+  "position": "WR",
+  "team": "LAC",
+  "display_name": "K.Allen",
+  "game": {
+    "game_id": "57e91ca052d9484f67f83308f3fb7f65",
+    "home_team": "San Francisco 49ers",
+    "away_team": "Chicago Bears",
+    "commence_time": "2024-12-08T21:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 49.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:40:13.271195",
+    "season": 2024,
+    "week": 13,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-06T12:56:10Z"
+  }
+}

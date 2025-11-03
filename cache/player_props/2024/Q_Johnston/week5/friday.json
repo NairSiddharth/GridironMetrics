@@ -1,0 +1,33 @@
+{
+  "player": "Quentin Johnston",
+  "gsis_id": "00-0038544",
+  "position": "WR",
+  "team": "LAC",
+  "display_name": "Q.Johnston",
+  "game": {
+    "game_id": "76fbc0191f917329bad82f76a9a22a2e",
+    "home_team": "Denver Broncos",
+    "away_team": "Los Angeles Chargers",
+    "commence_time": "2024-10-13T20:05:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 33.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 3.0,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:23:47.149638",
+    "season": 2024,
+    "week": 5,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-11T12:55:26Z"
+  }
+}

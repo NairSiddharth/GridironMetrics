@@ -1,0 +1,28 @@
+{
+  "player": "Hunter Henry",
+  "gsis_id": "00-0033090",
+  "position": "TE",
+  "team": "NE",
+  "display_name": "H.Henry",
+  "game": {
+    "game_id": "9003a41d4bd320e1c437ea6dc5a2fec6",
+    "home_team": "New England Patriots",
+    "away_team": "Miami Dolphins",
+    "commence_time": "2023-09-18T00:21:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 33.5,
+      "over_price": -120,
+      "under_price": -110
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:06:36.183774",
+    "season": 2023,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-15T12:54:09Z"
+  }
+}

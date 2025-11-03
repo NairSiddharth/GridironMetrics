@@ -1,0 +1,33 @@
+{
+  "player": "Hayden Hurst",
+  "gsis_id": "00-0034830",
+  "position": "TE",
+  "team": "CAR",
+  "display_name": "H.Hurst",
+  "game": {
+    "game_id": "4b3ed4ec08352199ff98bdf14b247c88",
+    "home_team": "Seattle Seahawks",
+    "away_team": "Carolina Panthers",
+    "commence_time": "2023-09-24T20:05:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 30.5,
+      "over_price": -110,
+      "under_price": -120
+    },
+    "Receptions": {
+      "line": 3.5,
+      "over_price": 130,
+      "under_price": -166
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:08:50.509721",
+    "season": 2023,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-22T12:54:54Z"
+  }
+}

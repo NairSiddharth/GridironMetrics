@@ -1,0 +1,33 @@
+{
+  "player": "Joe Flacco",
+  "gsis_id": "00-0026158",
+  "position": "QB",
+  "team": "CLE",
+  "display_name": "J.Flacco",
+  "game": {
+    "game_id": "d555bf749139691c613e4aec350592c1",
+    "home_team": "Minnesota Vikings",
+    "away_team": "Indianapolis Colts",
+    "commence_time": "2024-11-04T01:20:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 234.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 1.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:30:19.088518",
+    "season": 2024,
+    "week": 8,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-01T12:56:05Z"
+  }
+}

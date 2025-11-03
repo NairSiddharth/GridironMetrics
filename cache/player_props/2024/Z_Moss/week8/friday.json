@@ -1,0 +1,28 @@
+{
+  "player": "Zack Moss",
+  "gsis_id": "00-0036251",
+  "position": "RB",
+  "team": "IND",
+  "display_name": "Z.Moss",
+  "game": {
+    "game_id": "3d24ae93125568c136d57ff911a4d2e4",
+    "home_team": "Cincinnati Bengals",
+    "away_team": "Las Vegas Raiders",
+    "commence_time": "2024-11-03T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 18.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:30:19.049885",
+    "season": 2024,
+    "week": 8,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-01T12:56:41Z"
+  }
+}

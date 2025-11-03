@@ -1,0 +1,33 @@
+{
+  "player": "Jimmy Garoppolo",
+  "gsis_id": "00-0031345",
+  "position": "QB",
+  "team": "LV",
+  "display_name": "J.Garoppolo",
+  "game": {
+    "game_id": "1ed637f2ef1ae5f2f7184d38e94fe137",
+    "home_team": "Buffalo Bills",
+    "away_team": "Las Vegas Raiders",
+    "commence_time": "2023-09-17T17:00:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": 140,
+      "under_price": -180
+    },
+    "Passing Yards": {
+      "line": 231.5,
+      "over_price": -115,
+      "under_price": -115
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:06:36.087716",
+    "season": 2023,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-15T12:57:52Z"
+  }
+}

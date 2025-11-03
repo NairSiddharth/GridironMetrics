@@ -1,0 +1,28 @@
+{
+  "player": "Pat Freiermuth",
+  "gsis_id": "00-0036894",
+  "position": "TE",
+  "team": "PIT",
+  "display_name": "P.Freiermuth",
+  "game": {
+    "game_id": "a0a3ae18f5a26bdaa0e2f32aa8af7ce0",
+    "home_team": "Indianapolis Colts",
+    "away_team": "Pittsburgh Steelers",
+    "commence_time": "2024-09-29T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 29.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:19:56.354026",
+    "season": 2024,
+    "week": 3,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-27T12:56:45Z"
+  }
+}

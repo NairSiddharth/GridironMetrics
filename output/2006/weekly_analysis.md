@@ -4,6 +4,6 @@
 | :------------| :--------| :-------------| :------------------|
 | E.James      | RB       | 86.9          | 86.9               |
 | J.Arrington  | RB       | 13.1          | 13.1               |
-| L.Pope       | TE       | 0.0           | 0.0                |
-| A.Boldin     | WR       | 0.0           | 0.0                |
 | L.Fitzgerald | WR       | 0.0           | 0.0                |
+| O.Ayanbadejo | RB       | 0.0           | 0.0                |
+| A.Bergen     | TE       | 0.0           | 0.0                |

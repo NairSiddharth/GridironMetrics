@@ -1,0 +1,28 @@
+{
+  "player": "Keon Coleman",
+  "gsis_id": "00-0039901",
+  "position": "WR",
+  "team": "BUF",
+  "display_name": "K.Coleman",
+  "game": {
+    "game_id": "ddd9b67cf1d68282e1e8652000c0d015",
+    "home_team": "Miami Dolphins",
+    "away_team": "Buffalo Bills",
+    "commence_time": "2024-09-13T00:20:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 39.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T11:34:55.290367",
+    "season": 2024,
+    "week": 1,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-10T12:55:02Z"
+  }
+}

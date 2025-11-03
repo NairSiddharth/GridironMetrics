@@ -1,0 +1,28 @@
+{
+  "player": "Lucas Krull",
+  "gsis_id": "00-0037539",
+  "position": "TE",
+  "team": "DEN",
+  "display_name": "L.Krull",
+  "game": {
+    "game_id": "4290cfcaa959dc5b452481cfff521b45",
+    "home_team": "Buffalo Bills",
+    "away_team": "Denver Broncos",
+    "commence_time": "2025-01-12T18:01:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 6.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:49:36.449206",
+    "season": 2024,
+    "week": 18,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2025-01-10T12:55:53Z"
+  }
+}

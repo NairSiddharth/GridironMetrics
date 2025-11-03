@@ -1,0 +1,28 @@
+{
+  "player": "Tyler Conklin",
+  "gsis_id": "00-0034270",
+  "position": "TE",
+  "team": "NYJ",
+  "display_name": "T.Conklin",
+  "game": {
+    "game_id": "edde9aeb8a9114f38b30b45c7cffbfa8",
+    "home_team": "New York Jets",
+    "away_team": "Houston Texans",
+    "commence_time": "2024-11-01T00:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 25.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:28:57.137662",
+    "season": 2024,
+    "week": 8,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-29T12:56:20Z"
+  }
+}

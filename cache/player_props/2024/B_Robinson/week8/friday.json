@@ -1,0 +1,38 @@
+{
+  "player": "Bijan Robinson",
+  "gsis_id": "00-0038542",
+  "position": "RB",
+  "team": "ATL",
+  "display_name": "B.Robinson",
+  "game": {
+    "game_id": "db18946165af62532b19d4c509d7ba56",
+    "home_team": "Atlanta Falcons",
+    "away_team": "Dallas Cowboys",
+    "commence_time": "2024-11-03T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 25.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 3.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 73.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:30:19.016314",
+    "season": 2024,
+    "week": 8,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-01T12:56:35Z"
+  }
+}

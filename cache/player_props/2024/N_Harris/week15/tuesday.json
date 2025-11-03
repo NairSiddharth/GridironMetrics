@@ -1,0 +1,28 @@
+{
+  "player": "Najee Harris",
+  "gsis_id": "00-0036893",
+  "position": "RB",
+  "team": "PIT",
+  "display_name": "N.Harris",
+  "game": {
+    "game_id": "77184e40f6e14084fd2c378c157640b8",
+    "home_team": "Baltimore Ravens",
+    "away_team": "Pittsburgh Steelers",
+    "commence_time": "2024-12-21T21:31:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 51.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:43:18.046246",
+    "season": 2024,
+    "week": 15,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-17T12:55:24Z"
+  }
+}

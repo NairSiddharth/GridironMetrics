@@ -1,0 +1,28 @@
+{
+  "player": "Aidan O'Connell",
+  "gsis_id": "00-0038579",
+  "position": "QB",
+  "team": "LV",
+  "display_name": "A.O'Connell",
+  "game": {
+    "game_id": "6b14461632df941a9ea60ff83ddca897",
+    "home_team": "Las Vegas Raiders",
+    "away_team": "Los Angeles Chargers",
+    "commence_time": "2025-01-05T21:25:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 226.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:48:31.466676",
+    "season": 2024,
+    "week": 17,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2025-01-03T12:55:24Z"
+  }
+}

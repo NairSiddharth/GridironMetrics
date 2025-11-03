@@ -1,0 +1,28 @@
+{
+  "player": "DeAndre Hopkins",
+  "gsis_id": "00-0030564",
+  "position": "WR",
+  "team": "TEN",
+  "display_name": "D.Hopkins",
+  "game": {
+    "game_id": "c70e1ecbef22c98419d4707199d050af",
+    "home_team": "Kansas City Chiefs",
+    "away_team": "Los Angeles Chargers",
+    "commence_time": "2024-12-09T01:20:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 46.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:38:52.515625",
+    "season": 2024,
+    "week": 13,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-03T12:55:34Z"
+  }
+}

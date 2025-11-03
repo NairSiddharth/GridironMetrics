@@ -1,0 +1,33 @@
+{
+  "player": "Noah Brown",
+  "gsis_id": "00-0033591",
+  "position": "WR",
+  "team": "HOU",
+  "display_name": "N.Brown",
+  "game": {
+    "game_id": "5791e31f6f4b95476889c4854b508faf",
+    "home_team": "New York Giants",
+    "away_team": "Washington Commanders",
+    "commence_time": "2024-11-03T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 28.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 2.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:30:19.066497",
+    "season": 2024,
+    "week": 8,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-01T12:56:41Z"
+  }
+}

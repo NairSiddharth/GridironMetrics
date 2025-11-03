@@ -1,0 +1,28 @@
+{
+  "player": "Amari Cooper",
+  "gsis_id": "00-0031544",
+  "position": "WR",
+  "team": "CLE",
+  "display_name": "A.Cooper",
+  "game": {
+    "game_id": "7c2d09c53f3c271b20f53db0b21f1498",
+    "home_team": "Buffalo Bills",
+    "away_team": "Miami Dolphins",
+    "commence_time": "2024-11-03T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 48.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:30:19.037366",
+    "season": 2024,
+    "week": 8,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-01T12:56:20Z"
+  }
+}

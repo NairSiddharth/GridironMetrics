@@ -1,0 +1,38 @@
+{
+  "player": "Derek Carr",
+  "gsis_id": "00-0031280",
+  "position": "QB",
+  "team": "NO",
+  "display_name": "D.Carr",
+  "game": {
+    "game_id": "3de2d54334c462aa393418b75994fee1",
+    "home_team": "Carolina Panthers",
+    "away_team": "New Orleans Saints",
+    "commence_time": "2024-11-03T18:00:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Passing Yards": {
+      "line": 235.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 1.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:30:19.040442",
+    "season": 2024,
+    "week": 8,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-11-01T12:56:36Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "player": "Joe Burrow",
+  "gsis_id": "00-0036442",
+  "position": "QB",
+  "team": "CIN",
+  "display_name": "J.Burrow",
+  "game": {
+    "game_id": "68aa07e4336438b1f2f5a4dfb82fe9cc",
+    "home_team": "Pittsburgh Steelers",
+    "away_team": "Cincinnati Bengals",
+    "commence_time": "2025-01-05T01:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 286.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 9.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:47:12.935357",
+    "season": 2024,
+    "week": 17,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-31T12:55:35Z"
+  }
+}

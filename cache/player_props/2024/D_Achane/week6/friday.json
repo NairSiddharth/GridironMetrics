@@ -1,0 +1,33 @@
+{
+  "player": "De'Von Achane",
+  "gsis_id": "00-0039040",
+  "position": "RB",
+  "team": "MIA",
+  "display_name": "D.Achane",
+  "game": {
+    "game_id": "3d634649562df7c3b2b22d626162a9c9",
+    "home_team": "Indianapolis Colts",
+    "away_team": "Miami Dolphins",
+    "commence_time": "2024-10-20T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 21.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 44.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:25:57.563046",
+    "season": 2024,
+    "week": 6,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-10-18T12:55:52Z"
+  }
+}

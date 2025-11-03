@@ -1,0 +1,28 @@
+{
+  "player": "Ryan Flournoy",
+  "gsis_id": "00-0039410",
+  "position": "WR",
+  "team": "DAL",
+  "display_name": "R.Flournoy",
+  "game": {
+    "game_id": "f3dfb574e0a542375a480534525ee6cf",
+    "home_team": "Dallas Cowboys",
+    "away_team": "Arizona Cardinals",
+    "commence_time": "2025-11-04T01:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 9.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-02T23:48:03.287109",
+    "season": 2025,
+    "week": 11,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2025-11-03T05:47:33Z"
+  }
+}

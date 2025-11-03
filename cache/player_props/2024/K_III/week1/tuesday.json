@@ -1,0 +1,28 @@
+{
+  "player": "Kenneth Walker III",
+  "gsis_id": "00-0038134",
+  "position": "RB",
+  "team": "SEA",
+  "display_name": "K.Walker",
+  "game": {
+    "game_id": "42d27889b51ada96c20671b30129ce4e",
+    "home_team": "New England Patriots",
+    "away_team": "Seattle Seahawks",
+    "commence_time": "2024-09-15T17:01:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 66.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T11:34:55.356387",
+    "season": 2024,
+    "week": 1,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-10T12:55:39Z"
+  }
+}

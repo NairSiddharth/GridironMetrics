@@ -1,0 +1,28 @@
+{
+  "player": "Cooper Kupp",
+  "gsis_id": "00-0033908",
+  "position": "WR",
+  "team": "LA",
+  "display_name": "C.Kupp",
+  "game": {
+    "game_id": "8297b863d5f355bd3127adf93cf196a7",
+    "home_team": "Los Angeles Rams",
+    "away_team": "Arizona Cardinals",
+    "commence_time": "2024-12-29T01:16:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 56.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:45:41.789485",
+    "season": 2024,
+    "week": 16,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-24T12:55:28Z"
+  }
+}

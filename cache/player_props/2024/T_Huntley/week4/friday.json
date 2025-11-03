@@ -1,0 +1,33 @@
+{
+  "player": "Tyler Huntley",
+  "gsis_id": "00-0035993",
+  "position": "QB",
+  "team": "BAL",
+  "display_name": "T.Huntley",
+  "game": {
+    "game_id": "5cb3b58ed90ecfac2acac9115e08c017",
+    "home_team": "New England Patriots",
+    "away_team": "Miami Dolphins",
+    "commence_time": "2024-10-06T17:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 159.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Rushing Yards": {
+      "line": 35.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:21:50.022258",
+    "season": 2024,
+    "week": 4,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-04T12:56:30Z"
+  }
+}

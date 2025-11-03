@@ -1,0 +1,28 @@
+{
+  "player": "Jared Goff",
+  "gsis_id": "00-0033106",
+  "position": "QB",
+  "team": "DET",
+  "display_name": "J.Goff",
+  "game": {
+    "game_id": "e27b5c11ba461a77a8e7773b2ea30238",
+    "home_team": "Houston Texans",
+    "away_team": "Detroit Lions",
+    "commence_time": "2024-11-11T01:20:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 245.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:31:00.766635",
+    "season": 2024,
+    "week": 9,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-05T12:51:47Z"
+  }
+}

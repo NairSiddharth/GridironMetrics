@@ -1,0 +1,33 @@
+{
+  "player": "Tee Higgins",
+  "gsis_id": "00-0036410",
+  "position": "WR",
+  "team": "CIN",
+  "display_name": "T.Higgins",
+  "game": {
+    "game_id": "63e9b5302666e36b47431100bcb22973",
+    "home_team": "Cleveland Browns",
+    "away_team": "Cincinnati Bengals",
+    "commence_time": "2024-10-20T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 63.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 5.0,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:25:57.533949",
+    "season": 2024,
+    "week": 6,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-18T12:56:19Z"
+  }
+}

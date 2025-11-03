@@ -1,0 +1,28 @@
+{
+  "player": "J.K. Dobbins",
+  "gsis_id": "00-0036158",
+  "position": "RB",
+  "team": "BAL",
+  "display_name": "J.Dobbins",
+  "game": {
+    "game_id": "76fbc0191f917329bad82f76a9a22a2e",
+    "home_team": "Denver Broncos",
+    "away_team": "Los Angeles Chargers",
+    "commence_time": "2024-10-13T20:05:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 57.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:22:31.403994",
+    "season": 2024,
+    "week": 5,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-08T12:55:43Z"
+  }
+}

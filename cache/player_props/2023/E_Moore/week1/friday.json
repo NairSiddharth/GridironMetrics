@@ -1,0 +1,28 @@
+{
+  "player": "Elijah Moore",
+  "gsis_id": "00-0036980",
+  "position": "WR",
+  "team": "CLE",
+  "display_name": "E.Moore",
+  "game": {
+    "game_id": "7ea45f55c7bb922c581f809166c0fab3",
+    "home_team": "Pittsburgh Steelers",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2023-09-19T00:16:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 37.5,
+      "over_price": -115,
+      "under_price": -115
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:06:36.205046",
+    "season": 2023,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-15T12:57:53Z"
+  }
+}

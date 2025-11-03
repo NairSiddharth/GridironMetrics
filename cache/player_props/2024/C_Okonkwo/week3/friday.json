@@ -1,0 +1,28 @@
+{
+  "player": "Chigoziem Okonkwo",
+  "gsis_id": "00-0037809",
+  "position": "TE",
+  "team": "TEN",
+  "display_name": "C.Okonkwo",
+  "game": {
+    "game_id": "a207d1faa78a276de49cdebb7ef4fc0e",
+    "home_team": "Miami Dolphins",
+    "away_team": "Tennessee Titans",
+    "commence_time": "2024-09-30T23:30:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 17.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:19:56.383221",
+    "season": 2024,
+    "week": 3,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-27T12:56:00Z"
+  }
+}

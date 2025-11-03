@@ -1,0 +1,28 @@
+{
+  "player": "Adam Thielen",
+  "gsis_id": "00-0030035",
+  "position": "WR",
+  "team": "CAR",
+  "display_name": "A.Thielen",
+  "game": {
+    "game_id": "757ca79be58cadb6fece7718e6e260a2",
+    "home_team": "Philadelphia Eagles",
+    "away_team": "Carolina Panthers",
+    "commence_time": "2024-12-08T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 44.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:40:13.239439",
+    "season": 2024,
+    "week": 13,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-06T12:56:07Z"
+  }
+}

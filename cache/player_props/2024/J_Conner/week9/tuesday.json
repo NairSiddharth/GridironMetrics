@@ -1,0 +1,33 @@
+{
+  "player": "James Conner",
+  "gsis_id": "00-0033553",
+  "position": "RB",
+  "team": "ARI",
+  "display_name": "J.Conner",
+  "game": {
+    "game_id": "1c2195dfc898e85136f4d40b4ac512fb",
+    "home_team": "Arizona Cardinals",
+    "away_team": "New York Jets",
+    "commence_time": "2024-11-10T21:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 12.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 70.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:31:00.761733",
+    "season": 2024,
+    "week": 9,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-11-05T12:56:06Z"
+  }
+}

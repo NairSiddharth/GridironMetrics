@@ -122,7 +122,7 @@
 | CAR  | B.LaFell     | WR       | 26.9             |
 | CHI  | B.Marshall   | WR       | 43.8             |
 | CIN  | A.Green      | WR       | 40.6             |
-| CLE  | G.Little     | WR       | 18.8             |
+| CLE  | J.Gordon     | WR       | 18.8             |
 | DAL  | D.Bryant     | WR       | 36.5             |
 | DEN  | E.Decker     | WR       | 31.2             |
 | DET  | N.Burleson   | WR       | 22.2             |
@@ -136,7 +136,7 @@
 | NE   | R.Gronkowski | TE       | 45.5             |
 | NO   | J.Graham     | TE       | 26.1             |
 | NYG  | V.Cruz       | WR       | 28.9             |
-| NYJ  | S.Holmes     | WR       | 25.0             |
+| NYJ  | J.Hill       | WR       | 25.0             |
 | OAK  | D.Moore      | WR       | 32.2             |
 | PHI  | J.Maclin     | WR       | 33.3             |
 | PIT  | M.Wallace    | WR       | 29.4             |

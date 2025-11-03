@@ -1,0 +1,33 @@
+{
+  "player": "Will Levis",
+  "gsis_id": "00-0039152",
+  "position": "QB",
+  "team": "TEN",
+  "display_name": "W.Levis",
+  "game": {
+    "game_id": "cea1abe8ef88e4105f4cd505b45cd781",
+    "home_team": "Washington Commanders",
+    "away_team": "Tennessee Titans",
+    "commence_time": "2024-12-01T18:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 211.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 19.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:38:14.320595",
+    "season": 2024,
+    "week": 12,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-29T12:55:43Z"
+  }
+}

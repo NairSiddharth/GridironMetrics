@@ -1,0 +1,28 @@
+{
+  "player": "Pat Freiermuth",
+  "gsis_id": "00-0036894",
+  "position": "TE",
+  "team": "PIT",
+  "display_name": "P.Freiermuth",
+  "game": {
+    "game_id": "504a7b09264059083346ab086141da30",
+    "home_team": "Pittsburgh Steelers",
+    "away_team": "Dallas Cowboys",
+    "commence_time": "2024-10-07T00:20:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 32.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:21:50.048875",
+    "season": 2024,
+    "week": 4,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-04T12:56:26Z"
+  }
+}

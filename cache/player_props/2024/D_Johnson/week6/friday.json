@@ -1,0 +1,28 @@
+{
+  "player": "Diontae Johnson",
+  "gsis_id": "00-0035216",
+  "position": "WR",
+  "team": "PIT",
+  "display_name": "D.Johnson",
+  "game": {
+    "game_id": "205e5260b14ecb55558ddb85f419edaf",
+    "home_team": "Washington Commanders",
+    "away_team": "Carolina Panthers",
+    "commence_time": "2024-10-20T20:05:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 68.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:25:57.575421",
+    "season": 2024,
+    "week": 6,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-10-18T12:55:50Z"
+  }
+}

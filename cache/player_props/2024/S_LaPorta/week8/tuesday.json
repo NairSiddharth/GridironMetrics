@@ -1,0 +1,28 @@
+{
+  "player": "Sam LaPorta",
+  "gsis_id": "00-0039065",
+  "position": "TE",
+  "team": "DET",
+  "display_name": "S.LaPorta",
+  "game": {
+    "game_id": "84d2187ad0c2a42b32879d3bcbaee8dd",
+    "home_team": "Green Bay Packers",
+    "away_team": "Detroit Lions",
+    "commence_time": "2024-11-03T21:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 41.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:28:57.184735",
+    "season": 2024,
+    "week": 8,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-10-29T12:56:11Z"
+  }
+}

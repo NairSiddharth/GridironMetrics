@@ -1,0 +1,28 @@
+{
+  "player": "Najee Harris",
+  "gsis_id": "00-0036893",
+  "position": "RB",
+  "team": "PIT",
+  "display_name": "N.Harris",
+  "game": {
+    "game_id": "928f8f873c2bf276d0b2a63a8f8941b4",
+    "home_team": "Washington Commanders",
+    "away_team": "Pittsburgh Steelers",
+    "commence_time": "2024-11-10T18:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 65.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:32:12.937059",
+    "season": 2024,
+    "week": 9,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-08T12:56:25Z"
+  }
+}

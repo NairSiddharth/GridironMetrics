@@ -1,0 +1,28 @@
+{
+  "player": "Jaxon Smith-Njigba",
+  "gsis_id": "00-0038543",
+  "position": "WR",
+  "team": "SEA",
+  "display_name": "J.Smith-Njigba",
+  "game": {
+    "game_id": "8baadfa082af81fe72b1cfd941d96edf",
+    "home_team": "Seattle Seahawks",
+    "away_team": "Los Angeles Rams",
+    "commence_time": "2024-11-03T21:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 54.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:30:19.086099",
+    "season": 2024,
+    "week": 8,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-11-01T12:56:41Z"
+  }
+}

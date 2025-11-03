@@ -1,0 +1,28 @@
+{
+  "player": "Patrick Mahomes",
+  "gsis_id": "00-0033873",
+  "position": "QB",
+  "team": "KC",
+  "display_name": "P.Mahomes",
+  "game": {
+    "game_id": "9db2aef33225a4bda04bbc7c33e50e63",
+    "home_team": "Cleveland Browns",
+    "away_team": "Kansas City Chiefs",
+    "commence_time": "2024-12-15T18:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 250.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:41:01.016905",
+    "season": 2024,
+    "week": 14,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-10T12:55:51Z"
+  }
+}

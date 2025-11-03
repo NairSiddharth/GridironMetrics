@@ -1,0 +1,28 @@
+{
+  "player": "Christian Watson",
+  "gsis_id": "00-0038124",
+  "position": "WR",
+  "team": "GB",
+  "display_name": "C.Watson",
+  "game": {
+    "game_id": "c6aa971def88c7d2127d05ace3a8e643",
+    "home_team": "Minnesota Vikings",
+    "away_team": "Green Bay Packers",
+    "commence_time": "2024-12-29T21:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 46.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:46:25.810755",
+    "season": 2024,
+    "week": 16,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-27T12:55:39Z"
+  }
+}

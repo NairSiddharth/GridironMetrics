@@ -1,0 +1,28 @@
+{
+  "player": "Jared Goff",
+  "gsis_id": "00-0033106",
+  "position": "QB",
+  "team": "DET",
+  "display_name": "J.Goff",
+  "game": {
+    "game_id": "5fd9657af1356ec2a567b07d75a8e6a3",
+    "home_team": "Detroit Lions",
+    "away_team": "Tennessee Titans",
+    "commence_time": "2024-10-27T17:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 236.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:28:11.869196",
+    "season": 2024,
+    "week": 7,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-25T12:56:35Z"
+  }
+}

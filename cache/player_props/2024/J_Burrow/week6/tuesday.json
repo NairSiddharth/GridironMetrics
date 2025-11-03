@@ -1,0 +1,38 @@
+{
+  "player": "Joe Burrow",
+  "gsis_id": "00-0036442",
+  "position": "QB",
+  "team": "CIN",
+  "display_name": "J.Burrow",
+  "game": {
+    "game_id": "63e9b5302666e36b47431100bcb22973",
+    "home_team": "Cleveland Browns",
+    "away_team": "Cincinnati Bengals",
+    "commence_time": "2024-10-20T17:00:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Passing Yards": {
+      "line": 260.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Rushing Yards": {
+      "line": 9.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:24:33.228555",
+    "season": 2024,
+    "week": 6,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-15T12:55:25Z"
+  }
+}

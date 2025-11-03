@@ -1,0 +1,33 @@
+{
+  "player": "Alvin Kamara",
+  "gsis_id": "00-0033906",
+  "position": "RB",
+  "team": "NO",
+  "display_name": "A.Kamara",
+  "game": {
+    "game_id": "5e0d59f75b7f9056461e2970aca2a6cb",
+    "home_team": "Kansas City Chiefs",
+    "away_team": "New Orleans Saints",
+    "commence_time": "2024-10-08T00:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 29.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Rushing Yards": {
+      "line": 56.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:21:50.052323",
+    "season": 2024,
+    "week": 4,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-04T12:56:39Z"
+  }
+}

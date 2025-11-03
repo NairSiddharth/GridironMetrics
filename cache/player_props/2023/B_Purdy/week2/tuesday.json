@@ -1,0 +1,33 @@
+{
+  "player": "Brock Purdy",
+  "gsis_id": "00-0037834",
+  "position": "QB",
+  "team": "SF",
+  "display_name": "B.Purdy",
+  "game": {
+    "game_id": "47b49faf45f8a39f9910f004a79ff360",
+    "home_team": "San Francisco 49ers",
+    "away_team": "New York Giants",
+    "commence_time": "2023-09-22T00:15:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": -120,
+      "under_price": -110
+    },
+    "Passing Yards": {
+      "line": 226.5,
+      "over_price": -115,
+      "under_price": -115
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:07:23.283599",
+    "season": 2023,
+    "week": 2,
+    "day": "tuesday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-19T12:53:29Z"
+  }
+}

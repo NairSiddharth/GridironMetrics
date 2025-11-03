@@ -1,0 +1,33 @@
+{
+  "player": "Drake London",
+  "gsis_id": "00-0037238",
+  "position": "WR",
+  "team": "ATL",
+  "display_name": "D.London",
+  "game": {
+    "game_id": "679ec2fdc4a6bc423cdc77759cc226b7",
+    "home_team": "Jacksonville Jaguars",
+    "away_team": "Atlanta Falcons",
+    "commence_time": "2023-10-01T13:30:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 44.5,
+      "over_price": -120,
+      "under_price": -120
+    },
+    "Receptions": {
+      "line": 3.5,
+      "over_price": -145,
+      "under_price": 100
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:10:25.329256",
+    "season": 2023,
+    "week": 3,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-29T12:56:10Z"
+  }
+}

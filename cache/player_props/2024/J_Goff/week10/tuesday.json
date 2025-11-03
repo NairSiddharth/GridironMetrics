@@ -1,0 +1,33 @@
+{
+  "player": "Jared Goff",
+  "gsis_id": "00-0033106",
+  "position": "QB",
+  "team": "DET",
+  "display_name": "J.Goff",
+  "game": {
+    "game_id": "d0f73537e153be7455c87ae97864ef7d",
+    "home_team": "Detroit Lions",
+    "away_team": "Jacksonville Jaguars",
+    "commence_time": "2024-11-17T18:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 230.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 1.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:32:54.956178",
+    "season": 2024,
+    "week": 10,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-12T12:55:10Z"
+  }
+}

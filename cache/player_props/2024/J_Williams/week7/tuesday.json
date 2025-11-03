@@ -1,0 +1,28 @@
+{
+  "player": "Javonte Williams",
+  "gsis_id": "00-0036997",
+  "position": "RB",
+  "team": "DEN",
+  "display_name": "J.Williams",
+  "game": {
+    "game_id": "bba53e1026b6121c0255771479517a2f",
+    "home_team": "Denver Broncos",
+    "away_team": "Carolina Panthers",
+    "commence_time": "2024-10-27T20:25:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 54.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:26:44.435694",
+    "season": 2024,
+    "week": 7,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-22T12:55:56Z"
+  }
+}

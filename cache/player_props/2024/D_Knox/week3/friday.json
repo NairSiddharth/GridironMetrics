@@ -1,0 +1,28 @@
+{
+  "player": "Dawson Knox",
+  "gsis_id": "00-0035689",
+  "position": "TE",
+  "team": "BUF",
+  "display_name": "D.Knox",
+  "game": {
+    "game_id": "ce925c8cb892e1806399345e7885828d",
+    "home_team": "Baltimore Ravens",
+    "away_team": "Buffalo Bills",
+    "commence_time": "2024-09-30T00:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 8.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:19:56.379136",
+    "season": 2024,
+    "week": 3,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-27T12:56:11Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "player": "C.J. Stroud",
+  "gsis_id": "00-0039163",
+  "position": "QB",
+  "team": "HOU",
+  "display_name": "C.Stroud",
+  "game": {
+    "game_id": "81c2170ca58c6a837e5c0f1528e8513c",
+    "home_team": "Dallas Cowboys",
+    "away_team": "Houston Texans",
+    "commence_time": "2024-11-19T01:15:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 231.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 12.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:32:54.988363",
+    "season": 2024,
+    "week": 10,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-12T12:56:02Z"
+  }
+}

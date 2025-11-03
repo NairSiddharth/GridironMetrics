@@ -1,0 +1,33 @@
+{
+  "player": "Tyler Higbee",
+  "gsis_id": "00-0033110",
+  "position": "TE",
+  "team": "LA",
+  "display_name": "T.Higbee",
+  "game": {
+    "game_id": "8251607b68015d2972e7f4b773149cb2",
+    "home_team": "Cincinnati Bengals",
+    "away_team": "Los Angeles Rams",
+    "commence_time": "2023-09-26T00:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 32.5,
+      "over_price": -115,
+      "under_price": -115
+    },
+    "Receptions": {
+      "line": 4.5,
+      "over_price": 150,
+      "under_price": -195
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:08:50.540658",
+    "season": 2023,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-22T12:54:19Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "player": "Darius Slayton",
+  "gsis_id": "00-0035535",
+  "position": "WR",
+  "team": "NYG",
+  "display_name": "D.Slayton",
+  "game": {
+    "game_id": "200c20527d1d6f44257155548cdac1e8",
+    "home_team": "Cleveland Browns",
+    "away_team": "New York Giants",
+    "commence_time": "2024-09-22T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 25.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 2.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:17:41.143630",
+    "season": 2024,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-20T12:56:38Z"
+  }
+}

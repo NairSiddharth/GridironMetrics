@@ -1,0 +1,28 @@
+{
+  "player": "DeMario Douglas",
+  "gsis_id": "00-0038621",
+  "position": "WR",
+  "team": "NE",
+  "display_name": "D.Douglas",
+  "game": {
+    "game_id": "8b7a76ee61f07cddbb60fc1e079bfeed",
+    "home_team": "New England Patriots",
+    "away_team": "Indianapolis Colts",
+    "commence_time": "2024-12-01T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 41.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:36:59.234285",
+    "season": 2024,
+    "week": 12,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-11-26T12:56:05Z"
+  }
+}

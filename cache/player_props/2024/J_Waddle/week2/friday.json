@@ -1,0 +1,33 @@
+{
+  "player": "Jaylen Waddle",
+  "gsis_id": "00-0036613",
+  "position": "WR",
+  "team": "MIA",
+  "display_name": "J.Waddle",
+  "game": {
+    "game_id": "acc41dc7aeae8f8db0604c743213916c",
+    "home_team": "Seattle Seahawks",
+    "away_team": "Miami Dolphins",
+    "commence_time": "2024-09-22T20:05:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 44.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 3.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:17:41.184819",
+    "season": 2024,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-20T12:56:39Z"
+  }
+}

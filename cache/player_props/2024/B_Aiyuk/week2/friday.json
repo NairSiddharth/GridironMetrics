@@ -1,0 +1,33 @@
+{
+  "player": "Brandon Aiyuk",
+  "gsis_id": "00-0036261",
+  "position": "WR",
+  "team": "SF",
+  "display_name": "B.Aiyuk",
+  "game": {
+    "game_id": "f89d2da2d1b692de14ddf77e186cc5c7",
+    "home_team": "Los Angeles Rams",
+    "away_team": "San Francisco 49ers",
+    "commence_time": "2024-09-22T20:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 71.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 5.0,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:17:41.201071",
+    "season": 2024,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-20T12:56:04Z"
+  }
+}

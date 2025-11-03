@@ -1,0 +1,28 @@
+{
+  "player": "Jakobi Meyers",
+  "gsis_id": "00-0034960",
+  "position": "WR",
+  "team": "LV",
+  "display_name": "J.Meyers",
+  "game": {
+    "game_id": "398f58cef1cbb3c99805b52375104238",
+    "home_team": "New Orleans Saints",
+    "away_team": "Las Vegas Raiders",
+    "commence_time": "2024-12-29T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 64.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:45:41.801768",
+    "season": 2024,
+    "week": 16,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-24T12:55:28Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "player": "Aaron Jones",
+  "gsis_id": "00-0033293",
+  "position": "RB",
+  "team": "GB",
+  "display_name": "A.Jones",
+  "game": {
+    "game_id": "a59741270a5f21dfb288838acf98537b",
+    "home_team": "Jacksonville Jaguars",
+    "away_team": "Minnesota Vikings",
+    "commence_time": "2024-11-10T18:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 70.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receiving Yards": {
+      "line": 18.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:32:12.933320",
+    "season": 2024,
+    "week": 9,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-08T12:56:23Z"
+  }
+}

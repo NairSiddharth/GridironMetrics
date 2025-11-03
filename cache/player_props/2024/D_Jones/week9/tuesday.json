@@ -1,0 +1,33 @@
+{
+  "player": "Daniel Jones",
+  "gsis_id": "00-0035710",
+  "position": "QB",
+  "team": "NYG",
+  "display_name": "D.Jones",
+  "game": {
+    "game_id": "9016850451d9e4190ec1bd178dac4849",
+    "home_team": "Carolina Panthers",
+    "away_team": "New York Giants",
+    "commence_time": "2024-11-10T14:30:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 200.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 25.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:31:00.725188",
+    "season": 2024,
+    "week": 9,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-05T12:51:54Z"
+  }
+}

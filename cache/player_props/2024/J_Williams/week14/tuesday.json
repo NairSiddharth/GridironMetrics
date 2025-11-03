@@ -1,0 +1,28 @@
+{
+  "player": "Jameson Williams",
+  "gsis_id": "00-0037240",
+  "position": "WR",
+  "team": "DET",
+  "display_name": "J.Williams",
+  "game": {
+    "game_id": "f3d85c6f4152c6f9c28df5332d7d01ae",
+    "home_team": "Detroit Lions",
+    "away_team": "Buffalo Bills",
+    "commence_time": "2024-12-15T21:25:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 0.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:41:01.036582",
+    "season": 2024,
+    "week": 14,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-10T12:55:51Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "player": "Najee Harris",
+  "gsis_id": "00-0036893",
+  "position": "RB",
+  "team": "PIT",
+  "display_name": "N.Harris",
+  "game": {
+    "game_id": "7ea45f55c7bb922c581f809166c0fab3",
+    "home_team": "Pittsburgh Steelers",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2023-09-19T00:16:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 8.5,
+      "over_price": -130,
+      "under_price": 100
+    },
+    "Rushing Yards": {
+      "line": 49.5,
+      "over_price": -115,
+      "under_price": -115
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:06:36.206502",
+    "season": 2023,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-15T12:57:53Z"
+  }
+}

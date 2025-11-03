@@ -1,0 +1,38 @@
+{
+  "player": "Devin Singletary",
+  "gsis_id": "00-0035250",
+  "position": "RB",
+  "team": "HOU",
+  "display_name": "D.Singletary",
+  "game": {
+    "game_id": "b08196b0745d9e2e0bebfe8627fc5a1f",
+    "home_team": "New York Giants",
+    "away_team": "Dallas Cowboys",
+    "commence_time": "2024-09-27T00:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 15.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Rushing Yards": {
+      "line": 61.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 3.0,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:18:28.996994",
+    "season": 2024,
+    "week": 3,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-24T12:55:53Z"
+  }
+}

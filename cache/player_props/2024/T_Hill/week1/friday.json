@@ -1,0 +1,28 @@
+{
+  "player": "Taysom Hill",
+  "gsis_id": "00-0033357",
+  "position": "QB",
+  "team": "NO",
+  "display_name": "T.Hill",
+  "game": {
+    "game_id": "5b05775b536cda3f2efab93935af4f54",
+    "home_team": "Dallas Cowboys",
+    "away_team": "New Orleans Saints",
+    "commence_time": "2024-09-15T17:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 15.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:15:22.447908",
+    "season": 2024,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-13T12:54:06Z"
+  }
+}

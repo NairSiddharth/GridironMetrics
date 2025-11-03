@@ -1,0 +1,28 @@
+{
+  "player": "Calvin Ridley",
+  "gsis_id": "00-0034837",
+  "position": "WR",
+  "team": "JAX",
+  "display_name": "C.Ridley",
+  "game": {
+    "game_id": "31f1bb5fbbc8c3d9b8719357fa40941e",
+    "home_team": "Tennessee Titans",
+    "away_team": "New England Patriots",
+    "commence_time": "2024-11-03T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 49.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:28:57.167477",
+    "season": 2024,
+    "week": 8,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-10-29T12:56:14Z"
+  }
+}

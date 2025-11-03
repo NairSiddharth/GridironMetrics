@@ -1,0 +1,33 @@
+{
+  "player": "Trey McBride",
+  "gsis_id": "00-0037744",
+  "position": "TE",
+  "team": "ARI",
+  "display_name": "T.McBride",
+  "game": {
+    "game_id": "8c7efb50e0c8c9be94e7b969c58da045",
+    "home_team": "Arizona Cardinals",
+    "away_team": "Seattle Seahawks",
+    "commence_time": "2024-12-08T21:05:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 67.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 6.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:40:13.263853",
+    "season": 2024,
+    "week": 13,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-06T12:56:08Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "Josh Downs",
+  "gsis_id": "00-0038997",
+  "position": "WR",
+  "team": "IND",
+  "display_name": "J.Downs",
+  "game": {
+    "game_id": "d555bf749139691c613e4aec350592c1",
+    "home_team": "Minnesota Vikings",
+    "away_team": "Indianapolis Colts",
+    "commence_time": "2024-11-04T01:20:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 56.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:30:19.094308",
+    "season": 2024,
+    "week": 8,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-01T12:56:05Z"
+  }
+}

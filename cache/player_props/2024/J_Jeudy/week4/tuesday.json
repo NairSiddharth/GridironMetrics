@@ -1,0 +1,28 @@
+{
+  "player": "Jerry Jeudy",
+  "gsis_id": "00-0036407",
+  "position": "WR",
+  "team": "DEN",
+  "display_name": "J.Jeudy",
+  "game": {
+    "game_id": "43f21c8e455914cc71d00ca0001ae85b",
+    "home_team": "Washington Commanders",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2024-10-06T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 45.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:20:37.597212",
+    "season": 2024,
+    "week": 4,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-10-01T12:55:28Z"
+  }
+}

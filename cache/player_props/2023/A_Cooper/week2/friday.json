@@ -1,0 +1,33 @@
+{
+  "player": "Amari Cooper",
+  "gsis_id": "00-0031544",
+  "position": "WR",
+  "team": "CLE",
+  "display_name": "A.Cooper",
+  "game": {
+    "game_id": "f72ef9b6be34818391c726a0cd690f48",
+    "home_team": "Cleveland Browns",
+    "away_team": "Tennessee Titans",
+    "commence_time": "2023-09-24T17:01:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 57.5,
+      "over_price": -115,
+      "under_price": -115
+    },
+    "Receptions": {
+      "line": 4.5,
+      "over_price": 100,
+      "under_price": -130
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:08:50.389019",
+    "season": 2023,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-22T12:54:57Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "Gabe Davis",
+  "gsis_id": "00-0036196",
+  "position": "WR",
+  "team": "BUF",
+  "display_name": "G.Davis",
+  "game": {
+    "game_id": "111ac41e21c6f16a2d3d1511f07e2004",
+    "home_team": "Jacksonville Jaguars",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2024-09-15T17:01:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 38.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:13:55.395358",
+    "season": 2024,
+    "week": 1,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-10T12:55:02Z"
+  }
+}

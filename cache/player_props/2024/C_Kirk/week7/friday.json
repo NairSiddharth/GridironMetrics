@@ -1,0 +1,33 @@
+{
+  "player": "Christian Kirk",
+  "gsis_id": "00-0034775",
+  "position": "WR",
+  "team": "JAX",
+  "display_name": "C.Kirk",
+  "game": {
+    "game_id": "4708973e15052d8b7c29a53f0c4561dc",
+    "home_team": "Jacksonville Jaguars",
+    "away_team": "Green Bay Packers",
+    "commence_time": "2024-10-27T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 40.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 3.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:28:11.881790",
+    "season": 2024,
+    "week": 7,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-25T12:55:50Z"
+  }
+}

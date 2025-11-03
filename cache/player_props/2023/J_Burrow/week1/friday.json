@@ -1,0 +1,38 @@
+{
+  "player": "Joe Burrow",
+  "gsis_id": "00-0036442",
+  "position": "QB",
+  "team": "CIN",
+  "display_name": "J.Burrow",
+  "game": {
+    "game_id": "b11493a11859c02a97dfa186c32a2b7a",
+    "home_team": "Cincinnati Bengals",
+    "away_team": "Baltimore Ravens",
+    "commence_time": "2023-09-17T17:01:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": -175,
+      "under_price": 135
+    },
+    "Passing Yards": {
+      "line": 263.5,
+      "over_price": -115,
+      "under_price": -115
+    },
+    "Rushing Yards": {
+      "line": 10.5,
+      "over_price": -115,
+      "under_price": -115
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:06:36.105476",
+    "season": 2023,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-15T12:54:09Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "D'Andre Swift",
+  "gsis_id": "00-0036275",
+  "position": "RB",
+  "team": "PHI",
+  "display_name": "D.Swift",
+  "game": {
+    "game_id": "307cc09543c511d894a76fef99e429bb",
+    "home_team": "Minnesota Vikings",
+    "away_team": "Chicago Bears",
+    "commence_time": "2024-12-17T01:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 45.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:41:01.047850",
+    "season": 2024,
+    "week": 14,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-10T12:55:53Z"
+  }
+}

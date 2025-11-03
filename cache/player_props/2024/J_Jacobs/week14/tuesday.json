@@ -1,0 +1,28 @@
+{
+  "player": "Josh Jacobs",
+  "gsis_id": "00-0035700",
+  "position": "RB",
+  "team": "LV",
+  "display_name": "J.Jacobs",
+  "game": {
+    "game_id": "d6e49bbdc498fb1113b86f472f93d8af",
+    "home_team": "Seattle Seahawks",
+    "away_team": "Green Bay Packers",
+    "commence_time": "2024-12-16T01:20:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 72.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:41:01.044981",
+    "season": 2024,
+    "week": 14,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-10T12:55:56Z"
+  }
+}

@@ -7,30 +7,30 @@
 | Rank | Player       | Team | Position | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :------------| :----| :--------| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
 | 1    | A.Johnson    | HOU  | WR       | 3582.58        | 1.000      | 16    | 223.91   | 203.72  | 8/3/5       | Decreasing |
-| 2    | M.Forte      | CHI  | RB       | 3394.80        | 1.000      | 16    | 212.18   | 189.26  | 8/3/5       | Stable     |
-| 3    | C.Johnson    | DET  | WR       | 3308.73        | 1.000      | 16    | 206.80   | 203.98  | 8/3/5       | Stable     |
-| 4    | A.Peterson   | MIN  | RB       | 2978.78        | 1.000      | 16    | 186.17   | 171.80  | 8/1/7       | Stable     |
-| 5    | L.Fitzgerald | ARI  | WR       | 2973.18        | 1.000      | 16    | 185.82   | 176.49  | 6/3/7       | Stable     |
-| 6    | C.Portis     | WAS  | RB       | 2929.34        | 1.000      | 16    | 183.08   | 185.27  | 8/5/3       | Decreasing |
-| 7    | R.White      | ATL  | WR       | 2890.74        | 1.000      | 16    | 180.67   | 150.12  | 8/1/7       | Decreasing |
-| 8    | M.Jones-Drew | JAX  | RB       | 2877.22        | 1.000      | 16    | 179.83   | 186.30  | 7/3/6       | Increasing |
-| 9    | D.Williams   | CAR  | RB       | 2876.70        | 1.000      | 16    | 179.79   | 169.47  | 8/2/6       | Increasing |
-| 10   | L.Tomlinson  | SD   | RB       | 2862.67        | 1.000      | 16    | 178.92   | 163.26  | 8/2/6       | Stable     |
+| 2    | C.Johnson    | DET  | WR       | 3308.73        | 1.000      | 16    | 206.80   | 203.98  | 8/3/5       | Stable     |
+| 3    | M.Forte      | CHI  | RB       | 3179.48        | 1.000      | 16    | 198.72   | 180.22  | 8/3/5       | Stable     |
+| 4    | L.Fitzgerald | ARI  | WR       | 2973.18        | 1.000      | 16    | 185.82   | 176.49  | 6/3/7       | Stable     |
+| 5    | R.White      | ATL  | WR       | 2890.74        | 1.000      | 16    | 180.67   | 150.12  | 8/1/7       | Decreasing |
+| 6    | M.Jones-Drew | JAX  | RB       | 2823.45        | 1.000      | 16    | 176.47   | 184.28  | 8/3/5       | Increasing |
+| 7    | D.Williams   | CAR  | RB       | 2814.47        | 1.000      | 16    | 175.90   | 166.67  | 8/3/5       | Increasing |
+| 8    | C.Portis     | WAS  | RB       | 2806.85        | 1.000      | 16    | 175.43   | 170.45  | 8/3/5       | Decreasing |
+| 9    | L.Tomlinson  | SD   | RB       | 2747.84        | 1.000      | 16    | 171.74   | 155.94  | 8/2/6       | Stable     |
+| 10   | A.Peterson   | MIN  | RB       | 2726.59        | 1.000      | 16    | 170.41   | 161.72  | 8/1/7       | Stable     |
 
 ## RB Rankings
 
 | Rank | Player       | Team | Adjusted Score | Difficulty | Games | Avg/Game | Typical | Consistency | Trend      |
 | :----| :------------| :----| :--------------| :----------| :-----| :--------| :-------| :-----------| :----------|
-| 1    | M.Forte      | CHI  | 3394.80        | 1.000      | 16    | 212.18   | 189.26  | 8/3/5       | Stable     |
-| 2    | A.Peterson   | MIN  | 2978.78        | 1.000      | 16    | 186.17   | 171.80  | 8/1/7       | Stable     |
-| 3    | C.Portis     | WAS  | 2929.34        | 1.000      | 16    | 183.08   | 185.27  | 8/5/3       | Decreasing |
-| 4    | M.Jones-Drew | JAX  | 2877.22        | 1.000      | 16    | 179.83   | 186.30  | 7/3/6       | Increasing |
-| 5    | D.Williams   | CAR  | 2876.70        | 1.000      | 16    | 179.79   | 169.47  | 8/2/6       | Increasing |
-| 6    | L.Tomlinson  | SD   | 2862.67        | 1.000      | 16    | 178.92   | 163.26  | 8/2/6       | Stable     |
-| 7    | M.Turner     | ATL  | 2855.81        | 1.000      | 16    | 178.49   | 171.98  | 8/2/6       | Increasing |
-| 8    | S.Slaton     | HOU  | 2752.85        | 1.000      | 16    | 172.05   | 157.61  | 8/1/7       | Increasing |
-| 9    | B.Westbrook  | PHI  | 2734.80        | 1.000      | 14    | 195.34   | 171.60  | 7/0/7       | Decreasing |
-| 10   | T.Jones      | NYJ  | 2734.54        | 1.000      | 16    | 170.91   | 161.26  | 8/1/7       | Increasing |
+| 1    | M.Forte      | CHI  | 3179.48        | 1.000      | 16    | 198.72   | 180.22  | 8/3/5       | Stable     |
+| 2    | M.Jones-Drew | JAX  | 2823.45        | 1.000      | 16    | 176.47   | 184.28  | 8/3/5       | Increasing |
+| 3    | D.Williams   | CAR  | 2814.47        | 1.000      | 16    | 175.90   | 166.67  | 8/3/5       | Increasing |
+| 4    | C.Portis     | WAS  | 2806.85        | 1.000      | 16    | 175.43   | 170.45  | 8/3/5       | Decreasing |
+| 5    | L.Tomlinson  | SD   | 2747.84        | 1.000      | 16    | 171.74   | 155.94  | 8/2/6       | Stable     |
+| 6    | A.Peterson   | MIN  | 2726.59        | 1.000      | 16    | 170.41   | 161.72  | 8/1/7       | Stable     |
+| 7    | M.Turner     | ATL  | 2710.32        | 1.000      | 16    | 169.39   | 157.47  | 8/2/6       | Increasing |
+| 8    | T.Jones      | NYJ  | 2685.70        | 1.000      | 16    | 167.86   | 163.98  | 8/1/7       | Stable     |
+| 9    | S.Slaton     | HOU  | 2653.93        | 1.000      | 16    | 165.87   | 155.05  | 8/2/6       | Stable     |
+| 10   | B.Westbrook  | PHI  | 2555.78        | 1.000      | 14    | 182.56   | 158.13  | 7/0/7       | Decreasing |
 
 ## WR Rankings
 

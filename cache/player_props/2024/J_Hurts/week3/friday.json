@@ -1,0 +1,28 @@
+{
+  "player": "Jalen Hurts",
+  "gsis_id": "00-0036389",
+  "position": "QB",
+  "team": "PHI",
+  "display_name": "J.Hurts",
+  "game": {
+    "game_id": "6b08b0416089dbb0459c208f5c0c6d41",
+    "home_team": "Tampa Bay Buccaneers",
+    "away_team": "Philadelphia Eagles",
+    "commence_time": "2024-09-29T17:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 204.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:19:56.356525",
+    "season": 2024,
+    "week": 3,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-27T12:56:00Z"
+  }
+}

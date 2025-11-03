@@ -1,0 +1,33 @@
+{
+  "player": "Alexander Mattison",
+  "gsis_id": "00-0034972",
+  "position": "RB",
+  "team": "MIN",
+  "display_name": "A.Mattison",
+  "game": {
+    "game_id": "d93e285150cc30bb71e930879219d26e",
+    "home_team": "Las Vegas Raiders",
+    "away_team": "Jacksonville Jaguars",
+    "commence_time": "2024-12-22T21:26:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 13.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 44.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:44:49.662562",
+    "season": 2024,
+    "week": 15,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-20T12:56:15Z"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "player": "J.K. Dobbins",
+  "gsis_id": "00-0036158",
+  "position": "RB",
+  "team": "BAL",
+  "display_name": "J.Dobbins",
+  "game": {
+    "game_id": "03dd880f071a65053e37000d3d826e14",
+    "home_team": "Houston Texans",
+    "away_team": "Los Angeles Chargers",
+    "commence_time": "2025-01-11T21:31:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 11.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 2.0,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 61.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:49:36.435086",
+    "season": 2024,
+    "week": 18,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2025-01-10T12:55:41Z"
+  }
+}

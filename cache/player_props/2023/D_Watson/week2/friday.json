@@ -1,0 +1,38 @@
+{
+  "player": "Deshaun Watson",
+  "gsis_id": "00-0033537",
+  "position": "QB",
+  "team": "CLE",
+  "display_name": "D.Watson",
+  "game": {
+    "game_id": "f72ef9b6be34818391c726a0cd690f48",
+    "home_team": "Cleveland Browns",
+    "away_team": "Tennessee Titans",
+    "commence_time": "2023-09-24T17:01:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": 135,
+      "under_price": -175
+    },
+    "Passing Yards": {
+      "line": 229.5,
+      "over_price": -105,
+      "under_price": -125
+    },
+    "Rushing Yards": {
+      "line": 26.5,
+      "over_price": -115,
+      "under_price": -115
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:08:50.387443",
+    "season": 2023,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-22T12:54:57Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "player": "Terry McLaurin",
+  "gsis_id": "00-0035659",
+  "position": "WR",
+  "team": "WAS",
+  "display_name": "T.McLaurin",
+  "game": {
+    "game_id": "afde2a86c73e9809e147d457d4d40f62",
+    "home_team": "Tampa Bay Buccaneers",
+    "away_team": "Washington Commanders",
+    "commence_time": "2025-01-13T01:01:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 62.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 5.0,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:48:50.954978",
+    "season": 2024,
+    "week": 18,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2025-01-07T12:55:52Z"
+  }
+}

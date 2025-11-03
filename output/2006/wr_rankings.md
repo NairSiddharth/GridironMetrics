@@ -1,1 +1,1 @@
-No qualified WRs (3+ targets/game) for this season.
+No qualified WRs (3.0+ targets/game) for this season.

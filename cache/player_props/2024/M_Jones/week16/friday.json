@@ -1,0 +1,28 @@
+{
+  "player": "Mac Jones",
+  "gsis_id": "00-0036972",
+  "position": "QB",
+  "team": "NE",
+  "display_name": "M.Jones",
+  "game": {
+    "game_id": "68e8e424d470fb6d60f1b2f0a3f3d1e3",
+    "home_team": "Jacksonville Jaguars",
+    "away_team": "Tennessee Titans",
+    "commence_time": "2024-12-29T18:01:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 211.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:46:25.800621",
+    "season": 2024,
+    "week": 16,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-27T12:55:34Z"
+  }
+}

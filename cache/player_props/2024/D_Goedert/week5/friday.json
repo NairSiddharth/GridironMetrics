@@ -1,0 +1,33 @@
+{
+  "player": "Dallas Goedert",
+  "gsis_id": "00-0034351",
+  "position": "TE",
+  "team": "PHI",
+  "display_name": "D.Goedert",
+  "game": {
+    "game_id": "8bd202ca7bacf3396a1b774f12de0fab",
+    "home_team": "Philadelphia Eagles",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2024-10-13T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 36.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 4.0,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:23:47.123171",
+    "season": 2024,
+    "week": 5,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-11T12:56:04Z"
+  }
+}

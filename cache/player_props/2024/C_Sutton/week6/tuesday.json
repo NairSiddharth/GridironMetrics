@@ -1,0 +1,28 @@
+{
+  "player": "Courtland Sutton",
+  "gsis_id": "00-0034348",
+  "position": "WR",
+  "team": "DEN",
+  "display_name": "C.Sutton",
+  "game": {
+    "game_id": "cc1d6e0125f5444f70609ce9e0829fa9",
+    "home_team": "New Orleans Saints",
+    "away_team": "Denver Broncos",
+    "commence_time": "2024-10-18T00:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 44.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:24:33.217048",
+    "season": 2024,
+    "week": 6,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-15T12:56:05Z"
+  }
+}

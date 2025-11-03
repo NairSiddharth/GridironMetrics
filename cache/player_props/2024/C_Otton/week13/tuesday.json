@@ -1,0 +1,28 @@
+{
+  "player": "Cade Otton",
+  "gsis_id": "00-0038129",
+  "position": "TE",
+  "team": "TB",
+  "display_name": "C.Otton",
+  "game": {
+    "game_id": "48859a2a659fe2dd71db168127a01b13",
+    "home_team": "Tampa Bay Buccaneers",
+    "away_team": "Las Vegas Raiders",
+    "commence_time": "2024-12-08T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 40.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:38:52.476859",
+    "season": 2024,
+    "week": 13,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-03T12:55:38Z"
+  }
+}

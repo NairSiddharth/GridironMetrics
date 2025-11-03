@@ -1,0 +1,33 @@
+{
+  "player": "Garrett Wilson",
+  "gsis_id": "00-0037740",
+  "position": "WR",
+  "team": "NYJ",
+  "display_name": "G.Wilson",
+  "game": {
+    "game_id": "1c2195dfc898e85136f4d40b4ac512fb",
+    "home_team": "Arizona Cardinals",
+    "away_team": "New York Jets",
+    "commence_time": "2024-11-10T21:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 70.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 5.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:32:12.947692",
+    "season": 2024,
+    "week": 9,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-08T12:56:13Z"
+  }
+}

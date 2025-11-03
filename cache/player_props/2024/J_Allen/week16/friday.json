@@ -1,0 +1,38 @@
+{
+  "player": "Josh Allen",
+  "gsis_id": "00-0035642",
+  "position": "LB",
+  "team": "JAX",
+  "display_name": "J.Allen",
+  "game": {
+    "game_id": "eb5a71180b3558fdc20a896e98c00385",
+    "home_team": "Buffalo Bills",
+    "away_team": "New York Jets",
+    "commence_time": "2024-12-29T18:01:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Passing Yards": {
+      "line": 213.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 31.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:46:25.796399",
+    "season": 2024,
+    "week": 16,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-27T12:55:10Z"
+  }
+}

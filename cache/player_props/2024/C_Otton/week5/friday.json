@@ -1,0 +1,28 @@
+{
+  "player": "Cade Otton",
+  "gsis_id": "00-0038129",
+  "position": "TE",
+  "team": "TB",
+  "display_name": "C.Otton",
+  "game": {
+    "game_id": "ba1097486d1edb57bfe2bc22f5c4573e",
+    "home_team": "New Orleans Saints",
+    "away_team": "Tampa Bay Buccaneers",
+    "commence_time": "2024-10-13T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 34.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:23:47.142335",
+    "season": 2024,
+    "week": 5,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-11T12:55:43Z"
+  }
+}

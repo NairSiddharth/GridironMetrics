@@ -1,0 +1,38 @@
+{
+  "player": "Russell Wilson",
+  "gsis_id": "00-0029263",
+  "position": "QB",
+  "team": "DEN",
+  "display_name": "R.Wilson",
+  "game": {
+    "game_id": "68aa07e4336438b1f2f5a4dfb82fe9cc",
+    "home_team": "Pittsburgh Steelers",
+    "away_team": "Cincinnati Bengals",
+    "commence_time": "2025-01-05T01:00:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Passing Yards": {
+      "line": 234.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 15.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:48:31.434810",
+    "season": 2024,
+    "week": 17,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2025-01-03T12:55:24Z"
+  }
+}

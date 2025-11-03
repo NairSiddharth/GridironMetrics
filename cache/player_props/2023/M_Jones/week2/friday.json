@@ -1,0 +1,38 @@
+{
+  "player": "Mac Jones",
+  "gsis_id": "00-0036972",
+  "position": "QB",
+  "team": "NE",
+  "display_name": "M.Jones",
+  "game": {
+    "game_id": "66edacbc3505803f401192da0fb09b49",
+    "home_team": "New York Jets",
+    "away_team": "New England Patriots",
+    "commence_time": "2023-09-24T17:04:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 1.5,
+      "over_price": 145,
+      "under_price": -190
+    },
+    "Passing Yards": {
+      "line": 217.5,
+      "over_price": -115,
+      "under_price": -115
+    },
+    "Rushing Yards": {
+      "line": 8.5,
+      "over_price": -110,
+      "under_price": -120
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:08:50.495806",
+    "season": 2023,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-22T12:55:39Z"
+  }
+}

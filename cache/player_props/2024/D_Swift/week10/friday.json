@@ -1,0 +1,38 @@
+{
+  "player": "D'Andre Swift",
+  "gsis_id": "00-0036275",
+  "position": "RB",
+  "team": "PHI",
+  "display_name": "D.Swift",
+  "game": {
+    "game_id": "7c742858a76089990395c3179731744b",
+    "home_team": "Chicago Bears",
+    "away_team": "Green Bay Packers",
+    "commence_time": "2024-11-17T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 16.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 2.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 66.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:34:10.730287",
+    "season": 2024,
+    "week": 10,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-15T12:55:32Z"
+  }
+}

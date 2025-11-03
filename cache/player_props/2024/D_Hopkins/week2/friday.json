@@ -1,0 +1,28 @@
+{
+  "player": "DeAndre Hopkins",
+  "gsis_id": "00-0030564",
+  "position": "WR",
+  "team": "TEN",
+  "display_name": "D.Hopkins",
+  "game": {
+    "game_id": "81cee90c26bf0ec45c3bc946b8143e19",
+    "home_team": "Tennessee Titans",
+    "away_team": "Green Bay Packers",
+    "commence_time": "2024-09-22T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 30.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:17:41.152270",
+    "season": 2024,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-20T12:55:54Z"
+  }
+}

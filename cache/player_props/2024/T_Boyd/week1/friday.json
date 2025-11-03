@@ -1,0 +1,33 @@
+{
+  "player": "Tyler Boyd",
+  "gsis_id": "00-0033009",
+  "position": "WR",
+  "team": "CIN",
+  "display_name": "T.Boyd",
+  "game": {
+    "game_id": "17d4d840f9f4094d76c6e9b53b18ac05",
+    "home_team": "Tennessee Titans",
+    "away_team": "New York Jets",
+    "commence_time": "2024-09-15T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 27.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 2.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:15:22.493489",
+    "season": 2024,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-13T12:56:09Z"
+  }
+}

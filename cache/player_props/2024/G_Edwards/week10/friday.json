@@ -1,0 +1,28 @@
+{
+  "player": "Gus Edwards",
+  "gsis_id": "00-0034184",
+  "position": "RB",
+  "team": "BAL",
+  "display_name": "G.Edwards",
+  "game": {
+    "game_id": "a2b3fd60eede2230285512b8c3b4eed3",
+    "home_team": "Los Angeles Chargers",
+    "away_team": "Cincinnati Bengals",
+    "commence_time": "2024-11-18T01:15:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 34.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:34:10.775142",
+    "season": 2024,
+    "week": 10,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-11-15T12:56:11Z"
+  }
+}

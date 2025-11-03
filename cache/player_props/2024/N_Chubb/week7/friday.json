@@ -1,0 +1,33 @@
+{
+  "player": "Nick Chubb",
+  "gsis_id": "00-0034791",
+  "position": "RB",
+  "team": "CLE",
+  "display_name": "N.Chubb",
+  "game": {
+    "game_id": "4a54b04a572fde8db5f1e1478c1ef673",
+    "home_team": "Cleveland Browns",
+    "away_team": "Baltimore Ravens",
+    "commence_time": "2024-10-27T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 11.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 48.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:28:11.862646",
+    "season": 2024,
+    "week": 7,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-25T12:56:35Z"
+  }
+}

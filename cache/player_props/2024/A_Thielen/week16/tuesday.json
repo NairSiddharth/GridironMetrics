@@ -1,0 +1,28 @@
+{
+  "player": "Adam Thielen",
+  "gsis_id": "00-0030035",
+  "position": "WR",
+  "team": "CAR",
+  "display_name": "A.Thielen",
+  "game": {
+    "game_id": "cb4060acc9d027ca0069619ef9983415",
+    "home_team": "Tampa Bay Buccaneers",
+    "away_team": "Carolina Panthers",
+    "commence_time": "2024-12-29T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 52.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:45:41.793895",
+    "season": 2024,
+    "week": 16,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-24T12:54:56Z"
+  }
+}

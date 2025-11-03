@@ -1,0 +1,33 @@
+{
+  "player": "Darnell Mooney",
+  "gsis_id": "00-0036309",
+  "position": "WR",
+  "team": "CHI",
+  "display_name": "D.Mooney",
+  "game": {
+    "game_id": "bd907bcbaaefa56a30c4fa2c57281a51",
+    "home_team": "Atlanta Falcons",
+    "away_team": "Kansas City Chiefs",
+    "commence_time": "2024-09-23T00:20:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 33.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 3.0,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:17:41.206697",
+    "season": 2024,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-20T12:56:32Z"
+  }
+}

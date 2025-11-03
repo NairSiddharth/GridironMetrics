@@ -1,0 +1,28 @@
+{
+  "player": "Hunter Henry",
+  "gsis_id": "00-0033090",
+  "position": "TE",
+  "team": "NE",
+  "display_name": "H.Henry",
+  "game": {
+    "game_id": "c885c70be6b073f94096eb0db2a27c3c",
+    "home_team": "Chicago Bears",
+    "away_team": "New England Patriots",
+    "commence_time": "2024-11-10T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 40.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:31:00.739142",
+    "season": 2024,
+    "week": 9,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-11-05T12:56:04Z"
+  }
+}

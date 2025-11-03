@@ -1,0 +1,33 @@
+{
+  "player": "Dorian Thompson-Robinson",
+  "gsis_id": "00-0038583",
+  "position": "QB",
+  "team": "CLE",
+  "display_name": "D.Thompson-Robinson",
+  "game": {
+    "game_id": "134659e6aca5f32ceb1392398557953b",
+    "home_team": "Cincinnati Bengals",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2024-12-22T18:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 196.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 27.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:44:49.565003",
+    "season": 2024,
+    "week": 15,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-20T12:55:58Z"
+  }
+}

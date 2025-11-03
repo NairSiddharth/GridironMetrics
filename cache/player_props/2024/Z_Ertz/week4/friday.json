@@ -1,0 +1,33 @@
+{
+  "player": "Zach Ertz",
+  "gsis_id": "00-0030061",
+  "position": "TE",
+  "team": "ARI",
+  "display_name": "Z.Ertz",
+  "game": {
+    "game_id": "43f21c8e455914cc71d00ca0001ae85b",
+    "home_team": "Washington Commanders",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2024-10-06T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 28.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 3.0,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:21:50.017830",
+    "season": 2024,
+    "week": 4,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-04T12:55:45Z"
+  }
+}

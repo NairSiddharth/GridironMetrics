@@ -1,0 +1,28 @@
+{
+  "player": "Kirk Cousins",
+  "gsis_id": "00-0029604",
+  "position": "QB",
+  "team": "MIN",
+  "display_name": "K.Cousins",
+  "game": {
+    "game_id": "9693ad2122e496b05f7efd56f0ef03d0",
+    "home_team": "Tampa Bay Buccaneers",
+    "away_team": "Atlanta Falcons",
+    "commence_time": "2024-10-27T17:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 242.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:28:11.850361",
+    "season": 2024,
+    "week": 7,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-25T12:56:13Z"
+  }
+}

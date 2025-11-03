@@ -1,0 +1,28 @@
+{
+  "player": "Ja'Marr Chase",
+  "gsis_id": "00-0036900",
+  "position": "WR",
+  "team": "CIN",
+  "display_name": "J.Chase",
+  "game": {
+    "game_id": "041764a17c3ecb1fccd45fc75b7a2b49",
+    "home_team": "Cincinnati Bengals",
+    "away_team": "Pittsburgh Steelers",
+    "commence_time": "2024-12-01T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 76.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:36:59.217619",
+    "season": 2024,
+    "week": 12,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-26T12:56:03Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "Bo Nix",
+  "gsis_id": "00-0039732",
+  "position": "QB",
+  "team": "DEN",
+  "display_name": "B.Nix",
+  "game": {
+    "game_id": "3a300e2fb659ca896b5e60252f13150c",
+    "home_team": "Denver Broncos",
+    "away_team": "Pittsburgh Steelers",
+    "commence_time": "2024-09-15T20:26:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 190.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T11:34:55.379638",
+    "season": 2024,
+    "week": 1,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-10T12:55:02Z"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "player": "Jaylen Warren",
+  "gsis_id": "00-0037228",
+  "position": "RB",
+  "team": "PIT",
+  "display_name": "J.Warren",
+  "game": {
+    "game_id": "abf76aa8adc82854d703518042be4452",
+    "home_team": "Las Vegas Raiders",
+    "away_team": "Pittsburgh Steelers",
+    "commence_time": "2023-09-25T00:20:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 15.5,
+      "over_price": -110,
+      "under_price": -120
+    },
+    "Receptions": {
+      "line": 2.5,
+      "over_price": 105,
+      "under_price": -135
+    },
+    "Rushing Yards": {
+      "line": 28.5,
+      "over_price": -125,
+      "under_price": -105
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:08:50.529584",
+    "season": 2023,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-22T12:55:38Z"
+  }
+}

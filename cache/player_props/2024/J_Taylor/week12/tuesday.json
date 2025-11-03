@@ -1,0 +1,28 @@
+{
+  "player": "Jonathan Taylor",
+  "gsis_id": "00-0036223",
+  "position": "RB",
+  "team": "IND",
+  "display_name": "J.Taylor",
+  "game": {
+    "game_id": "8b7a76ee61f07cddbb60fc1e079bfeed",
+    "home_team": "New England Patriots",
+    "away_team": "Indianapolis Colts",
+    "commence_time": "2024-12-01T18:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 77.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:36:59.230783",
+    "season": 2024,
+    "week": 12,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-26T12:56:03Z"
+  }
+}

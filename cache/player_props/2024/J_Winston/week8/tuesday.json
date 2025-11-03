@@ -1,0 +1,28 @@
+{
+  "player": "Jameis Winston",
+  "gsis_id": "00-0031503",
+  "position": "QB",
+  "team": "NO",
+  "display_name": "J.Winston",
+  "game": {
+    "game_id": "fc022a0b74f3182e2da491dfe4276301",
+    "home_team": "Cleveland Browns",
+    "away_team": "Los Angeles Chargers",
+    "commence_time": "2024-11-03T18:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 237.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:28:57.163687",
+    "season": 2024,
+    "week": 8,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-29T12:55:38Z"
+  }
+}

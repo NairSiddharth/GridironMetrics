@@ -1,0 +1,38 @@
+{
+  "player": "Justin Fields",
+  "gsis_id": "00-0036945",
+  "position": "QB",
+  "team": "CHI",
+  "display_name": "J.Fields",
+  "game": {
+    "game_id": "ec238fc4bfd91d24ae566950edc120fe",
+    "home_team": "Tampa Bay Buccaneers",
+    "away_team": "Chicago Bears",
+    "commence_time": "2023-09-17T17:01:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 0.5,
+      "over_price": -220,
+      "under_price": 170
+    },
+    "Passing Yards": {
+      "line": 174.5,
+      "over_price": -105,
+      "under_price": -125
+    },
+    "Rushing Yards": {
+      "line": 60.5,
+      "over_price": -105,
+      "under_price": -125
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:06:36.113199",
+    "season": 2023,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-15T12:54:09Z"
+  }
+}

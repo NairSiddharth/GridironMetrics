@@ -1,0 +1,38 @@
+{
+  "player": "Ryan Tannehill",
+  "gsis_id": "00-0029701",
+  "position": "QB",
+  "team": "TEN",
+  "display_name": "R.Tannehill",
+  "game": {
+    "game_id": "f72ef9b6be34818391c726a0cd690f48",
+    "home_team": "Cleveland Browns",
+    "away_team": "Tennessee Titans",
+    "commence_time": "2023-09-24T17:01:00Z"
+  },
+  "props": {
+    "Passing Touchdowns": {
+      "line": 0.5,
+      "over_price": -270,
+      "under_price": 200
+    },
+    "Passing Yards": {
+      "line": 204.5,
+      "over_price": -115,
+      "under_price": -115
+    },
+    "Rushing Yards": {
+      "line": 9.5,
+      "over_price": -115,
+      "under_price": -115
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:08:50.388226",
+    "season": 2023,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-22T12:54:57Z"
+  }
+}

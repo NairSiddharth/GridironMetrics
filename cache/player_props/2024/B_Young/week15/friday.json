@@ -1,0 +1,33 @@
+{
+  "player": "Bryce Young",
+  "gsis_id": "00-0039150",
+  "position": "QB",
+  "team": "CAR",
+  "display_name": "B.Young",
+  "game": {
+    "game_id": "36091a3b07686b0c7c912d4d4a244474",
+    "home_team": "Carolina Panthers",
+    "away_team": "Arizona Cardinals",
+    "commence_time": "2024-12-22T18:01:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 207.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 18.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:44:49.580270",
+    "season": 2024,
+    "week": 15,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-20T12:55:51Z"
+  }
+}

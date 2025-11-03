@@ -1,0 +1,28 @@
+{
+  "player": "Jameis Winston",
+  "gsis_id": "00-0031503",
+  "position": "QB",
+  "team": "NO",
+  "display_name": "J.Winston",
+  "game": {
+    "game_id": "ca63340028583e516e8053ee36318425",
+    "home_team": "New Orleans Saints",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2024-11-17T18:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 238.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:32:54.951216",
+    "season": 2024,
+    "week": 10,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-12T12:55:40Z"
+  }
+}

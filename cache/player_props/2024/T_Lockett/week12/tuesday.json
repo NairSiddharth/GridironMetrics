@@ -1,0 +1,28 @@
+{
+  "player": "Tyler Lockett",
+  "gsis_id": "00-0032211",
+  "position": "WR",
+  "team": "SEA",
+  "display_name": "T.Lockett",
+  "game": {
+    "game_id": "63057e9eb2da9cc89ac93911769b9a3e",
+    "home_team": "New York Jets",
+    "away_team": "Seattle Seahawks",
+    "commence_time": "2024-12-01T18:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 37.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:36:59.238778",
+    "season": 2024,
+    "week": 12,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-11-26T12:56:05Z"
+  }
+}

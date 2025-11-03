@@ -1,0 +1,28 @@
+{
+  "player": "Amon-Ra St. Brown",
+  "gsis_id": "00-0036963",
+  "position": "WR",
+  "team": "DET",
+  "display_name": "A.St. Brown",
+  "game": {
+    "game_id": "e27b5c11ba461a77a8e7773b2ea30238",
+    "home_team": "Houston Texans",
+    "away_team": "Detroit Lions",
+    "commence_time": "2024-11-11T01:20:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 68.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:32:12.957808",
+    "season": 2024,
+    "week": 9,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-08T12:56:24Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "Tyler Allgeier",
+  "gsis_id": "00-0037263",
+  "position": "RB",
+  "team": "ATL",
+  "display_name": "T.Allgeier",
+  "game": {
+    "game_id": "4da44c8ba4e595d3fe313cbeb1fe797b",
+    "home_team": "Atlanta Falcons",
+    "away_team": "Carolina Panthers",
+    "commence_time": "2025-01-05T18:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 32.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:48:31.452506",
+    "season": 2024,
+    "week": 17,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2025-01-03T12:55:39Z"
+  }
+}

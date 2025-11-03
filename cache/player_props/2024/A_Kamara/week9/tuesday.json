@@ -1,0 +1,33 @@
+{
+  "player": "Alvin Kamara",
+  "gsis_id": "00-0033906",
+  "position": "RB",
+  "team": "NO",
+  "display_name": "A.Kamara",
+  "game": {
+    "game_id": "a6383a73f7e6937fcdc376b50d4dc510",
+    "home_team": "New Orleans Saints",
+    "away_team": "Atlanta Falcons",
+    "commence_time": "2024-11-10T18:00:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 59.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receiving Yards": {
+      "line": 36.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:31:00.730993",
+    "season": 2024,
+    "week": 9,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-05T12:52:39Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "Drake London",
+  "gsis_id": "00-0037238",
+  "position": "WR",
+  "team": "ATL",
+  "display_name": "D.London",
+  "game": {
+    "game_id": "2cefb0f9bcf18ed3f64396174ece14ad",
+    "home_team": "Philadelphia Eagles",
+    "away_team": "Atlanta Falcons",
+    "commence_time": "2024-09-17T00:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 57.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:13:55.423226",
+    "season": 2024,
+    "week": 1,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-10T12:55:01Z"
+  }
+}

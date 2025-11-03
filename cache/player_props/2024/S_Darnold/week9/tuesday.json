@@ -1,0 +1,28 @@
+{
+  "player": "Sam Darnold",
+  "gsis_id": "00-0034869",
+  "position": "QB",
+  "team": "SF",
+  "display_name": "S.Darnold",
+  "game": {
+    "game_id": "a59741270a5f21dfb288838acf98537b",
+    "home_team": "Jacksonville Jaguars",
+    "away_team": "Minnesota Vikings",
+    "commence_time": "2024-11-10T18:00:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 255.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:31:00.741999",
+    "season": 2024,
+    "week": 9,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-05T12:52:16Z"
+  }
+}

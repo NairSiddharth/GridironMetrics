@@ -1,0 +1,33 @@
+{
+  "player": "Dalton Schultz",
+  "gsis_id": "00-0034383",
+  "position": "TE",
+  "team": "HOU",
+  "display_name": "D.Schultz",
+  "game": {
+    "game_id": "7533f0f2d5cfe270fa0ccdc32a98c7fd",
+    "home_team": "Houston Texans",
+    "away_team": "Chicago Bears",
+    "commence_time": "2024-09-16T00:20:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 29.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 3.0,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:15:22.532969",
+    "season": 2024,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-13T12:54:06Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "Tony Pollard",
+  "gsis_id": "00-0035261",
+  "position": "RB",
+  "team": "DAL",
+  "display_name": "T.Pollard",
+  "game": {
+    "game_id": "f03bb31e9ff7b81ad1e18e36b7cdddb7",
+    "home_team": "Indianapolis Colts",
+    "away_team": "Tennessee Titans",
+    "commence_time": "2024-12-22T18:01:00Z"
+  },
+  "props": {
+    "Rushing Yards": {
+      "line": 65.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:43:18.059255",
+    "season": 2024,
+    "week": 15,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-12-17T12:55:34Z"
+  }
+}

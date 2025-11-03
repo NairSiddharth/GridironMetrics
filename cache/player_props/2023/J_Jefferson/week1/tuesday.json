@@ -1,0 +1,33 @@
+{
+  "player": "Justin Jefferson",
+  "gsis_id": "00-0036322",
+  "position": "WR",
+  "team": "MIN",
+  "display_name": "J.Jefferson",
+  "game": {
+    "game_id": "217559949d3b88a1267c2c4c480eab51",
+    "home_team": "Philadelphia Eagles",
+    "away_team": "Minnesota Vikings",
+    "commence_time": "2023-09-15T00:16:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 91.5,
+      "over_price": -115,
+      "under_price": -115
+    },
+    "Receptions": {
+      "line": 6.5,
+      "over_price": -150,
+      "under_price": 120
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:05:09.652182",
+    "season": 2023,
+    "week": 1,
+    "day": "tuesday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-12T12:51:37Z"
+  }
+}

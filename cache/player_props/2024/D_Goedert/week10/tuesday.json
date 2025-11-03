@@ -1,0 +1,28 @@
+{
+  "player": "Dallas Goedert",
+  "gsis_id": "00-0034351",
+  "position": "TE",
+  "team": "PHI",
+  "display_name": "D.Goedert",
+  "game": {
+    "game_id": "ac99fa94b66a64304ae19873d0a7907a",
+    "home_team": "Philadelphia Eagles",
+    "away_team": "Washington Commanders",
+    "commence_time": "2024-11-15T01:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 26.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:32:54.937717",
+    "season": 2024,
+    "week": 10,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-11-12T12:55:20Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "player": "Mike Williams",
+  "gsis_id": "00-0033536",
+  "position": "WR",
+  "team": "LAC",
+  "display_name": "M.Williams",
+  "game": {
+    "game_id": "b782886bcc4874123d3bb50e5d1e88c3",
+    "home_team": "Minnesota Vikings",
+    "away_team": "New York Jets",
+    "commence_time": "2024-10-06T13:30:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 33.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 2.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:21:49.993116",
+    "season": 2024,
+    "week": 4,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-04T12:56:04Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "player": "Andy Dalton",
+  "gsis_id": "00-0027973",
+  "position": "QB",
+  "team": "CAR",
+  "display_name": "A.Dalton",
+  "game": {
+    "game_id": "205e5260b14ecb55558ddb85f419edaf",
+    "home_team": "Washington Commanders",
+    "away_team": "Carolina Panthers",
+    "commence_time": "2024-10-20T20:05:00Z"
+  },
+  "props": {
+    "Passing Yards": {
+      "line": 239.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Rushing Yards": {
+      "line": 4.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:25:57.570912",
+    "season": 2024,
+    "week": 6,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-10-18T12:56:13Z"
+  }
+}

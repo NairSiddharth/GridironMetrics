@@ -1,0 +1,28 @@
+{
+  "player": "Tucker Kraft",
+  "gsis_id": "00-0038996",
+  "position": "TE",
+  "team": "GB",
+  "display_name": "T.Kraft",
+  "game": {
+    "game_id": "b26e961510947a770532c902ceb27e75",
+    "home_team": "Green Bay Packers",
+    "away_team": "San Francisco 49ers",
+    "commence_time": "2024-11-24T21:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 34.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:36:10.249801",
+    "season": 2024,
+    "week": 11,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-22T12:56:37Z"
+  }
+}

@@ -129,7 +129,7 @@
 | GB   | J.Walker    | WR       | 28.1             |
 | HOU  | C.Bradford  | WR       | 21.4             |
 | IND  | B.Stokley   | WR       | 28.0             |
-| JAX  | M.Hatchette | WR       | 25.0             |
+| JAX  | J.Lewis     | WR       | 25.0             |
 | KC   | J. Dunn     | TE       | 35.7             |
 | MIA  | C.Chambers  | WR       | 43.8             |
 | MIN  | R. Moss     | WR       | 51.0             |
@@ -185,42 +185,42 @@
 | TEN  | D.Mason      | WR       | 29.4             |
 | WAS  | L.Coles      | WR       | 28.4             |
 
-| :----- :------------ :--------- :----------------|
-|              Targets Share Leaders               |
-| Team | Player      | Position | Season Share (%) |
-| :----| :-----------| :--------| :----------------|
-| ARI  | F.Jones     | TE       | 0.0              |
-| ATL  | J.Griffith  | RB       | 0.0              |
-| BAL  | M.Smith     | RB       | 0.0              |
-| BUF  | T.Henry     | RB       | 0.0              |
-| CAR  | S.Smith     | WR       | 0.0              |
-| CHI  | D.Lyman     | TE       | 0.0              |
-| CIN  | M.Schobel   | TE       | 0.0              |
-| CLE  | N.Maddox    | RB       | 0.0              |
-| DAL  | A.Cason     | RB       | 0.0              |
-| DEN  | C.Portis    | RB       | 0.0              |
-| DET  | P.Smith     | RB       | 0.0              |
-| GB   | D.Combs     | RB       | 0.0              |
-| HOU  | J.Wells     | RB       | 0.0              |
-| IND  | M.Harrison  | WR       | 0.0              |
-| JAX  | T.Edwards   | WR       | 4.2              |
-| KC   | J. Morton   | WR       | 0.0              |
-| MIA  | C.Chambers  | WR       | 6.2              |
-| MIN  | M. Williams | RB       | 0.0              |
-| NE   | D.Givens    | WR       | 0.0              |
-| NO   | J.Fenderson | RB       | 0.0              |
-| NYG  | T.Barber    | RB       | 0.0              |
-| NYJ  | W.Chrebet   | WR       | 0.0              |
-| OAK  | T. Brown    | WR       | 0.0              |
-| PHI  | C.Lewis     | TE       | 0.0              |
-| PIT  | H. Ward     | WR       | 0.0              |
-| SD   | D.Gilliam   | WR       | 0.0              |
-| SEA  | S.Alexander | RB       | 0.0              |
-| SF   | T.Jackson   | RB       | 0.0              |
-| STL  | I.Bruce     | WR       | 0.0              |
-| TB   | R.Dudley    | TE       | 0.0              |
-| TEN  | J.Schifino  | WR       | 0.0              |
-| WAS  | J.Simon     | RB       | 0.0              |
+| :----- :------------- :--------- :----------------|
+|               Targets Share Leaders               |
+| Team | Player       | Position | Season Share (%) |
+| :----| :------------| :--------| :----------------|
+| ARI  | A.Boldin     | WR       | 0.0              |
+| ATL  | J.Griffith   | RB       | 0.0              |
+| BAL  | T.Jones      | RB       | 0.0              |
+| BUF  | T.Henry      | RB       | 0.0              |
+| CAR  | S.Smith      | WR       | 0.0              |
+| CHI  | A.Thomas     | RB       | 0.0              |
+| CIN  | C.Dillon     | RB       | 0.0              |
+| CLE  | L.Suggs      | RB       | 0.0              |
+| DAL  | M.Bates      | WR       | 0.0              |
+| DEN  | R.Droughns   | RB       | 0.0              |
+| DET  | R.Swinton    | WR       | 0.0              |
+| GB   | R.Ferguson   | WR       | 0.0              |
+| HOU  | J.Wells      | RB       | 0.0              |
+| IND  | R.Wayne      | WR       | 0.0              |
+| JAX  | T.Edwards    | WR       | 4.2              |
+| KC   | J. Morton    | WR       | 0.0              |
+| MIA  | C.Chambers   | WR       | 6.2              |
+| MIN  | C.Stackhouse | RB       | 0.0              |
+| NE   | D.Graham     | TE       | 0.0              |
+| NO   | J.Horn       | WR       | 0.0              |
+| NYG  | D.Dinkins    | TE       | 0.0              |
+| NYJ  | J.Dearth     | TE       | 0.0              |
+| OAK  | A.Whitted    | WR       | 0.0              |
+| PHI  | B.McMullen   | WR       | 0.0              |
+| PIT  | A. Zereoue   | RB       | 0.0              |
+| SD   | J. Chatman   | RB       | 0.0              |
+| SEA  | K.Robinson   | WR       | 0.0              |
+| SF   | A.Bruce      | WR       | 0.0              |
+| STL  | A.Harris     | RB       | 0.0              |
+| TB   | E.Shepherd   | WR       | 0.0              |
+| TEN  | E.Kinney     | TE       | 0.0              |
+| WAS  | K.Ware       | TE       | 0.0              |
 
 | :----- :------------- :--------- :----------------|
 |               Rush Att Share Leaders              |

@@ -1,0 +1,33 @@
+{
+  "player": "Zamir White",
+  "gsis_id": "00-0038040",
+  "position": "RB",
+  "team": "LV",
+  "display_name": "Z.White",
+  "game": {
+    "game_id": "3f180e883b429700dd32ff2133ac37ef",
+    "home_team": "Las Vegas Raiders",
+    "away_team": "Cleveland Browns",
+    "commence_time": "2024-09-29T20:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 8.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Rushing Yards": {
+      "line": 41.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:19:56.367876",
+    "season": 2024,
+    "week": 3,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-27T12:56:35Z"
+  }
+}

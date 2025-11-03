@@ -1,0 +1,28 @@
+{
+  "player": "Pat Freiermuth",
+  "gsis_id": "00-0036894",
+  "position": "TE",
+  "team": "PIT",
+  "display_name": "P.Freiermuth",
+  "game": {
+    "game_id": "86278ec4bbdcadd945d79df6c695c2ec",
+    "home_team": "Pittsburgh Steelers",
+    "away_team": "New York Giants",
+    "commence_time": "2024-10-29T00:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 33.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:26:44.449678",
+    "season": 2024,
+    "week": 7,
+    "day": "tuesday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-10-22T12:55:41Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "player": "Adam Trautman",
+  "gsis_id": "00-0036422",
+  "position": "TE",
+  "team": "DEN",
+  "display_name": "A.Trautman",
+  "game": {
+    "game_id": "2ff30bbaf02729644dc5dd83dd02ab12",
+    "home_team": "Miami Dolphins",
+    "away_team": "Denver Broncos",
+    "commence_time": "2023-09-24T17:04:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 19.5,
+      "over_price": -120,
+      "under_price": -110
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T13:08:50.407023",
+    "season": 2023,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "draftkings",
+    "last_update": "2023-09-22T12:54:56Z"
+  }
+}

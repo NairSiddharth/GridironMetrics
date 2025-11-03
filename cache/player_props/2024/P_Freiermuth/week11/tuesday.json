@@ -1,0 +1,28 @@
+{
+  "player": "Pat Freiermuth",
+  "gsis_id": "00-0036894",
+  "position": "TE",
+  "team": "PIT",
+  "display_name": "P.Freiermuth",
+  "game": {
+    "game_id": "3544bdfabe61cc6d4389984a5ca83955",
+    "home_team": "Cleveland Browns",
+    "away_team": "Pittsburgh Steelers",
+    "commence_time": "2024-11-22T01:15:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 17.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:34:49.332674",
+    "season": 2024,
+    "week": 11,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-11-19T12:55:36Z"
+  }
+}

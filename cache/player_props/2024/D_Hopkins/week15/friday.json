@@ -1,0 +1,33 @@
+{
+  "player": "DeAndre Hopkins",
+  "gsis_id": "00-0030564",
+  "position": "WR",
+  "team": "TEN",
+  "display_name": "D.Hopkins",
+  "game": {
+    "game_id": "5000078dc935bf60015a51c01eaee016",
+    "home_team": "Kansas City Chiefs",
+    "away_team": "Houston Texans",
+    "commence_time": "2024-12-21T18:01:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 38.5,
+      "over_price": -137,
+      "under_price": -137
+    },
+    "Receptions": {
+      "line": 3.5,
+      "over_price": -137,
+      "under_price": -137
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:44:49.546174",
+    "season": 2024,
+    "week": 15,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-12-20T12:55:28Z"
+  }
+}

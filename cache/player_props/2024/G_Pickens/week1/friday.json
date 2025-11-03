@@ -1,0 +1,28 @@
+{
+  "player": "George Pickens",
+  "gsis_id": "00-0037247",
+  "position": "WR",
+  "team": "PIT",
+  "display_name": "G.Pickens",
+  "game": {
+    "game_id": "3a300e2fb659ca896b5e60252f13150c",
+    "home_team": "Denver Broncos",
+    "away_team": "Pittsburgh Steelers",
+    "commence_time": "2024-09-15T20:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 56.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:15:22.521031",
+    "season": 2024,
+    "week": 1,
+    "day": "friday",
+    "bookmaker": "prizepicks",
+    "last_update": "2024-09-13T12:56:09Z"
+  }
+}

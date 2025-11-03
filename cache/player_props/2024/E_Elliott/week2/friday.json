@@ -1,0 +1,38 @@
+{
+  "player": "Ezekiel Elliott",
+  "gsis_id": "00-0033045",
+  "position": "RB",
+  "team": "NE",
+  "display_name": "E.Elliott",
+  "game": {
+    "game_id": "cd904fbb09c5130b857595217364bb07",
+    "home_team": "Dallas Cowboys",
+    "away_team": "Baltimore Ravens",
+    "commence_time": "2024-09-22T20:25:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 9.5,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Receptions": {
+      "line": 2.0,
+      "over_price": -137,
+      "under_price": null
+    },
+    "Rushing Yards": {
+      "line": 32.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:17:41.197972",
+    "season": 2024,
+    "week": 2,
+    "day": "friday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-20T12:56:04Z"
+  }
+}

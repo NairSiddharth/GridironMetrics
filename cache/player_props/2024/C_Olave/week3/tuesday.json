@@ -1,0 +1,28 @@
+{
+  "player": "Chris Olave",
+  "gsis_id": "00-0037239",
+  "position": "WR",
+  "team": "NO",
+  "display_name": "C.Olave",
+  "game": {
+    "game_id": "3858ab1dfdb4db4987218c709a51d1bf",
+    "home_team": "Atlanta Falcons",
+    "away_team": "New Orleans Saints",
+    "commence_time": "2024-09-29T17:00:00Z"
+  },
+  "props": {
+    "Receiving Yards": {
+      "line": 67.5,
+      "over_price": -137,
+      "under_price": null
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-11-03T12:18:29.000792",
+    "season": 2024,
+    "week": 3,
+    "day": "tuesday",
+    "bookmaker": "underdog",
+    "last_update": "2024-09-24T12:56:25Z"
+  }
+}
