@@ -24,6 +24,413 @@ context_adj = ContextAdjustments()
 pbp_processor = PlayByPlayProcessor()
 
 
+def calculate_success_rate_adjustments_batch(contributions: pl.DataFrame, pbp_data: pl.DataFrame, year: int) -> pl.DataFrame:
+    """
+    Calculate per-week success rate adjustments for offensive players.
+
+    Philosophy:
+    - High success rate players consistently move the chains and maintain drives
+    - Success rate is calculated per week per player (minimum 20 plays required)
+    - Applied as a multiplier to weekly contribution scores
+
+    Success Rate Tiers:
+    - Critical (>70%): 1.15x - Elite efficiency
+    - High (60-70%): 1.10x - Above average
+    - Average (50-60%): 1.05x - Baseline
+    - Low (<50%): 0.92x - Below average
+
+    Args:
+        contributions: DataFrame with player weekly contributions
+        pbp_data: Play-by-play data for the season
+        year: Season year
+
+    Returns:
+        DataFrame with columns: player_id, player_name, team, week, success_rate_adjustment
+    """
+    from modules.constants import (
+        SUCCESS_RATE_CRITICAL_MULTIPLIER,
+        SUCCESS_RATE_HIGH_MULTIPLIER,
+        SUCCESS_RATE_AVERAGE_MULTIPLIER,
+        SUCCESS_RATE_LOW_MULTIPLIER,
+        SUCCESS_RATE_MIN_PLAYS,
+        PHASE_6_SUCCESS_RATE_START_YEAR
+    )
+
+    # Check if success rate data is available for this year
+    if year < PHASE_6_SUCCESS_RATE_START_YEAR:
+        logger.debug(f"Success rate data not available for {year} (requires {PHASE_6_SUCCESS_RATE_START_YEAR}+)")
+        return contributions.select(['player_id', 'player_name', 'team', 'week']).with_columns([
+            pl.lit(1.0).alias('success_rate_adjustment')
+        ])
+
+    # Check if success column exists in PBP data
+    if 'success' not in pbp_data.columns:
+        logger.warning(f"'success' column not found in PBP data for {year}, skipping success rate adjustments")
+        return contributions.select(['player_id', 'player_name', 'team', 'week']).with_columns([
+            pl.lit(1.0).alias('success_rate_adjustment')
+        ])
+
+    # Filter to offensive plays (pass/run) with non-null success values
+    offensive_plays = pbp_data.filter(
+        (pl.col('play_type').is_in(['pass', 'run'])) &
+        (pl.col('success').is_not_null())
+    )
+
+    # Calculate success rate per player per week
+    # For QB: use passer_id
+    # For skill positions: use receiver_id (pass) or rusher_id (run)
+
+    qb_success = offensive_plays.filter(
+        (pl.col('play_type') == 'pass') &
+        (pl.col('passer_id').is_not_null())
+    ).group_by(['passer_id', 'week']).agg([
+        pl.col('success').sum().alias('successful_plays'),
+        pl.len().alias('total_plays'),
+        (pl.col('success').sum() / pl.len() * 100).alias('success_rate')
+    ]).rename({'passer_id': 'player_id'})
+
+    rb_rush_success = offensive_plays.filter(
+        (pl.col('play_type') == 'run') &
+        (pl.col('rusher_id').is_not_null())
+    ).group_by(['rusher_id', 'week']).agg([
+        pl.col('success').sum().alias('successful_plays'),
+        pl.len().alias('total_plays'),
+        (pl.col('success').sum() / pl.len() * 100).alias('success_rate')
+    ]).rename({'rusher_id': 'player_id'})
+
+    rec_success = offensive_plays.filter(
+        (pl.col('play_type') == 'pass') &
+        (pl.col('receiver_id').is_not_null()) &
+        (pl.col('complete_pass') == 1)  # Only count completions for receivers
+    ).group_by(['receiver_id', 'week']).agg([
+        pl.col('success').sum().alias('successful_plays'),
+        pl.len().alias('total_plays'),
+        (pl.col('success').sum() / pl.len() * 100).alias('success_rate')
+    ]).rename({'receiver_id': 'player_id'})
+
+    # Combine all success rates
+    all_success = pl.concat([qb_success, rb_rush_success, rec_success])
+
+    # Filter to minimum play threshold and apply multipliers
+    all_success = all_success.filter(pl.col('total_plays') >= SUCCESS_RATE_MIN_PLAYS)
+
+    all_success = all_success.with_columns([
+        pl.when(pl.col('success_rate') > 70.0)
+        .then(pl.lit(SUCCESS_RATE_CRITICAL_MULTIPLIER))
+        .when(pl.col('success_rate') > 60.0)
+        .then(pl.lit(SUCCESS_RATE_HIGH_MULTIPLIER))
+        .when(pl.col('success_rate') > 50.0)
+        .then(pl.lit(SUCCESS_RATE_AVERAGE_MULTIPLIER))
+        .otherwise(pl.lit(SUCCESS_RATE_LOW_MULTIPLIER))
+        .alias('success_rate_adjustment')
+    ])
+
+    # Join back to contributions to get player_name and team
+    result = contributions.select(['player_id', 'player_name', 'team', 'week']).join(
+        all_success.select(['player_id', 'week', 'success_rate_adjustment']),
+        on=['player_id', 'week'],
+        how='left'
+    )
+
+    # Fill missing with 1.0 (neutral) - happens when player doesn't meet minimum play threshold
+    result = result.with_columns([
+        pl.col('success_rate_adjustment').fill_null(1.0)
+    ])
+
+    logger.info(f"Success rate adjustments calculated for {all_success.height} player-weeks")
+
+    return result
+
+
+def calculate_route_location_adjustments(contributions: pl.DataFrame, pbp_data: pl.DataFrame, year: int, position: str) -> pl.DataFrame:
+    """
+    Calculate season-wide route location adjustments for receivers (WR/TE).
+
+    Philosophy:
+    - Rewards receivers who consistently catch passes in difficult locations
+    - Deep middle routes are most valuable (contested, tight windows)
+    - Slot bias mitigation: short middle routes get small bonus
+    - Season-wide adjustment based on weighted route distribution
+
+    Route Location Multipliers:
+    - Deep Middle (15+ yards): 1.12x - Most difficult, contested
+    - Intermediate Middle (8-14 yards): 1.06x
+    - Short Middle (<8 yards): 1.03x - Slot bonus
+    - Deep Sideline (15+ yards): 1.05x
+    - Intermediate Sideline (8-14 yards): 1.00x - Baseline
+    - Short Sideline (<8 yards): 0.95x - Easiest catches
+
+    Args:
+        contributions: DataFrame with player contributions
+        pbp_data: Play-by-play data for the season
+        year: Season year
+        position: Player position (WR or TE)
+
+    Returns:
+        DataFrame with columns: player_id, player_name, route_location_adjustment
+    """
+    from modules.constants import (
+        ROUTE_DEEP_MIDDLE_MULTIPLIER,
+        ROUTE_INT_MIDDLE_MULTIPLIER,
+        ROUTE_SHORT_MIDDLE_MULTIPLIER,
+        ROUTE_DEEP_SIDELINE_MULTIPLIER,
+        ROUTE_INT_SIDELINE_MULTIPLIER,
+        ROUTE_SHORT_SIDELINE_MULTIPLIER,
+        ROUTE_LOCATION_MIN_TARGETS,
+        PHASE_6_ROUTE_LOCATION_START_YEAR
+    )
+
+    # Only apply to receivers (WR/TE)
+    if position not in ['WR', 'TE']:
+        return contributions.select(['player_id', 'player_name']).unique().with_columns([
+            pl.lit(1.0).alias('route_location_adjustment')
+        ])
+
+    # Check if route location data is available for this year
+    if year < PHASE_6_ROUTE_LOCATION_START_YEAR:
+        logger.debug(f"Route location data not available for {year} (requires {PHASE_6_ROUTE_LOCATION_START_YEAR}+)")
+        return contributions.select(['player_id', 'player_name']).unique().with_columns([
+            pl.lit(1.0).alias('route_location_adjustment')
+        ])
+
+    # Check if required columns exist in PBP data
+    if 'pass_location' not in pbp_data.columns or 'air_yards' not in pbp_data.columns:
+        logger.warning(f"Route location columns not found in PBP data for {year}, skipping route location adjustments")
+        return contributions.select(['player_id', 'player_name']).unique().with_columns([
+            pl.lit(1.0).alias('route_location_adjustment')
+        ])
+
+    # Filter to pass plays with receiver and location data
+    receiving_plays = pbp_data.filter(
+        (pl.col('play_type') == 'pass') &
+        (pl.col('receiver_id').is_not_null()) &
+        (pl.col('pass_location').is_not_null()) &
+        (pl.col('air_yards').is_not_null())
+    )
+
+    # Calculate route location multiplier for each play
+    receiving_plays = receiving_plays.with_columns([
+        pl.when(
+            (pl.col('pass_location') == 'middle') & (pl.col('air_yards') >= 15)
+        ).then(pl.lit(ROUTE_DEEP_MIDDLE_MULTIPLIER))
+        .when(
+            (pl.col('pass_location') == 'middle') & (pl.col('air_yards') >= 8) & (pl.col('air_yards') < 15)
+        ).then(pl.lit(ROUTE_INT_MIDDLE_MULTIPLIER))
+        .when(
+            (pl.col('pass_location') == 'middle') & (pl.col('air_yards') < 8)
+        ).then(pl.lit(ROUTE_SHORT_MIDDLE_MULTIPLIER))
+        .when(
+            (pl.col('pass_location').is_in(['left', 'right'])) & (pl.col('air_yards') >= 15)
+        ).then(pl.lit(ROUTE_DEEP_SIDELINE_MULTIPLIER))
+        .when(
+            (pl.col('pass_location').is_in(['left', 'right'])) & (pl.col('air_yards') >= 8) & (pl.col('air_yards') < 15)
+        ).then(pl.lit(ROUTE_INT_SIDELINE_MULTIPLIER))
+        .when(
+            (pl.col('pass_location').is_in(['left', 'right'])) & (pl.col('air_yards') < 8)
+        ).then(pl.lit(ROUTE_SHORT_SIDELINE_MULTIPLIER))
+        .otherwise(pl.lit(1.0))
+        .alias('route_multiplier')
+    ])
+
+    # Calculate weighted average route multiplier per receiver for the season
+    route_adjustments = receiving_plays.group_by('receiver_id').agg([
+        pl.col('route_multiplier').mean().alias('route_location_adjustment'),
+        pl.len().alias('total_targets')
+    ]).rename({'receiver_id': 'player_id'})
+
+    # Filter to minimum target threshold
+    route_adjustments = route_adjustments.filter(
+        pl.col('total_targets') >= ROUTE_LOCATION_MIN_TARGETS
+    )
+
+    # Join back to contributions to get player_name
+    result = contributions.select(['player_id', 'player_name']).unique().join(
+        route_adjustments.select(['player_id', 'route_location_adjustment']),
+        on='player_id',
+        how='left'
+    )
+
+    # Fill missing with 1.0 (neutral) - happens when player doesn't meet minimum target threshold
+    result = result.with_columns([
+        pl.col('route_location_adjustment').fill_null(1.0)
+    ])
+
+    logger.info(f"Route location adjustments calculated for {route_adjustments.height} receivers")
+
+    return result
+
+
+def calculate_turnover_attribution_penalties_batch(contributions: pl.DataFrame, pbp_data: pl.DataFrame, year: int, position: str) -> pl.DataFrame:
+    """
+    Calculate per-week turnover attribution penalties for offensive players.
+
+    Philosophy:
+    - Turnovers are costly plays that directly harm team success
+    - QB interceptions get base penalty, reduced if under pressure (not their fault)
+    - WR tipped interceptions get penalty (receiver caused the turnover)
+    - RB fumbles get penalties based on whether the fumble was recovered
+
+    Penalties:
+    - QB interceptions: -15 base, -10 under pressure (2016+)
+    - WR tipped interceptions: -8 (requires parsing)
+    - RB fumbles: -5 if recovered, -12 if lost
+
+    Args:
+        contributions: DataFrame with player weekly contributions
+        pbp_data: Play-by-play data for the season
+        year: Season year
+        position: Player position (QB/RB/WR/TE)
+
+    Returns:
+        DataFrame with columns: player_id, player_name, team, week, turnover_penalty
+    """
+    from modules.constants import (
+        QB_INT_BASE_PENALTY,
+        QB_INT_PRESSURE_REDUCTION,
+        WR_TIP_INT_PENALTY,
+        RB_FUMBLE_RECOVERED_PENALTY,
+        RB_FUMBLE_LOST_PENALTY,
+        PHASE_6_PRESSURE_DATA_START_YEAR
+    )
+
+    # Check if position has turnovers to track
+    if position not in ['QB', 'RB', 'WR', 'TE']:
+        return contributions.select(['player_id', 'player_name', 'team', 'week']).unique().with_columns([
+            pl.lit(0.0).alias('turnover_penalty')
+        ])
+
+    penalties = []
+
+    if position == 'QB':
+        # QB interceptions
+        if 'interception' not in pbp_data.columns or 'passer_id' not in pbp_data.columns:
+            logger.debug(f"Interception columns not found in PBP data for {year}, skipping QB turnover penalties")
+            return contributions.select(['player_id', 'player_name', 'team', 'week']).unique().with_columns([
+                pl.lit(0.0).alias('turnover_penalty')
+            ])
+
+        # Check if pressure data is available
+        has_pressure = 'qb_hit' in pbp_data.columns and year >= PHASE_6_PRESSURE_DATA_START_YEAR
+
+        # Filter to interceptions
+        interceptions = pbp_data.filter(
+            (pl.col('interception') == 1) &
+            (pl.col('passer_id').is_not_null())
+        )
+
+        if interceptions.height > 0:
+            # Calculate penalty per interception
+            if has_pressure:
+                # Apply pressure reduction if QB was hit
+                interceptions = interceptions.with_columns([
+                    pl.when(pl.col('qb_hit') == 1)
+                    .then(pl.lit(QB_INT_BASE_PENALTY * (1 - QB_INT_PRESSURE_REDUCTION)))
+                    .otherwise(pl.lit(QB_INT_BASE_PENALTY))
+                    .alias('int_penalty')
+                ])
+            else:
+                # No pressure data, apply base penalty
+                interceptions = interceptions.with_columns([
+                    pl.lit(QB_INT_BASE_PENALTY).alias('int_penalty')
+                ])
+
+            # Group by player and week to sum penalties
+            qb_penalties = interceptions.group_by(['passer_id', 'posteam', 'week']).agg([
+                pl.col('int_penalty').sum().alias('turnover_penalty')
+            ]).rename({
+                'passer_id': 'player_id',
+                'posteam': 'team'
+            })
+
+            # Normalize team codes to uppercase to match player stats
+            qb_penalties = qb_penalties.with_columns([
+                pl.col('team').str.to_uppercase().alias('team')
+            ])
+
+            penalties.append(qb_penalties)
+
+    elif position == 'RB':
+        # RB fumbles
+        if 'fumble' not in pbp_data.columns or 'fumbled_1_player_id' not in pbp_data.columns:
+            logger.debug(f"Fumble columns not found in PBP data for {year}, skipping RB turnover penalties")
+            return contributions.select(['player_id', 'player_name', 'team', 'week']).unique().with_columns([
+                pl.lit(0.0).alias('turnover_penalty')
+            ])
+
+        # Filter to fumbles by RBs (rushers)
+        fumbles = pbp_data.filter(
+            (pl.col('fumble') == 1) &
+            (pl.col('fumbled_1_player_id').is_not_null()) &
+            (pl.col('play_type') == 'run')  # RB fumbles on rushing plays
+        )
+
+        if fumbles.height > 0:
+            # Check if fumble was lost (fumble_lost column)
+            if 'fumble_lost' in fumbles.columns:
+                fumbles = fumbles.with_columns([
+                    pl.when(pl.col('fumble_lost') == 1)
+                    .then(pl.lit(RB_FUMBLE_LOST_PENALTY))
+                    .otherwise(pl.lit(RB_FUMBLE_RECOVERED_PENALTY))
+                    .alias('fumble_penalty')
+                ])
+            else:
+                # No fumble_lost data, assume all fumbles are lost (conservative)
+                fumbles = fumbles.with_columns([
+                    pl.lit(RB_FUMBLE_LOST_PENALTY).alias('fumble_penalty')
+                ])
+
+            # Group by player and week to sum penalties
+            rb_penalties = fumbles.group_by(['fumbled_1_player_id', 'posteam', 'week']).agg([
+                pl.col('fumble_penalty').sum().alias('turnover_penalty')
+            ]).rename({
+                'fumbled_1_player_id': 'player_id',
+                'posteam': 'team'
+            })
+
+            # Normalize team codes to uppercase to match player stats
+            rb_penalties = rb_penalties.with_columns([
+                pl.col('team').str.to_uppercase().alias('team')
+            ])
+
+            penalties.append(rb_penalties)
+
+    elif position in ['WR', 'TE']:
+        # WR/TE tipped interceptions
+        # Note: This requires parsing the play description or using the 'pass_defense_1_player_id' column
+        # For now, we'll skip this as it requires more complex parsing
+        logger.debug(f"WR/TE tipped interception tracking not yet implemented for {year}")
+        return contributions.select(['player_id', 'player_name', 'team', 'week']).unique().with_columns([
+            pl.lit(0.0).alias('turnover_penalty')
+        ])
+
+    # Combine all penalties
+    if len(penalties) == 0:
+        # No turnovers found for this position
+        return contributions.select(['player_id', 'player_name', 'team', 'week']).unique().with_columns([
+            pl.lit(0.0).alias('turnover_penalty')
+        ])
+
+    all_penalties = pl.concat(penalties)
+
+    # Join back to contributions to get player_name
+    result = contributions.select(['player_id', 'player_name', 'team', 'week']).unique().join(
+        all_penalties.select(['player_id', 'team', 'week', 'turnover_penalty']),
+        on=['player_id', 'team', 'week'],
+        how='left'
+    )
+
+    # Fill missing with 0 (no turnovers)
+    result = result.with_columns([
+        pl.col('turnover_penalty').fill_null(0.0)
+    ])
+
+    # Count how many player-weeks have penalties
+    penalty_count = result.filter(pl.col('turnover_penalty') < 0).height
+    logger.info(f"Turnover penalties calculated for {penalty_count} {position} player-weeks")
+
+    return result
+
+
 def calculate_separation_adjustment(nextgen_data: pl.DataFrame, player_name: str, position: str) -> float:
     """
     Calculate separation/cushion adjustment multiplier from NextGen Stats.
@@ -224,16 +631,99 @@ def apply_phase4_adjustments(contributions: pl.DataFrame, year: int) -> pl.DataF
         pl.col('penalty_adjustment').fill_null(1.0)
     ])
 
-    # Apply combined Phase 4 multiplier to player_overall_contribution
+    # Calculate per-week success rate adjustments (Phase 6.1)
+    success_rate_adj_df = calculate_success_rate_adjustments_batch(contributions, pbp_data, year)
+
+    # Join success rate adjustments
+    contributions = contributions.join(
+        success_rate_adj_df.select(['player_id', 'player_name', 'team', 'week', 'success_rate_adjustment']),
+        on=['player_id', 'player_name', 'team', 'week'],
+        how='left'
+    )
+
+    # Fill missing success rate adjustments with 1.0 (neutral)
+    contributions = contributions.with_columns([
+        pl.col('success_rate_adjustment').fill_null(1.0)
+    ])
+
+    # Calculate season-wide route location adjustments (Phase 6.3) for WR/TE
+    # Process each position separately since route location only applies to receivers
+    route_location_adjustments = []
+
+    for position in unique_players['position'].unique():
+        position_contribs = contributions.filter(pl.col('position') == position)
+        if position_contribs.height > 0:
+            route_adj_df = calculate_route_location_adjustments(position_contribs, pbp_data, year, position)
+            route_location_adjustments.append(route_adj_df)
+
+    # Combine all route location adjustments
+    if route_location_adjustments:
+        all_route_adj = pl.concat(route_location_adjustments)
+
+        # Join route location adjustments (season-wide, so join on player only)
+        contributions = contributions.join(
+            all_route_adj.select(['player_id', 'player_name', 'route_location_adjustment']),
+            on=['player_id', 'player_name'],
+            how='left'
+        )
+    else:
+        contributions = contributions.with_columns([
+            pl.lit(1.0).alias('route_location_adjustment')
+        ])
+
+    # Fill missing route location adjustments with 1.0 (neutral)
+    contributions = contributions.with_columns([
+        pl.col('route_location_adjustment').fill_null(1.0)
+    ])
+
+    # Calculate per-week turnover attribution penalties (Phase 6.4) for QB/RB
+    # Process each position separately since turnover types differ by position
+    turnover_penalties = []
+
+    for position in unique_players['position'].unique():
+        position_contribs = contributions.filter(pl.col('position') == position)
+        if position_contribs.height > 0:
+            turnover_df = calculate_turnover_attribution_penalties_batch(position_contribs, pbp_data, year, position)
+            turnover_penalties.append(turnover_df)
+
+    # Combine all turnover penalties
+    if turnover_penalties:
+        all_turnover_penalties = pl.concat(turnover_penalties)
+
+        # Join turnover penalties (per-week, so join on player + team + week)
+        contributions = contributions.join(
+            all_turnover_penalties.select(['player_id', 'player_name', 'team', 'week', 'turnover_penalty']),
+            on=['player_id', 'player_name', 'team', 'week'],
+            how='left'
+        )
+    else:
+        contributions = contributions.with_columns([
+            pl.lit(0.0).alias('turnover_penalty')
+        ])
+
+    # Fill missing turnover penalties with 0 (no turnovers)
+    contributions = contributions.with_columns([
+        pl.col('turnover_penalty').fill_null(0.0)
+    ])
+
+    # Apply combined Phase 4 multipliers to player_overall_contribution
+    # Includes Phase 6.1 success rate + Phase 6.3 route location
     contributions = contributions.with_columns([
         (pl.col('player_overall_contribution') *
          pl.col('catch_rate_adjustment') *
          pl.col('blocking_adjustment') *
          pl.col('separation_adjustment') *
-         pl.col('penalty_adjustment')).alias('player_overall_contribution')
+         pl.col('penalty_adjustment') *
+         pl.col('success_rate_adjustment') *
+         pl.col('route_location_adjustment')).alias('player_overall_contribution')
     ])
 
-    logger.info(f"Phase 4 adjustments applied to {len(unique_players)} players")
+    # Apply Phase 6.4 turnover penalties (additive, after all multipliers)
+    contributions = contributions.with_columns([
+        (pl.col('player_overall_contribution') + pl.col('turnover_penalty')).alias('player_overall_contribution')
+    ])
+
+    logger.info(f"Phase 4 adjustments (including Phase 6.1-6.4: success rate + route location + turnovers) applied to {len(unique_players)} players")
 
     return contributions
 

@@ -81,6 +81,17 @@ class PlayByPlayProcessor:
     
     def _calculate_multipliers(self, pbp_data: pl.DataFrame) -> pl.DataFrame:
         """Calculate situational multipliers for PBP data (used when loading without cache)."""
+        from .constants import (
+            DRIVE_OUTCOME_TD_MULTIPLIER,
+            DRIVE_OUTCOME_FG_MULTIPLIER,
+            DRIVE_OUTCOME_PUNT_MULTIPLIER,
+            DRIVE_OUTCOME_TURNOVER_MULTIPLIER,
+            PHASE_6_DRIVE_CONTEXT_START_YEAR
+        )
+
+        # Check if this data has drive context columns
+        has_drive_context = 'drive_end_transition' in pbp_data.columns
+
         return pbp_data.with_columns([
             # Field position multipliers
             pl.when(pl.col("yardline_100") <= 5)
@@ -89,7 +100,7 @@ class PlayByPlayProcessor:
             .then(1.5)  # Redzone
             .otherwise(1.0)
             .alias("field_position_multiplier"),
-            
+
             # Score differential multipliers
             pl.when(pl.col("score_differential").abs() <= 8)
             .then(1.5)  # One score game
@@ -97,7 +108,7 @@ class PlayByPlayProcessor:
             .then(1.25)  # Two score game
             .otherwise(1.0)
             .alias("score_multiplier"),
-            
+
             # Time remaining multipliers (last 2 minutes of each quarter)
             pl.when((pl.col("qtr") == 4) & (pl.col("quarter_seconds_remaining") <= 120))
             .then(1.5)  # 4th quarter critical time (highest)
@@ -109,7 +120,7 @@ class PlayByPlayProcessor:
             .then(1.1)  # 1st quarter critical time (lowest)
             .otherwise(1.0)
             .alias("time_multiplier"),
-            
+
             # Down multipliers
             pl.when(pl.col("down") == 4)
             .then(1.5)  # 4th down
@@ -118,11 +129,28 @@ class PlayByPlayProcessor:
             .otherwise(1.0)
             .alias("down_multiplier")
         ]).with_columns([
-            # Combined situational multiplier
-            (pl.col("field_position_multiplier") * 
-             pl.col("score_multiplier") * 
-             pl.col("time_multiplier") * 
-             pl.col("down_multiplier")).alias("situational_multiplier")
+            # Phase 6.2: Drive outcome multipliers (play-level adjustment)
+            pl.when(~has_drive_context)
+            .then(pl.lit(1.0))  # No drive context available
+            .when(pl.col("drive_end_transition").is_null())
+            .then(pl.lit(1.0))  # Null drive outcome (drive still in progress)
+            .when(pl.col("drive_end_transition") == "touchdown")
+            .then(pl.lit(DRIVE_OUTCOME_TD_MULTIPLIER))
+            .when(pl.col("drive_end_transition") == "field_goal")
+            .then(pl.lit(DRIVE_OUTCOME_FG_MULTIPLIER))
+            .when(pl.col("drive_end_transition") == "punt")
+            .then(pl.lit(DRIVE_OUTCOME_PUNT_MULTIPLIER))
+            .when(pl.col("drive_end_transition").is_in(["turnover", "turnover_on_downs", "fumble", "interception"]))
+            .then(pl.lit(DRIVE_OUTCOME_TURNOVER_MULTIPLIER))
+            .otherwise(pl.lit(1.0))  # Other outcomes (safety, end_of_half, etc.)
+            .alias("drive_outcome_multiplier")
+        ]).with_columns([
+            # Combined situational multiplier (now includes Phase 6.2 drive context)
+            (pl.col("field_position_multiplier") *
+             pl.col("score_multiplier") *
+             pl.col("time_multiplier") *
+             pl.col("down_multiplier") *
+             pl.col("drive_outcome_multiplier")).alias("situational_multiplier")
         ])
     
     def get_situational_context(self, year: int, week: int, team: str) -> Optional[pl.DataFrame]:

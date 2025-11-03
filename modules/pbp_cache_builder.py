@@ -430,18 +430,34 @@ def load_and_process_pbp(year: int) -> Optional[pl.DataFrame]:
             .otherwise(1.0)
             .alias("coverage_multiplier")
         ]).with_columns([
-            # Combined situational multiplier
+            # Phase 6.2: Drive outcome multiplier (play-level adjustment)
+            # Rewards plays on successful drives, penalizes plays on failed drives
+            pl.when(pl.col("drive_end_transition").is_null())
+            .then(1.0)  # Null drive outcome (drive still in progress)
+            .when(pl.col("drive_end_transition") == "touchdown")
+            .then(1.15)  # Scoring drive ending in TD
+            .when(pl.col("drive_end_transition") == "field_goal")
+            .then(1.05)  # Scoring drive ending in FG
+            .when(pl.col("drive_end_transition") == "punt")
+            .then(0.90)  # Non-scoring drive ending in punt
+            .when(pl.col("drive_end_transition").is_in(["turnover", "turnover_on_downs", "fumble", "interception"]))
+            .then(0.75)  # Drive ending in turnover
+            .otherwise(1.0)  # Other outcomes (safety, end_of_half, etc.)
+            .alias("drive_outcome_multiplier")
+        ]).with_columns([
+            # Combined situational multiplier (now includes Phase 6.2 drive context)
             # Note: personnel_group and personnel_confidence are stored but not applied here
             # They will be applied during aggregation when we know player positions
-            (pl.col("field_position_multiplier") * 
-             pl.col("score_multiplier") * 
-             pl.col("time_multiplier") * 
-             pl.col("down_multiplier") * 
-             pl.col("third_down_distance_multiplier") * 
-             pl.col("garbage_time_multiplier") * 
-             pl.col("yac_multiplier") * 
-             pl.col("defenders_in_box_multiplier") * 
-             pl.col("coverage_multiplier")).alias("situational_multiplier")
+            (pl.col("field_position_multiplier") *
+             pl.col("score_multiplier") *
+             pl.col("time_multiplier") *
+             pl.col("down_multiplier") *
+             pl.col("third_down_distance_multiplier") *
+             pl.col("garbage_time_multiplier") *
+             pl.col("yac_multiplier") *
+             pl.col("defenders_in_box_multiplier") *
+             pl.col("coverage_multiplier") *
+             pl.col("drive_outcome_multiplier")).alias("situational_multiplier")
         ])
         
         logger.info(f"Calculated multipliers for {len(pbp_data)} plays")

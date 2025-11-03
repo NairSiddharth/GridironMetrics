@@ -293,11 +293,16 @@ def _generate_skill_position_rankings_internal(year: int, position: str, player_
     ])
 
     adjusted_season = adjusted_contributions.group_by(['player_id', 'player_name', 'team']).agg([
-        pl.col('player_overall_contribution').mean().alias('adjusted_score')
+        pl.col('player_overall_contribution').sum().alias('adjusted_score')
     ])
 
     # Join raw and adjusted
     season_totals = raw_season.join(adjusted_season, on=['player_id', 'player_name', 'team'], how='left')
+
+    # Calculate raw average per game (for Avg/G column)
+    season_totals = season_totals.with_columns([
+        (pl.col('raw_score') / pl.col('games')).alias('raw_avg_per_game')
+    ])
 
     # Calculate average difficulty multiplier
     avg_difficulty = calculate_average_difficulty(year, player_stats)
@@ -343,7 +348,7 @@ def _generate_skill_position_rankings_internal(year: int, position: str, player_
             f"{row['adjusted_score']:.2f}",
             f"{row.get('avg_difficulty_multiplier', 1.0):.3f}",
             f"{row.get('typical', 0):.2f}",
-            f"{row['adjusted_score']:.2f}",
+            f"{row['raw_avg_per_game']:.2f}",
             row.get('trend', 'N/A'),
             f"{row['final_score']:.2f}"
         ])

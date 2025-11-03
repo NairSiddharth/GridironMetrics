@@ -543,3 +543,42 @@ QB_METRICS = {
     'rushing_yards': 'Rush Yards',
     'rushing_tds': 'Rush TDs'
 }
+
+# ============================================================================
+# PHASE 6: EFFICIENCY METRICS CONFIGURATION
+# ============================================================================
+
+# Phase 6.1: Success Rate Multipliers (per-week adjustment)
+SUCCESS_RATE_CRITICAL_MULTIPLIER = 1.15  # Top tier (>70% success rate)
+SUCCESS_RATE_HIGH_MULTIPLIER = 1.10      # High tier (60-70%)
+SUCCESS_RATE_AVERAGE_MULTIPLIER = 1.05   # Average tier (50-60%)
+SUCCESS_RATE_LOW_MULTIPLIER = 0.92       # Low tier (<50%)
+SUCCESS_RATE_MIN_PLAYS = 20              # Minimum plays for success rate adjustment
+
+# Phase 6.2: Drive Context Multipliers (play-level adjustment)
+DRIVE_OUTCOME_TD_MULTIPLIER = 1.15       # Scoring drive ending in TD
+DRIVE_OUTCOME_FG_MULTIPLIER = 1.05       # Scoring drive ending in FG
+DRIVE_OUTCOME_PUNT_MULTIPLIER = 0.90     # Non-scoring drive ending in punt
+DRIVE_OUTCOME_TURNOVER_MULTIPLIER = 0.75 # Drive ending in turnover
+
+# Phase 6.3: Route Location Multipliers (season-wide with slot bias mitigation)
+ROUTE_DEEP_MIDDLE_MULTIPLIER = 1.12       # Deep middle (15+ yards, contested)
+ROUTE_INT_MIDDLE_MULTIPLIER = 1.06        # Intermediate middle (8-14 yards)
+ROUTE_SHORT_MIDDLE_MULTIPLIER = 1.03      # Short middle (<8 yards) - SLOT BONUS
+ROUTE_DEEP_SIDELINE_MULTIPLIER = 1.05     # Deep sideline (15+ yards)
+ROUTE_INT_SIDELINE_MULTIPLIER = 1.00      # Intermediate sideline (baseline)
+ROUTE_SHORT_SIDELINE_MULTIPLIER = 0.95    # Short sideline (easiest catches)
+ROUTE_LOCATION_MIN_TARGETS = 30           # Minimum targets for route location adjustment
+
+# Phase 6.4: Turnover Attribution Penalties (per-week adjustment)
+QB_INT_BASE_PENALTY = -15                 # Base penalty for QB interception
+QB_INT_PRESSURE_REDUCTION = 0.33          # Reduction when under pressure (33%)
+WR_TIP_INT_PENALTY = -8                   # Penalty for WR-tipped interception
+RB_FUMBLE_RECOVERED_PENALTY = -5          # Penalty for RB fumble (recovered)
+RB_FUMBLE_LOST_PENALTY = -12              # Penalty for RB fumble (lost)
+
+# Phase 6 Feature Availability by Year
+PHASE_6_SUCCESS_RATE_START_YEAR = 1999    # Success column available from 1999
+PHASE_6_DRIVE_CONTEXT_START_YEAR = 1999   # Drive columns available from 1999
+PHASE_6_ROUTE_LOCATION_START_YEAR = 2015  # Good route data from 2015+
+PHASE_6_PRESSURE_DATA_START_YEAR = 2016   # was_pressure column from 2016+
