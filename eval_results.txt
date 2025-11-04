@@ -1,0 +1,206 @@
+2025-11-03 20:08:36 - modules.ml_ensemble - INFO - 
+============================================================
+
+============================================================
+2025-11-03 20:08:36 - modules.ml_ensemble - INFO - Training Ensemble: passing_yards
+Training Ensemble: passing_yards
+2025-11-03 20:08:36 - modules.ml_ensemble - INFO - ============================================================
+============================================================
+2025-11-03 20:08:36 - modules.ml_ensemble - INFO - Training examples: 4,027
+Training examples: 4,027
+2025-11-03 20:08:36 - modules.ml_ensemble - INFO - CV splits: 3
+CV splits: 3
+2025-11-03 20:08:36 - modules.ml_ensemble - INFO - Numeric features: 22
+Numeric features: 22
+2025-11-03 20:08:36 - modules.ml_ensemble - INFO - Categorical features: 2
+Categorical features: 2
+2025-11-03 20:08:36 - modules.ml_ensemble - INFO - 
+Cross-Validation:
+
+Cross-Validation:
+2025-11-03 20:08:36 - modules.ml_ensemble - INFO - 
+  Fold 1/3:
+
+  Fold 1/3:
+2025-11-03 20:08:36 - modules.ml_ensemble - INFO -     Train: 1009, Val: 1006
+    Train: 1009, Val: 1006
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+2025-11-03 20:09:10 - modules.ml_ensemble - INFO - 
+  Fold 2/3:
+
+  Fold 2/3:
+2025-11-03 20:09:10 - modules.ml_ensemble - INFO -     Train: 2015, Val: 1006
+    Train: 2015, Val: 1006
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+2025-11-03 20:09:46 - modules.ml_ensemble - INFO - 
+  Fold 3/3:
+
+  Fold 3/3:
+2025-11-03 20:09:46 - modules.ml_ensemble - INFO -     Train: 3021, Val: 1006
+    Train: 3021, Val: 1006
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - 
+============================================================
+
+============================================================
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - Cross-Validation Results (Mean ± Std):
+Cross-Validation Results (Mean ± Std):
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - ============================================================
+============================================================
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - xgboost        : MAE=68.89±1.70, RMSE=87.08±2.06
+xgboost        : MAE=68.89±1.70, RMSE=87.08±2.06
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - lightgbm       : MAE=67.29±0.73, RMSE=85.34±1.01
+lightgbm       : MAE=67.29±0.73, RMSE=85.34±1.01
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - catboost       : MAE=66.38±1.62, RMSE=83.43±1.46
+catboost       : MAE=66.38±1.62, RMSE=83.43±1.46
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - random_forest  : MAE=66.48±1.18, RMSE=84.53±1.28
+random_forest  : MAE=66.48±1.18, RMSE=84.53±1.28
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - 
+============================================================
+
+============================================================
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - Ensemble Weights (based on inverse MAE):
+Ensemble Weights (based on inverse MAE):
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - ============================================================
+============================================================
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - xgboost        : 0.2440
+xgboost        : 0.2440
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - lightgbm       : 0.2498
+lightgbm       : 0.2498
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - catboost       : 0.2533
+catboost       : 0.2533
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - random_forest  : 0.2529
+random_forest  : 0.2529
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - 
+============================================================
+
+============================================================
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - Training final models on full dataset...
+Training final models on full dataset...
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO - ============================================================
+============================================================
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO -   Training xgboost...
+  Training xgboost...
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO -   Training lightgbm...
+  Training lightgbm...
+2025-11-03 20:10:22 - modules.ml_ensemble - INFO -   Training catboost...
+  Training catboost...
+2025-11-03 20:10:58 - modules.ml_ensemble - INFO -   Training random_forest...
+  Training random_forest...
+2025-11-03 20:10:58 - modules.ml_ensemble - INFO - 
+Ensemble training complete!
+
+Ensemble training complete!
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+
+================================================================================
+ML MODEL EVALUATION - Test Year: 2023
+================================================================================
+
+Loading training data...
+
+Dataset Split:
+  Train: 4,027 examples (2015-2022)
+  Test:  551 examples (2023)
+
+================================================================================
+Training Model on 2015-2022 Data
+================================================================================
+
+Model trained. Generating predictions on 2023 data...
+
+================================================================================
+PREDICTION ACCURACY
+================================================================================
+Mean Absolute Error (MAE):  66.98 yards
+Root Mean Squared Error:    83.20 yards
+Mean Actual:                191.29 yards
+Mean Predicted:             186.91 yards
+
+================================================================================
+SIMULATED BETTING PERFORMANCE
+================================================================================
+
+Simulating betting lines as: actual ± random(0, 10) yards
+(In reality, bookmakers set lines, but this simulates market efficiency)
+
+Overall Accuracy: 50.8%
+Break-even: 52.4% (with -110 odds)
+Edge: -1.6%
+
+RESULT: ML predictions below break-even (not profitable)
+
+================================================================================
+ACCURACY BY CONFIDENCE LEVEL
+================================================================================
+
+Confidence = abs(prediction - line)
+Level 1 (avg edge: 14.1 yards): 50.0% (138 bets)
+Level 2 (avg edge: 41.1 yards): 41.6% (137 bets)
+Level 3 (avg edge: 75.0 yards): 57.2% (138 bets)
+Level 4 (avg edge: 136.4 yards): 54.3% (138 bets)
+
+================================================================================
+ERROR DISTRIBUTION
+================================================================================
+Mean Error (bias):          -4.39 yards
+Std Dev of Errors:          83.09 yards
+Median Absolute Error:      55.77 yards
+
+Error Percentiles:
+  5th:   -137.6 yards
+  25th:  -58.5 yards
+  50th:  -3.4 yards
+  75th:  48.9 yards
+  95th:  135.9 yards
+
+================================================================================
+ROI SIMULATION (if betting on all props)
+================================================================================
+Total Bets:        551
+Wins:              280 (50.8%)
+Losses:            271 (49.2%)
+
+Betting -110 odds (standard):
+Total Wagered:     $60,610
+Gross Returns:     $58,800
+Net Profit/Loss:   $-1,810
+ROI:               -2.99%
+
+================================================================================
+SAMPLE PREDICTIONS
+================================================================================
+
+Player               Predicted    Actual       Line         Result    
+--------------------------------------------------------------------------------
+036945                166.2 (UNDER)  166.0 (UNDER)  172.3        WIN       
+036355                256.0 (OVER )  212.0 (OVER )  205.5        WIN       
+034177                 89.5 (OVER )   33.0 (OVER )   24.9        WIN       
+036945                140.5 (UNDER)  169.0 (OVER )  165.4        LOSS      
+037834                234.7 (UNDER)  283.0 (OVER )  281.8        LOSS      
+036442                242.7 (OVER )  165.0 (UNDER)  173.8        LOSS      
+029604                290.0 (OVER )  284.0 (OVER )  279.2        WIN       
+034855                212.5 (UNDER)  283.0 (UNDER)  283.1        WIN       
+036389                205.0 (OVER )   55.0 (UNDER)   56.7        LOSS      
+029604                239.3 (OVER )  139.0 (UNDER)  147.2        LOSS      
+
+================================================================================
+EVALUATION COMPLETE
+================================================================================
+
+================================================================================
+KEY TAKEAWAY
+================================================================================
+
+The ML model achieves 50.8% accuracy,
+which is -1.6% below the 52.4% break-even threshold.
+
+Estimated ROI: -2.99%
+
+More work needed to achieve profitability.
+
+================================================================================
