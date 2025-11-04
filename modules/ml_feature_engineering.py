@@ -16,12 +16,12 @@ Feature Categories:
 2. Opponent Defense (2-4 features): Pass/rush YPA, TD rates
 3. Efficiency (4 features): Success rates, red zone rate, usage
 4. Injury (11 features): Historical pattern, current status, injury type
-5. Pressure Rate (3 features): QB pressure metrics, sack rate - NEW!
-6. Position-Specific: Catch rate (WR/TE), blocking quality (RB)
-7. Game Context (7 features): Home/away, dome, weather, Vegas lines
+5. Position-Specific: Catch rate (WR/TE), blocking quality (RB)
+6. Game Context (7 features): Home/away, dome, weather, Vegas lines
+7. Game Script & Team Context (6 features): Team margin, RB quality, opp defense, pace/TOP
 8. Categorical (4 features): Opponent, position, week, season
 
-Total: ~42 features (was 39, now 42 with Pressure Rate)
+Total: ~45 features
 
 Usage:
     engineer = PropFeatureEngineer()
@@ -33,7 +33,7 @@ Usage:
         prop_type='passing_yards',
         opponent_team='BUF'
     )
-    # Returns dict with ~42 features including injury data and Pressure Rate
+    # Returns dict with ~39 features including injury data
 """
 
 import polars as pl
@@ -151,17 +151,17 @@ class PropFeatureEngineer:
             )
             features.update(context_features)
 
-            # 6. Injury Features (NEW - comprehensive injury integration)
+            # 6. Game Script & Team Context Features (NEW)
+            game_script_features = self._extract_game_script_features(
+                player_id, season, week, position, opponent_team
+            )
+            features.update(game_script_features)
+
+            # 7. Injury Features (comprehensive injury integration)
             injury_features = self._extract_injury_features(
                 player_id, season, week, position, prop_type
             )
             features.update(injury_features)
-
-            # 7. Pressure Rate Features (QB pressure metrics)
-            pressure_features = self._extract_pressure_features(
-                player_id, season, week, position
-            )
-            features.update(pressure_features)
 
             # 8. Categorical Features
             features['opponent'] = opponent_team
@@ -757,103 +757,6 @@ class PropFeatureEngineer:
 
         return features
 
-    def _extract_pressure_features(
-        self,
-        player_id: str,
-        season: int,
-        week: int,
-        position: str
-    ) -> Dict[str, float]:
-        """
-        Extract Pressure Rate features (3 features).
-
-        Pressure rate measures how often a QB is under pressure or sacked.
-        Unlike CPOE (efficiency), pressure directly impacts BOTH efficiency AND volume
-        (fewer attempts, hurried throws, negative plays).
-
-        Features:
-        - pressure_rate_season: % of dropbacks with pressure (season avg)
-        - pressure_rate_l3: % of dropbacks with pressure (last 3 games)
-        - sack_rate_season: % of dropbacks ending in sack
-
-        Args:
-            player_id: Player GSIS ID
-            season: Season year
-            week: Week number
-            position: Player position (should be QB)
-
-        Returns:
-            Dict with 3 pressure features
-        """
-        features = {
-            'pressure_rate_season': 0.25,  # League average ~25%
-            'pressure_rate_l3': 0.25,
-            'sack_rate_season': 0.06  # League average ~6%
-        }
-
-        # Pressure only applies to QBs
-        if position != 'QB':
-            return features
-
-        try:
-            # Load PBP data for this season
-            pbp_file = Path(CACHE_DIR) / 'pbp' / f'pbp_{season}.parquet'
-
-            if not pbp_file.exists():
-                logger.debug(f"PBP file not found: {pbp_file}")
-                return features
-
-            pbp_df = pl.read_parquet(pbp_file)
-
-            # Filter to this player's dropbacks through week N-1
-            # Dropback = pass attempt OR sack
-            player_dropbacks = pbp_df.filter(
-                (pl.col('passer_player_id') == player_id) &
-                (pl.col('week') < week) &  # Through week N-1
-                ((pl.col('pass_attempt') == 1) | (pl.col('sack') == 1))
-            )
-
-            if len(player_dropbacks) == 0:
-                return features
-
-            # Calculate pressure metrics
-            # qb_hit: QB was hit (includes sacks + hits while throwing)
-            # sack: QB was sacked
-            total_dropbacks = len(player_dropbacks)
-
-            # Season-long pressure rate
-            # Check if qb_hit column exists (NextGen data, 2016+)
-            if 'qb_hit' in player_dropbacks.columns:
-                pressure_plays = player_dropbacks.filter(pl.col('qb_hit') == 1)
-                features['pressure_rate_season'] = float(len(pressure_plays) / total_dropbacks)
-            else:
-                # Fallback: use sack rate as proxy (underestimates pressure, but still informative)
-                features['pressure_rate_season'] = 0.25  # Default to league average
-
-            # Sack rate (available in all PBP data)
-            sack_plays = player_dropbacks.filter(pl.col('sack') == 1)
-            features['sack_rate_season'] = float(len(sack_plays) / total_dropbacks)
-
-            # Last 3 games pressure rate
-            weeks_played = sorted(player_dropbacks['week'].unique().to_list())
-            if len(weeks_played) >= 3:
-                last_3_weeks = weeks_played[-3:]
-                last_3_dropbacks = player_dropbacks.filter(pl.col('week').is_in(last_3_weeks))
-
-                if 'qb_hit' in last_3_dropbacks.columns:
-                    last_3_pressure = last_3_dropbacks.filter(pl.col('qb_hit') == 1)
-                    features['pressure_rate_l3'] = float(len(last_3_pressure) / len(last_3_dropbacks))
-                else:
-                    features['pressure_rate_l3'] = features['pressure_rate_season']
-            else:
-                # If less than 3 games, use season average
-                features['pressure_rate_l3'] = features['pressure_rate_season']
-
-        except Exception as e:
-            logger.debug(f"Error extracting pressure features: {e}")
-
-        return features
-
     def _extract_game_context_features(
         self,
         season: int,
@@ -892,6 +795,164 @@ class PropFeatureEngineer:
 
         return features
 
+    def _extract_game_script_features(
+        self,
+        player_id: str,
+        season: int,
+        week: int,
+        position: str,
+        opponent_team: str
+    ) -> Dict[str, float]:
+        """
+        Extract game script and team context features (6 features).
+
+        Volume-driven features that predict passing attempts/opportunities:
+        1. Team Offensive Context:
+           - team_avg_margin: Rolling 3-game point differential (game script)
+           - team_rb_quality: Team RB YPC vs league average (run vs pass tendency)
+        2. Opponent Defensive Context:
+           - opp_def_ppg_allowed: Opponent points per game allowed
+           - opp_def_ypg_allowed: Opponent yards per game allowed
+        3. Pace & Tempo:
+           - team_plays_per_game: Rolling 3-game offensive plays per game
+           - team_time_of_possession: Average TOP per game (minutes)
+
+        All features use data through week-1 only (no future data).
+        """
+        features = {
+            'team_avg_margin': 0.0,  # Neutral game script
+            'team_rb_quality': 1.0,  # Average RB quality
+            'opp_def_ppg_allowed': 22.0,  # League average ~22 PPG
+            'opp_def_ypg_allowed': 340.0,  # League average ~340 YPG
+            'team_plays_per_game': 65.0,  # League average ~65 plays
+            'team_time_of_possession': 30.0  # League average 30 minutes
+        }
+
+        pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
+        if not pbp_file.exists():
+            return features
+
+        try:
+            pbp = pl.read_parquet(pbp_file)
+            pbp_filtered = pbp.filter(pl.col('week') < week)
+
+            # Get player's team from their most recent game
+            if position == 'QB':
+                player_team_df = pbp_filtered.filter(
+                    pl.col('passer_player_id') == player_id
+                ).select('posteam').head(1)
+            elif position == 'RB':
+                player_team_df = pbp_filtered.filter(
+                    pl.col('rusher_player_id') == player_id
+                ).select('posteam').head(1)
+            else:  # WR/TE
+                player_team_df = pbp_filtered.filter(
+                    pl.col('receiver_player_id') == player_id
+                ).select('posteam').head(1)
+
+            if len(player_team_df) == 0:
+                return features
+
+            player_team = player_team_df['posteam'][0]
+
+            # === 1. TEAM OFFENSIVE CONTEXT ===
+
+            # Team Average Margin (rolling 3-game)
+            team_games = pbp_filtered.filter(
+                (pl.col('posteam') == player_team) | (pl.col('defteam') == player_team)
+            ).group_by(['game_id', 'week']).agg([
+                pl.when(pl.col('posteam') == player_team)
+                  .then(pl.col('total_home_score') - pl.col('total_away_score'))
+                  .when(pl.col('home_team') == player_team)
+                  .then(pl.col('total_home_score') - pl.col('total_away_score'))
+                  .otherwise(pl.col('total_away_score') - pl.col('total_home_score'))
+                  .first().alias('margin')
+            ]).sort('week', descending=True)
+
+            if len(team_games) >= 3:
+                recent_3 = team_games.head(3)
+                features['team_avg_margin'] = float(recent_3['margin'].mean())
+            elif len(team_games) > 0:
+                features['team_avg_margin'] = float(team_games['margin'].mean())
+
+            # Team RB Quality (YPC vs league average)
+            team_rushes = pbp_filtered.filter(
+                (pl.col('posteam') == player_team) &
+                (pl.col('rush_attempt') == 1)
+            )
+
+            if len(team_rushes) >= 30:
+                team_rush_yards = team_rushes['rushing_yards'].sum()
+                team_ypc = team_rush_yards / len(team_rushes)
+
+                # League average YPC this season
+                all_rushes = pbp_filtered.filter(pl.col('rush_attempt') == 1)
+                if len(all_rushes) > 0:
+                    league_rush_yards = all_rushes['rushing_yards'].sum()
+                    league_ypc = league_rush_yards / len(all_rushes)
+
+                    if league_ypc > 0:
+                        features['team_rb_quality'] = team_ypc / league_ypc
+
+            # === 2. OPPONENT DEFENSIVE CONTEXT ===
+
+            # Opponent Points Per Game Allowed
+            opp_def_games = pbp_filtered.filter(
+                pl.col('defteam') == opponent_team
+            ).group_by(['game_id']).agg([
+                pl.when(pl.col('home_team') == opponent_team)
+                  .then(pl.col('total_away_score'))
+                  .otherwise(pl.col('total_home_score'))
+                  .first().alias('points_allowed')
+            ])
+
+            if len(opp_def_games) > 0:
+                features['opp_def_ppg_allowed'] = float(opp_def_games['points_allowed'].mean())
+
+            # Opponent Yards Per Game Allowed
+            opp_def_yards = pbp_filtered.filter(
+                pl.col('defteam') == opponent_team
+            ).group_by(['game_id']).agg([
+                (pl.col('passing_yards') + pl.col('rushing_yards')).sum().alias('total_yards')
+            ])
+
+            if len(opp_def_yards) > 0:
+                features['opp_def_ypg_allowed'] = float(opp_def_yards['total_yards'].mean())
+
+            # === 3. PACE & TEMPO ===
+
+            # Team Plays Per Game (rolling 3-game average)
+            team_offensive_plays = pbp_filtered.filter(
+                pl.col('posteam') == player_team
+            ).group_by(['game_id', 'week']).agg([
+                pl.col('play_id').count().alias('plays')
+            ]).sort('week', descending=True)
+
+            if len(team_offensive_plays) >= 3:
+                recent_3_plays = team_offensive_plays.head(3)
+                features['team_plays_per_game'] = float(recent_3_plays['plays'].mean())
+            elif len(team_offensive_plays) > 0:
+                features['team_plays_per_game'] = float(team_offensive_plays['plays'].mean())
+
+            # Team Time of Possession (average per game in minutes)
+            # Calculate from game duration and play count ratio
+            team_plays_total = pbp_filtered.filter(
+                pl.col('posteam') == player_team
+            )
+            all_plays_total = pbp_filtered
+
+            if len(team_plays_total) > 0 and len(all_plays_total) > 0:
+                games_played = len(team_games)
+                if games_played > 0:
+                    team_play_share = len(team_plays_total) / (len(all_plays_total) / 32.0)  # ~32 teams
+                    # Approximate TOP: play share * 60 minutes (assumes equal pace)
+                    features['team_time_of_possession'] = min(40.0, max(20.0, team_play_share * 30.0))
+
+        except Exception as e:
+            logger.debug(f"Error calculating game script features: {e}")
+
+        return features
+
     def _get_default_features(
         self,
         position: str,
@@ -927,7 +988,15 @@ class PropFeatureEngineer:
             'vegas_total': 45.0,
             'vegas_spread': 0.0,
 
-            # Injury features (NEW)
+            # Game Script & Team Context (NEW)
+            'team_avg_margin': 0.0,
+            'team_rb_quality': 1.0,
+            'opp_def_ppg_allowed': 22.0,
+            'opp_def_ypg_allowed': 340.0,
+            'team_plays_per_game': 65.0,
+            'team_time_of_possession': 30.0,
+
+            # Injury features
             'injury_games_missed_y1': 0.0,
             'injury_games_missed_y2': 0.0,
             'injury_games_missed_y3': 0.0,
@@ -939,11 +1008,6 @@ class PropFeatureEngineer:
             'injury_type_mobility': 0.0,
             'injury_type_upper_body': 0.0,
             'weeks_since_last_missed': 999.0,
-
-            # Pressure features (NEW)
-            'pressure_rate_season': 0.25,
-            'pressure_rate_l3': 0.25,
-            'sack_rate_season': 0.06,
 
             # Categorical
             'opponent': opponent_team,
