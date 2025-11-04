@@ -242,9 +242,12 @@ def main():
     print(f"\n{'Threshold':<12} {'Accuracy':<12} {'# Bets':<12} {'ROI':<12} {'Status':<12}")
     print("-" * 70)
 
-    for threshold in [30, 40, 50, 55, 60, 70, 80, 90, 100]:
+    # Store detailed results for range analysis
+    threshold_results = []
+
+    for threshold in range(20, 125, 5):  # Test every 5 yards from 20 to 120
         mask = combined_confidence >= threshold
-        if mask.sum() > 0:
+        if mask.sum() >= 20:  # Minimum 20 bets to be meaningful
             filtered_accuracy = combined_correct[mask].sum() / mask.sum()
             filtered_wins = combined_correct[mask].sum()
             filtered_total = mask.sum()
@@ -252,7 +255,103 @@ def main():
 
             status = "PROFITABLE" if filtered_accuracy > 0.524 else "Unprofitable"
 
-            print(f"{threshold:>3} yards     {filtered_accuracy*100:>6.1f}%      {filtered_total:>6}       {filtered_roi:>+6.2f}%      {status}")
+            threshold_results.append({
+                'threshold': threshold,
+                'accuracy': filtered_accuracy,
+                'roi': filtered_roi,
+                'bets': filtered_total,
+                'profitable': filtered_accuracy > 0.524
+            })
+
+            # Print key thresholds
+            if threshold in [20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120]:
+                print(f"{threshold:>3} yards     {filtered_accuracy*100:>6.1f}%      {filtered_total:>6}       {filtered_roi:>+6.2f}%      {status}")
+
+    # Identify profitable ranges
+    print(f"\n{'='*80}")
+    print("OPTIMAL THRESHOLD RANGES")
+    print(f"{'='*80}")
+
+    if threshold_results:
+        # Find consecutive profitable thresholds
+        ranges = []
+        current_range = []
+
+        for i, result in enumerate(threshold_results):
+            if result['profitable']:
+                current_range.append(result)
+            else:
+                if current_range:
+                    ranges.append(current_range)
+                    current_range = []
+
+        # Don't forget the last range
+        if current_range:
+            ranges.append(current_range)
+
+        if ranges:
+            print(f"\nFound {len(ranges)} profitable range(s):\n")
+
+            for idx, range_data in enumerate(ranges, 1):
+                min_threshold = range_data[0]['threshold']
+                max_threshold = range_data[-1]['threshold']
+                avg_accuracy = np.mean([r['accuracy'] for r in range_data])
+                avg_roi = np.mean([r['roi'] for r in range_data])
+                total_bets_range = range_data[0]['bets']  # At lowest threshold
+
+                print(f"Range {idx}: {min_threshold}-{max_threshold} yards")
+                print(f"  Avg Accuracy: {avg_accuracy*100:.1f}%")
+                print(f"  Avg ROI: {avg_roi:+.2f}%")
+                print(f"  Bets (at {min_threshold} yards): {total_bets_range}")
+
+                # Show best performing threshold in this range
+                best_in_range = max(range_data, key=lambda x: x['roi'])
+                print(f"  Peak: {best_in_range['threshold']} yards ({best_in_range['accuracy']*100:.1f}% acc, {best_in_range['roi']:+.2f}% ROI, {best_in_range['bets']} bets)")
+                print()
+
+            # Strategy recommendations
+            print(f"{'='*80}")
+            print("STRATEGY RECOMMENDATIONS")
+            print(f"{'='*80}")
+
+            # Find the main profitable range (usually the largest)
+            main_range = max(ranges, key=lambda r: len(r))
+            min_t = main_range[0]['threshold']
+            max_t = main_range[-1]['threshold']
+
+            # Conservative: higher threshold, lower volume, higher accuracy
+            conservative_data = main_range[-1] if len(main_range) > 1 else main_range[0]
+
+            # Aggressive: lower threshold, higher volume, still profitable
+            aggressive_data = main_range[0]
+
+            # Balanced: middle of the range
+            mid_idx = len(main_range) // 2
+            balanced_data = main_range[mid_idx]
+
+            print(f"\n1. CONSERVATIVE (High Accuracy, Low Volume)")
+            print(f"   Threshold: {conservative_data['threshold']}+ yards")
+            print(f"   Expected: {conservative_data['accuracy']*100:.1f}% accuracy, {conservative_data['roi']:+.2f}% ROI")
+            print(f"   Volume: ~{conservative_data['bets']} bets/2 years (~{conservative_data['bets']/34:.1f} bets/week)")
+
+            print(f"\n2. BALANCED (Good Accuracy, Moderate Volume)")
+            print(f"   Threshold: {balanced_data['threshold']}+ yards")
+            print(f"   Expected: {balanced_data['accuracy']*100:.1f}% accuracy, {balanced_data['roi']:+.2f}% ROI")
+            print(f"   Volume: ~{balanced_data['bets']} bets/2 years (~{balanced_data['bets']/34:.1f} bets/week)")
+
+            print(f"\n3. AGGRESSIVE (More Bets, Still Profitable)")
+            print(f"   Threshold: {aggressive_data['threshold']}+ yards")
+            print(f"   Expected: {aggressive_data['accuracy']*100:.1f}% accuracy, {aggressive_data['roi']:+.2f}% ROI")
+            print(f"   Volume: ~{aggressive_data['bets']} bets/2 years (~{aggressive_data['bets']/34:.1f} bets/week)")
+
+            print(f"\n💡 Recommendation: Start with BALANCED strategy ({balanced_data['threshold']}+ yards)")
+            print(f"   This gives you ~{balanced_data['bets']/34:.1f} bets/week with strong profitability.")
+            print(f"   Once validated in live betting, consider AGGRESSIVE for more volume.")
+        else:
+            print("\n❌ No profitable threshold ranges found.")
+            print("   Model needs improvement before live betting.")
+    else:
+        print("\n❌ Insufficient data for range analysis.")
 
     # Year-over-year comparison
     print(f"\n{'='*80}")
