@@ -19,9 +19,10 @@ Feature Categories:
 5. Position-Specific: Catch rate (WR/TE), blocking quality (RB)
 6. Game Context (7 features): Home/away, dome, weather, Vegas lines
 7. Game Script & Team Context (6 features): Team margin, RB quality, opp defense, pace/TOP
-8. Categorical (4 features): Opponent, position, week, season
+8. Weather Performance (10 features): Player-specific temp/wind/precip/env adjustments (lag-1 season)
+9. Categorical (4 features): Opponent, position, week, season
 
-Total: ~45 features
+Total: ~55 features
 
 Usage:
     engineer = PropFeatureEngineer()
@@ -33,7 +34,7 @@ Usage:
         prop_type='passing_yards',
         opponent_team='BUF'
     )
-    # Returns dict with ~39 features including injury data
+    # Returns dict with ~55 features including weather, game script, and injury data
 """
 
 import polars as pl
@@ -146,24 +147,31 @@ class PropFeatureEngineer:
                 features.update(blocking_features)
 
             # 5. Game Context Features
-            context_features = self._extract_game_context_features(
-                season, week, opponent_team
-            )
+            context_features = self._extract_game_context_features(opponent_team)
             features.update(context_features)
 
-            # 6. Game Script & Team Context Features (NEW)
+            # 6. Game Script & Team Context Features
             game_script_features = self._extract_game_script_features(
                 player_id, season, week, position, opponent_team
             )
             features.update(game_script_features)
 
-            # 7. Injury Features (comprehensive injury integration)
+            # 7. Weather Performance Features (DISABLED - replaced with game-level weather)
+            # NOTE: Player-specific weather features (lag-1 season) were creating
+            #       inverse confidence signal. Replaced with game-level weather features
+            #       in _extract_game_context_features() for volume prediction.
+            # weather_features = self._extract_weather_features(
+            #     player_id, season, position
+            # )
+            # features.update(weather_features)
+
+            # 8. Injury Features (comprehensive injury integration)
             injury_features = self._extract_injury_features(
                 player_id, season, week, position, prop_type
             )
             features.update(injury_features)
 
-            # 8. Categorical Features
+            # 9. Categorical Features
             features['opponent'] = opponent_team
             features['position'] = position
             features['week'] = week
@@ -757,10 +765,102 @@ class PropFeatureEngineer:
 
         return features
 
+    # DISABLED: Game-level weather extraction (reverted to Game Script baseline)
+    # This method was added to test game-level weather features as volume predictors,
+    # but evaluation showed it created the same inverse confidence signal as
+    # player-specific weather features (50+ yards: 50.0% accuracy, -4.55% ROI).
+    # Restored Game Script baseline (45 features) which maintains high-confidence edge
+    # (50+ yards: 66.7% accuracy, +27.27% ROI).
+    #
+    # def _get_game_weather(
+    #     self,
+    #     player_id: str,
+    #     season: int,
+    #     week: int,
+    #     position: str
+    # ) -> Dict[str, any]:
+    #     """
+    #     Extract game-level weather data from PBP cache.
+    #
+    #     Returns weather conditions for the specific game this player participates in.
+    #     Used for game-level volume prediction (not player-specific efficiency).
+    #
+    #     Args:
+    #         player_id: Player GSIS ID (used to find their game)
+    #         season: Season year
+    #         week: Week number
+    #         position: Position code (to identify player column in PBP)
+    #
+    #     Returns:
+    #         Dict with game weather data:
+    #             - temp (float): Temperature in Fahrenheit
+    #             - wind (float): Wind speed in mph
+    #             - weather (str): Weather description
+    #             - roof (str): Roof type
+    #             - is_dome (bool): True if dome/closed roof
+    #     """
+    #     defaults = {
+    #         'temp': 70.0,
+    #         'wind': 5.0,
+    #         'weather': 'Clear',
+    #         'roof': 'outdoors',
+    #         'is_dome': False
+    #     }
+    #
+    #     try:
+    #         pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
+    #         if not pbp_file.exists():
+    #             return defaults
+    #
+    #         pbp = pl.read_parquet(pbp_file)
+    #
+    #         # Filter to this player's game in this week
+    #         if position == 'QB':
+    #             player_plays = pbp.filter(
+    #                 (pl.col('passer_player_id') == player_id) &
+    #                 (pl.col('week') == week)
+    #             )
+    #         elif position == 'RB':
+    #             player_plays = pbp.filter(
+    #                 (pl.col('rusher_player_id') == player_id) &
+    #                 (pl.col('week') == week)
+    #             )
+    #         else:  # WR/TE
+    #             player_plays = pbp.filter(
+    #                 (pl.col('receiver_player_id') == player_id) &
+    #                 (pl.col('week') == week)
+    #             )
+    #
+    #         if len(player_plays) == 0:
+    #             # Player not found, try to get game weather by opponent
+    #             # (fallback for players with no plays yet)
+    #             return defaults
+    #
+    #         # Get first play's weather data (same for entire game)
+    #         first_play = player_plays.head(1)
+    #
+    #         temp = first_play['temp'][0] if first_play['temp'][0] is not None else 70.0
+    #         wind = first_play['wind'][0] if first_play['wind'][0] is not None else 5.0
+    #         weather_desc = first_play['weather'][0] if first_play['weather'][0] is not None else 'Clear'
+    #         roof = first_play['roof'][0] if first_play['roof'][0] is not None else 'outdoors'
+    #
+    #         # Determine if dome
+    #         is_dome = roof in ['dome', 'closed']
+    #
+    #         return {
+    #             'temp': float(temp),
+    #             'wind': float(wind),
+    #             'weather': weather_desc,
+    #             'roof': roof,
+    #             'is_dome': is_dome
+    #         }
+    #
+    #     except Exception as e:
+    #         logger.debug(f"Error extracting game weather: {e}")
+    #         return defaults
+
     def _extract_game_context_features(
         self,
-        season: int,
-        week: int,
         opponent_team: str
     ) -> Dict[str, float]:
         """
@@ -770,28 +870,22 @@ class PropFeatureEngineer:
         - is_home: Home game indicator
         - is_dome: Dome game indicator
         - division_game: Division opponent indicator
-        - game_temp: Temperature (°F)
-        - game_wind: Wind speed (mph)
+        - game_temp: Temperature in °F
+        - game_wind: Wind speed in mph
         - vegas_total: Game total over/under
         - vegas_spread: Point spread
+
+        Note: Currently uses defaults. TODO: Load schedule and Vegas data.
         """
         features = {
-            'is_home': 0.5,  # Unknown - 50/50
-            'is_dome': 0.0,  # Default outdoors
-            'division_game': 0.0,  # Default non-division
-            'game_temp': 70.0,  # Default 70°F
-            'game_wind': 5.0,  # Default 5 mph
-            'vegas_total': 45.0,  # Default total
-            'vegas_spread': 0.0  # Default even
+            'is_home': 0.5,  # TODO: Load schedule to determine is_home
+            'is_dome': 0.0,  # TODO: Load stadium info
+            'division_game': 0.0,  # TODO: Load division info
+            'game_temp': 70.0,  # Default temperature
+            'game_wind': 5.0,  # Default wind
+            'vegas_total': 45.0,  # TODO: Load Vegas lines
+            'vegas_spread': 0.0  # TODO: Load Vegas lines
         }
-
-        # TODO: Load schedule to determine is_home
-        # TODO: Load stadium info for is_dome
-        # TODO: Load weather data for temp/wind
-        # TODO: Load Vegas lines for total/spread
-
-        # For now, return defaults
-        # These will be populated in future iterations
 
         return features
 
@@ -953,6 +1047,96 @@ class PropFeatureEngineer:
 
         return features
 
+    def _extract_weather_features(
+        self,
+        player_id: str,
+        season: int,
+        position: str
+    ) -> Dict[str, float]:
+        """
+        Extract player-specific weather performance features (10 features).
+
+        Uses PRIOR SEASON weather data (season-1) to avoid data leakage.
+        Represents how this player historically performs in different weather conditions.
+
+        Features:
+        - temp_cold_adj, temp_cool_adj, temp_moderate_adj, temp_hot_adj
+        - wind_calm_adj, wind_moderate_adj, wind_high_adj
+        - precip_adj, dome_adj, outdoor_adj
+
+        All values are performance multipliers (typically 0.95-1.05):
+        - 1.0 = average performance
+        - >1.0 = performs better in this condition
+        - <1.0 = performs worse in this condition
+
+        Args:
+            player_id: Player GSIS ID
+            season: Current season year
+            position: Player position (QB, RB, WR, TE)
+
+        Returns:
+            Dict with 10 weather performance features
+        """
+        # Default values (neutral/average performance)
+        features = {
+            'temp_cold_adj': 1.0,
+            'temp_cool_adj': 1.0,
+            'temp_moderate_adj': 1.0,
+            'temp_hot_adj': 1.0,
+            'wind_calm_adj': 1.0,
+            'wind_moderate_adj': 1.0,
+            'wind_high_adj': 1.0,
+            'precip_adj': 1.0,
+            'dome_adj': 1.0,
+            'outdoor_adj': 1.0
+        }
+
+        try:
+            # Use PRIOR season data to avoid leakage
+            prior_season = season - 1
+
+            # Weather cache starts in 2016 (PBP data starts 2016)
+            if prior_season < 2016:
+                logger.debug(f"No weather data available for {prior_season} (< 2016)")
+                return features
+
+            # Load weather performance cache for prior season
+            from modules.weather_cache_builder import build_weather_performance_cache
+
+            weather_df = build_weather_performance_cache(prior_season, position)
+
+            if weather_df.is_empty():
+                logger.debug(f"Weather cache empty for {position} {prior_season}")
+                return features
+
+            # Find player in cache
+            player_weather = weather_df.filter(pl.col('player_id') == player_id)
+
+            if len(player_weather) == 0:
+                # Player not in cache (rookie, insufficient plays, or position change)
+                logger.debug(f"Player {player_id} not in {prior_season} weather cache")
+                return features
+
+            # Extract player's weather adjustments
+            player_row = player_weather.row(0, named=True)
+
+            # Map all 10 weather features
+            for feature_name in features.keys():
+                if feature_name in player_row:
+                    features[feature_name] = float(player_row[feature_name])
+
+            logger.debug(
+                f"Loaded weather features for {player_id} from {prior_season}: "
+                f"cold={features['temp_cold_adj']:.2f}, wind_high={features['wind_high_adj']:.2f}, "
+                f"dome={features['dome_adj']:.2f}"
+            )
+
+        except Exception as e:
+            logger.debug(f"Error extracting weather features: {e}")
+            # Return defaults on error
+
+        return features
+
     def _get_default_features(
         self,
         position: str,
@@ -988,7 +1172,7 @@ class PropFeatureEngineer:
             'vegas_total': 45.0,
             'vegas_spread': 0.0,
 
-            # Game Script & Team Context (NEW)
+            # Game Script & Team Context
             'team_avg_margin': 0.0,
             'team_rb_quality': 1.0,
             'opp_def_ppg_allowed': 22.0,
