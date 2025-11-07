@@ -12,7 +12,7 @@ Architecture:
 - Comprehensive injury integration (11 injury features)
 
 Feature Categories:
-1. Baseline Performance (8 features): weighted avg, L3/L5 avg, career avg, variance, games played, effective games
+1. Baseline Performance (7 features): weighted avg, L3 avg, career avg, variance, games played, effective games
 2. Opponent Defense (2-4 features): Pass/rush YPA, TD rates
 3. Efficiency (4 features): Success rates, red zone rate, usage
 4. Injury (11 features): Historical pattern, current status, injury type
@@ -75,7 +75,9 @@ class PropFeatureEngineer:
         week: int,
         position: str,
         prop_type: str,
-        opponent_team: str
+        opponent_team: str,
+        pbp_df: Optional[pl.DataFrame] = None,
+        data_cache: Optional[dict] = None
     ) -> Dict[str, float]:
         """
         Generate all ML features for a player-week-prop combination.
@@ -87,6 +89,9 @@ class PropFeatureEngineer:
             position: QB/RB/WR/TE
             prop_type: e.g., 'passing_yards', 'receiving_yards'
             opponent_team: Opponent team code (e.g., 'BUF', 'KC')
+            pbp_df: Optional pre-loaded PBP DataFrame for the season (performance optimization)
+            data_cache: Optional cache dict with pre-loaded data (Phase 1 optimization)
+                Keys: 'player_stats', 'pbp_df', 'injury_data', 'roster_data', 'nextgen_data'
 
         Returns:
             dict with ~40 features:
@@ -117,34 +122,62 @@ class PropFeatureEngineer:
 
             # 1. Baseline Performance Features
             baseline_features = self._extract_baseline_features(
-                player_stats, stat_column, through_week, player_id, season, position
+                player_stats, stat_column, through_week, player_id, season, position, data_cache
             )
             features.update(baseline_features)
 
             # 2. Opponent Defense Features
             opponent_features = self._extract_opponent_defense_features(
-                opponent_team, season, week, position, prop_type
+                opponent_team, season, week, position, prop_type, pbp_df
             )
             features.update(opponent_features)
 
             # 3. Efficiency Features (success rate, usage)
             efficiency_features = self._extract_efficiency_features(
-                player_id, season, week, position, prop_type
+                player_id, season, week, position, prop_type, pbp_df
             )
             features.update(efficiency_features)
 
             # 4. Position-Specific Features
             if position in ['WR', 'TE', 'RB'] and ('receiving' in prop_type or prop_type == 'receptions'):
                 catch_features = self._extract_catch_rate_features(
-                    player_id, season, week
+                    player_id, season, week, pbp_df
                 )
                 features.update(catch_features)
 
-            if position == 'RB':
-                blocking_features = self._extract_blocking_quality_features(
-                    player_id, season, week
+                # Target volume features (6 features)
+                target_volume_features = self._extract_target_volume_features(
+                    player_id, season, week, pbp_df
                 )
-                features.update(blocking_features)
+                features.update(target_volume_features)
+
+                # NextGen Stats features for WR/TE (2 features, 2016+)
+                if position in ['WR', 'TE']:
+                    nextgen_features = self._extract_nextgen_stats_features(
+                        player_id, season, week, data_cache
+                    )
+                    features.update(nextgen_features)
+
+                # Prior season baseline features for all receiving (3 features)
+                prior_season_features = self._extract_prior_season_features(
+                    player_id, season, week, position, stat_column
+                )
+                features.update(prior_season_features)
+
+            # REMOVED: blocking_quality feature (circular logic - measures RB talent vs backup)
+            # See research/RB_MODEL_FEATURE_CLEANUP_PLAN.md for details
+            # if position == 'RB':
+            #     blocking_features = self._extract_blocking_quality_features(
+            #         player_id, season, week
+            #     )
+            #     features.update(blocking_features)
+
+                # Add rushing volume features for rushing props
+                if 'rushing' in prop_type:
+                    volume_features = self._extract_rushing_volume_features(
+                        player_id, season, week, pbp_df
+                    )
+                    features.update(volume_features)
 
             # 5. Game Context Features
             context_features = self._extract_game_context_features(opponent_team)
@@ -152,7 +185,7 @@ class PropFeatureEngineer:
 
             # 6. Game Script & Team Context Features
             game_script_features = self._extract_game_script_features(
-                player_id, season, week, position, opponent_team
+                player_id, season, week, position, opponent_team, prop_type, pbp_df
             )
             features.update(game_script_features)
 
@@ -167,7 +200,7 @@ class PropFeatureEngineer:
 
             # 8. Injury Features (comprehensive injury integration)
             injury_features = self._extract_injury_features(
-                player_id, season, week, position, prop_type
+                player_id, season, week, position, prop_type, data_cache
             )
             features.update(injury_features)
 
@@ -185,8 +218,48 @@ class PropFeatureEngineer:
 
         return features
 
-    def _load_player_stats(self, player_id: str, season: int, position: str) -> Optional[pl.DataFrame]:
-        """Load player stats from cache."""
+    def _load_player_stats(
+        self,
+        player_id: str,
+        season: int,
+        position: str,
+        data_cache: Optional[dict] = None
+    ) -> Optional[pl.DataFrame]:
+        """
+        Load player stats from cache or pre-loaded data.
+
+        Phase 2 optimization: Check multi-year cache first to avoid redundant file I/O.
+
+        Args:
+            player_id: Player GSIS ID
+            season: Season year
+            position: Player position
+            data_cache: Optional pre-loaded data cache (can be multi-year)
+
+        Returns:
+            DataFrame with player stats or None
+        """
+        # Phase 2: Check if stats are already loaded in multi-year cache
+        if data_cache and 'player_stats' in data_cache:
+            player_stats_cache = data_cache['player_stats']
+
+            # Check if it's a multi-year cache (dict with year keys)
+            if isinstance(player_stats_cache, dict) and season in player_stats_cache:
+                # Multi-year cache: get stats for the requested season
+                cached_stats = player_stats_cache[season]
+                player_df = cached_stats.filter(pl.col('player_id') == player_id)
+                if len(player_df) > 0:
+                    return player_df
+            elif not isinstance(player_stats_cache, dict):
+                # Phase 1 cache (single DataFrame): filter to this player
+                player_df = player_stats_cache.filter(pl.col('player_id') == player_id)
+                if len(player_df) > 0:
+                    return player_df
+
+            # If player not found in cache, fall through to file load
+            # (this handles edge cases like position changes)
+
+        # Fallback: Load from file (when cache not available or player not in cache)
         stats_file = Path(CACHE_DIR) / "positional_player_stats" / position.lower() / f"{position.lower()}-{season}.csv"
 
         if not stats_file.exists():
@@ -208,7 +281,8 @@ class PropFeatureEngineer:
         through_week: int,
         player_id: str,
         season: int,
-        position: str
+        position: str,
+        data_cache: Optional[dict] = None
     ) -> Dict[str, float]:
         """
         Extract baseline performance features (7 features).
@@ -218,6 +292,9 @@ class PropFeatureEngineer:
         - get_simple_average()
         - get_career_averages()
         - calculate_stat_variance()
+
+        Phase 2 optimization: Pass player_stats_cache to get_career_averages()
+        to enable multi-year historical lookback without file I/O.
         """
         features = {}
 
@@ -229,11 +306,9 @@ class PropFeatureEngineer:
             return {
                 'weighted_avg': 0.0,
                 'last_3_avg': 0.0,
-                'last_5_avg': 0.0,
                 'career_avg': 0.0,
                 'variance_cv': 1.0,  # High variance for no data
-                'games_played': 0,
-                'effective_games': 0.0
+                'games_played': 0
             }
 
         try:
@@ -242,21 +317,21 @@ class PropFeatureEngineer:
                 player_stats, stat_column, through_week=through_week
             )
 
-            # Simple L3 and L5 averages
+            # Simple L3 average
             features['last_3_avg'] = get_simple_average(
                 player_stats, stat_column, last_n_games=3, through_week=through_week
             )
-            features['last_5_avg'] = get_simple_average(
-                player_stats, stat_column, last_n_games=5, through_week=through_week
-            )
 
             # Career average (3-year lookback)
+            # Phase 2: Pass multi-year player stats cache to avoid file I/O
+            player_stats_cache = data_cache.get('player_stats') if data_cache else None
             career_avgs = get_career_averages(
                 player_id=player_id,
                 current_season=season,
                 position=position,
                 stat_columns=[stat_column],
-                lookback_years=3
+                lookback_years=3,
+                player_stats_cache=player_stats_cache
             )
             features['career_avg'] = career_avgs.get(stat_column, 0.0)
 
@@ -268,32 +343,15 @@ class PropFeatureEngineer:
             # Sample size features
             features['games_played'] = len(filtered_stats)
 
-            # Effective games (injury-adjusted) - NOW USING INJURY DATA
-            from modules.injury_cache_builder import calculate_injury_adjusted_games
-            features['effective_games'] = calculate_injury_adjusted_games(
-                player_gsis_id=player_id,
-                current_season=season,
-                games_played=features['games_played'],
-                max_games=17
-            )
-            # Ratio shows injury adjustment (>1.0 = reliable, <1.0 = injury-prone)
-            features['effective_games_ratio'] = (
-                features['effective_games'] / features['games_played']
-                if features['games_played'] > 0 else 1.0
-            )
-
         except Exception as e:
             logger.debug(f"Error calculating baseline features: {e}")
             # Return zeros on error
             features = {
                 'weighted_avg': 0.0,
                 'last_3_avg': 0.0,
-                'last_5_avg': 0.0,
                 'career_avg': 0.0,
                 'variance_cv': 1.0,
-                'games_played': 0,
-                'effective_games': 0.0,
-                'effective_games_ratio': 1.0
+                'games_played': 0
             }
 
         return features
@@ -304,7 +362,8 @@ class PropFeatureEngineer:
         season: int,
         week: int,
         position: str,
-        prop_type: str
+        prop_type: str,
+        pbp_df: Optional[pl.DataFrame] = None
     ) -> Dict[str, float]:
         """
         Extract opponent defensive stats (4 features).
@@ -319,14 +378,22 @@ class PropFeatureEngineer:
         """
         features = {}
 
-        # Load PBP data
-        pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
-        if not pbp_file.exists():
-            logger.warning(f"PBP file not found: {pbp_file}")
-            return self._get_default_opponent_features(prop_type)
+        # Load PBP data if not provided
+        if pbp_df is None:
+            pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
+            if not pbp_file.exists():
+                logger.warning(f"PBP file not found: {pbp_file}")
+                return self._get_default_opponent_features(prop_type)
+
+            try:
+                pbp = pl.read_parquet(pbp_file)
+            except Exception as e:
+                logger.warning(f"Error loading PBP data: {e}")
+                return self._get_default_opponent_features(prop_type)
+        else:
+            pbp = pbp_df
 
         try:
-            pbp = pl.read_parquet(pbp_file)
 
             # Filter to weeks 1 through week-1 (data available at prediction time)
             pbp_filtered = pbp.filter(pl.col('week') < week)
@@ -381,7 +448,8 @@ class PropFeatureEngineer:
         season: int,
         week: int,
         position: str,
-        prop_type: str
+        prop_type: str,
+        pbp_df: Optional[pl.DataFrame] = None
     ) -> Dict[str, float]:
         """
         Extract efficiency and usage features (4 features).
@@ -399,12 +467,21 @@ class PropFeatureEngineer:
             'usage_rate': 0.15  # Default to 15% usage
         }
 
-        pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
-        if not pbp_file.exists():
-            return features
+        # Load PBP data if not provided
+        if pbp_df is None:
+            pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
+            if not pbp_file.exists():
+                return features
+
+            try:
+                pbp = pl.read_parquet(pbp_file)
+            except Exception as e:
+                logger.warning(f"Error loading PBP data: {e}")
+                return features
+        else:
+            pbp = pbp_df
 
         try:
-            pbp = pl.read_parquet(pbp_file)
             pbp_filtered = pbp.filter(pl.col('week') < week)
 
             # Success rate calculation (chain-moving plays)
@@ -483,7 +560,8 @@ class PropFeatureEngineer:
         self,
         player_id: str,
         season: int,
-        week: int
+        week: int,
+        pbp_df: Optional[pl.DataFrame] = None
     ) -> Dict[str, float]:
         """
         Extract receiver catch rate features (4 features).
@@ -501,12 +579,21 @@ class PropFeatureEngineer:
             'yac_pct': 0.5  # Default 50% YAC
         }
 
-        pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
-        if not pbp_file.exists():
-            return features
+        # Load PBP data if not provided
+        if pbp_df is None:
+            pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
+            if not pbp_file.exists():
+                return features
+
+            try:
+                pbp = pl.read_parquet(pbp_file)
+            except Exception as e:
+                logger.warning(f"Error loading PBP data: {e}")
+                return features
+        else:
+            pbp = pbp_df
 
         try:
-            pbp = pl.read_parquet(pbp_file)
             pbp_filtered = pbp.filter(pl.col('week') < week)
 
             # Get targets (completions + incompletions)
@@ -598,13 +685,457 @@ class PropFeatureEngineer:
 
         return features
 
+    def _extract_rushing_volume_features(
+        self,
+        player_id: str,
+        season: int,
+        week: int,
+        pbp_df: Optional[pl.DataFrame] = None
+    ) -> Dict[str, float]:
+        """
+        Extract RB rushing volume features (3 features).
+
+        Dual-signal approach for detecting role changes and breakouts:
+        - Season-long baseline: stable role indicator
+        - 3-week rolling: captures breakouts, hot hand, role changes
+        - Goal-line: situational high-value opportunities
+
+        Model learns from DIFFERENCE between season vs 3wk:
+        - carry_share_3wk >> rushing_attempt_share_season → Breakout!
+        - carry_share_3wk ≈ rushing_attempt_share_season → Stable bellcow
+        - carry_share_3wk << rushing_attempt_share_season → Losing touches
+
+        Features:
+        - rushing_attempt_share_season: Player's % of team rushing attempts (season-long through week-1)
+        - carry_share_3wk: Recent 3-game carry allocation
+        - goal_line_share: Inside-5 yard carry percentage
+
+        All calculated using data through week-1 only (no future data leakage).
+        """
+        features = {
+            'rushing_attempt_share_season': 0.15,  # Default 15% team share
+            'carry_share_3wk': 0.15,               # Default 15% recent share
+            'goal_line_share': 0.20                # Default 20% goal-line work
+        }
+
+        # Load PBP data if not provided
+        if pbp_df is None:
+            pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
+            if not pbp_file.exists():
+                return features
+
+            try:
+                pbp = pl.read_parquet(pbp_file)
+            except Exception as e:
+                logger.warning(f"Error loading PBP data: {e}")
+                return features
+        else:
+            pbp = pbp_df
+
+        try:
+            pbp_filtered = pbp.filter(pl.col('week') < week)  # Through week-1
+
+            # Get player's carries
+            player_carries = pbp_filtered.filter(
+                (pl.col('rusher_player_id') == player_id) &
+                (pl.col('rush_attempt') == 1)
+            )
+
+            if len(player_carries) < 10:  # Minimum sample size
+                return features
+
+            # Get player's team
+            player_team = player_carries['posteam'][0] if len(player_carries) > 0 else None
+
+            if not player_team:
+                return features
+
+            # === 1. SEASON-LONG RUSHING ATTEMPT SHARE ===
+            team_carries_all = pbp_filtered.filter(
+                (pl.col('posteam') == player_team) &
+                (pl.col('rush_attempt') == 1)
+            )
+
+            if len(team_carries_all) >= 20:
+                features['rushing_attempt_share_season'] = len(player_carries) / len(team_carries_all)
+
+            # === 2. 3-WEEK ROLLING CARRY SHARE ===
+            recent_weeks = pbp_filtered.filter(
+                pl.col('week') >= max(1, week - 3)
+            )
+
+            player_recent = recent_weeks.filter(
+                (pl.col('rusher_player_id') == player_id) &
+                (pl.col('rush_attempt') == 1)
+            )
+
+            team_recent = recent_weeks.filter(
+                (pl.col('posteam') == player_team) &
+                (pl.col('rush_attempt') == 1)
+            )
+
+            if len(team_recent) >= 15:
+                features['carry_share_3wk'] = len(player_recent) / len(team_recent)
+
+            # === 3. GOAL-LINE SHARE (inside 5-yard line) ===
+            if 'yardline_100' in pbp.columns:
+                goal_line_carries_team = team_carries_all.filter(
+                    pl.col('yardline_100') <= 5
+                )
+
+                goal_line_carries_player = player_carries.filter(
+                    pl.col('yardline_100') <= 5
+                )
+
+                if len(goal_line_carries_team) >= 5:  # Minimum goal-line opportunities
+                    features['goal_line_share'] = len(goal_line_carries_player) / len(goal_line_carries_team)
+
+        except Exception as e:
+            logger.debug(f"Error calculating rushing volume features: {e}")
+
+        return features
+
+    def _extract_target_volume_features(
+        self,
+        player_id: str,
+        season: int,
+        week: int,
+        pbp_df: Optional[pl.DataFrame] = None
+    ) -> Dict[str, float]:
+        """
+        Extract WR/TE/RB target volume features (6 features).
+
+        Dual-signal approach for detecting role changes and breakouts:
+        - Season-long baseline: stable target allocation
+        - 3-week rolling: captures emerging trends, hot hand, role changes
+        - Efficiency metrics: yards per target
+
+        Model learns from DIFFERENCE between season vs 3wk:
+        - target_share_3wk >> target_share_season → Breakout/increased usage!
+        - target_share_3wk ≈ target_share_season → Stable WR1/TE1
+        - target_share_3wk << target_share_season → Losing targets
+
+        Features:
+        - targets_season_avg: Average targets per game (season-long through week-1)
+        - targets_3wk_avg: Average targets per game (3-week rolling)
+        - target_share_season: Player's % of team targets (season-long)
+        - target_share_3wk: Recent 3-game team target percentage
+        - yards_per_target_season: Season-long YPT efficiency
+        - yards_per_target_3wk: Recent 3-game YPT efficiency
+
+        All calculated using data through week-1 only (no future data leakage).
+        """
+        features = {
+            'targets_season_avg': 5.0,          # Default 5 targets/game
+            'targets_3wk_avg': 5.0,             # Default 5 targets/game recent
+            'target_share_season': 0.15,        # Default 15% team share
+            'target_share_3wk': 0.15,           # Default 15% recent share
+            'yards_per_target_season': 8.0,     # Default 8 YPT
+            'yards_per_target_3wk': 8.0         # Default 8 YPT recent
+        }
+
+        # Load PBP data if not provided
+        if pbp_df is None:
+            pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
+            if not pbp_file.exists():
+                return features
+
+            try:
+                pbp = pl.read_parquet(pbp_file)
+            except Exception as e:
+                logger.warning(f"Error loading PBP data: {e}")
+                return features
+        else:
+            pbp = pbp_df
+
+        try:
+            pbp_filtered = pbp.filter(pl.col('week') < week)  # Through week-1
+
+            # Get player's targets (completions + incompletions + targets)
+            player_targets = pbp_filtered.filter(
+                (pl.col('receiver_player_id') == player_id) &
+                ((pl.col('complete_pass') == 1) | (pl.col('incomplete_pass') == 1))
+            )
+
+            if len(player_targets) < 5:  # Minimum sample size
+                return features
+
+            # Get player's team from their targets
+            player_team = player_targets['posteam'][0] if len(player_targets) > 0 else None
+
+            if not player_team:
+                return features
+
+            # Calculate games played (weeks with at least 1 target)
+            games_played = player_targets['week'].n_unique()
+
+            if games_played == 0:
+                return features
+
+            # Get player's receiving yards
+            player_completions = player_targets.filter(pl.col('complete_pass') == 1)
+            total_rec_yards = player_completions['receiving_yards'].fill_null(0).sum()
+
+            # === 1. SEASON-LONG TARGET VOLUME ===
+            features['targets_season_avg'] = len(player_targets) / games_played
+
+            # === 2. SEASON-LONG TARGET SHARE ===
+            team_targets_all = pbp_filtered.filter(
+                (pl.col('posteam') == player_team) &
+                ((pl.col('complete_pass') == 1) | (pl.col('incomplete_pass') == 1))
+            )
+
+            if len(team_targets_all) >= 10:
+                features['target_share_season'] = len(player_targets) / len(team_targets_all)
+
+            # === 3. SEASON-LONG YARDS PER TARGET ===
+            if len(player_targets) > 0:
+                features['yards_per_target_season'] = total_rec_yards / len(player_targets)
+
+            # === 4. 3-WEEK ROLLING METRICS ===
+            recent_weeks = pbp_filtered.filter(
+                pl.col('week') >= max(1, week - 3)
+            )
+
+            player_recent_targets = recent_weeks.filter(
+                (pl.col('receiver_player_id') == player_id) &
+                ((pl.col('complete_pass') == 1) | (pl.col('incomplete_pass') == 1))
+            )
+
+            if len(player_recent_targets) >= 3:  # Minimum for 3-week rolling
+                # Recent games played
+                recent_games = player_recent_targets['week'].n_unique()
+
+                if recent_games > 0:
+                    # Recent target average
+                    features['targets_3wk_avg'] = len(player_recent_targets) / recent_games
+
+                    # Recent receiving yards
+                    recent_completions = player_recent_targets.filter(pl.col('complete_pass') == 1)
+                    recent_rec_yards = recent_completions['receiving_yards'].fill_null(0).sum()
+
+                    # Recent YPT
+                    features['yards_per_target_3wk'] = recent_rec_yards / len(player_recent_targets)
+
+                    # Recent target share
+                    team_recent_targets = recent_weeks.filter(
+                        (pl.col('posteam') == player_team) &
+                        ((pl.col('complete_pass') == 1) | (pl.col('incomplete_pass') == 1))
+                    )
+
+                    if len(team_recent_targets) >= 5:
+                        features['target_share_3wk'] = len(player_recent_targets) / len(team_recent_targets)
+
+        except Exception as e:
+            logger.debug(f"Error calculating target volume features: {e}")
+
+        return features
+
+    def _extract_nextgen_stats_features(
+        self,
+        player_id: str,
+        season: int,
+        week: int,
+        data_cache: Optional[dict] = None
+    ) -> Dict[str, float]:
+        """
+        Extract NextGen Stats features for WR/TE (2 features).
+
+        GPS tracking metrics from NextGen Stats (available 2016+):
+        - avg_separation: Yards of separation at time of catch
+        - avg_cushion: Yards of cushion at snap
+
+        These metrics quantify receiver ability to create space and
+        beat man coverage, which correlates with YAC and big plays.
+
+        Phase 1 optimization: Use cached NextGen data to avoid redundant file I/O.
+
+        Args:
+            player_id: Player GSIS ID
+            season: Season year
+            week: Week number (filters through week-1)
+            data_cache: Optional pre-loaded data cache
+
+        Returns:
+            Dict with 2 NextGen features:
+            - avg_separation: Season-long separation average (through week-1)
+            - avg_cushion: Season-long cushion average (through week-1)
+        """
+        # Default values (league typical for WR/TE)
+        features = {
+            'avg_separation': 2.5,  # Yards of separation at catch
+            'avg_cushion': 5.0,     # Yards of cushion at snap
+        }
+
+        # NextGen Stats only available 2016+
+        if season < 2016:
+            return features
+
+        through_week = week - 1
+        if through_week < 1:
+            return features
+
+        try:
+            # Phase 1: Check if NextGen data is cached
+            if data_cache and 'nextgen_data' in data_cache:
+                nextgen_data = data_cache['nextgen_data']
+            else:
+                # Fallback: Load from file
+                from modules.nextgen_cache_builder import load_nextgen_cache
+                nextgen_data = load_nextgen_cache(season)
+
+            if nextgen_data is None or nextgen_data.is_empty():
+                logger.debug(f"No NextGen data available for {season}")
+                return features
+
+            # Filter to player and through week-1
+            player_nextgen = nextgen_data.filter(
+                (pl.col('player_gsis_id') == player_id) &
+                (pl.col('week') <= through_week)
+            )
+
+            if len(player_nextgen) == 0:
+                return features
+
+            # Calculate season-long averages (weighted by targets)
+            # Players with more targets get more weight in weekly averages
+            if 'targets' in player_nextgen.columns and player_nextgen['targets'].sum() > 0:
+                # Weighted average by targets
+                total_targets = player_nextgen['targets'].sum()
+
+                if 'avg_separation' in player_nextgen.columns:
+                    # Filter to weeks with valid separation data
+                    sep_data = player_nextgen.filter(
+                        pl.col('avg_separation').is_not_null()
+                    )
+                    if len(sep_data) >= 3:  # Minimum 3 weeks of data
+                        weighted_sep = (
+                            sep_data['avg_separation'] * sep_data['targets']
+                        ).sum() / total_targets
+                        features['avg_separation'] = weighted_sep
+
+                if 'avg_cushion' in player_nextgen.columns:
+                    # Filter to weeks with valid cushion data
+                    cush_data = player_nextgen.filter(
+                        pl.col('avg_cushion').is_not_null()
+                    )
+                    if len(cush_data) >= 3:  # Minimum 3 weeks of data
+                        weighted_cush = (
+                            cush_data['avg_cushion'] * cush_data['targets']
+                        ).sum() / total_targets
+                        features['avg_cushion'] = weighted_cush
+
+        except Exception as e:
+            logger.debug(f"Error extracting NextGen features: {e}")
+
+        return features
+
+    def _extract_prior_season_features(
+        self,
+        player_id: str,
+        season: int,
+        week: int,
+        position: str,
+        stat_column: str
+    ) -> Dict[str, float]:
+        """
+        Extract prior season baseline features for year-over-year context (3 features).
+
+        Provides historical context to understand player trajectory:
+        - Improving (yoy_trend > 1.05): Player getting better
+        - Stable (0.95 < yoy_trend < 1.05): Consistent performance
+        - Declining (yoy_trend < 0.95): Regression
+        - Sophomore slump: 2nd year players often underperform
+
+        Args:
+            player_id: Player GSIS ID
+            season: Current season
+            week: Current week
+            position: Player position
+            stat_column: Stat column to analyze
+
+        Returns:
+            Dict with 3 year-over-year features:
+            - prior_season_avg: Full prior season average
+            - yoy_trend: Current / prior ratio (>1 = improving)
+            - sophomore_indicator: Binary flag for 2nd year players
+        """
+        # Defaults (no history)
+        features = {
+            'prior_season_avg': 0.0,
+            'yoy_trend': 1.0,        # Neutral trend
+            'sophomore_indicator': 0  # Not a sophomore
+        }
+
+        try:
+            # Load prior season stats
+            prior_season = season - 1
+            prior_stats = self._load_player_stats(player_id, prior_season, position)
+
+            if prior_stats is None or len(prior_stats) == 0:
+                # No prior season data - could be rookie
+                # Check if this is their 2nd season (sophomore)
+                two_years_ago = season - 2
+                two_years_ago_stats = self._load_player_stats(player_id, two_years_ago, position)
+
+                if two_years_ago_stats is not None and len(two_years_ago_stats) > 0:
+                    # They played 2 years ago but not last year - not a sophomore
+                    features['sophomore_indicator'] = 0
+                else:
+                    # No data 2 years ago either - check if they have current season data (indicates rookie/sophomore)
+                    current_stats = self._load_player_stats(player_id, season, position)
+                    if current_stats is not None and len(current_stats) > 0:
+                        # Have current season data but no prior - likely rookie
+                        features['sophomore_indicator'] = 0
+
+                return features
+
+            # Calculate prior season average (full season)
+            if stat_column in prior_stats.columns:
+                prior_season_data = prior_stats[stat_column].drop_nulls()
+
+                if len(prior_season_data) >= 3:  # Minimum 3 games prior season
+                    prior_avg = prior_season_data.mean()
+                    features['prior_season_avg'] = prior_avg
+
+                    # Calculate current season average (through week-1)
+                    current_stats = self._load_player_stats(player_id, season, position)
+                    if current_stats is not None and len(current_stats) > 0:
+                        through_week = week - 1
+                        current_season_data = current_stats.filter(
+                            pl.col('week') <= through_week
+                        )[stat_column].drop_nulls()
+
+                        if len(current_season_data) >= 2:  # Minimum 2 games current season
+                            current_avg = current_season_data.mean()
+
+                            # Calculate YoY trend (avoid division by zero)
+                            if prior_avg > 0:
+                                features['yoy_trend'] = current_avg / prior_avg
+                            else:
+                                features['yoy_trend'] = 1.0
+
+            # Check if sophomore (has prior season data, but no data 2 years ago)
+            two_years_ago = season - 2
+            two_years_ago_stats = self._load_player_stats(player_id, two_years_ago, position)
+
+            if two_years_ago_stats is None or len(two_years_ago_stats) == 0:
+                # Has last year but not 2 years ago = sophomore
+                features['sophomore_indicator'] = 1
+
+        except Exception as e:
+            logger.debug(f"Error extracting prior season features: {e}")
+
+        return features
+
     def _extract_injury_features(
         self,
         player_id: str,
         season: int,
         week: int,
         position: str,
-        prop_type: str
+        prop_type: str,
+        data_cache: Optional[dict] = None
     ) -> Dict[str, float]:
         """
         Extract comprehensive injury-related features (12 features).
@@ -615,12 +1146,15 @@ class PropFeatureEngineer:
         - Current week injury status (MOST PREDICTIVE)
         - Position-specific injury impact
 
+        Phase 1 optimization: Use cached injury and roster data to avoid redundant file I/O.
+
         Args:
             player_id: Player GSIS ID
             season: Season year
             week: Week number
             position: Player position
             prop_type: Prop type being predicted
+            data_cache: Optional pre-loaded data cache
 
         Returns:
             Dict with 12 injury features
@@ -682,9 +1216,14 @@ class PropFeatureEngineer:
             features['games_missed_current_season'] = float(current_season_data['injury_missed'])
 
             # 3. Current week injury status (MOST IMPORTANT FEATURE)
-            injuries_df = load_injury_data(season)
+            # Phase 1: Check if injury data is cached
+            if data_cache and 'injury_data' in data_cache:
+                injuries_df = data_cache['injury_data']
+            else:
+                # Fallback: Load from file
+                injuries_df = load_injury_data(season)
 
-            if not injuries_df.is_empty():
+            if injuries_df is not None and not injuries_df.is_empty():
                 # Look for injury report in week N (predicting for week N)
                 player_injury = injuries_df.filter(
                     (pl.col('gsis_id') == player_id) &
@@ -693,7 +1232,6 @@ class PropFeatureEngineer:
 
                 if len(player_injury) > 0:
                     status = player_injury['report_status'][0]
-                    features['is_on_injury_report'] = 1.0
 
                     # Status severity (0=none, 1=questionable, 2=doubtful, 3=out)
                     status_map = {'Questionable': 1, 'Doubtful': 2, 'Out': 3}
@@ -715,13 +1253,11 @@ class PropFeatureEngineer:
                         features['injury_type_upper_body'] = 0.0
                 else:
                     # Not on injury report this week
-                    features['is_on_injury_report'] = 0.0
                     features['injury_status_score'] = 0.0
                     features['injury_type_mobility'] = 0.0
                     features['injury_type_upper_body'] = 0.0
             else:
                 # No injury data available for this season
-                features['is_on_injury_report'] = 0.0
                 features['injury_status_score'] = 0.0
                 features['injury_type_mobility'] = 0.0
                 features['injury_type_upper_body'] = 0.0
@@ -729,8 +1265,14 @@ class PropFeatureEngineer:
             # 4. Weeks since last missed game (recency of injury)
             if current_season_data['injury_missed'] > 0:
                 # Find most recent missed week
-                rosters_df = load_roster_data(season)
-                if not rosters_df.is_empty():
+                # Phase 1: Check if roster data is cached
+                if data_cache and 'roster_data' in data_cache:
+                    rosters_df = data_cache['roster_data']
+                else:
+                    # Fallback: Load from file
+                    rosters_df = load_roster_data(season)
+
+                if rosters_df is not None and not rosters_df.is_empty():
                     player_weeks = rosters_df.filter(
                         (pl.col('gsis_id') == player_id) &
                         (pl.col('status').is_in(['INA', 'RES']))
@@ -756,13 +1298,21 @@ class PropFeatureEngineer:
                 'injury_classification_score': 0.0,
                 'has_recurring_injury': 0.0,
                 'games_missed_current_season': 0.0,
-                'is_on_injury_report': 0.0,
                 'injury_status_score': 0.0,
                 'injury_type_mobility': 0.0,
                 'injury_type_upper_body': 0.0,
                 'weeks_since_last_missed': 999.0
             }
 
+        # Conditional filtering for RB rushing props (reduce noise)
+        # Historical features add noise to RB model without predictive value
+        # Keep only current-week injury status (most predictive)
+        if position == 'RB' and 'rushing' in prop_type:
+            return {
+                'injury_status_score': features.get('injury_status_score', 0.0)
+            }
+
+        # For all other positions/props, return full 12 features
         return features
 
     # DISABLED: Game-level weather extraction (reverted to Game Script baseline)
@@ -895,15 +1445,18 @@ class PropFeatureEngineer:
         season: int,
         week: int,
         position: str,
-        opponent_team: str
+        opponent_team: str,
+        prop_type: str,
+        pbp_df: Optional[pl.DataFrame] = None
     ) -> Dict[str, float]:
         """
-        Extract game script and team context features (6 features).
+        Extract game script and team context features (5-6 features).
 
         Volume-driven features that predict passing attempts/opportunities:
         1. Team Offensive Context:
            - team_avg_margin: Rolling 3-game point differential (game script)
            - team_rb_quality: Team RB YPC vs league average (run vs pass tendency)
+             NOTE: Skipped for RB rushing props (data leakage)
         2. Opponent Defensive Context:
            - opp_def_ppg_allowed: Opponent points per game allowed
            - opp_def_ypg_allowed: Opponent yards per game allowed
@@ -917,17 +1470,26 @@ class PropFeatureEngineer:
             'team_avg_margin': 0.0,  # Neutral game script
             'team_rb_quality': 1.0,  # Average RB quality
             'opp_def_ppg_allowed': 22.0,  # League average ~22 PPG
-            'opp_def_ypg_allowed': 340.0,  # League average ~340 YPG
+            # opp_def_ypg_allowed: QB-only feature (added conditionally below)
             'team_plays_per_game': 65.0,  # League average ~65 plays
             'team_time_of_possession': 30.0  # League average 30 minutes
         }
 
-        pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
-        if not pbp_file.exists():
-            return features
+        # Load PBP data if not provided
+        if pbp_df is None:
+            pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
+            if not pbp_file.exists():
+                return features
+
+            try:
+                pbp = pl.read_parquet(pbp_file)
+            except Exception as e:
+                logger.warning(f"Error loading PBP data: {e}")
+                return features
+        else:
+            pbp = pbp_df
 
         try:
-            pbp = pl.read_parquet(pbp_file)
             pbp_filtered = pbp.filter(pl.col('week') < week)
 
             # Get player's team from their most recent game
@@ -970,23 +1532,26 @@ class PropFeatureEngineer:
                 features['team_avg_margin'] = float(team_games['margin'].mean())
 
             # Team RB Quality (YPC vs league average)
-            team_rushes = pbp_filtered.filter(
-                (pl.col('posteam') == player_team) &
-                (pl.col('rush_attempt') == 1)
-            )
+            # Skip for RB rushing props to avoid data leakage
+            # (target player's rushing performance included in team metric)
+            if not (position == 'RB' and 'rushing' in prop_type):
+                team_rushes = pbp_filtered.filter(
+                    (pl.col('posteam') == player_team) &
+                    (pl.col('rush_attempt') == 1)
+                )
 
-            if len(team_rushes) >= 30:
-                team_rush_yards = team_rushes['rushing_yards'].sum()
-                team_ypc = team_rush_yards / len(team_rushes)
+                if len(team_rushes) >= 30:
+                    team_rush_yards = team_rushes['rushing_yards'].sum()
+                    team_ypc = team_rush_yards / len(team_rushes)
 
-                # League average YPC this season
-                all_rushes = pbp_filtered.filter(pl.col('rush_attempt') == 1)
-                if len(all_rushes) > 0:
-                    league_rush_yards = all_rushes['rushing_yards'].sum()
-                    league_ypc = league_rush_yards / len(all_rushes)
+                    # League average YPC this season
+                    all_rushes = pbp_filtered.filter(pl.col('rush_attempt') == 1)
+                    if len(all_rushes) > 0:
+                        league_rush_yards = all_rushes['rushing_yards'].sum()
+                        league_ypc = league_rush_yards / len(all_rushes)
 
-                    if league_ypc > 0:
-                        features['team_rb_quality'] = team_ypc / league_ypc
+                        if league_ypc > 0:
+                            features['team_rb_quality'] = team_ypc / league_ypc
 
             # === 2. OPPONENT DEFENSIVE CONTEXT ===
 
@@ -1003,15 +1568,16 @@ class PropFeatureEngineer:
             if len(opp_def_games) > 0:
                 features['opp_def_ppg_allowed'] = float(opp_def_games['points_allowed'].mean())
 
-            # Opponent Yards Per Game Allowed
-            opp_def_yards = pbp_filtered.filter(
-                pl.col('defteam') == opponent_team
-            ).group_by(['game_id']).agg([
-                (pl.col('passing_yards') + pl.col('rushing_yards')).sum().alias('total_yards')
-            ])
+            # Opponent Yards Per Game Allowed (QB-only to protect working QB model)
+            if position == 'QB':
+                opp_def_yards = pbp_filtered.filter(
+                    pl.col('defteam') == opponent_team
+                ).group_by(['game_id']).agg([
+                    (pl.col('passing_yards') + pl.col('rushing_yards')).sum().alias('total_yards')
+                ])
 
-            if len(opp_def_yards) > 0:
-                features['opp_def_ypg_allowed'] = float(opp_def_yards['total_yards'].mean())
+                if len(opp_def_yards) > 0:
+                    features['opp_def_ypg_allowed'] = float(opp_def_yards['total_yards'].mean())
 
             # === 3. PACE & TEMPO ===
 
@@ -1150,12 +1716,9 @@ class PropFeatureEngineer:
             # Baseline features
             'weighted_avg': 0.0,
             'last_3_avg': 0.0,
-            'last_5_avg': 0.0,
             'career_avg': 0.0,
             'variance_cv': 1.0,
             'games_played': 0,
-            'effective_games': 0.0,
-            'effective_games_ratio': 1.0,
 
             # Efficiency features
             'success_rate_3wk': 0.5,
@@ -1176,7 +1739,7 @@ class PropFeatureEngineer:
             'team_avg_margin': 0.0,
             'team_rb_quality': 1.0,
             'opp_def_ppg_allowed': 22.0,
-            'opp_def_ypg_allowed': 340.0,
+            # opp_def_ypg_allowed: QB-only feature (added conditionally)
             'team_plays_per_game': 65.0,
             'team_time_of_possession': 30.0,
 
@@ -1187,7 +1750,6 @@ class PropFeatureEngineer:
             'injury_classification_score': 0.0,
             'has_recurring_injury': 0.0,
             'games_missed_current_season': 0.0,
-            'is_on_injury_report': 0.0,
             'injury_status_score': 0.0,
             'injury_type_mobility': 0.0,
             'injury_type_upper_body': 0.0,
@@ -1216,7 +1778,15 @@ class PropFeatureEngineer:
             features.update({
                 'player_ypc': 4.3,
                 'team_ypc': 4.3,
-                'ypc_diff_pct': 1.0
+                'ypc_diff_pct': 1.0,
+                'rushing_attempt_share_season': 0.15,  # Season-long carry share baseline
+                'carry_share_3wk': 0.15,                # Recent 3-game carry allocation
+                'goal_line_share': 0.20                 # Inside-5 yard carry percentage
+            })
+
+        if position == 'QB':
+            features.update({
+                'opp_def_ypg_allowed': 340.0  # League average yards per game allowed (defensive consistency)
             })
 
         return features

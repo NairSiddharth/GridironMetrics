@@ -50,7 +50,7 @@ PROP_TYPE_ADJUSTMENTS = {
         ],
         'api_market': 'player_rush_yds',
         'stat_column': 'rushing_yards',
-        'position': ['RB', 'QB'],
+        'position': ['RB'],  # RB-only (QB rushing is too noisy/unpredictable)
         'min_sample_size': 20,  # Minimum 20 carries
         'display_name': 'Rushing Yards',
     },
@@ -66,7 +66,7 @@ PROP_TYPE_ADJUSTMENTS = {
         'min_sample_size': 20,
         'display_name': 'Rushing Touchdowns',
     },
-    'receiving_yards': {
+    'receiving_yards_wr': {
         'adjustments': [
             'opponent_defense',  # Opponent pass defense
             'catch_rate',        # Target efficiency
@@ -75,9 +75,24 @@ PROP_TYPE_ADJUSTMENTS = {
         ],
         'api_market': 'player_reception_yds',
         'stat_column': 'receiving_yards',
-        'position': ['WR', 'TE'],
-        'min_sample_size': 15,  # Minimum 15 targets
-        'display_name': 'Receiving Yards',
+        'position': ['WR'],
+        'min_sample_size': 40,  # Minimum 40 season targets
+        'min_weekly_volume': 3,  # Minimum 3 targets per week
+        'display_name': 'Receiving Yards (WR)',
+    },
+    'receiving_yards_te': {
+        'adjustments': [
+            'opponent_defense',  # Opponent pass defense
+            'catch_rate',        # Target efficiency
+            'separation',        # NextGen receiver separation
+            'weather',           # Weather impact
+        ],
+        'api_market': 'player_reception_yds',
+        'stat_column': 'receiving_yards',
+        'position': ['TE'],
+        'min_sample_size': 40,  # Minimum 40 season targets
+        'min_weekly_volume': 3,  # Minimum 3 targets per week
+        'display_name': 'Receiving Yards (TE)',
     },
     'receiving_tds': {
         'adjustments': [
@@ -139,17 +154,17 @@ POSITION_PROP_TYPES = {
         'rushing_yards',
         'rushing_tds',
         'receptions',
-        'receiving_yards',
+        'receiving_yards_wr',  # RBs train with WR model (similar receiving usage)
         'receiving_tds',
     ],
     'WR': [
         'receptions',
-        'receiving_yards',
+        'receiving_yards_wr',
         'receiving_tds',
     ],
     'TE': [
         'receptions',
-        'receiving_yards',
+        'receiving_yards_te',
         'receiving_tds',
     ],
 }

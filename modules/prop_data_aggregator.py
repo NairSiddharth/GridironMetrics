@@ -218,10 +218,13 @@ def get_career_averages(
     current_season: int,
     position: str,
     stat_columns: List[str],
-    lookback_years: int = 3
+    lookback_years: int = 3,
+    player_stats_cache: Optional[Dict[int, pl.DataFrame]] = None
 ) -> Dict[str, float]:
     """
     Calculate career per-game averages from previous seasons.
+
+    Phase 2 optimization: Use multi-year cache to avoid redundant file I/O.
 
     Args:
         player_id: Player GSIS ID
@@ -229,6 +232,7 @@ def get_career_averages(
         position: Player position
         stat_columns: List of stat columns to calculate
         lookback_years: Number of prior seasons to include (default 3)
+        player_stats_cache: Optional multi-year cache of player stats (year -> DataFrame)
 
     Returns:
         Dict of stat_name -> career_per_game_average
@@ -241,30 +245,37 @@ def get_career_averages(
     for year_offset in range(1, lookback_years + 1):
         past_season = current_season - year_offset
 
-        stats_file = Path(CACHE_DIR) / "positional_player_stats" / position.lower() / f"{position.lower()}-{past_season}.csv"
+        # Phase 2: Check multi-year cache first
+        player_stats = None
+        if player_stats_cache and past_season in player_stats_cache:
+            # Use cached data
+            cached_df = player_stats_cache[past_season]
+            player_stats = cached_df.filter(pl.col('player_id') == player_id)
+        else:
+            # Fallback: Load from file
+            stats_file = Path(CACHE_DIR) / "positional_player_stats" / position.lower() / f"{position.lower()}-{past_season}.csv"
 
-        if not stats_file.exists():
-            continue
-
-        try:
-            df = pl.read_csv(stats_file)
-            player_stats = df.filter(pl.col('player_id') == player_id)
-
-            if len(player_stats) == 0:
+            if not stats_file.exists():
                 continue
 
-            # Accumulate totals
-            games_in_season = len(player_stats)
-            total_games += games_in_season
+            try:
+                df = pl.read_csv(stats_file)
+                player_stats = df.filter(pl.col('player_id') == player_id)
+            except Exception as e:
+                logger.debug(f"Error loading {past_season} data for career average: {e}")
+                continue
 
-            for stat_col in stat_columns:
-                if stat_col in player_stats.columns:
-                    season_total = player_stats[stat_col].sum()
-                    career_totals[stat_col] += season_total
-
-        except Exception as e:
-            logger.debug(f"Error loading {past_season} data for career average: {e}")
+        if player_stats is None or len(player_stats) == 0:
             continue
+
+        # Accumulate totals
+        games_in_season = len(player_stats)
+        total_games += games_in_season
+
+        for stat_col in stat_columns:
+            if stat_col in player_stats.columns:
+                season_total = player_stats[stat_col].sum()
+                career_totals[stat_col] += season_total
 
     # Calculate per-game averages
     if total_games > 0:

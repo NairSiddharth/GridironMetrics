@@ -48,7 +48,8 @@ class TrainingDataBuilder:
         self,
         start_year: int = 2015,
         end_year: int = 2023,
-        prop_type: str = 'passing_yards'
+        prop_type: str = 'passing_yards',
+        skip_years: list = None
     ) -> pl.DataFrame:
         """
         Generate complete training dataset for a prop type.
@@ -57,13 +58,19 @@ class TrainingDataBuilder:
             start_year: First year to include (default 2015)
             end_year: Last year to include (default 2023)
             prop_type: Prop type (e.g., 'passing_yards')
+            skip_years: List of years to exclude (default [2020] - COVID outlier)
 
         Returns:
             polars DataFrame with feature columns + 'target' column
         """
+        # Default to excluding 2020 (COVID outlier year)
+        if skip_years is None:
+            skip_years = [2020]
         logger.info(f"\n{'='*60}")
         logger.info(f"Building Training Dataset: {prop_type}")
         logger.info(f"Years: {start_year}-{end_year}")
+        if skip_years:
+            logger.info(f"Excluding years: {skip_years}")
         logger.info(f"{'='*60}")
 
         # Get prop configuration
@@ -85,34 +92,64 @@ class TrainingDataBuilder:
         skipped_no_opponent = 0
         skipped_errors = 0
 
+        # Phase 2 Optimization: Pre-load multi-year auxiliary data
+        # Load 4 years of data at once to support 3-year historical lookbacks
+        logger.info(f"\nPhase 2: Pre-loading multi-year auxiliary data...")
+        logger.info(f"  Loading injury, roster, and NextGen data for {start_year-3}-{end_year}")
+
+        multi_year_cache = self._build_multi_year_cache(start_year, end_year)
+        logger.info(f"  Multi-year cache built successfully")
+
         # Process each year
         for year in range(start_year, end_year + 1):
+            # Skip excluded years
+            if year in skip_years:
+                logger.info(f"\nSkipping {year} (excluded year)")
+                continue
+
             logger.info(f"\nProcessing {year}...")
             year_examples = 0
 
+            # Load PBP data once per year (Phase 1 optimization)
+            pbp_df = self._load_pbp_data(year)
+
             # Process each eligible position
             for position in eligible_positions:
-                # Load player stats
-                stats_file = Path(CACHE_DIR) / "positional_player_stats" / position.lower() / f"{position.lower()}-{year}.csv"
+                # Load player stats for current year AND 3 prior years (Phase 2 optimization)
+                player_stats_cache = {}
+                for stats_year in range(year - 3, year + 1):
+                    stats_file = Path(CACHE_DIR) / "positional_player_stats" / position.lower() / f"{position.lower()}-{stats_year}.csv"
 
-                if not stats_file.exists():
-                    logger.warning(f"  Stats file not found: {stats_file}")
+                    if stats_file.exists():
+                        try:
+                            stats_df = pl.read_csv(stats_file)
+                            player_stats_cache[stats_year] = stats_df
+                            if stats_year == year:
+                                logger.info(f"  Loaded {len(stats_df)} {position} records for {year}")
+                        except Exception as e:
+                            logger.debug(f"  Error loading {stats_file}: {e}")
+
+                # Check if current year stats loaded
+                if year not in player_stats_cache:
+                    logger.warning(f"  Stats file not found for {position} in {year}")
                     continue
 
-                try:
-                    stats_df = pl.read_csv(stats_file)
-                    logger.info(f"  Loaded {len(stats_df)} {position} records for {year}")
-                except Exception as e:
-                    logger.error(f"  Error loading {stats_file}: {e}")
-                    continue
+                stats_df = player_stats_cache[year]
 
                 # Check if stat column exists
                 if stat_column not in stats_df.columns:
                     logger.warning(f"  Stat column '{stat_column}' not found in {position} stats")
                     continue
 
-                # Load PBP data for opponent matching
-                pbp_df = self._load_pbp_data(year)
+                # Phase 2: Create data cache with multi-year auxiliary data AND player stats
+                # Multi-year cache supports 3-year historical lookbacks without file I/O
+                data_cache = {
+                    'player_stats': player_stats_cache,            # Multi-year player stats
+                    'pbp_df': pbp_df,                              # PBP data for current year
+                    'injury_data': multi_year_cache['injury_data'],# Multi-year injury data
+                    'roster_data': multi_year_cache['roster_data'],# Multi-year roster data
+                    'nextgen_data': multi_year_cache['nextgen_data'] # Multi-year NextGen Stats
+                }
 
                 # Process each player-week
                 position_examples = 0
@@ -141,7 +178,7 @@ class TrainingDataBuilder:
                             logger.debug(f"  No opponent found for {team} week {week}")
                         continue
 
-                    # Generate features
+                    # Generate features (Phase 1: pass data_cache to eliminate redundant I/O)
                     try:
                         features = self.feature_engineer.engineer_features(
                             player_id=player_id,
@@ -149,7 +186,9 @@ class TrainingDataBuilder:
                             week=week,
                             position=position,
                             prop_type=prop_type,
-                            opponent_team=opponent
+                            opponent_team=opponent,
+                            pbp_df=pbp_df,
+                            data_cache=data_cache  # Phase 1 optimization: cached auxiliary data
                         )
 
                         # Add target
@@ -277,10 +316,123 @@ class TrainingDataBuilder:
             logger.debug(f"Error getting opponent for {team} week {week}: {e}")
             return None
 
+    def _build_multi_year_cache(self, start_year: int, end_year: int) -> dict:
+        """
+        Build multi-year cache of auxiliary data for historical lookbacks.
+
+        Phase 2 optimization: Pre-load 4 years of auxiliary data at once
+        to support 3-year historical lookbacks without file I/O.
+
+        Args:
+            start_year: First year of training data
+            end_year: Last year of training data
+
+        Returns:
+            Dictionary with multi-year cached data:
+            {
+                'injury_data': {2023: df, 2022: df, ...},
+                'roster_data': {2023: df, 2022: df, ...},
+                'nextgen_data': {2023: df, 2022: df, ...}
+            }
+        """
+        # Load 4 years of data (current + 3 prior) to support 3-year lookbacks
+        years_to_load = range(start_year - 3, end_year + 1)
+
+        injury_cache = {}
+        roster_cache = {}
+        nextgen_cache = {}
+
+        for year in years_to_load:
+            # Load injury data
+            injury_data = self._load_injury_data_cached(year)
+            if injury_data is not None:
+                injury_cache[year] = injury_data
+
+            # Load roster data
+            roster_data = self._load_roster_data_cached(year)
+            if roster_data is not None:
+                roster_cache[year] = roster_data
+
+            # Load NextGen data
+            nextgen_data = self._load_nextgen_data_cached(year)
+            if nextgen_data is not None:
+                nextgen_cache[year] = nextgen_data
+
+        logger.info(f"  Loaded {len(injury_cache)} years of injury data")
+        logger.info(f"  Loaded {len(roster_cache)} years of roster data")
+        logger.info(f"  Loaded {len(nextgen_cache)} years of NextGen data")
+
+        return {
+            'injury_data': injury_cache,
+            'roster_data': roster_cache,
+            'nextgen_data': nextgen_cache
+        }
+
+    def _load_injury_data_cached(self, year: int) -> Optional[pl.DataFrame]:
+        """
+        Load injury data once per year for caching.
+
+        Phase 1 optimization: Load auxiliary data files once per year
+        instead of loading them thousands of times per player-week.
+
+        Args:
+            year: Season year
+
+        Returns:
+            DataFrame with injury data or None if not available
+        """
+        try:
+            from modules.injury_cache_builder import load_injury_data
+            return load_injury_data(year)
+        except Exception as e:
+            logger.debug(f"Error loading injury data for {year}: {e}")
+            return None
+
+    def _load_roster_data_cached(self, year: int) -> Optional[pl.DataFrame]:
+        """
+        Load roster data once per year for caching.
+
+        Phase 1 optimization: Load auxiliary data files once per year
+        instead of loading them thousands of times per player-week.
+
+        Args:
+            year: Season year
+
+        Returns:
+            DataFrame with roster data or None if not available
+        """
+        try:
+            from modules.roster_cache_builder import load_roster_data
+            return load_roster_data(year)
+        except Exception as e:
+            logger.debug(f"Error loading roster data for {year}: {e}")
+            return None
+
+    def _load_nextgen_data_cached(self, year: int) -> Optional[pl.DataFrame]:
+        """
+        Load NextGen Stats data once per year for caching.
+
+        Phase 1 optimization: Load auxiliary data files once per year
+        instead of loading them thousands of times per player-week.
+
+        Args:
+            year: Season year
+
+        Returns:
+            DataFrame with NextGen Stats data or None if not available
+        """
+        try:
+            from modules.nextgen_cache_builder import load_nextgen_cache
+            return load_nextgen_cache(year)
+        except Exception as e:
+            logger.debug(f"Error loading NextGen data for {year}: {e}")
+            return None
+
     def build_all_prop_types(
         self,
         start_year: int = 2015,
-        end_year: int = 2023
+        end_year: int = 2023,
+        skip_years: list = None
     ):
         """
         Build training datasets for all 7 prop types.
@@ -288,6 +440,7 @@ class TrainingDataBuilder:
         Args:
             start_year: First year to include
             end_year: Last year to include
+            skip_years: List of years to exclude (default [2020] - COVID outlier)
         """
         prop_types = [
             'passing_yards',
@@ -307,7 +460,7 @@ class TrainingDataBuilder:
             logger.info(f"{'#'*60}\n")
 
             try:
-                train_df = self.build_training_dataset(start_year, end_year, prop_type)
+                train_df = self.build_training_dataset(start_year, end_year, prop_type, skip_years)
                 results[prop_type] = {
                     'examples': len(train_df),
                     'features': len(train_df.columns) - 3,  # Exclude target, player_id, year

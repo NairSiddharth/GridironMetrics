@@ -79,27 +79,32 @@ def evaluate_prop_type(prop_type: str):
     print("\nTraining: 2015-2022")
     print("Testing: 2023 & 2024")
 
-    # Load full training data
-    training_data_path = Path(CACHE_DIR) / "ml_training_data" / f"{prop_type}_2015_2024.parquet"
+    # Find available training data files for this prop type
+    training_data_dir = Path(CACHE_DIR) / "ml_training_data"
+    available_files = list(training_data_dir.glob(f"{prop_type}_*_*.parquet"))
 
-    if not training_data_path.exists():
-        print(f"\nWARNING: Training data not found at {training_data_path}")
-        print(f"Generating training data for {prop_type}...")
+    if not available_files:
+        print(f"\nERROR: No training data found for {prop_type}")
+        print(f"Expected files matching: {training_data_dir}/{prop_type}_*_*.parquet")
+        print(f"\nPlease generate training data first using train_all_prop_types.py")
+        return None
 
-        # Generate data
-        builder = TrainingDataBuilder()
-        full_df = builder.build_training_dataset(
-            start_year=2015,
-            end_year=2024,
-            prop_type=prop_type
-        )
+    # Select file with the widest year range (most training data)
+    def get_year_span(path):
+        parts = path.stem.split('_')
+        start_year = int(parts[-2])
+        end_year = int(parts[-1])
+        return end_year - start_year
 
-        if len(full_df) == 0:
-            print(f"ERROR: Failed to generate training data for {prop_type}")
-            return None
-    else:
-        print(f"\nLoading data...")
-        full_df = pl.read_parquet(training_data_path)
+    training_data_path = max(available_files, key=get_year_span)
+
+    print(f"\nLoading training data from: {training_data_path.name}")
+    full_df = pl.read_parquet(training_data_path)
+
+    # Extract year range from filename (e.g., rushing_yards_2009_2024.parquet)
+    filename_parts = training_data_path.stem.split('_')
+    training_start_year = int(filename_parts[-2])
+    training_end_year = int(filename_parts[-1])
 
     # Check years available
     years_available = full_df['year'].unique().sort().to_list()
@@ -165,15 +170,26 @@ def evaluate_prop_type(prop_type: str):
         print(f"  Cannot evaluate without real market data.")
         return None
 
-    # Train model on 2015-2022
+    # Load or train model
     print(f"\n{'='*80}")
-    print(f"TRAINING MODEL (2015-2022)")
+    print(f"LOADING MODEL")
     print(f"{'='*80}")
 
-    ensemble = PropEnsembleModel(prop_type=prop_type)
-    ensemble.train(train_df, n_splits=3, verbose=False)
+    model_path = Path(CACHE_DIR) / "ml_models" / prop_type / f"{prop_type}_ensemble.joblib"
 
-    print(f"\nModel trained. Generating predictions...")
+    ensemble = PropEnsembleModel(prop_type=prop_type)
+
+    if model_path.exists():
+        print(f"\nLoading saved model from: {model_path.name}")
+        ensemble.load()
+        print(f"Model loaded successfully")
+    else:
+        print(f"\nWARNING: No saved model found at {model_path}")
+        print(f"Training new model on data <2023...")
+        ensemble.train(train_df, n_splits=3, verbose=False)
+        print(f"\nModel trained")
+
+    print(f"\nGenerating predictions...")
 
     # Evaluate on 2023
     print(f"\n{'='*80}")
@@ -320,7 +336,7 @@ def evaluate_prop_type(prop_type: str):
 
     # Determine appropriate threshold range based on prop type
     if 'yards' in prop_type:
-        threshold_range = range(20, 125, 5)  # 20-120 yards
+        threshold_range = range(5, 125, 5)  # 5-120 yards (start at 5 to see full picture)
         unit = "yards"
     elif 'tds' in prop_type:
         # For TDs, use smaller increments (0.2 TDs = 0.2)
@@ -343,7 +359,7 @@ def evaluate_prop_type(prop_type: str):
 
     for threshold in threshold_range:
         mask = combined_confidence >= threshold
-        if mask.sum() >= 10:  # Minimum 10 bets (lowered from 20 for better visibility)
+        if mask.sum() >= 5:  # Minimum 5 bets (lowered for better visibility with smaller datasets)
             filtered_accuracy = combined_correct[mask].sum() / mask.sum()
             filtered_wins = combined_correct[mask].sum()
             filtered_total = mask.sum()
