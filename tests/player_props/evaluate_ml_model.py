@@ -26,9 +26,7 @@ import numpy as np
 from modules.ml_ensemble import PropEnsembleModel
 from modules.constants import CACHE_DIR
 from modules.logger import get_logger
-import logging
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = get_logger(__name__)
 
 def evaluate_model(test_year: int = 2023):

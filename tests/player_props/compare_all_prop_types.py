@@ -27,9 +27,9 @@ import numpy as np
 from modules.ml_ensemble import PropEnsembleModel
 from modules.ml_training_data_builder import TrainingDataBuilder
 from modules.constants import CACHE_DIR
-import logging
+from modules.logger import get_logger
 
-logging.basicConfig(level=logging.INFO, format='%(message)s')
+logger = get_logger(__name__)
 
 ALL_PROP_TYPES = [
     'passing_yards',
@@ -406,7 +406,8 @@ def main():
     report = generate_markdown_report(results)
 
     # Save report
-    report_path = Path("ML_PROP_COMPARISON.md")
+    report_path = Path("output/player_props/ML_PROP_COMPARISON.md")
+    report_path.parent.mkdir(parents=True, exist_ok=True)
     with open(report_path, 'w') as f:
         f.write(report)
 

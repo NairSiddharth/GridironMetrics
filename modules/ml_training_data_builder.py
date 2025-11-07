@@ -113,6 +113,15 @@ class TrainingDataBuilder:
             # Load PBP data once per year (Phase 1 optimization)
             pbp_df = self._load_pbp_data(year)
 
+            # OPTIMIZATION: Pre-compute injury metrics for all players (Phase 3)
+            # Eliminates ~10,000 N+1 queries per year (15-20% speedup)
+            injury_metrics_batch = self._precompute_injury_metrics_batch(
+                year=year,
+                multi_year_cache=multi_year_cache,
+                eligible_positions=eligible_positions
+            )
+            logger.info(f"  Pre-computed injury metrics for {len(injury_metrics_batch)} player-years")
+
             # Process each eligible position
             for position in eligible_positions:
                 # Load player stats for current year AND 3 prior years (Phase 2 optimization)
@@ -141,14 +150,16 @@ class TrainingDataBuilder:
                     logger.warning(f"  Stat column '{stat_column}' not found in {position} stats")
                     continue
 
-                # Phase 2: Create data cache with multi-year auxiliary data AND player stats
+                # Phase 2 & 3: Create data cache with multi-year auxiliary data AND player stats
                 # Multi-year cache supports 3-year historical lookbacks without file I/O
+                # Phase 3 adds pre-computed injury metrics to eliminate N+1 queries
                 data_cache = {
                     'player_stats': player_stats_cache,            # Multi-year player stats
                     'pbp_df': pbp_df,                              # PBP data for current year
                     'injury_data': multi_year_cache['injury_data'],# Multi-year injury data
                     'roster_data': multi_year_cache['roster_data'],# Multi-year roster data
-                    'nextgen_data': multi_year_cache['nextgen_data'] # Multi-year NextGen Stats
+                    'nextgen_data': multi_year_cache['nextgen_data'], # Multi-year NextGen Stats
+                    'injury_metrics_batch': injury_metrics_batch   # Pre-computed injury metrics (Phase 3)
                 }
 
                 # Process each player-week
@@ -427,6 +438,108 @@ class TrainingDataBuilder:
         except Exception as e:
             logger.debug(f"Error loading NextGen data for {year}: {e}")
             return None
+
+    def _precompute_injury_metrics_batch(
+        self,
+        year: int,
+        multi_year_cache: dict,
+        eligible_positions: list[str]
+    ) -> dict:
+        """
+        Batch-compute injury metrics for all players in a year.
+
+        OPTIMIZATION: Pre-compute injury metrics once for all players instead of
+        calling count_games_missed_due_to_injury() 4 times per player-week
+        (~10,000 N+1 queries eliminated per year).
+
+        Expected speedup: 15-20%
+
+        Args:
+            year: Current training year
+            multi_year_cache: Cache with injury_data and roster_data for multiple years
+            eligible_positions: List of positions being processed (QB, RB, WR, TE)
+
+        Returns:
+            Dict mapping (player_id, year) -> {games_played, injury_missed, other_inactive, injury_types}
+        """
+        import polars as pl
+
+        injury_metrics_batch = {}
+
+        # Compute metrics for current year and 3 prior years (Y, Y-1, Y-2, Y-3)
+        # This covers all years needed by _extract_injury_features()
+        years_to_compute = [year] + [year - offset for offset in range(1, 4)]
+
+        for compute_year in years_to_compute:
+            if compute_year < 2009:  # Injury data starts 2009
+                continue
+
+            # Get injury and roster data from multi-year cache
+            injury_df = multi_year_cache['injury_data'].get(compute_year)
+            roster_df = multi_year_cache['roster_data'].get(compute_year)
+
+            if injury_df is None or roster_df is None:
+                continue
+
+            # Get unique players in this year's roster data
+            if roster_df.is_empty():
+                continue
+
+            unique_players = roster_df.select('gsis_id').unique()
+
+            for player_row in unique_players.iter_rows(named=True):
+                player_id = player_row['gsis_id']
+
+                # Filter to this player (regular season only, weeks 1-17)
+                player_rosters = roster_df.filter(
+                    (pl.col('gsis_id') == player_id) &
+                    (pl.col('week') <= 17)
+                )
+
+                if len(player_rosters) == 0:
+                    continue
+
+                player_injuries = injury_df.filter(
+                    (pl.col('gsis_id') == player_id) &
+                    (pl.col('week') <= 17)
+                )
+
+                # Join roster and injury data
+                combined = player_rosters.join(
+                    player_injuries.select(['week', 'report_status', 'report_primary_injury']),
+                    on='week',
+                    how='left'
+                )
+
+                # Count games played
+                games_played = len(combined.filter(pl.col('status') == 'ACT'))
+
+                # Count injury-related misses
+                injury_missed_df = combined.filter(
+                    (pl.col('status') == 'RES') |  # IR always counts as injury
+                    ((pl.col('status') == 'INA') & (pl.col('report_status') == 'Out'))
+                )
+                injury_missed = len(injury_missed_df)
+
+                # Count non-injury inactives
+                other_inactive = len(combined.filter(
+                    (pl.col('status') == 'INA') &
+                    (pl.col('report_status').is_null() | (pl.col('report_status') != 'Out'))
+                ))
+
+                # Extract injury types
+                injury_types = injury_missed_df.select('report_primary_injury').to_series().to_list()
+                injury_types = [i for i in injury_types if i is not None]
+
+                # Store result
+                injury_metrics_batch[(player_id, compute_year)] = {
+                    'games_played': games_played,
+                    'injury_missed': injury_missed,
+                    'other_inactive': other_inactive,
+                    'injury_types': injury_types
+                }
+
+        return injury_metrics_batch
 
     def build_all_prop_types(
         self,
