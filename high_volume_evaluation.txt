@@ -1,0 +1,283 @@
+2025-11-07 16:17:37 - modules.ml_ensemble - INFO - 
+============================================================
+2025-11-07 16:17:37 - modules.ml_ensemble - INFO - Training Ensemble: receiving_yards_wr
+2025-11-07 16:17:37 - modules.ml_ensemble - INFO - ============================================================
+2025-11-07 16:17:37 - modules.ml_ensemble - INFO - Training examples: 23,786
+2025-11-07 16:17:37 - modules.ml_ensemble - INFO - CV splits: 5
+2025-11-07 16:17:37 - modules.ml_ensemble - INFO - Feature filtering ENABLED for receiving_yards_wr
+2025-11-07 16:17:37 - modules.ml_ensemble - INFO -   Available features: 39
+2025-11-07 16:17:37 - modules.ml_ensemble - INFO -   Allowed features: 39
+2025-11-07 16:17:37 - modules.ml_ensemble - INFO -   Features after filtering: 39
+2025-11-07 16:17:37 - modules.ml_ensemble - INFO - Features to scale: 28
+2025-11-07 16:17:37 - modules.ml_ensemble - INFO - NaN-friendly features: 9
+2025-11-07 16:17:37 - modules.ml_ensemble - INFO - Categorical features: 2
+2025-11-07 16:17:37 - modules.ml_ensemble - INFO - Total features in model: 39
+2025-11-07 16:17:37 - modules.ml_ensemble - INFO - 
+Cross-Validation:
+2025-11-07 16:17:37 - modules.ml_ensemble - INFO - 
+  Fold 1/5:
+2025-11-07 16:17:37 - modules.ml_ensemble - INFO -     Train: 3966, Val: 3964
+2025-11-07 16:17:38 - modules.ml_ensemble - INFO -     xgboost        : MAE=23.14, RMSE=31.84
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+2025-11-07 16:17:39 - modules.ml_ensemble - INFO -     lightgbm       : MAE=22.87, RMSE=31.69
+2025-11-07 16:18:03 - modules.ml_ensemble - INFO -     catboost       : MAE=22.48, RMSE=31.00
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\impute\_base.py:653: UserWarning: Skipping features without any observed values: ['avg_separation' 'avg_cushion' 'division_game' 'vegas_total'
+ 'vegas_spread']. At least one non-missing value is needed for imputation with strategy='median'.
+  warnings.warn(
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\impute\_base.py:653: UserWarning: Skipping features without any observed values: ['avg_separation' 'avg_cushion' 'division_game' 'vegas_total'
+ 'vegas_spread']. At least one non-missing value is needed for imputation with strategy='median'.
+  warnings.warn(
+2025-11-07 16:18:04 - modules.ml_ensemble - INFO -     random_forest  : MAE=22.88, RMSE=31.14
+2025-11-07 16:18:04 - modules.ml_ensemble - INFO - 
+  Fold 2/5:
+2025-11-07 16:18:04 - modules.ml_ensemble - INFO -     Train: 7930, Val: 3964
+2025-11-07 16:18:05 - modules.ml_ensemble - INFO -     xgboost        : MAE=23.48, RMSE=32.16
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+2025-11-07 16:18:05 - modules.ml_ensemble - INFO -     lightgbm       : MAE=23.40, RMSE=32.15
+2025-11-07 16:18:30 - modules.ml_ensemble - INFO -     catboost       : MAE=23.07, RMSE=31.62
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\impute\_base.py:653: UserWarning: Skipping features without any observed values: ['avg_separation' 'avg_cushion' 'division_game' 'vegas_total'
+ 'vegas_spread']. At least one non-missing value is needed for imputation with strategy='median'.
+  warnings.warn(
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\impute\_base.py:653: UserWarning: Skipping features without any observed values: ['avg_separation' 'avg_cushion' 'division_game' 'vegas_total'
+ 'vegas_spread']. At least one non-missing value is needed for imputation with strategy='median'.
+  warnings.warn(
+2025-11-07 16:18:32 - modules.ml_ensemble - INFO -     random_forest  : MAE=23.24, RMSE=31.67
+2025-11-07 16:18:32 - modules.ml_ensemble - INFO - 
+  Fold 3/5:
+2025-11-07 16:18:32 - modules.ml_ensemble - INFO -     Train: 11894, Val: 3964
+2025-11-07 16:18:32 - modules.ml_ensemble - INFO -     xgboost        : MAE=22.33, RMSE=30.39
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+2025-11-07 16:18:33 - modules.ml_ensemble - INFO -     lightgbm       : MAE=22.11, RMSE=30.14
+2025-11-07 16:18:58 - modules.ml_ensemble - INFO -     catboost       : MAE=22.02, RMSE=30.04
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\impute\_base.py:653: UserWarning: Skipping features without any observed values: ['avg_separation' 'avg_cushion' 'division_game' 'vegas_total'
+ 'vegas_spread']. At least one non-missing value is needed for imputation with strategy='median'.
+  warnings.warn(
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\impute\_base.py:653: UserWarning: Skipping features without any observed values: ['avg_separation' 'avg_cushion' 'division_game' 'vegas_total'
+ 'vegas_spread']. At least one non-missing value is needed for imputation with strategy='median'.
+  warnings.warn(
+2025-11-07 16:19:00 - modules.ml_ensemble - INFO -     random_forest  : MAE=22.21, RMSE=30.20
+2025-11-07 16:19:00 - modules.ml_ensemble - INFO - 
+  Fold 4/5:
+2025-11-07 16:19:00 - modules.ml_ensemble - INFO -     Train: 15858, Val: 3964
+2025-11-07 16:19:00 - modules.ml_ensemble - INFO -     xgboost        : MAE=22.21, RMSE=30.31
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+2025-11-07 16:19:01 - modules.ml_ensemble - INFO -     lightgbm       : MAE=22.20, RMSE=30.33
+2025-11-07 16:19:35 - modules.ml_ensemble - INFO -     catboost       : MAE=21.95, RMSE=30.06
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\impute\_base.py:653: UserWarning: Skipping features without any observed values: ['avg_separation' 'avg_cushion' 'division_game' 'vegas_total'
+ 'vegas_spread']. At least one non-missing value is needed for imputation with strategy='median'.
+  warnings.warn(
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\impute\_base.py:653: UserWarning: Skipping features without any observed values: ['avg_separation' 'avg_cushion' 'division_game' 'vegas_total'
+ 'vegas_spread']. At least one non-missing value is needed for imputation with strategy='median'.
+  warnings.warn(
+2025-11-07 16:19:38 - modules.ml_ensemble - INFO -     random_forest  : MAE=22.33, RMSE=30.30
+2025-11-07 16:19:38 - modules.ml_ensemble - INFO - 
+  Fold 5/5:
+2025-11-07 16:19:38 - modules.ml_ensemble - INFO -     Train: 19822, Val: 3964
+2025-11-07 16:19:39 - modules.ml_ensemble - INFO -     xgboost        : MAE=21.86, RMSE=29.19
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+2025-11-07 16:19:39 - modules.ml_ensemble - INFO -     lightgbm       : MAE=21.54, RMSE=28.98
+2025-11-07 16:20:17 - modules.ml_ensemble - INFO -     catboost       : MAE=21.54, RMSE=28.78
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\impute\_base.py:653: UserWarning: Skipping features without any observed values: ['avg_separation' 'avg_cushion' 'division_game' 'vegas_total'
+ 'vegas_spread']. At least one non-missing value is needed for imputation with strategy='median'.
+  warnings.warn(
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\impute\_base.py:653: UserWarning: Skipping features without any observed values: ['avg_separation' 'avg_cushion' 'division_game' 'vegas_total'
+ 'vegas_spread']. At least one non-missing value is needed for imputation with strategy='median'.
+  warnings.warn(
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO -     random_forest  : MAE=21.76, RMSE=28.93
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - 
+============================================================
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - Cross-Validation Results (Mean ± Std):
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - ============================================================
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - xgboost        : MAE=22.61±0.61, RMSE=30.78±1.09
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - lightgbm       : MAE=22.42±0.64, RMSE=30.66±1.14
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - catboost       : MAE=22.21±0.52, RMSE=30.30±0.97
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - random_forest  : MAE=22.48±0.52, RMSE=30.45±0.93
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - 
+============================================================
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - Ensemble Weights (based on inverse MAE):
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - ============================================================
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - xgboost        : 0.2481
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - lightgbm       : 0.2501
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - catboost       : 0.2524
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - random_forest  : 0.2494
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - 
+============================================================
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - Training final models on full dataset...
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO - ============================================================
+2025-11-07 16:20:21 - modules.ml_ensemble - INFO -   Training xgboost...
+2025-11-07 16:20:22 - modules.ml_ensemble - INFO -   Training lightgbm...
+2025-11-07 16:20:22 - modules.ml_ensemble - INFO -   Training catboost...
+2025-11-07 16:21:01 - modules.ml_ensemble - INFO -   Training random_forest...
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\impute\_base.py:653: UserWarning: Skipping features without any observed values: ['avg_separation' 'avg_cushion' 'division_game' 'vegas_total'
+ 'vegas_spread']. At least one non-missing value is needed for imputation with strategy='median'.
+  warnings.warn(
+2025-11-07 16:21:05 - modules.ml_ensemble - INFO - 
+Ensemble training complete!
+2025-11-07 16:21:05 - modules.ml_ensemble - INFO - Ensemble saved to: C:\Users\nairs\Documents\GithubProjects\GridironMetrics\cache\ml_models\receiving_yards_wr_ensemble.pkl
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\impute\_base.py:653: UserWarning: Skipping features without any observed values: ['avg_separation' 'avg_cushion' 'division_game' 'vegas_total'
+ 'vegas_spread']. At least one non-missing value is needed for imputation with strategy='median'.
+  warnings.warn(
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\impute\_base.py:653: UserWarning: Skipping features without any observed values: ['avg_separation' 'avg_cushion' 'division_game' 'vegas_total'
+ 'vegas_spread']. At least one non-missing value is needed for imputation with strategy='median'.
+  warnings.warn(
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\utils\validation.py:2749: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+C:\Users\nairs\Documents\GithubProjects\GridironMetrics\.venv\Lib\site-packages\sklearn\impute\_base.py:653: UserWarning: Skipping features without any observed values: ['avg_separation' 'avg_cushion' 'division_game' 'vegas_total'
+ 'vegas_spread']. At least one non-missing value is needed for imputation with strategy='median'.
+  warnings.warn(
+================================================================================
+WR RECEIVING YARDS MODEL - FULL EVALUATION
+================================================================================
+Timestamp: 2025-11-07 16:17:37
+
+================================================================================
+LOADING DATA
+================================================================================
+Loading from: C:\Users\nairs\Documents\GithubProjects\GridironMetrics\cache\ml_training_data\receiving_yards_wr_2009_2024.parquet
+Total examples: 27,823
+Features: 42
+
+Data Split:
+  Train (2009-2022): 23,786 examples
+  Test 2023: 2,035 examples
+  Test 2024: 2,002 examples
+  Test Combined: 4,037 examples
+
+================================================================================
+TRAINING MODEL
+================================================================================
+
+Model saved to: C:\Users\nairs\Documents\GithubProjects\GridironMetrics\cache\ml_models\receiving_yards_wr_ensemble.pkl
+
+Loading real betting lines (friday)...
+  Loaded 723 real betting lines
+
+================================================================================
+EVALUATING ON 2023
+================================================================================
+Test examples: 2,035
+
+Prediction Accuracy:
+  MAE:  21.20 yards
+  RMSE: 29.27 yards
+
+Matching to real betting lines...
+  WARNING: No real lines matched! Falling back to simulated lines
+
+Using SIMULATED betting lines (no real data available)
+
+Binary Prediction Accuracy (Over/Under):
+  ML Model:  55.4%
+  Baseline:  62.3%
+  Improvement: -6.9 percentage points
+
+ROI Analysis:
+  Wins: 1128 | Losses: 907
+  Win Rate: 55.4% (breakeven: 52.4%)
+  Net Profit: $13,030 (on $223,850 wagered)
+  ROI: +5.82%
+
+Confidence-Based Performance:
+  5+ yards confidence: 59.0% (1658 bets, 81.5% of total, ROI: +12.61%)
+  10+ yards confidence: 61.3% (1350 bets, 66.3% of total, ROI: +16.95%)
+  15+ yards confidence: 62.1% (1072 bets, 52.7% of total, ROI: +18.61%)
+  20+ yards confidence: 62.6% (828 bets, 40.7% of total, ROI: +19.43%)
+
+================================================================================
+EVALUATING ON 2024
+================================================================================
+Test examples: 2,002
+
+Prediction Accuracy:
+  MAE:  20.86 yards
+  RMSE: 28.80 yards
+
+Matching to real betting lines...
+  Matched 436 / 2,002 examples (21.8%)
+  Using REAL betting lines for evaluation
+
+Binary Prediction Accuracy (Over/Under):
+  ML Model:  41.1%
+  Baseline:  61.5%
+  Improvement: -20.5 percentage points
+
+ROI Analysis:
+  Wins: 179 | Losses: 257
+  Win Rate: 41.1% (breakeven: 52.4%)
+  Net Profit: $-10,370 (on $47,960 wagered)
+  ROI: -21.62%
+
+Confidence-Based Performance:
+  5+ yards confidence: 38.1% (270 bets, 61.9% of total, ROI: -27.17%)
+  10+ yards confidence: 38.5% (130 bets, 29.8% of total, ROI: -26.57%)
+  15+ yards confidence: 37.5% (56 bets, 12.8% of total, ROI: -28.41%)
+  20+ yards confidence: 36.7% (30 bets, 6.9% of total, ROI: -30.00%)
+
+================================================================================
+EVALUATING ON 2023-2024 Combined
+================================================================================
+Test examples: 4,037
+
+Prediction Accuracy:
+  MAE:  21.03 yards
+  RMSE: 29.04 yards
+
+Matching to real betting lines...
+  Matched 436 / 4,037 examples (10.8%)
+  Using REAL betting lines for evaluation
+
+Binary Prediction Accuracy (Over/Under):
+  ML Model:  41.1%
+  Baseline:  62.5%
+  Improvement: -21.4 percentage points
+
+ROI Analysis:
+  Wins: 179 | Losses: 257
+  Win Rate: 41.1% (breakeven: 52.4%)
+  Net Profit: $-10,370 (on $47,960 wagered)
+  ROI: -21.62%
+
+Confidence-Based Performance:
+  5+ yards confidence: 38.1% (270 bets, 61.9% of total, ROI: -27.17%)
+  10+ yards confidence: 38.5% (130 bets, 29.8% of total, ROI: -26.57%)
+  15+ yards confidence: 37.5% (56 bets, 12.8% of total, ROI: -28.41%)
+  20+ yards confidence: 36.7% (30 bets, 6.9% of total, ROI: -30.00%)
+
+================================================================================
+FINAL SUMMARY
+================================================================================
+
+REAL BETTING LINES USED
+  Match Rate: 10.8%
+  Source: Friday closing lines from cache/player_props
+
+2023 Results:
+  Accuracy: 55.4% (baseline: 62.3%)
+  MAE: 21.20 yards
+  ROI: +5.82%
+
+2024 Results:
+  Accuracy: 41.1% (baseline: 61.5%)
+  MAE: 20.86 yards
+  ROI: -21.62%
+  Match Rate: 21.8%
+
+Combined 2023-2024 Results:
+  Accuracy: 41.1% (baseline: 62.5%)
+  Improvement: -21.4 pp
+  MAE: 21.03 yards
+  ROI: -21.62%
+  Record: 179-257
+
+================================================================================
+EVALUATION COMPLETE
+================================================================================

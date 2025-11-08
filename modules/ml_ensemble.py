@@ -27,6 +27,7 @@ import joblib
 
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OrdinalEncoder
+from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import TimeSeriesSplit
 from sklearn.metrics import mean_absolute_error, mean_squared_error
@@ -38,6 +39,7 @@ from sklearn.ensemble import RandomForestRegressor
 
 from modules.logger import get_logger
 from modules.constants import CACHE_DIR
+from modules.prop_types import get_prop_feature_config, should_filter_features
 
 logger = get_logger(__name__)
 
@@ -67,40 +69,59 @@ class PropEnsembleModel:
         self.model_dir = Path(CACHE_DIR) / "ml_models" / prop_type
         self.model_dir.mkdir(parents=True, exist_ok=True)
 
-    def _get_feature_columns(self, df: pl.DataFrame) -> Tuple[List[str], List[str]]:
+    def _get_feature_columns(self, df: pl.DataFrame) -> Tuple[List[str], List[str], List[str]]:
         """
-        Separate numeric and categorical features.
+        Separate numeric, NaN-friendly, and categorical features.
 
         Args:
             df: Training dataframe
 
         Returns:
-            (numeric_features, categorical_features)
+            (scale_features, nan_features, categorical_features)
         """
         # Exclude metadata columns
         exclude_cols = {'target', 'player_id', 'year'}
         all_features = [col for col in df.columns if col not in exclude_cols]
 
+        # NaN-friendly features (tree models handle NaN natively, no scaling needed)
+        # These features may have NaN for missing data (pre-2016 NextGen, missing weather, etc.)
+        nan_friendly = {
+            'avg_separation', 'avg_cushion',  # NextGen (pre-2016)
+            'game_temp', 'game_wind',  # Weather (if missing)
+            'is_home', 'is_dome', 'division_game',  # Game context (if missing)
+            'vegas_total', 'vegas_spread'  # Vegas lines (if missing)
+        }
+
         # Identify categorical features
         categorical_features = [col for col in all_features if col in self.categorical_features]
 
-        # Numeric features are everything else
-        numeric_features = [col for col in all_features if col not in categorical_features]
+        # NaN features that exist in this dataset
+        nan_features = [col for col in all_features if col in nan_friendly]
 
-        return numeric_features, categorical_features
+        # Features to scale (exclude categorical and NaN-friendly)
+        scale_features = [
+            col for col in all_features
+            if col not in categorical_features and col not in nan_friendly
+        ]
 
-    def _build_xgboost_pipeline(self, numeric_features: List[str], categorical_features: List[str]) -> Pipeline:
+        return scale_features, nan_features, categorical_features
+
+    def _build_xgboost_pipeline(self, scale_features: List[str], nan_features: List[str], categorical_features: List[str]) -> Pipeline:
         """Build XGBoost pipeline with preprocessing."""
 
-        # Preprocessing: scale numeric, encode categorical
-        preprocessor = ColumnTransformer(
-            transformers=[
-                ('num', StandardScaler(), numeric_features),
-                ('cat', OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1), categorical_features)
-            ]
-        )
+        # Preprocessing: scale numeric, pass through NaN features, encode categorical
+        transformers = [
+            ('num', StandardScaler(), scale_features),
+            ('cat', OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1), categorical_features)
+        ]
 
-        # XGBoost model
+        # Add NaN features with passthrough (XGBoost handles NaN natively)
+        if nan_features:
+            transformers.append(('nan', 'passthrough', nan_features))
+
+        preprocessor = ColumnTransformer(transformers=transformers)
+
+        # XGBoost model (tree_method supports NaN)
         model = xgb.XGBRegressor(
             n_estimators=200,
             max_depth=6,
@@ -108,7 +129,8 @@ class PropEnsembleModel:
             subsample=0.8,
             colsample_bytree=0.8,
             random_state=42,
-            n_jobs=-1
+            n_jobs=-1,
+            tree_method='hist'  # Supports NaN natively
         )
 
         pipeline = Pipeline([
@@ -118,16 +140,21 @@ class PropEnsembleModel:
 
         return pipeline
 
-    def _build_lightgbm_pipeline(self, numeric_features: List[str], categorical_features: List[str]) -> Pipeline:
+    def _build_lightgbm_pipeline(self, scale_features: List[str], nan_features: List[str], categorical_features: List[str]) -> Pipeline:
         """Build LightGBM pipeline with preprocessing."""
 
-        preprocessor = ColumnTransformer(
-            transformers=[
-                ('num', StandardScaler(), numeric_features),
-                ('cat', OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1), categorical_features)
-            ]
-        )
+        transformers = [
+            ('num', StandardScaler(), scale_features),
+            ('cat', OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1), categorical_features)
+        ]
 
+        # Add NaN features with passthrough (LightGBM handles NaN natively)
+        if nan_features:
+            transformers.append(('nan', 'passthrough', nan_features))
+
+        preprocessor = ColumnTransformer(transformers=transformers)
+
+        # LightGBM model (handles NaN natively)
         model = lgb.LGBMRegressor(
             n_estimators=200,
             max_depth=6,
@@ -146,20 +173,25 @@ class PropEnsembleModel:
 
         return pipeline
 
-    def _build_catboost_pipeline(self, numeric_features: List[str], categorical_features: List[str]) -> Pipeline:
+    def _build_catboost_pipeline(self, scale_features: List[str], nan_features: List[str], categorical_features: List[str]) -> Pipeline:
         """Build CatBoost pipeline (native categorical handling)."""
 
-        # CatBoost handles categoricals natively, so we only scale numerics
-        preprocessor = ColumnTransformer(
-            transformers=[
-                ('num', StandardScaler(), numeric_features),
-                ('cat', 'passthrough', categorical_features)  # Keep categorical as-is
-            ]
-        )
+        # CatBoost handles categoricals and NaN natively, so we only scale numerics
+        transformers = [
+            ('num', StandardScaler(), scale_features),
+            ('cat', 'passthrough', categorical_features)  # Keep categorical as-is
+        ]
+
+        # Add NaN features with passthrough (CatBoost handles NaN natively)
+        if nan_features:
+            transformers.append(('nan', 'passthrough', nan_features))
+
+        preprocessor = ColumnTransformer(transformers=transformers)
 
         # Get categorical feature indices (after preprocessing)
-        cat_feature_indices = list(range(len(numeric_features), len(numeric_features) + len(categorical_features)))
+        cat_feature_indices = list(range(len(scale_features), len(scale_features) + len(categorical_features)))
 
+        # CatBoost model (handles NaN natively)
         model = CatBoostRegressor(
             iterations=200,
             depth=6,
@@ -176,16 +208,21 @@ class PropEnsembleModel:
 
         return pipeline
 
-    def _build_random_forest_pipeline(self, numeric_features: List[str], categorical_features: List[str]) -> Pipeline:
+    def _build_random_forest_pipeline(self, scale_features: List[str], nan_features: List[str], categorical_features: List[str]) -> Pipeline:
         """Build Random Forest pipeline with preprocessing."""
 
-        preprocessor = ColumnTransformer(
-            transformers=[
-                ('num', StandardScaler(), numeric_features),
-                ('cat', OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1), categorical_features)
-            ]
-        )
+        transformers = [
+            ('num', StandardScaler(), scale_features),
+            ('cat', OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1), categorical_features)
+        ]
 
+        # Random Forest doesn't handle NaN natively - use SimpleImputer (median strategy)
+        if nan_features:
+            transformers.append(('nan', SimpleImputer(strategy='median'), nan_features))
+
+        preprocessor = ColumnTransformer(transformers=transformers)
+
+        # Random Forest model
         model = RandomForestRegressor(
             n_estimators=200,
             max_depth=10,
@@ -225,24 +262,53 @@ class PropEnsembleModel:
         logger.info(f"Training examples: {len(train_df):,}")
         logger.info(f"CV splits: {n_splits}")
 
-        # Separate features and target
-        numeric_features, categorical_features = self._get_feature_columns(train_df)
-        self.feature_columns = numeric_features + categorical_features
-
-        logger.info(f"Numeric features: {len(numeric_features)}")
-        logger.info(f"Categorical features: {len(categorical_features)}")
-
         # Convert to pandas for sklearn compatibility
         train_pd = train_df.to_pandas()
-        X = train_pd[self.feature_columns]
-        y = train_pd['target']
 
-        # Build pipelines
+        # Apply feature filtering if configured for this prop type
+        if should_filter_features(self.prop_type):
+            config = get_prop_feature_config(self.prop_type)
+            allowed_features = config['include']
+
+            # Filter to only allowed features (exclude metadata)
+            exclude_cols = {'target', 'player_id', 'year'}
+            all_available = [col for col in train_pd.columns if col not in exclude_cols]
+
+            # Keep only features that are both allowed and available
+            filtered_features = [col for col in all_available if col in allowed_features]
+
+            logger.info(f"Feature filtering ENABLED for {self.prop_type}")
+            logger.info(f"  Available features: {len(all_available)}")
+            logger.info(f"  Allowed features: {len(allowed_features)}")
+            logger.info(f"  Features after filtering: {len(filtered_features)}")
+
+            # Create filtered dataframe
+            filtered_df = train_pd[filtered_features + ['target', 'player_id', 'year']]
+            train_df_filtered = pl.from_pandas(filtered_df)
+        else:
+            logger.info(f"Feature filtering DISABLED for {self.prop_type} (using all features)")
+            train_df_filtered = train_df
+
+        # Separate features into scale, NaN-friendly, and categorical
+        scale_features, nan_features, categorical_features = self._get_feature_columns(train_df_filtered)
+        self.feature_columns = scale_features + nan_features + categorical_features
+
+        logger.info(f"Features to scale: {len(scale_features)}")
+        logger.info(f"NaN-friendly features: {len(nan_features)}")
+        logger.info(f"Categorical features: {len(categorical_features)}")
+        logger.info(f"Total features in model: {len(self.feature_columns)}")
+
+        # Get X and y from filtered data
+        train_pd_filtered = train_df_filtered.to_pandas()
+        X = train_pd_filtered[self.feature_columns]
+        y = train_pd_filtered['target']
+
+        # Build pipelines with NaN handling
         pipelines = {
-            'xgboost': self._build_xgboost_pipeline(numeric_features, categorical_features),
-            'lightgbm': self._build_lightgbm_pipeline(numeric_features, categorical_features),
-            'catboost': self._build_catboost_pipeline(numeric_features, categorical_features),
-            'random_forest': self._build_random_forest_pipeline(numeric_features, categorical_features)
+            'xgboost': self._build_xgboost_pipeline(scale_features, nan_features, categorical_features),
+            'lightgbm': self._build_lightgbm_pipeline(scale_features, nan_features, categorical_features),
+            'catboost': self._build_catboost_pipeline(scale_features, nan_features, categorical_features),
+            'random_forest': self._build_random_forest_pipeline(scale_features, nan_features, categorical_features)
         }
 
         # Cross-validation with TimeSeriesSplit

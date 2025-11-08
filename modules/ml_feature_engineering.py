@@ -12,17 +12,17 @@ Architecture:
 - Comprehensive injury integration (11 injury features)
 
 Feature Categories:
-1. Baseline Performance (7 features): weighted avg, L3 avg, career avg, variance, games played, effective games
+1. Baseline Performance (4 features): weighted avg, career avg, variance, games played
 2. Opponent Defense (2-4 features): Pass/rush YPA, TD rates
-3. Efficiency (4 features): Success rates, red zone rate, usage
-4. Injury (11 features): Historical pattern, current status, injury type
-5. Position-Specific: Catch rate (WR/TE), blocking quality (RB)
+3. Efficiency (3 features): Success rate (3wk), red zone rate, usage
+4. Injury (1-12 features): RB props use 1 (current status), others use full suite
+5. Position-Specific: Catch rate (3 features for WR/TE), target volume (6 features), NextGen (2 features)
 6. Game Context (7 features): Home/away, dome, weather, Vegas lines
-7. Game Script & Team Context (6 features): Team margin, RB quality, opp defense, pace/TOP
-8. Weather Performance (10 features): Player-specific temp/wind/precip/env adjustments (lag-1 season)
+7. Game Script & Team Context (4-5 features): Team margin, opp defense, pace/TOP
+8. Prior Season (3 features): Prior avg, YoY trend, sophomore indicator
 9. Categorical (4 features): Opponent, position, week, season
 
-Total: ~55 features
+Total: ~45-50 features (varies by position/prop)
 
 Usage:
     engineer = PropFeatureEngineer()
@@ -50,7 +50,7 @@ from modules.prop_data_aggregator import (
     get_career_averages,
     calculate_stat_variance
 )
-from modules.prop_types import get_stat_column_for_prop, get_prop_config
+from modules.prop_types import get_stat_column_for_prop, get_prop_config, get_prop_feature_config, should_filter_features
 from modules.context_adjustments import ContextAdjustments
 
 logger = get_logger(__name__)
@@ -105,6 +105,20 @@ class PropFeatureEngineer:
         features = {}
 
         try:
+            # Smart Feature Generation: Get allowed features for this prop type
+            allowed_features = None
+            if should_filter_features(prop_type):
+                config = get_prop_feature_config(prop_type)
+                if config:
+                    allowed_features = set(config['include'])  # Use set for O(1) lookup
+
+            # Helper function to check if we need any feature in a group
+            def needs_feature_group(feature_list):
+                """Check if ANY feature in the list is needed for this prop."""
+                if allowed_features is None:
+                    return True  # No filtering - generate all
+                return any(f in allowed_features for f in feature_list)
+
             # Load player stats through week-1 (strict no-future-data)
             player_stats = self._load_player_stats(player_id, season, position)
 
@@ -132,66 +146,78 @@ class PropFeatureEngineer:
             )
             features.update(baseline_features)
 
-            # 2. Opponent Defense Features
+            # 2. Opponent Defense Features (Phase 8B: uses opponent defense cache)
             opponent_features = self._extract_opponent_defense_features(
-                opponent_team, season, week, position, prop_type, pbp_through_week
+                opponent_team, season, week, position, prop_type, pbp_through_week, data_cache
             )
             features.update(opponent_features)
 
-            # 3. Efficiency Features (success rate, usage)
+            # 3. Efficiency Features (success rate, usage - Phase 7: uses cache)
             efficiency_features = self._extract_efficiency_features(
-                player_id, season, week, position, prop_type, pbp_through_week
+                player_id, season, week, position, prop_type, pbp_through_week, data_cache
             )
             features.update(efficiency_features)
 
-            # 4. Position-Specific Features
-            if position in ['WR', 'TE', 'RB'] and ('receiving' in prop_type or prop_type == 'receptions'):
+            # 4. Position-Specific Features (smart generation based on config)
+
+            # Catch Rate Features (3 features: catch_rate, avg_target_depth, yac_pct - Phase 7: uses cache)
+            if needs_feature_group(['catch_rate', 'avg_target_depth', 'yac_pct']):
                 catch_features = self._extract_catch_rate_features(
-                    player_id, season, week, pbp_through_week
+                    player_id, season, week, pbp_through_week, data_cache
                 )
                 features.update(catch_features)
 
-                # Target volume features (6 features)
+            # Target Volume Features (6 features - Phase 5: uses volume cache)
+            if needs_feature_group(['targets_season_avg', 'targets_3wk_avg', 'target_share_season',
+                                    'target_share_3wk', 'yards_per_target_season', 'yards_per_target_3wk']):
                 target_volume_features = self._extract_target_volume_features(
-                    player_id, season, week, pbp_through_week
+                    player_id, season, week, pbp_through_week, data_cache
                 )
                 features.update(target_volume_features)
 
-                # NextGen Stats features for WR/TE (2 features, 2016+)
-                if position in ['WR', 'TE']:
-                    nextgen_features = self._extract_nextgen_stats_features(
-                        player_id, season, week, data_cache
-                    )
-                    features.update(nextgen_features)
+            # NextGen Stats Features (2 features: avg_separation, avg_cushion)
+            if needs_feature_group(['avg_separation', 'avg_cushion']):
+                nextgen_features = self._extract_nextgen_stats_features(
+                    player_id, season, week, data_cache
+                )
+                features.update(nextgen_features)
 
-                # Prior season baseline features for all receiving (3 features)
+            # Prior Season Features (3 features: prior_season_avg, yoy_trend, sophomore_indicator - Phase 6: uses cache)
+            if needs_feature_group(['prior_season_avg', 'yoy_trend', 'sophomore_indicator']):
                 prior_season_features = self._extract_prior_season_features(
-                    player_id, season, week, position, stat_column
+                    player_id, season, week, position, stat_column, data_cache
                 )
                 features.update(prior_season_features)
 
-            # REMOVED: blocking_quality feature (circular logic - measures RB talent vs backup)
-            # See research/RB_MODEL_FEATURE_CLEANUP_PLAN.md for details
-            # if position == 'RB':
-            #     blocking_features = self._extract_blocking_quality_features(
-            #         player_id, season, week
-            #     )
-            #     features.update(blocking_features)
+            # Rushing Volume Features (3 features: rushing_attempt_share_season, carry_share_3wk, goal_line_share)
+            if needs_feature_group(['rushing_attempt_share_season', 'carry_share_3wk', 'goal_line_share']):
+                volume_features = self._extract_rushing_volume_features(
+                    player_id, season, week, pbp_through_week
+                )
+                features.update(volume_features)
 
-                # Add rushing volume features for rushing props
-                if 'rushing' in prop_type:
-                    volume_features = self._extract_rushing_volume_features(
-                        player_id, season, week, pbp_through_week
-                    )
-                    features.update(volume_features)
+            # 5. Game Context Features (Phase 4: uses game metadata cache)
+            # Extract player's team from stats for cache lookup
+            player_team = None
+            try:
+                if 'team' in player_stats.columns and len(player_stats) > 0:
+                    # Get most recent team (could change mid-season via trade)
+                    recent_stats = player_stats.filter(pl.col('week') <= week).sort('week', descending=True)
+                    if len(recent_stats) > 0:
+                        player_team = recent_stats['team'][0]
+            except:
+                pass  # Fall back to PBP lookup if team extraction fails
 
-            # 5. Game Context Features
-            context_features = self._extract_game_context_features(opponent_team)
+            context_features = self._extract_game_context_features(
+                opponent_team, player_id, season, week, position, pbp_df,
+                player_team=player_team, data_cache=data_cache
+            )
             features.update(context_features)
 
-            # 6. Game Script & Team Context Features
+            # 6. Game Script & Team Context Features (Phase 8A: uses game script cache)
             game_script_features = self._extract_game_script_features(
-                player_id, season, week, position, opponent_team, prop_type, pbp_through_week
+                player_id, season, week, position, opponent_team, prop_type, pbp_through_week,
+                data_cache=data_cache, player_team=player_team
             )
             features.update(game_script_features)
 
@@ -215,6 +241,13 @@ class PropFeatureEngineer:
             features['position'] = position
             features['week'] = week
             features['season'] = season
+
+            # Final filtering: Keep only allowed features for this prop type
+            if allowed_features is not None:
+                before_count = len(features)
+                features = {k: v for k, v in features.items() if k in allowed_features}
+                after_count = len(features)
+                logger.debug(f"Feature filtering: {before_count} → {after_count} features for {prop_type}")
 
             logger.debug(f"Generated {len(features)} features for {player_id} week {week}")
 
@@ -291,11 +324,10 @@ class PropFeatureEngineer:
         data_cache: Optional[dict] = None
     ) -> Dict[str, float]:
         """
-        Extract baseline performance features (7 features).
+        Extract baseline performance features (6 features).
 
         Uses existing functions from prop_data_aggregator.py:
         - calculate_weighted_rolling_average()
-        - get_simple_average()
         - get_career_averages()
         - calculate_stat_variance()
 
@@ -311,7 +343,6 @@ class PropFeatureEngineer:
             # No games played yet - return zeros
             return {
                 'weighted_avg': 0.0,
-                'last_3_avg': 0.0,
                 'career_avg': 0.0,
                 'variance_cv': 1.0,  # High variance for no data
                 'games_played': 0
@@ -321,11 +352,6 @@ class PropFeatureEngineer:
             # Weighted rolling average (recency-weighted: L3: 1.5x, L4-6: 1.0x, L7+: 0.75x)
             features['weighted_avg'] = calculate_weighted_rolling_average(
                 player_stats, stat_column, through_week=through_week
-            )
-
-            # Simple L3 average
-            features['last_3_avg'] = get_simple_average(
-                player_stats, stat_column, last_n_games=3, through_week=through_week
             )
 
             # Career average (3-year lookback)
@@ -354,7 +380,6 @@ class PropFeatureEngineer:
             # Return zeros on error
             features = {
                 'weighted_avg': 0.0,
-                'last_3_avg': 0.0,
                 'career_avg': 0.0,
                 'variance_cv': 1.0,
                 'games_played': 0
@@ -369,10 +394,14 @@ class PropFeatureEngineer:
         week: int,
         position: str,
         prop_type: str,
-        pbp_df: Optional[pl.DataFrame] = None
+        pbp_df: Optional[pl.DataFrame] = None,
+        data_cache: Optional[dict] = None
     ) -> Dict[str, float]:
         """
         Extract opponent defensive stats (4 features).
+
+        Phase 8B optimization: Uses opponent_defense cache for O(1) lookups.
+        Eliminates 2 redundant PBP filter operations per player-week call.
 
         Calculates raw defensive metrics (not multipliers):
         - opp_def_pass_ypa: Yards per attempt allowed
@@ -383,6 +412,36 @@ class PropFeatureEngineer:
         Uses data through week-1 only (no future data).
         """
         features = {}
+
+        # Phase 8B: Use opponent defense cache if available (O(1) lookup!)
+        if data_cache and 'opponent_defense' in data_cache:
+            opponent_defense_cache = data_cache['opponent_defense'].get(season, {})
+
+            through_week = week - 1
+            if through_week < 1:
+                return self._get_default_opponent_features(prop_type)
+
+            try:
+                # O(1) lookup from opponent defense cache
+                cache_key = (opponent, through_week)
+                if cache_key in opponent_defense_cache:
+                    cached_stats = opponent_defense_cache[cache_key]
+
+                    # Populate passing defense features if needed
+                    if 'passing' in prop_type or prop_type == 'receptions' or 'receiving' in prop_type:
+                        features['opp_def_pass_ypa'] = cached_stats.get('opp_def_pass_ypa', 7.0)
+                        features['opp_def_pass_td_rate'] = cached_stats.get('opp_def_pass_td_rate', 0.045)
+
+                    # Populate rushing defense features if needed
+                    if 'rushing' in prop_type:
+                        features['opp_def_rush_ypc'] = cached_stats.get('opp_def_rush_ypc', 4.3)
+                        features['opp_def_rush_td_rate'] = cached_stats.get('opp_def_rush_td_rate', 0.018)
+
+                    return features
+
+            except Exception as e:
+                logger.debug(f"Error using opponent defense cache: {e}")
+                # Fall through to legacy implementation below
 
         # Load PBP data if not provided
         if pbp_df is None:
@@ -455,25 +514,59 @@ class PropFeatureEngineer:
         week: int,
         position: str,
         prop_type: str,
-        pbp_df: Optional[pl.DataFrame] = None
+        pbp_df: Optional[pl.DataFrame] = None,
+        data_cache: Optional[dict] = None
     ) -> Dict[str, float]:
         """
-        Extract efficiency and usage features (4 features).
+        Extract efficiency and usage features (3 features).
+
+        Phase 7 optimization: Uses PBP stats cache for O(1) lookups.
 
         Features:
         - success_rate_3wk: 3-week rolling success rate
-        - success_rate_season: Season-long success rate
         - red_zone_rate: Red zone touch percentage
         - usage_rate: Target share or carry share
         """
         features = {
             'success_rate_3wk': 0.5,  # Default to 50%
-            'success_rate_season': 0.5,
             'red_zone_rate': 0.15,  # Default to 15%
             'usage_rate': 0.15  # Default to 15% usage
         }
 
-        # Load PBP data if not provided
+        # Phase 7: Use PBP stats cache if available
+        if data_cache and 'pbp_stats' in data_cache:
+            pbp_stats_cache = data_cache['pbp_stats'].get(season, {})
+
+            through_week = week - 1
+            if through_week < 1:
+                return features
+
+            try:
+                # O(1) lookup for cumulative stats
+                cache_key = (player_id, through_week)
+                if cache_key in pbp_stats_cache:
+                    stats = pbp_stats_cache[cache_key]
+
+                    total_completions = stats.get('completions', 0)
+                    successful_plays = stats.get('successful_plays', 0)
+                    total_targets = stats.get('targets', 0)
+                    red_zone_targets = stats.get('red_zone_targets', 0)
+
+                    # Success rate (for receivers, based on completions)
+                    if total_completions >= 10:
+                        features['success_rate_3wk'] = successful_plays / total_completions if total_completions > 0 else 0.5
+
+                    # Red zone rate
+                    if total_targets >= 15:
+                        features['red_zone_rate'] = red_zone_targets / total_targets if total_targets > 0 else 0.15
+
+                return features
+
+            except Exception as e:
+                logger.debug(f"Error using PBP stats cache for efficiency: {e}")
+                # Fall through to PBP filtering fallback
+
+        # Fallback: Load PBP data if not provided
         if pbp_df is None:
             pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
             if not pbp_file.exists():
@@ -511,9 +604,6 @@ class PropFeatureEngineer:
                     player_plays = pl.DataFrame()
 
                 if len(player_plays) >= 20:  # Minimum sample size
-                    # Season-long success rate
-                    features['success_rate_season'] = player_plays['success'].mean()
-
                     # 3-week rolling success rate
                     last_3_weeks = pbp_filtered.filter(
                         pl.col('week') >= max(1, week - 3)
@@ -567,25 +657,64 @@ class PropFeatureEngineer:
         player_id: str,
         season: int,
         week: int,
-        pbp_df: Optional[pl.DataFrame] = None
+        pbp_df: Optional[pl.DataFrame] = None,
+        data_cache: Optional[dict] = None
     ) -> Dict[str, float]:
         """
-        Extract receiver catch rate features (4 features).
+        Extract receiver catch rate features (3 features).
+
+        Phase 7 optimization: Uses PBP stats cache for O(1) lookups instead
+        of filtering PBP data repeatedly (eliminates 10,000+ filter operations).
 
         Features:
         - catch_rate: Completions / targets
-        - catch_rate_over_exp: Catch rate vs depth-adjusted expected
         - avg_target_depth: Average air yards per target
         - yac_pct: Yards after catch percentage
         """
         features = {
             'catch_rate': 0.65,  # Default 65% catch rate
-            'catch_rate_over_exp': 0.0,
             'avg_target_depth': 10.0,  # Default 10 yards
             'yac_pct': 0.5  # Default 50% YAC
         }
 
-        # Load PBP data if not provided
+        # Phase 7: Use PBP stats cache if available (now with cumulative stats - O(1) lookup!)
+        if data_cache and 'pbp_stats' in data_cache:
+            pbp_stats_cache = data_cache['pbp_stats'].get(season, {})
+
+            # We need data through week-1
+            through_week = week - 1
+            if through_week < 1:
+                return features
+
+            try:
+                # O(1) lookup - cache stores cumulative stats
+                cache_key = (player_id, through_week)
+                if cache_key in pbp_stats_cache:
+                    stats = pbp_stats_cache[cache_key]
+
+                    total_targets = stats.get('targets', 0)
+                    total_completions = stats.get('completions', 0)
+                    total_air_yards = stats.get('air_yards_total', 0.0)
+                    air_yards_count = stats.get('air_yards_count', 0)
+                    total_yac = stats.get('yac_total', 0.0)
+                    total_rec_yards = stats.get('receiving_yards_total', 0.0)
+
+                    if total_targets >= 15:  # Minimum sample size
+                        features['catch_rate'] = total_completions / total_targets
+
+                        if air_yards_count > 0:
+                            features['avg_target_depth'] = total_air_yards / air_yards_count
+
+                        if total_rec_yards > 0:
+                            features['yac_pct'] = total_yac / total_rec_yards
+
+                return features
+
+            except Exception as e:
+                logger.debug(f"Error using PBP stats cache: {e}")
+                # Fall through to PBP filtering fallback
+
+        # Fallback: Original PBP filtering logic (if cache not available)
         if pbp_df is None:
             pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
             if not pbp_file.exists():
@@ -634,10 +763,15 @@ class PropFeatureEngineer:
         self,
         player_id: str,
         season: int,
-        week: int
+        week: int,
+        pbp_df: Optional[pl.DataFrame] = None,
+        data_cache: Optional[dict] = None
     ) -> Dict[str, float]:
         """
         Extract RB blocking quality features (3 features).
+
+        Phase 8C optimization: Uses player_volume cache (Phase 5) for O(1) lookups.
+        Eliminates file I/O and redundant PBP filtering.
 
         Features:
         - player_ypc: Player yards per carry
@@ -650,12 +784,68 @@ class PropFeatureEngineer:
             'ypc_diff_pct': 1.0
         }
 
-        pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
-        if not pbp_file.exists():
-            return features
+        # Phase 8C: Use player volume cache if available
+        if data_cache and 'player_volume' in data_cache:
+            player_volume_cache = data_cache['player_volume'].get(season, {})
+
+            through_week = week - 1
+            if through_week < 1:
+                return features
+
+            try:
+                # O(1) lookup from player volume cache
+                cache_key = (player_id, through_week)
+                if cache_key in player_volume_cache:
+                    player_stats = player_volume_cache[cache_key]
+
+                    carries = player_stats.get('carries', 0)
+                    rushing_yards = player_stats.get('rushing_yards', 0.0)
+
+                    if carries >= 20:
+                        features['player_ypc'] = rushing_yards / carries
+
+                        # Get team totals to calculate team YPC (excluding player)
+                        team = player_stats.get('team')
+                        team_total_carries = player_stats.get('team_carries', 0)
+
+                        # Calculate teammate carries (team - player)
+                        teammate_carries = team_total_carries - carries
+
+                        # We need teammate yards, which requires summing all other RBs
+                        # This requires iterating through cache, but much faster than PBP
+                        if team and teammate_carries >= 20:
+                            teammate_yards = 0.0
+                            for (pid, wk), stats in player_volume_cache.items():
+                                if wk == through_week and stats.get('team') == team and pid != player_id:
+                                    teammate_yards += stats.get('rushing_yards', 0.0)
+
+                            if teammate_carries > 0:
+                                features['team_ypc'] = teammate_yards / teammate_carries
+
+                                if features['team_ypc'] > 0:
+                                    features['ypc_diff_pct'] = features['player_ypc'] / features['team_ypc']
+
+                    return features
+
+            except Exception as e:
+                logger.debug(f"Error using player volume cache for blocking quality: {e}")
+                # Fall through to legacy implementation
+
+        # Legacy implementation: Load PBP if cache not available
+        if pbp_df is None:
+            pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
+            if not pbp_file.exists():
+                return features
+
+            try:
+                pbp = pl.read_parquet(pbp_file)
+            except Exception as e:
+                logger.debug(f"Error loading PBP for blocking quality: {e}")
+                return features
+        else:
+            pbp = pbp_df
 
         try:
-            pbp = pl.read_parquet(pbp_file)
             pbp_filtered = pbp.filter(pl.col('week') < week)
 
             # Player carries
@@ -806,10 +996,14 @@ class PropFeatureEngineer:
         player_id: str,
         season: int,
         week: int,
-        pbp_df: Optional[pl.DataFrame] = None
+        pbp_df: Optional[pl.DataFrame] = None,
+        data_cache: Optional[dict] = None
     ) -> Dict[str, float]:
         """
         Extract WR/TE/RB target volume features (6 features).
+
+        Phase 5 optimization: Uses player volume cache for O(1) lookups instead
+        of filtering PBP data repeatedly (eliminates 10,000+ filter operations per year).
 
         Dual-signal approach for detecting role changes and breakouts:
         - Season-long baseline: stable target allocation
@@ -840,7 +1034,77 @@ class PropFeatureEngineer:
             'yards_per_target_3wk': 8.0         # Default 8 YPT recent
         }
 
-        # Load PBP data if not provided
+        # Phase 5: Use player volume cache if available
+        if data_cache and 'player_volume' in data_cache:
+            player_volume_cache = data_cache['player_volume'].get(season, {})
+
+            # We need data through week-1
+            through_week = week - 1
+            if through_week < 1:
+                return features
+
+            try:
+                # Get cumulative stats through week-1
+                cache_key = (player_id, through_week)
+                if cache_key not in player_volume_cache:
+                    return features
+
+                current_stats = player_volume_cache[cache_key]
+
+                # Simple estimation: weeks_played ≈ through_week (assumes consistent playing time)
+                # More accurate would require tracking, but this is fast and reasonable
+                weeks_played = max(1, through_week)
+
+                # === SEASON-LONG METRICS (through week-1) ===
+                season_targets = current_stats['targets']
+                season_rec_yards = current_stats['receiving_yards']
+                team_season_targets = current_stats['team_targets']
+
+                if season_targets >= 5:  # Minimum sample
+                    features['targets_season_avg'] = season_targets / weeks_played
+                    features['yards_per_target_season'] = season_rec_yards / season_targets if season_targets > 0 else 8.0
+
+                    if team_season_targets >= 10:
+                        features['target_share_season'] = season_targets / team_season_targets
+
+                # === 3-WEEK ROLLING METRICS ===
+                # Simple approach: Get stats from week-4 and subtract from current
+                four_weeks_ago = through_week - 4
+                if four_weeks_ago >= 1:
+                    old_key = (player_id, four_weeks_ago)
+                    if old_key in player_volume_cache:
+                        old_stats = player_volume_cache[old_key]
+                        recent_targets = season_targets - old_stats['targets']
+                        recent_rec_yards = season_rec_yards - old_stats['receiving_yards']
+                        recent_team_targets = team_season_targets - old_stats['team_targets']
+                    else:
+                        # Player wasn't active 4 weeks ago, use all current stats
+                        recent_targets = season_targets
+                        recent_rec_yards = season_rec_yards
+                        recent_team_targets = team_season_targets
+                else:
+                    # Not enough weeks yet, use all data
+                    recent_targets = season_targets
+                    recent_rec_yards = season_rec_yards
+                    recent_team_targets = team_season_targets
+
+                # Assume 3-4 weeks of data
+                recent_weeks = min(4, through_week)
+
+                if recent_targets >= 3:
+                    features['targets_3wk_avg'] = recent_targets / recent_weeks
+                    features['yards_per_target_3wk'] = recent_rec_yards / recent_targets if recent_targets > 0 else 8.0
+
+                    if recent_team_targets >= 5:
+                        features['target_share_3wk'] = recent_targets / recent_team_targets
+
+                return features
+
+            except Exception as e:
+                logger.debug(f"Error using player volume cache: {e}")
+                # Fall through to PBP filtering fallback
+
+        # Fallback: Original PBP filtering logic (if cache not available)
         if pbp_df is None:
             pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
             if not pbp_file.exists():
@@ -967,15 +1231,16 @@ class PropFeatureEngineer:
             - avg_separation: Season-long separation average (through week-1)
             - avg_cushion: Season-long cushion average (through week-1)
         """
-        # Default values (league typical for WR/TE)
+        # Default to NaN for missing data (pre-2016 or player not in cache)
+        # Tree models (XGBoost, LightGBM, CatBoost) handle NaN natively
         features = {
-            'avg_separation': 2.5,  # Yards of separation at catch
-            'avg_cushion': 5.0,     # Yards of cushion at snap
+            'avg_separation': float('nan'),  # NaN for missing data
+            'avg_cushion': float('nan'),     # NaN for missing data
         }
 
         # NextGen Stats only available 2016+
         if season < 2016:
-            return features
+            return features  # Return NaN for pre-2016 seasons
 
         through_week = week - 1
         if through_week < 1:
@@ -983,9 +1248,16 @@ class PropFeatureEngineer:
 
         try:
             # Phase 1: Check if NextGen data is cached
+            nextgen_data = None
             if data_cache and 'nextgen_data' in data_cache:
-                nextgen_data = data_cache['nextgen_data']
-            else:
+                nextgen_cache = data_cache['nextgen_data']
+                # Handle multi-year cache (dict) or single-year cache (DataFrame)
+                if isinstance(nextgen_cache, dict) and season in nextgen_cache:
+                    nextgen_data = nextgen_cache[season]
+                elif not isinstance(nextgen_cache, dict):
+                    nextgen_data = nextgen_cache  # Single year cache (fallback)
+
+            if nextgen_data is None:
                 # Fallback: Load from file
                 from modules.nextgen_cache_builder import load_nextgen_cache
                 nextgen_data = load_nextgen_cache(season)
@@ -1042,10 +1314,13 @@ class PropFeatureEngineer:
         season: int,
         week: int,
         position: str,
-        stat_column: str
+        stat_column: str,
+        data_cache: Optional[dict] = None
     ) -> Dict[str, float]:
         """
         Extract prior season baseline features for year-over-year context (3 features).
+
+        Phase 6 optimization: Pass data_cache to eliminate 10,000+ file I/O operations per year.
 
         Provides historical context to understand player trajectory:
         - Improving (yoy_trend > 1.05): Player getting better
@@ -1059,6 +1334,7 @@ class PropFeatureEngineer:
             week: Current week
             position: Player position
             stat_column: Stat column to analyze
+            data_cache: Optional pre-loaded data cache (Phase 6)
 
         Returns:
             Dict with 3 year-over-year features:
@@ -1074,22 +1350,22 @@ class PropFeatureEngineer:
         }
 
         try:
-            # Load prior season stats
+            # Load prior season stats (using cache)
             prior_season = season - 1
-            prior_stats = self._load_player_stats(player_id, prior_season, position)
+            prior_stats = self._load_player_stats(player_id, prior_season, position, data_cache)
 
             if prior_stats is None or len(prior_stats) == 0:
                 # No prior season data - could be rookie
                 # Check if this is their 2nd season (sophomore)
                 two_years_ago = season - 2
-                two_years_ago_stats = self._load_player_stats(player_id, two_years_ago, position)
+                two_years_ago_stats = self._load_player_stats(player_id, two_years_ago, position, data_cache)
 
                 if two_years_ago_stats is not None and len(two_years_ago_stats) > 0:
                     # They played 2 years ago but not last year - not a sophomore
                     features['sophomore_indicator'] = 0
                 else:
                     # No data 2 years ago either - check if they have current season data (indicates rookie/sophomore)
-                    current_stats = self._load_player_stats(player_id, season, position)
+                    current_stats = self._load_player_stats(player_id, season, position, data_cache)
                     if current_stats is not None and len(current_stats) > 0:
                         # Have current season data but no prior - likely rookie
                         features['sophomore_indicator'] = 0
@@ -1105,7 +1381,7 @@ class PropFeatureEngineer:
                     features['prior_season_avg'] = prior_avg
 
                     # Calculate current season average (through week-1)
-                    current_stats = self._load_player_stats(player_id, season, position)
+                    current_stats = self._load_player_stats(player_id, season, position, data_cache)
                     if current_stats is not None and len(current_stats) > 0:
                         through_week = week - 1
                         current_season_data = current_stats.filter(
@@ -1123,7 +1399,7 @@ class PropFeatureEngineer:
 
             # Check if sophomore (has prior season data, but no data 2 years ago)
             two_years_ago = season - 2
-            two_years_ago_stats = self._load_player_stats(player_id, two_years_ago, position)
+            two_years_ago_stats = self._load_player_stats(player_id, two_years_ago, position, data_cache)
 
             if two_years_ago_stats is None or len(two_years_ago_stats) == 0:
                 # Has last year but not 2 years ago = sophomore
@@ -1331,15 +1607,10 @@ class PropFeatureEngineer:
                 'weeks_since_last_missed': 999.0
             }
 
-        # Conditional filtering for RB rushing props (reduce noise)
-        # Historical features add noise to RB model without predictive value
-        # Keep only current-week injury status (most predictive)
-        if position == 'RB' and 'rushing' in prop_type:
-            return {
-                'injury_status_score': features.get('injury_status_score', 0.0)
-            }
-
-        # For all other positions/props, return full 12 features
+        # Return all injury features - config-based filtering will handle prop-specific needs
+        # RB rushing config: Only includes 'injury_status_score'
+        # WR receiving config: Only includes 'injury_status_score'
+        # QB passing config: Includes all 10 injury features
         return features
 
     # DISABLED: Game-level weather extraction (reverted to Game Script baseline)
@@ -1438,7 +1709,14 @@ class PropFeatureEngineer:
 
     def _extract_game_context_features(
         self,
-        opponent_team: str
+        opponent_team: str,
+        player_id: str = None,
+        season: int = None,
+        week: int = None,
+        position: str = None,
+        pbp_df: Optional[pl.DataFrame] = None,
+        player_team: str = None,
+        data_cache: Optional[dict] = None
     ) -> Dict[str, float]:
         """
         Extract game context features (7 features).
@@ -1452,17 +1730,176 @@ class PropFeatureEngineer:
         - vegas_total: Game total over/under
         - vegas_spread: Point spread
 
-        Note: Currently uses defaults. TODO: Load schedule and Vegas data.
+        Phase 4 optimization: Uses game metadata cache for O(1) lookups
+        instead of filtering PBP data (eliminates 30,000+ filter operations).
+
+        Uses NaN for missing data (tree models handle natively).
         """
+        # Default to NaN for missing data
         features = {
-            'is_home': 0.5,  # TODO: Load schedule to determine is_home
-            'is_dome': 0.0,  # TODO: Load stadium info
-            'division_game': 0.0,  # TODO: Load division info
-            'game_temp': 70.0,  # Default temperature
-            'game_wind': 5.0,  # Default wind
-            'vegas_total': 45.0,  # TODO: Load Vegas lines
-            'vegas_spread': 0.0  # TODO: Load Vegas lines
+            'is_home': float('nan'),
+            'is_dome': float('nan'),
+            'division_game': float('nan'),
+            'game_temp': float('nan'),
+            'game_wind': float('nan'),
+            'vegas_total': float('nan'),
+            'vegas_spread': float('nan')
         }
+
+        # If we don't have the necessary parameters, return NaN
+        if not all([season, week]):
+            return features
+
+        # Phase 4 optimization: Use game metadata cache if available
+        if data_cache and 'game_metadata' in data_cache:
+            game_metadata_cache = data_cache['game_metadata'].get(season, {})
+
+            # Determine player's team (passed as hint or fallback)
+            team = player_team
+
+            if team and (team, week) in game_metadata_cache:
+                # O(1) lookup instead of O(n) PBP filtering!
+                game_meta = game_metadata_cache[(team, week)]
+
+                features['is_home'] = game_meta.get('is_home', float('nan'))
+                is_dome = game_meta.get('is_dome')
+                if is_dome is not None:
+                    features['is_dome'] = is_dome
+
+                temp = game_meta.get('temp')
+                if temp is not None:
+                    features['game_temp'] = float(temp)
+
+                wind = game_meta.get('wind')
+                if wind is not None:
+                    features['game_wind'] = float(wind)
+
+                # Division game (from game metadata cache)
+                div_game = game_meta.get('div_game')
+                if div_game is not None:
+                    features['division_game'] = float(div_game)
+
+                # Vegas lines (from betting lines cache)
+                if data_cache and 'betting_lines' in data_cache:
+                    betting_cache = data_cache.get('betting_lines', {}).get(season, {})
+                    if betting_cache and team and (team, week) in betting_cache:
+                        betting_data = betting_cache[(team, week)]
+                        features['vegas_total'] = betting_data['vegas_total']
+                        features['vegas_spread'] = betting_data['vegas_spread']
+
+                # Successfully extracted from cache
+                return features
+
+        # Fallback: Use existing PBP filtering logic if cache unavailable
+        if not all([player_id, position]):
+            return features
+
+        try:
+            if pbp_df is None:
+                pbp_file = Path(CACHE_DIR) / "pbp" / f"pbp_{season}.parquet"
+                if not pbp_file.exists():
+                    return features
+                pbp = pl.read_parquet(pbp_file)
+            else:
+                pbp = pbp_df
+
+            # Find player's game in this week
+            if position == 'QB':
+                player_plays = pbp.filter(
+                    (pl.col('passer_player_id') == player_id) &
+                    (pl.col('week') == week)
+                )
+            elif position == 'RB':
+                player_plays = pbp.filter(
+                    (pl.col('rusher_player_id') == player_id) &
+                    (pl.col('week') == week)
+                )
+            else:  # WR/TE
+                player_plays = pbp.filter(
+                    (pl.col('receiver_player_id') == player_id) &
+                    (pl.col('week') == week)
+                )
+
+            if len(player_plays) == 0:
+                # Player not found in this week - likely hasn't played yet
+                # Try to find game by opponent matchup (for prediction)
+                week_games = pbp.filter(pl.col('week') == week)
+
+                # Get player's team from prior weeks
+                if position == 'QB':
+                    prior_plays = pbp.filter(
+                        (pl.col('passer_player_id') == player_id) &
+                        (pl.col('week') < week)
+                    )
+                elif position == 'RB':
+                    prior_plays = pbp.filter(
+                        (pl.col('rusher_player_id') == player_id) &
+                        (pl.col('week') < week)
+                    )
+                else:
+                    prior_plays = pbp.filter(
+                        (pl.col('receiver_player_id') == player_id) &
+                        (pl.col('week') < week)
+                    )
+
+                if len(prior_plays) > 0:
+                    player_team = prior_plays['posteam'][0]
+
+                    # Find game between player_team and opponent_team
+                    game_plays = week_games.filter(
+                        ((pl.col('home_team') == player_team) & (pl.col('away_team') == opponent_team)) |
+                        ((pl.col('away_team') == player_team) & (pl.col('home_team') == opponent_team))
+                    )
+
+                    if len(game_plays) > 0:
+                        player_plays = game_plays
+                    else:
+                        return features  # Can't find the game
+                else:
+                    return features  # Can't determine player's team
+
+            # Get first play for game-level data
+            first_play = player_plays.head(1)
+
+            if len(first_play) == 0:
+                return features
+
+            # Extract player's team
+            player_team = first_play['posteam'][0]
+
+            # Home/Away
+            home_team = first_play['home_team'][0]
+            if player_team and home_team:
+                features['is_home'] = 1.0 if player_team == home_team else 0.0
+
+            # Dome/Stadium
+            roof = first_play['roof'][0]
+            if roof:
+                features['is_dome'] = 1.0 if roof in ['dome', 'closed'] else 0.0
+
+            # Weather
+            temp = first_play['temp'][0]
+            wind = first_play['wind'][0]
+            if temp is not None:
+                features['game_temp'] = float(temp)
+            if wind is not None:
+                features['game_wind'] = float(wind)
+
+            # Division game (from PBP data)
+            div_game = first_play['div_game'][0]
+            if div_game is not None:
+                features['division_game'] = float(div_game)
+
+            # Vegas lines (from betting lines cache)
+            if data_cache and 'betting_lines' in data_cache:
+                betting_cache = data_cache.get('betting_lines', {}).get(season, {})
+                if betting_cache and player_team and (player_team, week) in betting_cache:
+                    betting_data = betting_cache[(player_team, week)]
+                    features['vegas_total'] = betting_data['vegas_total']
+                    features['vegas_spread'] = betting_data['vegas_spread']
+
+        except Exception as e:
+            logger.debug(f"Error extracting game context features: {e}")
 
         return features
 
@@ -1474,19 +1911,22 @@ class PropFeatureEngineer:
         position: str,
         opponent_team: str,
         prop_type: str,
-        pbp_df: Optional[pl.DataFrame] = None
+        pbp_df: Optional[pl.DataFrame] = None,
+        data_cache: Optional[dict] = None,
+        player_team: Optional[str] = None
     ) -> Dict[str, float]:
         """
-        Extract game script and team context features (5-6 features).
+        Extract game script and team context features (4-5 features).
+
+        Phase 8A optimization: Uses game_script cache for O(1) lookups.
+        Eliminates 8-10 redundant PBP filter operations per player-week call.
 
         Volume-driven features that predict passing attempts/opportunities:
         1. Team Offensive Context:
            - team_avg_margin: Rolling 3-game point differential (game script)
-           - team_rb_quality: Team RB YPC vs league average (run vs pass tendency)
-             NOTE: Skipped for RB rushing props (data leakage)
         2. Opponent Defensive Context:
            - opp_def_ppg_allowed: Opponent points per game allowed
-           - opp_def_ypg_allowed: Opponent yards per game allowed
+           - opp_def_ypg_allowed: Opponent yards per game allowed (QB-only)
         3. Pace & Tempo:
            - team_plays_per_game: Rolling 3-game offensive plays per game
            - team_time_of_possession: Average TOP per game (minutes)
@@ -1495,12 +1935,57 @@ class PropFeatureEngineer:
         """
         features = {
             'team_avg_margin': 0.0,  # Neutral game script
-            'team_rb_quality': 1.0,  # Average RB quality
             'opp_def_ppg_allowed': 22.0,  # League average ~22 PPG
             # opp_def_ypg_allowed: QB-only feature (added conditionally below)
             'team_plays_per_game': 65.0,  # League average ~65 plays
             'team_time_of_possession': 30.0  # League average 30 minutes
         }
+
+        # Phase 8A: Use game script cache if available (O(1) lookup!)
+        if data_cache and 'game_script' in data_cache:
+            game_script_cache = data_cache['game_script'].get(season, {})
+
+            through_week = week - 1
+            if through_week < 1:
+                return features
+
+            try:
+                # Get player's team (passed as parameter or fallback to PBP lookup)
+                if not player_team and pbp_df is not None:
+                    pbp_filtered = pbp_df.filter((pl.col('week') < week))
+                    if position == 'QB':
+                        player_team_df = pbp_filtered.filter(pl.col('passer_player_id') == player_id).select('posteam').head(1)
+                    elif position == 'RB':
+                        player_team_df = pbp_filtered.filter(pl.col('rusher_player_id') == player_id).select('posteam').head(1)
+                    else:  # WR/TE
+                        player_team_df = pbp_filtered.filter(pl.col('receiver_player_id') == player_id).select('posteam').head(1)
+
+                    if len(player_team_df) > 0:
+                        player_team = player_team_df['posteam'][0]
+
+                if not player_team:
+                    return features
+
+                # O(1) lookup from game script cache
+                cache_key = (player_team, through_week)
+                if cache_key in game_script_cache:
+                    cached_stats = game_script_cache[cache_key]
+
+                    # Populate all features from cache
+                    features['team_avg_margin'] = cached_stats.get('team_avg_margin', 0.0)
+                    features['opp_def_ppg_allowed'] = cached_stats.get('opp_def_ppg_allowed', 22.0)
+                    features['team_plays_per_game'] = cached_stats.get('team_plays_per_game', 65.0)
+                    features['team_time_of_possession'] = cached_stats.get('team_time_of_possession', 30.0)
+
+                    # QB-only feature
+                    if position == 'QB':
+                        features['opp_def_ypg_allowed'] = cached_stats.get('opp_def_ypg_allowed', 330.0)
+
+                    return features
+
+            except Exception as e:
+                logger.debug(f"Error using game script cache: {e}")
+                # Fall through to legacy implementation below
 
         # Load PBP data if not provided
         if pbp_df is None:
@@ -1557,28 +2042,6 @@ class PropFeatureEngineer:
                 features['team_avg_margin'] = float(recent_3['margin'].mean())
             elif len(team_games) > 0:
                 features['team_avg_margin'] = float(team_games['margin'].mean())
-
-            # Team RB Quality (YPC vs league average)
-            # Skip for RB rushing props to avoid data leakage
-            # (target player's rushing performance included in team metric)
-            if not (position == 'RB' and 'rushing' in prop_type):
-                team_rushes = pbp_filtered.filter(
-                    (pl.col('posteam') == player_team) &
-                    (pl.col('rush_attempt') == 1)
-                )
-
-                if len(team_rushes) >= 30:
-                    team_rush_yards = team_rushes['rushing_yards'].sum()
-                    team_ypc = team_rush_yards / len(team_rushes)
-
-                    # League average YPC this season
-                    all_rushes = pbp_filtered.filter(pl.col('rush_attempt') == 1)
-                    if len(all_rushes) > 0:
-                        league_rush_yards = all_rushes['rushing_yards'].sum()
-                        league_ypc = league_rush_yards / len(all_rushes)
-
-                        if league_ypc > 0:
-                            features['team_rb_quality'] = team_ypc / league_ypc
 
             # === 2. OPPONENT DEFENSIVE CONTEXT ===
 
@@ -1742,14 +2205,12 @@ class PropFeatureEngineer:
         features = {
             # Baseline features
             'weighted_avg': 0.0,
-            'last_3_avg': 0.0,
             'career_avg': 0.0,
             'variance_cv': 1.0,
             'games_played': 0,
 
             # Efficiency features
             'success_rate_3wk': 0.5,
-            'success_rate_season': 0.5,
             'red_zone_rate': 0.15,
             'usage_rate': 0.15,
 
@@ -1764,7 +2225,6 @@ class PropFeatureEngineer:
 
             # Game Script & Team Context
             'team_avg_margin': 0.0,
-            'team_rb_quality': 1.0,
             'opp_def_ppg_allowed': 22.0,
             # opp_def_ypg_allowed: QB-only feature (added conditionally)
             'team_plays_per_game': 65.0,
@@ -1796,7 +2256,6 @@ class PropFeatureEngineer:
         if position in ['WR', 'TE', 'RB'] and ('receiving' in prop_type or prop_type == 'receptions'):
             features.update({
                 'catch_rate': 0.65,
-                'catch_rate_over_exp': 0.0,
                 'avg_target_depth': 10.0,
                 'yac_pct': 0.5
             })

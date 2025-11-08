@@ -171,6 +171,118 @@ POSITION_PROP_TYPES = {
 
 
 # ============================================================================
+# ML FEATURE FILTERING CONFIGURATION
+# ============================================================================
+
+PROP_FEATURE_CONFIG = {
+    'receiving_yards_wr': {
+        'include': [
+            # Baseline (4 features)
+            'weighted_avg', 'career_avg', 'variance_cv', 'games_played',
+
+            # Opponent Defense (2 features)
+            'opp_def_pass_ypa', 'opp_def_pass_td_rate',
+
+            # Efficiency (3 features)
+            'success_rate_3wk', 'red_zone_rate', 'usage_rate',
+
+            # Injury (1 feature - reduced from 12)
+            'injury_status_score',
+
+            # Catch Rate (3 features)
+            'catch_rate', 'avg_target_depth', 'yac_pct',
+
+            # Target Volume (6 features)
+            'targets_season_avg', 'targets_3wk_avg',
+            'target_share_season', 'target_share_3wk',
+            'yards_per_target_season', 'yards_per_target_3wk',
+
+            # NextGen Stats (2 features - NaN for pre-2016)
+            'avg_separation', 'avg_cushion',
+
+            # Game Context (5 features - NaN for missing)
+            'is_home', 'is_dome', 'game_temp', 'game_wind', 'division_game',
+
+            # Game Script (4 features)
+            'team_avg_margin', 'opp_def_ppg_allowed',
+            'team_plays_per_game', 'team_time_of_possession',
+
+            # Vegas Lines (2 features - NaN for missing)
+            'vegas_total', 'vegas_spread',
+
+            # Prior Season (3 features)
+            'prior_season_avg', 'yoy_trend', 'sophomore_indicator',
+
+            # Categorical (4 features)
+            'opponent', 'position', 'week', 'season'
+        ],
+        'description': 'WR receiving yards feature set (clean, NaN for missing)'
+    },
+    'receiving_yards_te': {
+        # TE will be handled separately later - use all features for now
+        'include': 'all',
+        'description': 'TE receiving yards (using all features - to be optimized separately)'
+    },
+    'rushing_yards': {
+        'include': [
+            # Baseline (4 features)
+            'weighted_avg', 'career_avg', 'variance_cv', 'games_played',
+
+            # Opponent Defense (2 features)
+            'opp_def_rush_ypc', 'opp_def_rush_td_rate',
+
+            # Efficiency (3 features)
+            'success_rate_3wk', 'red_zone_rate', 'usage_rate',
+
+            # Rushing Volume (3 features)
+            'rushing_attempt_share_season', 'carry_share_3wk', 'goal_line_share',
+
+            # Game Context (7 features)
+            'is_home', 'is_dome', 'division_game', 'game_temp', 'game_wind', 'vegas_total', 'vegas_spread',
+
+            # Game Script (4 features)
+            'team_avg_margin', 'opp_def_ppg_allowed', 'team_plays_per_game', 'team_time_of_possession',
+
+            # Injury (1 feature - reduced from 10)
+            'injury_status_score',
+
+            # Categorical (4 features)
+            'opponent', 'position', 'week', 'season'
+        ],
+        'description': 'RB rushing yards (profitable baseline - 31 features)'
+    },
+    'passing_yards': {
+        'include': [
+            # Baseline (4 features)
+            'weighted_avg', 'career_avg', 'variance_cv', 'games_played',
+
+            # Opponent Defense (2 features)
+            'opp_def_pass_ypa', 'opp_def_pass_td_rate',
+
+            # Efficiency (3 features)
+            'success_rate_3wk', 'red_zone_rate', 'usage_rate',
+
+            # Game Context (7 features)
+            'is_home', 'is_dome', 'division_game', 'game_temp', 'game_wind', 'vegas_total', 'vegas_spread',
+
+            # Game Script (5 features - QB gets opp_def_ypg_allowed)
+            'team_avg_margin', 'opp_def_ppg_allowed', 'opp_def_ypg_allowed',
+            'team_plays_per_game', 'team_time_of_possession',
+
+            # Injury (10 features - QB keeps full suite)
+            'injury_games_missed_y1', 'injury_games_missed_y2', 'injury_games_missed_y3',
+            'injury_classification_score', 'has_recurring_injury', 'games_missed_current_season',
+            'injury_status_score', 'injury_type_mobility', 'injury_type_upper_body', 'weeks_since_last_missed',
+
+            # Categorical (4 features)
+            'opponent', 'position', 'week', 'season'
+        ],
+        'description': 'QB passing yards (45 features)'
+    }
+}
+
+
+# ============================================================================
 # HELPER FUNCTIONS
 # ============================================================================
 
@@ -293,6 +405,45 @@ def is_position_eligible_for_prop(position: str, prop_type: str) -> bool:
         return False
 
     return position.upper() in config['position']
+
+
+def get_prop_feature_config(prop_type: str) -> Optional[Dict]:
+    """
+    Get ML feature filtering configuration for a prop type.
+
+    Args:
+        prop_type: Prop type
+
+    Returns:
+        Feature config dict with 'include' list and 'description', or None
+    """
+    config = PROP_FEATURE_CONFIG.get(prop_type)
+
+    # Handle reference configs (e.g., TE references WR)
+    if config and isinstance(config.get('include'), str):
+        ref_prop = config['include']
+        return PROP_FEATURE_CONFIG.get(ref_prop)
+
+    return config
+
+
+def should_filter_features(prop_type: str) -> bool:
+    """
+    Check if feature filtering is enabled for this prop type.
+
+    Args:
+        prop_type: Prop type
+
+    Returns:
+        True if features should be filtered, False if using all features
+    """
+    config = get_prop_feature_config(prop_type)
+    if not config:
+        return False
+
+    # If 'include' is 'all', no filtering
+    include = config.get('include')
+    return include != 'all' and isinstance(include, list)
 
 
 # ============================================================================
