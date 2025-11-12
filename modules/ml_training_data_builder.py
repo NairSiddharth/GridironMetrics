@@ -219,6 +219,7 @@ class TrainingDataBuilder:
                         # Add metadata for tracking
                         features['player_id'] = player_id
                         features['year'] = year
+                        features['week'] = week
 
                         all_rows.append(features)
                         year_examples += 1
@@ -364,6 +365,7 @@ class TrainingDataBuilder:
         roster_cache = {}
         nextgen_cache = {}
         betting_cache = {}
+        snap_count_cache = {}
 
         for year in years_to_load:
             # Load injury data
@@ -386,6 +388,11 @@ class TrainingDataBuilder:
             if betting_data is not None:
                 betting_cache[year] = betting_data
 
+            # Load snap count data
+            snap_count_data = self._load_snap_count_data_cached(year)
+            if snap_count_data is not None:
+                snap_count_cache[year] = snap_count_data
+
         # Phase 4: Load game metadata for fast lookups
         game_metadata_cache = {}
         for year in range(start_year, end_year + 1):
@@ -393,6 +400,14 @@ class TrainingDataBuilder:
             game_metadata = self._build_game_metadata_cache(year, pbp_df)
             if game_metadata:
                 game_metadata_cache[year] = game_metadata
+
+        # Merge betting lines into game metadata
+        for year, betting_data in betting_cache.items():
+            if year in game_metadata_cache:
+                for (team, week), betting_info in betting_data.items():
+                    if (team, week) in game_metadata_cache[year]:
+                        game_metadata_cache[year][(team, week)]['vegas_total'] = betting_info['vegas_total']
+                        game_metadata_cache[year][(team, week)]['vegas_spread'] = betting_info['vegas_spread']
 
         # Phase 5: Load player volume stats for fast lookups
         player_volume_cache = {}
@@ -426,21 +441,29 @@ class TrainingDataBuilder:
             if opponent_defense:
                 opponent_defense_cache[year] = opponent_defense
 
+        # Phase 9: Load player ID mapping (one-time, not per year)
+        player_id_mapping = self._load_player_id_mapping_cached()
+
         logger.info(f"  Loaded {len(injury_cache)} years of injury data")
         logger.info(f"  Loaded {len(roster_cache)} years of roster data")
         logger.info(f"  Loaded {len(nextgen_cache)} years of NextGen data")
         logger.info(f"  Loaded {len(betting_cache)} years of betting lines")
+        logger.info(f"  Loaded {len(snap_count_cache)} years of snap count data")
         logger.info(f"  Loaded {len(game_metadata_cache)} years of game metadata")
         logger.info(f"  Loaded {len(player_volume_cache)} years of player volume stats")
         logger.info(f"  Loaded {len(pbp_stats_cache)} years of PBP-derived stats")
         logger.info(f"  Loaded {len(game_script_cache)} years of game script stats")
         logger.info(f"  Loaded {len(opponent_defense_cache)} years of opponent defense stats")
+        if player_id_mapping is not None:
+            logger.info(f"  Loaded player ID mapping ({len(player_id_mapping)} players)")
 
         return {
             'injury_data': injury_cache,
             'roster_data': roster_cache,
             'nextgen_data': nextgen_cache,
             'betting_lines': betting_cache,
+            'snap_count_data': snap_count_cache,
+            'player_id_mapping': player_id_mapping,
             'game_metadata': game_metadata_cache,
             'player_volume': player_volume_cache,
             'pbp_stats': pbp_stats_cache,
@@ -508,6 +531,45 @@ class TrainingDataBuilder:
             logger.debug(f"Error loading NextGen data for {year}: {e}")
             return None
 
+    def _load_snap_count_data_cached(self, year: int) -> Optional[pl.DataFrame]:
+        """
+        Load snap count data once per year for caching.
+
+        Phase 9 optimization: Load snap count data files once per year
+        to support route participation features.
+
+        Args:
+            year: Season year
+
+        Returns:
+            DataFrame with snap count data or None if not available
+        """
+        try:
+            from modules.snap_count_cache_builder import load_snap_count_cache
+            return load_snap_count_cache(year)
+        except Exception as e:
+            logger.debug(f"Error loading snap count data for {year}: {e}")
+            return None
+
+    def _load_player_id_mapping_cached(self) -> Optional[pl.DataFrame]:
+        """
+        Load player ID mapping (one-time load).
+
+        Mapping between pfr_player_id (snap counts) and gsis_id (main system).
+
+        Returns:
+            DataFrame with player ID mapping or None if not available
+        """
+        try:
+            mapping_file = Path(CACHE_DIR) / "player_id_mapping.parquet"
+            if not mapping_file.exists():
+                logger.debug("Player ID mapping not found")
+                return None
+            return pl.read_parquet(mapping_file)
+        except Exception as e:
+            logger.debug(f"Error loading player ID mapping: {e}")
+            return None
+
     def _load_betting_lines_cached(self, year: int) -> Optional[dict]:
         """
         Load betting lines once per year for caching.
@@ -563,7 +625,7 @@ class TrainingDataBuilder:
             # Build lookup: (team_abbr, week) -> {vegas_total, vegas_spread}
             betting_lookup = {}
             for game in games:
-                date_str = str(game['date'])
+                date_str = str(int(game['date']))  # Convert float to int to remove ".0"
                 home_name = game['home_team']
                 away_name = game['away_team']
 
@@ -650,13 +712,16 @@ class TrainingDataBuilder:
                 wind = game['wind']
                 div_game = game['div_game']
 
+                # Null out weather for indoor games (dome/closed) - outdoor ambient temps are misleading
+                is_indoor = roof in ['dome', 'closed']
+
                 metadata = {
                     'home_team': home_team,
                     'away_team': away_team,
                     'roof': roof,
-                    'temp': float(temp) if temp is not None else None,
-                    'wind': float(wind) if wind is not None else None,
-                    'is_dome': 1.0 if roof in ['dome', 'closed'] else 0.0 if roof else None,
+                    'temp': None if is_indoor else (float(temp) if temp is not None else None),
+                    'wind': None if is_indoor else (float(wind) if wind is not None else None),
+                    'is_dome': 1.0 if is_indoor else 0.0 if roof else None,
                     'div_game': float(div_game) if div_game is not None else None
                 }
 
@@ -1156,6 +1221,7 @@ class TrainingDataBuilder:
             Dict mapping (opponent, week) -> {
                 'opp_def_pass_ypa': float,
                 'opp_def_pass_td_rate': float,
+                'opp_def_avg_depth_allowed': float,
                 'opp_def_rush_ypc': float,
                 'opp_def_rush_td_rate': float
             }
@@ -1181,7 +1247,8 @@ class TrainingDataBuilder:
                     pass_defense = pass_attempts.group_by('defteam').agg([
                         pl.col('passing_yards').fill_null(0).sum().alias('total_pass_yards'),
                         pl.count().alias('pass_attempts'),
-                        pl.col('pass_touchdown').fill_null(0).sum().alias('pass_tds_allowed')
+                        pl.col('pass_touchdown').fill_null(0).sum().alias('pass_tds_allowed'),
+                        pl.col('air_yards').drop_nulls().mean().alias('avg_depth_allowed')
                     ])
 
                     for row in pass_defense.iter_rows(named=True):
@@ -1194,9 +1261,11 @@ class TrainingDataBuilder:
                         attempts = row['pass_attempts']
                         yards = row['total_pass_yards']
                         tds = row['pass_tds_allowed']
+                        avg_depth = row.get('avg_depth_allowed')
 
                         defense_cache[cache_key]['opp_def_pass_ypa'] = yards / attempts if attempts > 0 else 7.0
                         defense_cache[cache_key]['opp_def_pass_td_rate'] = tds / attempts if attempts > 0 else 0.045
+                        defense_cache[cache_key]['opp_def_avg_depth_allowed'] = avg_depth if avg_depth is not None else 8.5
 
                 # === RUSH DEFENSE ===
                 rush_attempts = pbp_through_week.filter(

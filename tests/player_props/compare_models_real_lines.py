@@ -67,7 +67,7 @@ def evaluate_model_on_real_lines(model, test_df, real_lines_dict, model_name):
     for idx in range(len(test_df)):
         row = test_df[idx]
         player_id = row['player_id'][0] if hasattr(row['player_id'], '__getitem__') else row['player_id']
-        season = row['season'][0] if hasattr(row['season'], '__getitem__') else row['season']
+        season = row['year'][0] if hasattr(row['year'], '__getitem__') else row['year']
         week = row['week'][0] if hasattr(row['week'], '__getitem__') else row['week']
 
         key = (player_id, season, week)
@@ -121,11 +121,15 @@ def evaluate_model_on_real_lines(model, test_df, real_lines_dict, model_name):
     confidence = np.abs(predictions_matched - lines)
 
     print(f"\nConfidence-Based Performance:")
-    for threshold in [5, 10, 15, 20]:
+    print(f"{'Threshold':<12} {'Bets':<8} {'Accuracy':<12} {'ROI':<12} {'MAE':<10}")
+    print(f"{'-'*60}")
+
+    for threshold in [0, 2, 4, 6, 8, 10, 12, 15, 18, 20, 25, 30]:
         mask = confidence >= threshold
         if mask.sum() > 0:
             high_conf_accuracy = correct[mask].sum() / mask.sum()
             high_conf_count = mask.sum()
+            high_conf_mae = np.mean(np.abs(predictions_matched[mask] - actuals_matched[mask]))
 
             hc_wins = correct[mask].sum()
             hc_wagered = mask.sum() * 110
@@ -133,7 +137,8 @@ def evaluate_model_on_real_lines(model, test_df, real_lines_dict, model_name):
             hc_profit = hc_winnings - hc_wagered
             hc_roi = (hc_profit / hc_wagered) * 100 if hc_wagered > 0 else 0
 
-            print(f"  {threshold}+ yards: {high_conf_accuracy:.1%} ({high_conf_count} bets, ROI: {hc_roi:+.2f}%)")
+            threshold_label = f"{threshold}+ yards" if threshold > 0 else "All bets"
+            print(f"{threshold_label:<12} {high_conf_count:<8} {high_conf_accuracy:>10.1%} {hc_roi:>10.2f}% {high_conf_mae:>9.2f}")
 
     return {
         'accuracy': accuracy,
@@ -157,11 +162,11 @@ def main():
 
     # Load test data (full dataset)
     full_df = pl.read_parquet(Path(CACHE_DIR) / "ml_training_data" / "receiving_yards_wr_2009_2024.parquet")
-    test_2024_full = full_df.filter(pl.col('season') == 2024)
+    test_2024_full = full_df.filter(pl.col('year') == 2024)
 
     # Load test data (high-volume only)
     high_vol_df = pl.read_parquet(Path(CACHE_DIR) / "ml_training_data" / "receiving_yards_wr_2009_2024_high_volume.parquet")
-    test_2024_high_vol = high_vol_df.filter(pl.col('season') == 2024)
+    test_2024_high_vol = high_vol_df.filter(pl.col('year') == 2024)
 
     print(f"\nTest data loaded:")
     print(f"  Full dataset 2024: {len(test_2024_full)} examples")

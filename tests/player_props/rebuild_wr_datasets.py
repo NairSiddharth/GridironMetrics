@@ -1,10 +1,11 @@
 """
 Rebuild WR Receiving Yards Training Datasets
 
-Rebuilds both full and high-volume filtered datasets with all bug fixes:
-- Bug #1: division_game extraction fixed
-- Bug #2: betting_lines added to data_cache
-- Bug #3: div_game added to game_metadata cache
+Rebuilds both full and high-volume filtered datasets with expanded features and years:
+- Aligned with successful QB/RB methodology
+- 36 features (added 7 game context + 1 injury)
+- 2009-2024 training range (88% more data than 2016-2024)
+- Tree models handle NextGen NaN natively
 
 Creates two datasets:
 1. Full: All WRs (2009-2024, skip 2020)
@@ -46,39 +47,9 @@ def main():
     full_df.write_parquet(full_path)
     print(f"Saved to: {full_path}")
 
-    # Step 2: Verify bug fixes
+    # Step 2: Create high-volume filtered dataset
     print("\n" + "="*80)
-    print("STEP 2: Verifying bug fixes")
-    print("="*80)
-
-    features_to_check = ['division_game', 'vegas_total', 'vegas_spread']
-
-    print("\nFeature coverage across all examples:")
-    for feat in features_to_check:
-        col = full_df[feat].to_numpy()
-        non_null = np.sum(~np.isnan(col))
-        pct = (non_null / len(full_df)) * 100
-        print(f"  {feat:20s}: {non_null:6,} / {len(full_df):6,} ({pct:5.1f}%)")
-
-    # Check 2024 specifically (should have highest coverage)
-    df_2024 = full_df.filter(pl.col('season') == 2024)
-    print(f"\n2024 feature coverage ({len(df_2024):,} examples):")
-    for feat in features_to_check:
-        col = df_2024[feat].to_numpy()
-        non_null = np.sum(~np.isnan(col))
-        pct = (non_null / len(df_2024)) * 100
-        print(f"  {feat:20s}: {non_null:6,} / {len(df_2024):6,} ({pct:5.1f}%)")
-
-        if non_null > 0:
-            unique_vals = np.unique(col[~np.isnan(col)])
-            if len(unique_vals) <= 10:
-                print(f"    Unique values: {unique_vals}")
-            else:
-                print(f"    Range: [{unique_vals.min():.1f}, {unique_vals.max():.1f}]")
-
-    # Step 3: Create high-volume filtered dataset
-    print("\n" + "="*80)
-    print("STEP 3: Creating high-volume filtered dataset (>=4.5 targets/game)")
+    print("STEP 2: Creating high-volume filtered dataset (>=4.5 targets/game)")
     print("="*80)
 
     # Filter criterion: targets_season_avg >= 4.5
@@ -99,9 +70,9 @@ def main():
     high_vol_df.write_parquet(high_vol_path)
     print(f"Saved to: {high_vol_path}")
 
-    # Step 4: Summary statistics
+    # Step 3: Summary statistics
     print("\n" + "="*80)
-    print("SUMMARY")
+    print("STEP 3: SUMMARY")
     print("="*80)
 
     print(f"\nFull Dataset:")

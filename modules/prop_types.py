@@ -177,46 +177,56 @@ POSITION_PROP_TYPES = {
 PROP_FEATURE_CONFIG = {
     'receiving_yards_wr': {
         'include': [
-            # Baseline (4 features)
-            'weighted_avg', 'career_avg', 'variance_cv', 'games_played',
+            # === BASELINE FEATURES (8 features - for prediction accuracy) ===
+            # These predict yards well (high r_yards). Bookmakers use these to set lines.
+            # We need them to match bookmaker baseline, then add edge features on top.
 
-            # Opponent Defense (2 features)
-            'opp_def_pass_ypa', 'opp_def_pass_td_rate',
+            'weighted_avg',              # r_yards=+0.217 (strongest yard predictor)
+            'target_share_3wk',          # r_yards=+0.172
+            'success_rate_3wk',          # r_yards=+0.162
+            'target_share_season',       # r_yards=+0.159
+            'career_avg',                # r_yards=+0.154
+            'targets_season_avg',        # r_yards=+0.150 (also needed for high-volume filtering >=4.5)
+            'targets_3wk_avg',           # r_yards=+0.130
+            'yards_per_target_season',   # r_yards=+0.104
 
-            # Efficiency (3 features)
-            'success_rate_3wk', 'red_zone_rate', 'usage_rate',
+            # === EDGE FEATURES (11 features - for beating betting lines) ===
+            # These have stronger correlation with beating lines than predicting yards.
+            # They capture variance/situational factors bookmakers underweight.
 
-            # Injury (1 feature - reduced from 12)
+            'yards_per_target_3wk',      # r_beat_line=-0.129 (strongest edge signal)
+            'games_played',              # r_beat_line=-0.109 (fatigue/wear signal)
+            'team_plays_per_game',       # r_beat_line=-0.109 (pace creates variance)
+            'opp_def_ppg_allowed',       # r_beat_line=-0.108
+            'division_game',             # r_beat_line=+0.101 (familiarity overpriced)
+            'opp_def_pass_ypa',          # r_beat_line=-0.098
+            'catch_rate',                # r_beat_line=-0.088
+            'team_time_of_possession',   # r_beat_line=-0.079
+            'opp_def_pass_td_rate',      # r_beat_line=-0.065
+            'sophomore_indicator',       # r_beat_line=+0.064 (sophomore slump overpriced)
+            'variance_cv',               # r_beat_line=+0.058 (high variance underpriced)
+
+            # === BORDERLINE FEATURES (3 features - moderate signal both ways) ===
+
+            'prior_season_avg',          # r_yards=+0.091, r_beat_line=-0.113 (edge > baseline)
+            'team_avg_margin',           # r_yards=+0.085, r_beat_line=-0.029
+            'red_zone_rate',             # r_yards=+0.079, r_beat_line=-0.010
+
+            # === QB CONTEXT (6 features) ===
+            'qb_adot_3wk', 'qb_pass_yards_3wk', 'qb_pass_attempts_3wk',
+            'qb_comp_pct_3wk', 'qb_ypa_3wk', 'qb_target_concentration',
+
+            # === GAME CONTEXT (7 features - from successful QB/RB models) ===
+            # QB/RB models (53-55% accuracy) use these successfully
+            # Re-adding after incorrect removal based on 288-sample correlation analysis
+            'is_home', 'is_dome', 'game_temp', 'game_wind', 'vegas_total', 'vegas_spread',
+            # division_game already included in EDGE FEATURES above
+
+            # === INJURY (1 feature - from successful RB model) ===
+            # RB model uses exactly 1 injury feature successfully (not 10+)
             'injury_status_score',
-
-            # Catch Rate (3 features)
-            'catch_rate', 'avg_target_depth', 'yac_pct',
-
-            # Target Volume (6 features)
-            'targets_season_avg', 'targets_3wk_avg',
-            'target_share_season', 'target_share_3wk',
-            'yards_per_target_season', 'yards_per_target_3wk',
-
-            # NextGen Stats (2 features - NaN for pre-2016)
-            'avg_separation', 'avg_cushion',
-
-            # Game Context (5 features - NaN for missing)
-            'is_home', 'is_dome', 'game_temp', 'game_wind', 'division_game',
-
-            # Game Script (4 features)
-            'team_avg_margin', 'opp_def_ppg_allowed',
-            'team_plays_per_game', 'team_time_of_possession',
-
-            # Vegas Lines (2 features - NaN for missing)
-            'vegas_total', 'vegas_spread',
-
-            # Prior Season (3 features)
-            'prior_season_avg', 'yoy_trend', 'sophomore_indicator',
-
-            # Categorical (4 features)
-            'opponent', 'position', 'week', 'season'
         ],
-        'description': 'WR receiving yards feature set (clean, NaN for missing)'
+        'description': 'WR receiving yards feature set (36 features - aligned with successful QB/RB models, added back game context + injury)'
     },
     'receiving_yards_te': {
         # TE will be handled separately later - use all features for now
